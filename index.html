@@ -628,6 +628,7 @@
         <button class="task-chip" data-target="card-stash">⏸️ Pause work &amp; switch branches</button>
         <button class="task-chip" data-target="card-conflict">⚠️ Resolve a merge conflict</button>
         <button class="task-chip" data-target="commitGraphExplorer">📊 Visual Commit Graph &amp; DAG</button>
+        <button class="task-chip" data-target="card-tag">🏷️ Tag a production release</button>
       </div>
     </section>
 
@@ -1353,6 +1354,121 @@ git blame -L 20,45 src/app.js</code></pre>
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Git outputs: <code>[hash] is the first bad commit</code> with author and commit message.
+        </div>
+      </article>
+
+      <!-- CARD 15: Release Tags & Semantic Versioning (Phase 5) -->
+      <article class="card" id="card-tag" data-category="cloud" data-keywords="tag release version semver annotated tag v1.0.0 publish milestone github releases software tag -a push tags">
+        <div class="card-top">
+          <h2 class="card-title">Release Tags &amp; Semantic Versioning</h2>
+          <span class="card-tag">Release Engineering</span>
+        </div>
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Repository Checkpoints</span>
+          <span class="badge badge-risk-safe">Risk: Safe / Immutable</span>
+        </div>
+        <div class="card-scenario">
+          <strong>When to use:</strong> Marking an official production release, milestone, or version number (e.g. <code>v1.0.0</code>) in your Git history.
+        </div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Annotated Tag Workflow</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code># 1. Create an annotated release tag:
+git tag -a v1.0.0 -m "Release v1.0.0: Initial public launch"
+
+# 2. Push tag to GitHub (tags are not pushed by default!):
+git push origin v1.0.0
+
+# Or push all local tags at once:
+git push origin --tags
+
+# List all tags sorted by version:
+git tag -l -n 1</code></pre>
+        </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Creates an annotated Git tag object containing author, timestamp, and release notes permanently referencing the current commit.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git describe --tags</code> to verify the active release version.
+        </div>
+        <div class="card-related">
+          <strong>Related:</strong> <code>git log --oneline --decorate</code> · <code>git push origin --tags</code>
+        </div>
+      </article>
+
+      <!-- CARD 16: Safe Force-Push (--force-with-lease) (Phase 5 Pro) -->
+      <article class="card pro-only" id="card-force-lease" data-category="cloud" data-keywords="force push force-with-lease pr rebase pull request overwrite team safe lease reject git push -f">
+        <div class="card-top">
+          <h2 class="card-title">Safe Force-Push (--force-with-lease)</h2>
+          <span class="card-tag">PR &amp; Team Hygiene</span>
+        </div>
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Remote Tracking Branch</span>
+          <span class="badge badge-risk-caution">Risk: Caution / Rewriting Remote</span>
+        </div>
+        <div class="card-scenario">
+          <strong>When to use:</strong> Updating a pull request branch after rebasing or squashing local commits, without the danger of destroying teammates' pushed work.
+        </div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Safe PR Force-Push</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code># Safely push rebased branch to remote pull request:
+git push --force-with-lease origin feature/auth
+
+# NEVER use raw 'git push --force' on shared repositories!</code></pre>
+        </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Git verifies if the remote branch has received commits from teammates since your last fetch. If someone else pushed work, Git refuses the push instead of blindly overwriting it.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Git responds with <code>[forced update]</code> only if your local ref was synchronized with remote.
+        </div>
+        <div class="card-related">
+          <strong>Related:</strong> <code>git rebase -i</code> · <code>git fetch origin</code>
+        </div>
+      </article>
+
+      <!-- CARD 17: Port Isolated Commits (cherry-pick) (Phase 5 Pro) -->
+      <article class="card pro-only" id="card-cherry-pick" data-category="branch" data-keywords="cherry-pick port bugfix hotfix backport copy commit single commit pluck apply hash maintenance">
+        <div class="card-top">
+          <h2 class="card-title">Port Isolated Commits (cherry-pick)</h2>
+          <span class="card-tag">Branch Maintenance</span>
+        </div>
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Commit Plucking</span>
+          <span class="badge badge-risk-rev">Risk: Reversible</span>
+        </div>
+        <div class="card-scenario">
+          <strong>When to use:</strong> Applying a specific bugfix commit from one branch (e.g. <code>main</code>) into a separate maintenance or release branch without merging the whole branch.
+        </div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Cherry-Pick Recipe</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code># 1. Switch to target branch (e.g. maintenance branch):
+git switch release/v1.0
+
+# 2. Pluck specific bugfix commit by hash:
+git cherry-pick 7a1b2c3
+
+# If conflict occurs:
+# git cherry-pick --continue
+# Or cancel and return to safety:
+# git cherry-pick --abort</code></pre>
+        </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Re-applies the exact code diff from the specified commit hash and records a brand new commit on the currently active branch.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git log -1 --stat</code> to confirm the bugfix commit was applied.
+        </div>
+        <div class="card-related">
+          <strong>Related:</strong> <code>git switch</code> · <code>git merge</code> · <code>git log --oneline</code>
         </div>
       </article>
 
