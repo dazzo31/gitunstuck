@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GitSimple • Modern Git Reference &amp; Problem-Solving Guide</title>
-  <meta name="description" content="Task-driven Git reference, safe workflows, standardized diagnostics, and zero-jargon mental models for developers and beginners alike.">
+  <meta name="description" content="Task-driven Git reference, safe workflows, standardized diagnostics, interactive undo decision tree, and zero-jargon mental models.">
   <style>
     :root {
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -165,7 +165,7 @@
       max-width: 1440px; width: 100%; margin: 20px auto 40px; padding: 0 20px; flex: 1;
     }
 
-    /* Task-First Quick Navigation */
+    /* Task-First Quick Navigator */
     .task-navigator {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
       padding: 18px 20px; margin-bottom: 24px; box-shadow: var(--shadow-card);
@@ -254,6 +254,54 @@
     .recipe-action { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .recipe-desc { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.35; }
 
+    /* Interactive Troubleshooting Console (Decision Tree) */
+    .troubleshoot-console {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 22px; margin-bottom: 28px; box-shadow: var(--shadow-card); position: relative;
+    }
+    .troubleshoot-header { margin-bottom: 14px; }
+    .troubleshoot-title {
+      font-size: 1.25rem; font-weight: 800; color: var(--text); display: flex; align-items: center;
+      gap: 8px; margin-top: 4px;
+    }
+    .troubleshoot-subtitle { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; }
+
+    .tree-selector-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 195px), 1fr));
+      gap: 10px; margin: 16px 0;
+    }
+
+    .tree-choice-btn {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 12px 10px; text-align: left; cursor: pointer; display: flex; flex-direction: column;
+      gap: 3px; transition: all 0.15s ease; color: var(--text);
+    }
+    .tree-choice-btn:hover {
+      border-color: var(--git-orange); transform: translateY(-1px);
+    }
+    .tree-choice-btn.active {
+      border-color: var(--git-orange); background: rgba(240, 80, 50, 0.12);
+      box-shadow: 0 0 0 2px var(--git-orange-glow);
+    }
+    .choice-icon { font-size: 1.2rem; margin-bottom: 2px; }
+    .choice-label { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+    .choice-sub { font-size: 0.72rem; color: var(--text-dim); line-height: 1.3; }
+
+    .tree-solution-panel {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 18px; margin-top: 14px; animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .solution-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .solution-title { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+
     /* Category Filter Pills */
     .filter-bar {
       display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
@@ -286,7 +334,6 @@
       box-shadow: 0 0 0 3px var(--git-orange-glow), var(--shadow-card) !important;
     }
 
-    /* View Visibility Rules */
     [data-view="beginner"] .pro-only { display: none !important; }
     [data-view="pro"] #beginnerPrimer { display: none; }
 
@@ -324,7 +371,6 @@
     }
     .card-scenario strong { color: var(--text); }
 
-    /* Code Snippet Blocks */
     .snippet-block {
       background: var(--bg-code); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
       margin-bottom: 12px; overflow: hidden; min-width: 0;
@@ -358,7 +404,6 @@
     pre.code-content code { font-family: inherit; color: inherit; background: transparent; }
     [data-theme="light"] pre.code-content { color: #0284c7; }
 
-    /* Card Field Details */
     .card-effect, .card-verify, .card-related {
       font-size: 0.8rem; line-height: 1.4; margin-bottom: 8px; color: var(--text-muted);
     }
@@ -374,7 +419,6 @@
       padding: 1px 4px; border-radius: 3px; border: 1px solid var(--border);
     }
 
-    /* Comparison Table Container */
     .table-container { width: 100%; overflow-x: auto; margin-top: 8px; margin-bottom: 8px; }
 
     .compare-table {
@@ -395,7 +439,6 @@
       background: rgba(248, 113, 113, 0.15); color: var(--accent-red); text-decoration: line-through;
     }
 
-    /* Callouts */
     .callout {
       background: rgba(255, 255, 255, 0.02); border-left: 3px solid var(--accent-blue);
       padding: 8px 12px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
@@ -407,7 +450,6 @@
     [data-theme="light"] .callout.warning { color: #991b1b; background: rgba(185, 28, 28, 0.08); }
     .callout.tip { border-left-color: var(--accent-green); background: rgba(52, 211, 153, 0.06); }
 
-    /* No Results */
     .no-results {
       text-align: center; padding: 40px 20px; background: var(--bg-card);
       border: 1px dashed var(--border); border-radius: var(--radius-md); margin-top: 20px;
@@ -429,7 +471,7 @@
       header.topbar, .task-navigator, .filter-bar, .search-wrapper, .controls-group, .skip-link, .copy-btn, .mode-switcher, #noResults {
         display: none !important;
       }
-      #beginnerPrimer { display: block !important; page-break-after: avoid; background: #f8fafc !important; border: 1px solid #cbd5e1 !important; }
+      #beginnerPrimer, .troubleshoot-console { display: block !important; page-break-after: avoid; background: #f8fafc !important; border: 1px solid #cbd5e1 !important; }
       .cards-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
       .card {
         display: flex !important; page-break-inside: avoid; background: #ffffff !important;
@@ -510,7 +552,7 @@
 
   <main class="container" id="mainContent">
 
-    <!-- TASK-FIRST QUICK NAVIGATOR ("What are you trying to do?") -->
+    <!-- TASK-FIRST QUICK NAVIGATOR -->
     <section class="task-navigator" aria-labelledby="taskNavHeading">
       <div class="task-nav-header">
         <h2 class="task-nav-title" id="taskNavHeading">🎯 What are you trying to do?</h2>
@@ -522,7 +564,7 @@
         <button class="task-chip" data-target="card-stage">✍️ Save daily work safely</button>
         <button class="task-chip" data-target="card-branch">🌿 Create a feature branch</button>
         <button class="task-chip" data-target="card-sync">🔄 Sync updates with GitHub</button>
-        <button class="task-chip" data-target="card-undo">🚑 Undo a mistake or discard edits</button>
+        <button class="task-chip" data-target="troubleshootConsole">🚑 Undo a mistake or recovery tree</button>
         <button class="task-chip" data-target="card-stash">⏸️ Pause work &amp; switch branches</button>
         <button class="task-chip" data-target="card-conflict">⚠️ Resolve a merge conflict</button>
       </div>
@@ -607,6 +649,47 @@
       </div>
     </section>
 
+    <!-- PHASE 3: INTERACTIVE UNDO & RECOVERY DECISION TREE -->
+    <section class="troubleshoot-console" id="troubleshootConsole" aria-labelledby="troubleshootHeading">
+      <div class="troubleshoot-header">
+        <span class="primer-badge">Interactive Troubleshooter</span>
+        <h2 class="troubleshoot-title" id="troubleshootHeading">🚑 The Undo &amp; Recovery Decision Tree</h2>
+        <p class="troubleshoot-subtitle">Not sure which command to use? Select where your changes are located to get the exact, safe recovery command.</p>
+      </div>
+
+      <div class="tree-selector-grid" role="radiogroup" aria-label="Where are the changes you need to undo?">
+        <button class="tree-choice-btn active" data-location="unstaged" role="radio" aria-checked="true">
+          <span class="choice-icon" aria-hidden="true">📝</span>
+          <span class="choice-label">Unstaged in File</span>
+          <span class="choice-sub">Edited on disk, not yet in cart</span>
+        </button>
+        <button class="tree-choice-btn" data-location="staged" role="radio" aria-checked="false">
+          <span class="choice-icon" aria-hidden="true">🛒</span>
+          <span class="choice-label">Staged in Cart</span>
+          <span class="choice-sub">Ran 'git add', not yet committed</span>
+        </button>
+        <button class="tree-choice-btn" data-location="local-commit" role="radio" aria-checked="false">
+          <span class="choice-icon" aria-hidden="true">💾</span>
+          <span class="choice-label">Committed Locally</span>
+          <span class="choice-sub">Committed on laptop, not pushed</span>
+        </button>
+        <button class="tree-choice-btn" data-location="pushed-commit" role="radio" aria-checked="false">
+          <span class="choice-icon" aria-hidden="true">☁️</span>
+          <span class="choice-label">Pushed to Remote</span>
+          <span class="choice-sub">Already on GitHub / shared branch</span>
+        </button>
+        <button class="tree-choice-btn" data-location="lost-reflog" role="radio" aria-checked="false">
+          <span class="choice-icon" aria-hidden="true">🔍</span>
+          <span class="choice-label">Lost Commit / Branch</span>
+          <span class="choice-sub">Accidental reset or deleted branch</span>
+        </button>
+      </div>
+
+      <div class="tree-solution-panel" id="treeSolutionPanel" aria-live="polite">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </section>
+
     <!-- Category Filter Bar -->
     <nav class="filter-bar" id="categoryFilter" aria-label="Category filter">
       <button class="filter-pill active" data-filter="all" aria-pressed="true">All Modules</button>
@@ -620,7 +703,7 @@
     <!-- STANDARDIZED COMMAND & WORKFLOW CARDS GRID -->
     <div class="cards-grid" id="cardsGrid">
 
-      <!-- CARD: Start a Repository from Scratch (NEW P0) -->
+      <!-- CARD 1: Start a Repository from Scratch -->
       <article class="card" id="card-init" data-category="essential" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
         <div class="card-top">
           <h2 class="card-title">Start a Repository from Scratch</h2>
@@ -660,7 +743,7 @@ git push -u origin main</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Clone an Existing Project (NEW P0) -->
+      <!-- CARD 2: Clone an Existing Project -->
       <article class="card" id="card-clone" data-category="essential" data-keywords="clone download github gitlab copy repo existing project setup fetch checkout local copy">
         <div class="card-top">
           <h2 class="card-title">Clone an Existing Project</h2>
@@ -699,7 +782,7 @@ git branch -a</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Precise Staging & Checkpoints -->
+      <!-- CARD 3: Precise Staging & Checkpoints -->
       <article class="card" id="card-stage" data-category="essential" data-keywords="save commit checkpoint status add diff staged patch inspect changes draft progress">
         <div class="card-top">
           <h2 class="card-title">Precise Staging &amp; Checkpoints</h2>
@@ -733,7 +816,7 @@ git commit -m "feat: add user authentication"</code></pre>
           <strong>What happens:</strong> Places file snapshots into the staging index, then seals them into an immutable cryptographic commit object.
         </div>
         <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git status</code> to confirm "nothing to commit, working tree clean" and <code>git log -1</code> to inspect the new commit.
+          <strong>Verify result:</strong> Run <code>git status</code> to confirm clean tree and <code>git log -1</code> to inspect the new commit.
         </div>
         <div class="callout warning">
           <strong>Caution on <code>git add .</code>:</strong> Stages <em>all</em> non-ignored files under the current folder. Prefer naming files or using <code>git add -p</code> to stage hunk-by-hunk.
@@ -743,7 +826,7 @@ git commit -m "feat: add user authentication"</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Branches as Isolated Sandboxes -->
+      <!-- CARD 4: Branches as Isolated Sandboxes -->
       <article class="card" id="card-branch" data-category="branch" data-keywords="branch sandbox switch test experiment create checkout switch -c parallel feature work">
         <div class="card-top">
           <h2 class="card-title">Branches: Isolated Sandboxes</h2>
@@ -798,7 +881,7 @@ git switch main</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Undoing Mistakes Safely -->
+      <!-- CARD 5: Undoing Mistakes Safely -->
       <article class="card" id="card-undo" data-category="undo" data-keywords="undo restore discard mistake reset revert staged unstage accidental throw away clean edits">
         <div class="card-top">
           <h2 class="card-title">Undoing Mistakes Safely</h2>
@@ -835,11 +918,11 @@ git revert &lt;commit-id&gt;</code></pre>
           <strong>Permanent Loss Warning:</strong> <code>git restore &lt;filename&gt;</code> permanently overwrites uncommitted working edits. Those unstaged edits are not saved anywhere in Git.
         </div>
         <div class="card-related">
-          <strong>Related:</strong> <code>git reset</code> · <code>git revert</code>
+          <strong>Related:</strong> <code>git reset</code> · <code>git revert</code> · <code>git reflog</code>
         </div>
       </article>
 
-      <!-- CARD: Working with Remotes & Team Sync -->
+      <!-- CARD 6: Working with Remotes & Team Sync -->
       <article class="card" id="card-sync" data-category="cloud" data-keywords="github cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
         <div class="card-top">
           <h2 class="card-title">Working with Remotes &amp; Team Sync</h2>
@@ -877,7 +960,7 @@ git push origin &lt;branch-name&gt;</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Pipelines & Automated CI/CD -->
+      <!-- CARD 7: Pipelines & Automated CI/CD -->
       <article class="card" id="card-pipeline" data-category="cloud" data-keywords="pipeline ci cd github actions automated deploy test workflow .github/workflows gitlab robot">
         <div class="card-top">
           <h2 class="card-title">Pipelines &amp; Automated CI/CD</h2>
@@ -904,7 +987,7 @@ git push origin &lt;branch-name&gt;</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Stashing (The Pause Button) -->
+      <!-- CARD 8: Stashing (The Pause Button) -->
       <article class="card" id="card-stash" data-category="essential" data-keywords="stash shelf pause temporary switch untracked files save for later pop restore WIP emergency">
         <div class="card-top">
           <h2 class="card-title">Stashing: Temporary Work Shelving</h2>
@@ -942,7 +1025,7 @@ git stash pop</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Merge Conflict Resolution -->
+      <!-- CARD 9: Merge Conflict Resolution -->
       <article class="card" id="card-conflict" data-category="branch" data-keywords="conflict merge clash team overlapping markers resolve failed merge abort clash git merge --continue">
         <div class="card-top">
           <h2 class="card-title">Merge Conflict Resolution</h2>
@@ -986,7 +1069,7 @@ git merge --continue   # Or 'git merge --abort'</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Interactive Rebase (Pro Only) -->
+      <!-- CARD 10: Interactive Rebase (Pro Only) -->
       <article class="card pro-only" id="card-rebase" data-category="pro" data-keywords="rebase interactive squash clean commits shared history fixup reword rewrite history polish">
         <div class="card-top">
           <h2 class="card-title">Interactive Rebase (Commit Polish)</h2>
@@ -1026,7 +1109,7 @@ git rebase --abort   # Safe escape hatch</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Detached HEAD Recovery (Pro Only) -->
+      <!-- CARD 11: Detached HEAD Recovery (Pro Only) -->
       <article class="card pro-only" id="card-detached" data-category="pro" data-keywords="detached head recovery pointer hash commit switch lost commit missing work escape">
         <div class="card-top">
           <h2 class="card-title">Detached HEAD Recovery</h2>
@@ -1061,7 +1144,7 @@ git switch -c recovery-branch</code></pre>
         </div>
       </article>
 
-      <!-- CARD: Git Worktrees (Pro Only) -->
+      <!-- CARD 12: Git Worktrees (Pro Only) -->
       <article class="card pro-only" id="card-worktree" data-category="pro" data-keywords="worktree parallel multiple folders simultaneous branches hotfix concurrent separate directory">
         <div class="card-top">
           <h2 class="card-title">Git Worktrees (Parallel Folders)</h2>
@@ -1093,6 +1176,82 @@ git worktree remove ../project-hotfix</code></pre>
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git worktree list</code> to verify registered directory paths.
+        </div>
+      </article>
+
+      <!-- CARD 13: Reflog Recovery (NEW PHASE 3 PRO) -->
+      <article class="card pro-only" id="card-reflog" data-category="undo" data-keywords="reflog recover lost commit restore accidental delete branch resurrect rescue head@{1} history rewind">
+        <div class="card-top">
+          <h2 class="card-title">Reflog Recovery (Lost Work)</h2>
+          <span class="card-tag">Advanced / Pro</span>
+        </div>
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Local Reflog Ledger</span>
+          <span class="badge badge-risk-safe">Risk: Reversible</span>
+        </div>
+        <div class="card-scenario">
+          <strong>When to use:</strong> You accidentally ran <code>git reset --hard</code>, deleted a branch with unmerged work, or lost a commit and thought it was gone forever.
+        </div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Reflog Rescue Recipe</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code># 1. View chronological action ledger:
+git reflog -n 15
+
+# 2. Locate the commit hash before the mistake (e.g. HEAD@{2})
+# 3. Create a rescue branch attached to that commit:
+git switch -c rescue-branch HEAD@{2}</code></pre>
+        </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Git stores all HEAD reference movements locally for 30-90 days before garbage collection. Creating a branch resurrects the orphaned commit into active history.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git log -1 rescue-branch</code> to confirm your lost code is restored.
+        </div>
+        <div class="card-related">
+          <strong>Related:</strong> <code>git reset</code> · <code>git branch</code>
+        </div>
+      </article>
+
+      <!-- CARD 14: Regression Hunting: bisect & blame (NEW PHASE 3 PRO) -->
+      <article class="card pro-only" id="card-bisect" data-category="pro" data-keywords="bisect blame regression bug hunt binary search find broken commit investigate line author history">
+        <div class="card-top">
+          <h2 class="card-title">Regression Hunting (bisect &amp; blame)</h2>
+          <span class="card-tag">Advanced / Pro</span>
+        </div>
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Local History</span>
+          <span class="badge badge-risk-safe">Risk: Safe / Read-Only</span>
+        </div>
+        <div class="card-scenario">
+          <strong>When to use:</strong> A bug appeared and you need to pinpoint the exact commit out of hundreds that introduced the regression, or see who authored specific lines.
+        </div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Bisect Binary Search</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code># 1. Start binary search:
+git bisect start
+git bisect bad                 # Current version is broken
+git bisect good v1.2.0          # Known good previous release
+
+# 2. Test intermediate commits checked out by Git:
+git bisect good   # (or 'git bisect bad')
+
+# 3. Finish and return to active branch:
+git bisect reset
+
+# Inspect line-by-line author timestamps:
+git blame -L 20,45 src/app.js</code></pre>
+        </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Performs a binary search across commit history in logarithmic steps ($\log_2 N$), isolating the faulty commit in minutes.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Git outputs: <code>[hash] is the first bad commit</code> with author and commit message.
         </div>
       </article>
 
@@ -1150,8 +1309,10 @@ git worktree remove ../project-hotfix</code></pre>
     const noResultsElem = document.getElementById('noResults');
     const resetFiltersBtn = document.getElementById('resetFiltersBtn');
     const taskChips = document.querySelectorAll('.task-chip');
+    const treeChoiceBtns = document.querySelectorAll('.tree-choice-btn');
+    const treeSolutionPanel = document.getElementById('treeSolutionPanel');
 
-    // 1. Theme Management (Sun / Moon SVG reflection)
+    // 1. Theme Management
     const sunIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -1191,7 +1352,106 @@ git worktree remove ../project-hotfix</code></pre>
       });
     }
 
-    // 2. Active Filter & Card Search Logic
+    // 2. Interactive Undo Decision Tree Logic
+    const undoSolutions = {
+      'unstaged': {
+        title: 'Discard Uncommitted Edits in Working Tree',
+        scope: 'Working Tree',
+        riskBadge: '<span class="badge badge-risk-caution">Risk: Destructive</span>',
+        desc: 'You edited a tracked file on disk, but have NOT added it to staging. You want to wipe those edits and return to the last commit.',
+        code: '# Discard unstaged edits in a specific file:\ngit restore <filename>\n\n# Or discard all unstaged edits in current directory:\ngit restore .',
+        effect: 'Permanently overwrites your working file on disk with the version recorded in HEAD/index.',
+        verify: 'Run git status — the file will no longer be listed under "Changes not staged for commit".',
+        warning: 'PERMANENT LOSS WARNING: Uncommitted working-tree edits cannot be recovered once discarded by Git.'
+      },
+      'staged': {
+        title: 'Unstage Files (Remove from Cart) Without Losing Edits',
+        scope: 'Staging Area (Index)',
+        riskBadge: '<span class="badge badge-risk-safe">Risk: Safe / Reversible</span>',
+        desc: 'You ran git add, but you are not ready to commit this file yet. You want to preserve your code edits in the file.',
+        code: '# Unstage a specific file:\ngit restore --staged <filename>\n\n# Or unstage everything:\ngit restore --staged .',
+        effect: 'Removes the file snapshot from the staging index. Your working code edits on disk remain 100% untouched.',
+        verify: 'Run git status — the file moves from green (Changes to be committed) to red (Changes not staged).',
+        warning: 'Safe operation: Does NOT delete your code.'
+      },
+      'local-commit': {
+        title: 'Rewind or Amend a Local Commit (Not Pushed)',
+        scope: 'Local History',
+        riskBadge: '<span class="badge badge-risk-rev">Risk: Reversible</span>',
+        desc: 'You committed too early or forgot a file, but you have NOT pushed to GitHub yet.',
+        code: '# Option A: Rewind 1 commit and keep changes staged in cart:\ngit reset --soft HEAD~1\n\n# Option B: Add a forgotten file to the previous commit:\ngit add <forgotten-file>\ngit commit --amend --no-edit',
+        effect: 'Moves HEAD back one commit while keeping your staged code ready to edit and re-commit.',
+        verify: 'Run git status and git log -1 to inspect the adjusted commit history.',
+        warning: 'Safe for local-only commits. Never rewrite commits already pushed to shared team branches.'
+      },
+      'pushed-commit': {
+        title: 'Undo a Public Commit on GitHub (Safe Inverse Commit)',
+        scope: 'Remote / Shared History',
+        riskBadge: '<span class="badge badge-risk-safe">Risk: Safe (No Conflicts)</span>',
+        desc: 'The faulty commit has already been pushed to GitHub. Rewriting history with reset would break teammates\' branches.',
+        code: '# 1. Find the commit hash to undo:\ngit log -n 5 --oneline\n\n# 2. Create a safe inverse commit:\ngit revert <commit-id>\n\n# 3. Push the revert to GitHub:\ngit push origin main',
+        effect: 'Creates a NEW commit that applies the exact opposite changes. History remains forward-moving and clean.',
+        verify: 'Run git log -1 to see the new revert commit, then push to upstream.',
+        warning: 'Team Standard: git revert is the approved way to fix public bugs without causing merge conflicts.'
+      },
+      'lost-reflog': {
+        title: 'Resurrect a Lost Commit or Deleted Branch via Reflog',
+        scope: 'Local Reflog Ledger',
+        riskBadge: '<span class="badge badge-risk-safe">Risk: Reversible</span>',
+        desc: 'You accidentally ran reset --hard, deleted a branch with unmerged work, or lost a detached commit.',
+        code: '# 1. View your chronological local action ledger:\ngit reflog -n 15\n\n# 2. Locate the commit hash before the mistake (e.g. HEAD@{2})\n# 3. Create a rescue branch attached to that commit:\ngit switch -c rescue-branch HEAD@{2}',
+        effect: 'Recovers unreachable commits before Git\'s automatic garbage collection prunes them (retained locally for 30-90 days).',
+        verify: 'Run git log -1 rescue-branch to verify your recovered work is intact.',
+        warning: 'Local Ledger: The reflog tracks where HEAD has pointed on this computer.'
+      }
+    };
+
+    function renderUndoSolution(locationKey) {
+      const data = undoSolutions[locationKey];
+      if (!data || !treeSolutionPanel) return;
+
+      treeSolutionPanel.innerHTML = `
+        <div class="solution-top">
+          <div class="solution-title">${data.title}</div>
+          <div>
+            <span class="badge badge-scope">Scope: ${data.scope}</span>
+            ${data.riskBadge}
+          </div>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">${data.desc}</p>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Recommended Command</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code>${data.code}</code></pre>
+        </div>
+        <div class="card-effect"><strong>What happens:</strong> ${data.effect}</div>
+        <div class="card-verify"><strong>Verify result:</strong> ${data.verify}</div>
+        <div class="callout ${locationKey === 'unstaged' ? 'warning' : 'tip'}" style="margin-top:10px;">
+          ${data.warning}
+        </div>
+      `;
+    }
+
+    treeChoiceBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        treeChoiceBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-checked', 'true');
+        const loc = btn.getAttribute('data-location');
+        renderUndoSolution(loc);
+        announceState(`Decision tree updated for ${btn.querySelector('.choice-label')?.innerText || loc}`);
+      });
+    });
+
+    // Render initial decision tree solution
+    renderUndoSolution('unstaged');
+
+    // 3. Active Filter & Card Search Logic
     let activeFilter = 'all';
 
     function filterCards() {
@@ -1230,7 +1490,7 @@ git worktree remove ../project-hotfix</code></pre>
       announceState(`Showing ${visibleCount} modules`);
     }
 
-    // 3. View Switcher Logic (Beginner vs Pro with Auto-Filter Reset)
+    // 4. View Switcher Logic (Beginner vs Pro with Auto-Filter Reset)
     function setMode(mode) {
       if (mode !== 'beginner' && mode !== 'pro') mode = 'beginner';
       htmlElem.setAttribute('data-view', mode);
@@ -1267,7 +1527,7 @@ git worktree remove ../project-hotfix</code></pre>
       });
     });
 
-    // 4. Category Filter Button Listeners
+    // 5. Category Filter Button Listeners
     filterPills.forEach(pill => {
       pill.addEventListener('click', () => {
         filterPills.forEach(p => {
@@ -1281,7 +1541,7 @@ git worktree remove ../project-hotfix</code></pre>
       });
     });
 
-    // 5. Search Input Listeners with Keyboard Shortcut
+    // 6. Search Input Listeners with Keyboard Shortcut
     if (searchInput) {
       searchInput.addEventListener('input', () => {
         filterCards();
@@ -1309,19 +1569,19 @@ git worktree remove ../project-hotfix</code></pre>
       });
     }
 
-    // 6. Task-Navigator Quick-Jump Handler
+    // 7. Task-Navigator Quick-Jump Handler
     taskChips.forEach(chip => {
       chip.addEventListener('click', () => {
         const targetId = chip.getAttribute('data-target');
-        const targetCard = document.getElementById(targetId);
-        if (!targetCard) return;
+        const targetElem = document.getElementById(targetId);
+        if (!targetElem) return;
 
-        // If card is pro-only and current view is beginner, switch to pro view
-        if (targetCard.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
+        // If target is a pro-only card and currently in beginner view, switch to pro view
+        if (targetElem.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
           setMode('pro');
         }
 
-        // Reset search query and filter to ensure card is visible
+        // Reset search query and filter to ensure target is visible
         if (searchInput) searchInput.value = '';
         activeFilter = 'all';
         filterPills.forEach(p => {
@@ -1332,14 +1592,14 @@ git worktree remove ../project-hotfix</code></pre>
         filterCards();
 
         // Scroll into view with smooth animation & visual highlight
-        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        targetCard.classList.add('highlighted');
-        announceState(`Jumped to ${targetCard.querySelector('.card-title')?.innerText || 'module'}`);
-        setTimeout(() => { targetCard.classList.remove('highlighted'); }, 2200);
+        targetElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetElem.classList.add('highlighted');
+        announceState(`Jumped to ${targetElem.querySelector('h2')?.innerText || 'module'}`);
+        setTimeout(() => { targetElem.classList.remove('highlighted'); }, 2200);
       });
     });
 
-    // 7. Dependable Copy Snippet
+    // 8. Dependable Copy Snippet
     function copySnippet(btn) {
       const codeElem = btn.closest('.snippet-block')?.querySelector('pre.code-content code') ||
                        btn.closest('.snippet-block')?.querySelector('pre.code-content');
