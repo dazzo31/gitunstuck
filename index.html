@@ -482,6 +482,23 @@
       border: 1px solid var(--border-subtle); padding: 1px 4px; border-radius: 3px;
     }
 
+    /* CI/CD Provider Tab Switcher */
+    .pipeline-provider-bar {
+      display: flex; gap: 6px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none;
+    }
+    .pipeline-provider-bar::-webkit-scrollbar { display: none; }
+    .pipeline-tab-btn {
+      background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
+      padding: 5px 10px; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .pipeline-tab-btn:hover { color: var(--text); border-color: var(--border-subtle); }
+    .pipeline-tab-btn.active {
+      background: var(--bg-card); color: var(--text); border-color: var(--accent-blue);
+      box-shadow: 0 0 0 1px var(--accent-blue);
+    }
+
     /* Category & Risk Filter Controls */
     .filter-controls-container {
       margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;
@@ -1265,10 +1282,10 @@ git revert &lt;commit-id&gt;</code></pre>
         </details>
       </article>
 
-      <!-- CARD 6: Working with Remotes & Team Sync -->
-      <article class="card" id="card-sync" data-category="cloud" data-risk="caution" data-keywords="github cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
+      <!-- CARD 6: Working with Remotes & Team Sync (Multi-Host) -->
+      <article class="card" id="card-sync" data-category="cloud" data-risk="caution" data-keywords="github gitlab bitbucket cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
         <div class="card-top">
-          <h2 class="card-title">Working with Remotes &amp; Team Sync</h2>
+          <h2 class="card-title">Working with Remotes (GitHub, GitLab, Bitbucket)</h2>
           <span class="card-tag">Cloud &amp; Remotes</span>
         </div>
         <div class="card-meta-bar">
@@ -1276,11 +1293,11 @@ git revert &lt;commit-id&gt;</code></pre>
           <span class="badge badge-risk-rev">Risk: Reversible</span>
         </div>
         <div class="card-scenario">
-          <strong>When to use:</strong> Sharing your commits with teammates on GitHub/GitLab, or downloading their latest updates before merging.
+          <strong>When to use:</strong> Sharing your commits with teammates on GitHub, GitLab, or Bitbucket, or downloading their latest updates before merging.
         </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span>Fetch, Rebase &amp; Push</span>
+            <span>Fetch, Rebase &amp; Remote URLs</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <pre class="code-content"><code># 1. Download remote changes WITHOUT altering working files:
@@ -1290,7 +1307,12 @@ git fetch origin
 git pull --rebase origin main
 
 # 3. Upload your commits to remote:
-git push origin &lt;branch-name&gt;</code></pre>
+git push origin &lt;branch-name&gt;
+
+# Remote URL conventions across hosts:
+git remote add origin https://github.com/user/repo.git     # GitHub
+git remote add origin https://gitlab.com/user/repo.git     # GitLab
+git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></pre>
         </div>
         <div class="card-effect">
           <strong>What happens:</strong> <code>fetch</code> updates remote-tracking references (`origin/main`). <code>pull --rebase</code> replays your local commits on top of incoming work.
@@ -1301,10 +1323,34 @@ git push origin &lt;branch-name&gt;</code></pre>
         <div class="callout tip">
           <strong>Fetch vs. Pull:</strong> <code>git fetch</code> downloads remote objects and updates <code>origin/&lt;branch&gt;</code> tracking references without touching your local working files.
         </div>
+        <details class="task-deep-dive" id="deepDiveCloudRosetta">
+          <summary class="task-deep-dive-summary">
+            <span class="task-deep-dive-title">🌐 The Cloud Host Rosetta Stone (GitHub vs. GitLab vs. Bitbucket)</span>
+            <span class="task-deep-dive-badge">Multi-Host</span>
+          </summary>
+          <div class="task-deep-dive-content">
+            <p>The Git command-line engine is identical across all hosts, but team review workflows and automation conventions differ:</p>
+            <div class="table-container">
+              <table class="compare-table">
+                <thead>
+                  <tr><th>Capability</th><th>🐙 GitHub</th><th>🦊 GitLab</th><th>🪣 Bitbucket</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>Code Review</strong></td><td>Pull Request (PR)</td><td>Merge Request (MR)</td><td>Pull Request (PR)</td></tr>
+                  <tr><td><strong>Official CLI</strong></td><td><code>gh pr create</code></td><td><code>glab mr create</code></td><td><code>bb</code> / Atlassian CLI</td></tr>
+                  <tr><td><strong>Issue Links</strong></td><td><code>#123</code> / <code>GH-123</code></td><td><code>#123</code> / <code>GL-123</code></td><td>Jira: <code>PROJ-123 #resolve</code></td></tr>
+                  <tr><td><strong>Default Branch</strong></td><td><code>main</code></td><td><code>main</code></td><td><code>main</code> (legacy: <code>master</code>)</td></tr>
+                  <tr><td><strong>CI/CD Config</strong></td><td><code>.github/workflows/*.yml</code></td><td><code>.gitlab-ci.yml</code></td><td><code>bitbucket-pipelines.yml</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p><strong>Takeaway:</strong> Once configured as an <code>origin</code> remote, standard Git commands behave identically regardless of which platform hosts the repository.</p>
+          </div>
+        </details>
       </article>
 
-      <!-- CARD 7: Pipelines & Automated CI/CD -->
-      <article class="card" id="card-pipeline" data-category="cloud" data-risk="safe" data-keywords="pipeline ci cd github actions automated deploy test workflow .github/workflows gitlab robot">
+      <!-- CARD 7: Pipelines & Automated CI/CD (Multi-Host) -->
+      <article class="card" id="card-pipeline" data-category="cloud" data-risk="safe" data-keywords="pipeline ci cd github actions gitlab bitbucket pipelines automated deploy test workflow .github/workflows gitlab robot">
         <div class="card-top">
           <h2 class="card-title">Pipelines &amp; Automated CI/CD</h2>
           <span class="card-tag">Cloud &amp; Remotes</span>
@@ -1314,19 +1360,41 @@ git push origin &lt;branch-name&gt;</code></pre>
           <span class="badge badge-risk-safe">Risk: Read-Only</span>
         </div>
         <div class="card-scenario">
-          <strong>When to use:</strong> Understanding how pushing code triggers cloud robots that test code, build assets, and deploy websites automatically.
+          <strong>When to use:</strong> Understanding how pushing code triggers cloud robots that test code, build assets, and deploy applications automatically across GitHub, GitLab, or Bitbucket.
         </div>
-        <div class="snippet-block">
+
+        <!-- 3-Way Host Starter Config Selector -->
+        <div class="pipeline-provider-bar" role="tablist" aria-label="CI/CD Provider Starter Configs">
+          <button class="pipeline-tab-btn active" data-provider="github" role="tab" aria-selected="true">🐙 GitHub Actions</button>
+          <button class="pipeline-tab-btn" data-provider="gitlab" role="tab" aria-selected="false">🦊 GitLab CI/CD</button>
+          <button class="pipeline-tab-btn" data-provider="bitbucket" role="tab" aria-selected="false">🪣 Bitbucket Pipelines</button>
+        </div>
+
+        <div class="snippet-block" id="pipelineSnippetBlock">
           <div class="snippet-header">
-            <span>Workflow File Convention</span>
+            <span id="pipelineSnippetTitle">GitHub Actions (.github/workflows/ci.yml)</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># Workflow files reside in repository root:
-.github/workflows/deploy.yml   # GitHub Actions
-.gitlab-ci.yml                 # GitLab CI</code></pre>
+          <pre class="code-content"><code id="pipelineSnippetCode"># .github/workflows/ci.yml
+name: CI
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Tests
+        run: npm test</code></pre>
         </div>
         <div class="card-effect">
-          <strong>What happens:</strong> Without an explicit workflow file, GitHub acts solely as code storage. Pushing only triggers automated jobs if a CI/CD workflow file is configured.
+          <strong>What happens:</strong> Without an explicit workflow file, cloud hosts act solely as code storage. Pushing only triggers automated jobs if a configuration file is detected in the repository root.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Check the "Actions" (GitHub), "Pipelines" (GitLab), or "Pipelines" (Bitbucket) tab in your web browser to view live job logs.
+        </div>
+        <div class="card-related">
+          <strong>Related:</strong> <code>git push</code> · <code>.github/workflows</code> · <code>.gitlab-ci.yml</code> · <code>bitbucket-pipelines.yml</code>
         </div>
       </article>
 
@@ -2460,6 +2528,44 @@ git cherry-pick 7a1b2c3
         btn.setAttribute('aria-label', 'Copy snippet to clipboard');
       }, 2000);
     }
+
+    // 8. CI/CD Multi-Host Provider Switcher in card-pipeline
+    const pipelineConfigs = {
+      github: {
+        title: 'GitHub Actions (.github/workflows/ci.yml)',
+        code: `# .github/workflows/ci.yml\nname: CI\non: [push, pull_request]\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Run Tests\n        run: npm test`
+      },
+      gitlab: {
+        title: 'GitLab CI/CD (.gitlab-ci.yml)',
+        code: `# .gitlab-ci.yml\nstages:\n  - test\n\ntest-job:\n  stage: test\n  image: node:latest\n  script:\n    - npm test`
+      },
+      bitbucket: {
+        title: 'Bitbucket Pipelines (bitbucket-pipelines.yml)',
+        code: `# bitbucket-pipelines.yml\npipelines:\n  default:\n    - step:\n        name: Test\n        image: node:latest\n        script:\n          - npm test`
+      }
+    };
+
+    const pipelineTabBtns = document.querySelectorAll('.pipeline-tab-btn');
+    const pipelineSnippetTitle = document.getElementById('pipelineSnippetTitle');
+    const pipelineSnippetCode = document.getElementById('pipelineSnippetCode');
+
+    pipelineTabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        pipelineTabBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        const provider = btn.getAttribute('data-provider');
+        const config = pipelineConfigs[provider];
+        if (config && pipelineSnippetTitle && pipelineSnippetCode) {
+          pipelineSnippetTitle.textContent = config.title;
+          pipelineSnippetCode.textContent = config.code;
+          announceState(`Pipeline configuration switched to ${config.title}`);
+        }
+      });
+    });
 
     // Initialize Mode with Validated Storage Value
     const initialMode = safeStorageGet('mode', 'beginner', ['beginner', 'pro']);
