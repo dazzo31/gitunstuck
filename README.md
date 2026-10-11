@@ -1,71 +1,64 @@
-# GitMatrix — Modern Git Command Matrix & Architecture Guide
+# GitSimple • Modern Git Reference & Beginner Mental Model
 
-A responsive, developer-cockpit style Git reference and troubleshooting playbook updated for modern Git standards (Git 2.23+ `switch`/`restore`, default `main` branch, merge conflict resolution, interactive rebase, and worktrees).
+A dual-mode Git guide and reference hub built for developers and complete newcomers alike. 
+
+Tired of cheat sheets filled with confusing technical jargon like "DAG", "cryptographic blobs", and "detached HEADs"? **GitSimple** translates Git into plain English with real-world analogies while providing a full developer reference when you're ready.
 
 ---
 
-## 🚀 Key Improvements Over Legacy Cheat Sheets
+## 💡 The 60-Second Mental Model (For Complete Beginners)
 
-| Feature / Workflow | Modern Standard (Git 2.23+) | Legacy Convention | Benefit |
-| :--- | :--- | :--- | :--- |
-| **Switch Branches** | `git switch <branch>` | `git checkout <branch>` | Unambiguous branch navigation |
-| **Create & Switch** | `git switch -c <branch>` | `git checkout -b <branch>` | Clear syntax (`-c` = `--create`) |
-| **Discard Edits** | `git restore <file>` | `git checkout -- <file>` | Discards working tree edits safely |
-| **Unstage Changes** | `git restore --staged <file>` | `git reset HEAD <file>` | Removes files from staging without losing work |
-| **Default Branch** | `main` | `master` | Modern industry standard |
-| **Safe Pulling** | `git pull --rebase` | `git pull` | Prevents messy recurring merge bubble commits |
+| Git Concept | Real-World Analogy | What it actually means |
+| :--- | :--- | :--- |
+| **Repository ("Repo")** | 📁 **Project folder + Time machine** | A normal folder on your computer that automatically tracks and remembers every edit you make. |
+| **Commit** | 💾 **Video Game Save Point** | A permanent checkpoint. If you make a mistake later, you can reload your project right here. |
+| **Staging (`git add`)** | 🛒 **A Shopping Cart** | Putting selected files into a cart before you pay at the register (`git commit`) to seal the checkpoint. |
+| **Remote & GitHub** | ☁️ **Google Drive for Code** | A cloud copy of your project so your work is safe and teammates can collaborate. |
+| **Branch** | 🌿 **A Risk-Free Sandbox** | A safe draft where you can test crazy experiments without breaking your working project. |
+| **Pipeline (CI/CD)** | 🤖 **Automated Cloud Robot** | A helper that automatically tests and publishes your code the moment you push to GitHub. |
+
+---
+
+## ⚡ Your Entire Daily Routine (Only 3 Commands)
+
+When you're starting out, 95% of your work is just these 3 steps:
+
+```bash
+# 1. Put all your changes into the cart:
+git add .
+
+# 2. Seal the checkpoint with a descriptive message:
+git commit -m "Added button to homepage"
+
+# 3. Upload your checkpoint to GitHub:
+git push
+```
 
 ---
 
 ## 🛠️ Features
 
-- 🔍 **Instant Search & Filter:** Filter by keywords (`restore`, `conflict`, `rebase`) or category pills with keyboard shortcut (`/`).
-- 🌓 **Dark / Light Mode:** Automatic system preference detection with persistent theme toggling.
-- 📋 **1-Click Snippet Copying:** Copy commands directly to clipboard with instant feedback.
-- 🖨️ **Print & Poster Ready:** Dedicated `@media print` CSS cleanly formats the matrix for A4/A3 wall posters or PDF export.
-- ⚡ **Zero External Dependencies:** Built with pure vanilla HTML, CSS, and JavaScript. Runs offline and loads instantly.
+- 🌱 **Dual Mode Experience:** Toggle between **"Plain English"** (friendly beginner mode) and **"Developer Hub"** (full command matrix).
+- 🔍 **Instant Search:** Find commands and concepts instantly by typing in the search bar or pressing `/`.
+- 🌓 **Dark / Light Theme:** Persistent theme toggling with high contrast.
+- 📋 **1-Click Copy:** Copy commands with instant visual feedback.
+- 🖨️ **Print & PDF Mode:** Clean `@media print` layout ready for printing as a cheat sheet or saving as PDF.
 
 ---
 
-## 🧭 Project Structure
+## 📦 How to Push to GitHub
 
-```text
-git-cheatsheet/
-├── index.html                  # Interactive command center web app
-├── .gitignore                  # Clean OS and editor exclusion patterns
-├── .github/
-│   └── workflows/
-│       └── deploy.yml          # Automated GitHub Pages CI/CD workflow
-└── README.md                   # Documentation & push guide
-```
-
----
-
-## 📦 How to Push to GitHub / Remote
-
-To push this repository to GitHub or GitLab:
-
-### 1. Create a Repository on GitHub
-Create a new empty repository on [GitHub](https://github.com/new) (e.g. named `git-matrix` or `git-cheatsheet`). Do **not** initialize it with a README or license.
-
-### 2. Connect Your Remote and Push
-Run the following commands in this directory:
+1. Create an empty repository on [GitHub](https://github.com/new) (e.g. `git-simple`).
+2. Run in PowerShell or terminal:
 
 ```bash
-# Add your GitHub remote URL
 git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-
-# Push the main branch with upstream tracking
 git push -u origin main
 ```
 
-### 3. Enable GitHub Pages (Optional Live URL)
-1. Go to your repository on GitHub $\rightarrow$ **Settings** $\rightarrow$ **Pages**.
-2. Under **Build and deployment** $\rightarrow$ **Source**, choose **GitHub Actions** (or Deploy from a branch $\rightarrow$ `main` / `root`).
-3. Your interactive Git Matrix will be live at `https://<your-username>.github.io/<your-repo-name>/`.
+Your web app will automatically deploy to GitHub Pages via `.github/workflows/deploy.yml`!
 
 ---
 
 ## 📄 License
-MIT License. Free to use, share, and customize.
-
+MIT License. Free for personal and team use.
