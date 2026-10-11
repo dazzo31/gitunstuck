@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git Command Matrix & Architectural Guide</title>
+  <meta name="description" content="Modern Git visual guide, architectural reference, command matrix, and troubleshooting playbook.">
+  <style>
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+      
+      /* Dark Theme (Default) */
+      --bg: #0b0f19;
+      --bg-surface: #111827;
+      --bg-card: #162032;
+      --bg-card-hover: #1c2940;
+      --bg-code: #070a12;
+      --border: #24324a;
+      --border-subtle: #1b263b;
+      
+      --text: #f3f4f6;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --git-orange: #f05032;
+      --git-orange-glow: rgba(240, 80, 50, 0.15);
+      --accent-blue: #38bdf8;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-purple: #c084fc;
+      --accent-red: #f87171;
+      
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --bg-code: #0f172a;
+      --border: #e2e8f0;
+      --border-subtle: #edf2f7;
+      
+      --text: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      
+      --git-orange: #ea580c;
+      --git-orange-glow: rgba(234, 88, 12, 0.1);
+      --accent-blue: #0284c7;
+      --accent-green: #059669;
+      --accent-amber: #d97706;
+      --accent-purple: #9333ea;
+      --accent-red: #dc2626;
+      
+      --shadow-card: 0 4px 15px -2px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Top Navigation Bar */
+    header.topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background-color: rgba(11, 15, 25, 0.85);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      transition: background-color 0.25s ease;
+    }
+    [data-theme="light"] header.topbar {
+      background-color: rgba(255, 255, 255, 0.88);
+    }
+
+    .topbar-content {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--git-orange-glow);
+      border: 1px solid var(--git-orange);
+      border-radius: var(--radius-sm);
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .brand-title span {
+      color: var(--git-orange);
+    }
+
+    .brand-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid var(--accent-blue);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .search-wrapper {
+      flex: 1;
+      max-width: 460px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 8px 16px 8px 40px;
+      font-size: 0.9rem;
+      color: var(--text);
+      outline: none;
+      transition: var(--transition);
+    }
+    .search-input:focus {
+      border-color: var(--git-orange);
+      box-shadow: 0 0 0 3px var(--git-orange-glow);
+    }
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+    .search-shortcut {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      background: var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-icon:hover {
+      color: var(--text);
+      border-color: var(--git-orange);
+    }
+
+    /* Category Pill Filter Nav */
+    .filter-bar {
+      max-width: 1440px;
+      margin: 16px auto 0;
+      padding: 0 24px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+
+    .filter-pill {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+    .filter-pill:hover, .filter-pill.active {
+      background: var(--git-orange);
+      color: #ffffff;
+      border-color: var(--git-orange);
+    }
+
+    /* Main Container & Grid */
+    main.container {
+      max-width: 1440px;
+      margin: 20px auto 40px;
+      padding: 0 24px;
+      flex: 1;
+    }
+
+    .results-count {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
+    }
+
+    /* Modular Card Styling */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: var(--transition);
+    }
+    .card:hover {
+      border-color: rgba(240, 80, 50, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .card-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.45;
+    }
+
+    /* Command Matrix Blocks */
+    .snippet-block {
+      background: var(--bg-code);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .snippet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .snippet-label {
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 0.72rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+    .copy-btn:hover {
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .copy-btn.copied {
+      color: var(--accent-green);
+    }
+
+    pre.code-content {
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      line-height: 1.45;
+      white-space: pre-wrap;
+    }
+    [data-theme="light"] pre.code-content {
+      color: #0284c7;
+    }
+
+    /* Comparison Table inside Cards */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+    .compare-table th {
+      text-align: left;
+      padding: 6px 8px;
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .compare-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
+    }
+
+    .badge-modern {
+      font-size: 0.68rem;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(52, 211, 153, 0.15);
+      color: var(--accent-green);
+      font-weight: 700;
+      display: inline-block;
+    }
+    .badge-legacy {
+      font-size: 0.68rem;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(248, 113, 113, 0.15);
+      color: var(--accent-red);
+      text-decoration: line-through;
+      display: inline-block;
+    }
+    .badge-caution {
+      font-size: 0.68rem;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--accent-amber);
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    /* Callout & Architecture Flow */
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin: 10px 0;
+    }
+    .flow-step {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 6px;
+      text-align: center;
+    }
+    .flow-step-num {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--text-dim);
+    }
+    .flow-step-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .step-wt { color: var(--accent-amber); border-color: rgba(251, 191, 36, 0.4); }
+    .step-idx { color: var(--accent-green); border-color: rgba(52, 211, 153, 0.4); }
+    .step-loc { color: var(--accent-blue); border-color: rgba(56, 189, 248, 0.4); }
+    .step-rem { color: var(--accent-purple); border-color: rgba(192, 132, 252, 0.4); }
+
+    .callout {
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid var(--accent-blue);
+      padding: 8px 12px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+    .callout.warning {
+      border-left-color: var(--accent-red);
+      background: rgba(248, 113, 113, 0.05);
+      color: #fca5a5;
+    }
+    .callout.tip {
+      border-left-color: var(--accent-green);
+      background: rgba(52, 211, 153, 0.05);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      background: var(--bg-surface);
+    }
+
+    /* Print Stylesheet for A4 / Poster Export */
+    @media print {
+      header.topbar, .filter-bar, .controls-group, .search-wrapper, .copy-btn {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      .cards-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+      .card {
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        padding: 12px !important;
+      }
+      .snippet-block {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+      pre.code-content {
+        color: #0369a1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="topbar">
+    <div class="topbar-content">
+      <div class="brand-group">
+        <div class="brand-logo">
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none">
+            <path d="M92.7 44.5L55.5 7.3a7.3 7.3 0 0 0-10.4 0L34.7 17.7l13.1 13.1a8.6 8.6 0 0 1 10.9 10.9l12.6 12.6a8.6 8.6 0 1 1-5.1 5.1L54 47.2v25.2a8.6 8.6 0 1 1-7.3 0V46.6a8.6 8.6 0 0 1-4.7-11.3L28.9 22.2 7.3 43.8a7.3 7.3 0 0 0 0 10.4l37.2 37.2a7.3 7.3 0 0 0 10.4 0l37.8-37.8a7.3 7.3 0 0 0 0-9.1z" fill="#F05032"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">Git<span>Matrix</span></div>
+        </div>
+        <span class="brand-badge">Modern Standards 2.23+</span>
+      </div>
+
+      <!-- Quick Search -->
+      <div class="search-wrapper">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search commands, scenarios (e.g. restore, conflict, rebase)...">
+        <span class="search-shortcut">/</span>
+      </div>
+
+      <!-- Utilities -->
+      <div class="controls-group">
+        <button id="themeToggle" class="btn-icon" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+          <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+        <button onclick="window.print()" class="btn-icon" title="Print Poster / Export PDF" aria-label="Print">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter Pills Bar -->
+  <nav class="filter-bar" id="categoryFilter">
+    <button class="filter-pill active" data-filter="all">All Modules</button>
+    <button class="filter-pill" data-filter="arch">Architecture</button>
+    <button class="filter-pill" data-filter="daily">Daily Workflow</button>
+    <button class="filter-pill" data-filter="branch">Branching &amp; Rebase</button>
+    <button class="filter-pill" data-filter="undo">Undo &amp; Recovery</button>
+    <button class="filter-pill" data-filter="trouble">Troubleshooting &amp; Conflicts</button>
+    <button class="filter-pill" data-filter="pro">Pro Workflows</button>
+    <button class="filter-pill" data-filter="config">Setup &amp; Config</button>
+  </nav>
+
+  <!-- Main Grid Content -->
+  <main class="container">
+    <div class="results-count" id="resultsCount">Showing all modules</div>
+
+    <div class="cards-grid" id="cardsGrid">
+
+      <!-- Card 1: 4-Stage Architecture -->
+      <article class="card" data-category="arch" data-keywords="architecture stages working tree index staging local remote fetch pull push">
+        <div class="card-top">
+          <div class="card-title">4-Stage Pipeline Architecture</div>
+          <span class="card-tag">Architecture</span>
+        </div>
+        <p class="card-desc">Git tracks snapshots through four distinct states. Notice that <code>git fetch</code> updates local tracking branches before merging.</p>
+        
+        <div class="flow-steps">
+          <div class="flow-step step-wt">
+            <div class="flow-step-num">STAGE 1</div>
+            <div class="flow-step-name">Working Tree</div>
+          </div>
+          <div class="flow-step step-idx">
+            <div class="flow-step-num">STAGE 2</div>
+            <div class="flow-step-name">Staging (Index)</div>
+          </div>
+          <div class="flow-step step-loc">
+            <div class="flow-step-num">STAGE 3</div>
+            <div class="flow-step-name">Local (HEAD)</div>
+          </div>
+          <div class="flow-step step-rem">
+            <div class="flow-step-num">STAGE 4</div>
+            <div class="flow-step-name">Remote Repo</div>
+          </div>
+        </div>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Lifecycle Flow</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git add &lt;file&gt;              # Stage 1 -> Stage 2
+git commit -m "feat:..."    # Stage 2 -> Stage 3
+git push origin main        # Stage 3 -> Stage 4
+git fetch origin            # Stage 4 -> origin/main
+git pull --rebase           # fetch + rebase into Stage 1</pre>
+        </div>
+      </article>
+
+      <!-- Card 2: Modern Branching & Switching -->
+      <article class="card" data-category="branch" data-keywords="branch switch checkout switch -c main create delete">
+        <div class="card-top">
+          <div class="card-title">Modern Branch Management</div>
+          <span class="card-tag">Branching</span>
+        </div>
+        <p class="card-desc">Modern Git uses <code>git switch</code> to navigate branches, completely retiring ambiguous <code>git checkout</code> branch syntax.</p>
+        
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Switch &amp; Create</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git switch &lt;branch&gt;         # Switch to branch
+git switch -c &lt;new-branch&gt;  # Create and switch (-c = create)
+git switch -                # Switch to previous branch
+git branch -vv              # List branches with tracking state
+git branch -d &lt;branch&gt;      # Safely delete merged branch</pre>
+        </div>
+
+        <table class="compare-table">
+          <thead>
+            <tr><th>Task</th><th>Modern (Git 2.23+)</th><th>Legacy</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Switch branch</td>
+              <td><code>git switch &lt;br&gt;</code> <span class="badge-modern">Clean</span></td>
+              <td><code>git checkout &lt;br&gt;</code></td>
+            </tr>
+            <tr>
+              <td>Create &amp; switch</td>
+              <td><code>git switch -c &lt;br&gt;</code> <span class="badge-modern">Clear</span></td>
+              <td><code>git checkout -b &lt;br&gt;</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <!-- Card 3: File Restoration & Un-staging -->
+      <article class="card" data-category="undo" data-keywords="restore restore --staged discard unstage checkout reset">
+        <div class="card-top">
+          <div class="card-title">File Restoration &amp; Un-staging</div>
+          <span class="card-tag">Undo &amp; Recovery</span>
+        </div>
+        <p class="card-desc"><code>git restore</code> replaces legacy checkout for files. Clearly separates working tree edits from index changes.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Discard &amp; Unstage</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git restore &lt;file&gt;          # Discard unstaged working edits
+git restore .               # Discard all unstaged modifications
+git restore --staged &lt;file&gt; # Unstage file (keeps local edits)
+git restore -s HEAD~1 &lt;f&gt;   # Restore file from previous commit</pre>
+        </div>
+
+        <table class="compare-table">
+          <thead>
+            <tr><th>Task</th><th>Modern (Git 2.23+)</th><th>Legacy</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Discard file edits</td>
+              <td><code>git restore &lt;f&gt;</code></td>
+              <td><span class="badge-legacy">git checkout -- &lt;f&gt;</span></td>
+            </tr>
+            <tr>
+              <td>Unstage changes</td>
+              <td><code>git restore --staged &lt;f&gt;</code></td>
+              <td><span class="badge-legacy">git reset HEAD &lt;f&gt;</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <!-- Card 4: Staging & Inspection -->
+      <article class="card" data-category="daily" data-keywords="add status diff staged patch commit log">
+        <div class="card-top">
+          <div class="card-title">Precision Staging &amp; Diffing</div>
+          <span class="card-tag">Daily Workflow</span>
+        </div>
+        <p class="card-desc">Differentiate between unstaged file edits and changes already locked into the index ready for commit.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Interactive Staging &amp; Diff</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git status -sb              # Short status + branch sync
+git diff                    # Diff: Working tree vs Index
+git diff --staged           # Diff: Index vs HEAD (Essential!)
+git add -p                  # Interactively stage discrete hunks
+git commit -m "feat:..."    # Commit staged snapshot</pre>
+        </div>
+        <div class="callout tip">
+          <strong>Tip:</strong> Always run <code>git diff --staged</code> before committing to review exactly what will enter history.
+        </div>
+      </article>
+
+      <!-- Card 5: Merge Conflict Playbook (NEW) -->
+      <article class="card" data-category="trouble" data-keywords="merge conflict markers abort continue resolve">
+        <div class="card-top">
+          <div class="card-title">Merge Conflict Playbook</div>
+          <span class="card-tag">Troubleshooting</span>
+        </div>
+        <p class="card-desc">Step-by-step resolution when two branches alter identical lines:</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Conflict Resolution Cycle</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git status                  # Identify conflicting files (UU)
+# Edit files: resolve &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD vs &gt;&gt;&gt;&gt;&gt;&gt;&gt; branch
+git add &lt;resolved-file&gt;     # Mark conflict as resolved
+git merge --continue        # Conclude the merge commit
+git merge --abort           # Bail out and restore pre-merge state</pre>
+        </div>
+        <div class="callout warning">
+          Never leave conflict markers (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>) in your code.
+        </div>
+      </article>
+
+      <!-- Card 6: Interactive Rebase & History Cleanup (NEW) -->
+      <article class="card" data-category="branch" data-keywords="rebase interactive squash fixup reword clean">
+        <div class="card-top">
+          <div class="card-title">Interactive Rebase &amp; Squash</div>
+          <span class="card-tag">Branching &amp; Rebase</span>
+        </div>
+        <p class="card-desc">Polish local commit history before opening a Pull Request:</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Interactive Rebase</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git rebase -i HEAD~3        # Clean up last 3 local commits
+
+# In editor commands:
+# pick   = keep commit as is
+# squash = combine into previous commit & merge message
+# fixup  = combine into previous commit & discard message
+# reword = keep commit but edit message
+
+git rebase --continue       # Continue after edits/conflicts
+git rebase --abort          # Cancel rebase entirely</pre>
+        </div>
+      </article>
+
+      <!-- Card 7: Stashing Workbench -->
+      <article class="card" data-category="undo" data-keywords="stash push pop apply list drop shelf">
+        <div class="card-top">
+          <div class="card-title">Stashing Workbench</div>
+          <span class="card-tag">Undo &amp; Recovery</span>
+        </div>
+        <p class="card-desc">Temporarily stash uncommitted work to switch contexts without making premature commits.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Stash Commands</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git stash push -m "WIP: ..."# Stash tracked edits with label
+git stash push -u -m "..."  # Stash including untracked files
+git stash list              # View saved stash stack
+git stash pop               # Restore latest and remove from stack
+git stash apply stash@{1}   # Restore specific stash, keep on stack
+git stash drop stash@{0}    # Delete specific stash</pre>
+        </div>
+      </article>
+
+      <!-- Card 8: Commit Undoing & History Rewind -->
+      <article class="card" data-category="undo" data-keywords="reset soft hard mixed revert amend undo">
+        <div class="card-top">
+          <div class="card-title">Reset, Revert &amp; Amend</div>
+          <span class="card-tag">Undo &amp; Recovery</span>
+        </div>
+        <p class="card-desc">Choose the exact undo level based on whether the commits are local or shared publicly.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Undo Matrix</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git commit --amend          # Modify latest commit message/staged
+git revert &lt;commit&gt;         # Safe public undo (creates inverse commit)
+git reset --soft HEAD~1     # Rewind commit; keep changes staged
+git reset --mixed HEAD~1    # Rewind commit; keep changes unstaged
+git reset --hard HEAD~1     # Destructive: discard commit & all changes!</pre>
+        </div>
+        <div class="callout warning">
+          <strong>Rule:</strong> Never <code>reset --hard</code> on shared branches like <code>main</code>!
+        </div>
+      </article>
+
+      <!-- Card 9: Detached HEAD Recovery (NEW) -->
+      <article class="card" data-category="trouble" data-keywords="detached head recovery commit switch branch">
+        <div class="card-top">
+          <div class="card-title">Detached HEAD Recovery</div>
+          <span class="card-tag">Troubleshooting</span>
+        </div>
+        <p class="card-desc">Occurs when you checkout a specific commit rather than a branch pointer.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Diagnostic &amp; Escape</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content"># You are in detached HEAD if:
+git status # says "HEAD detached at &lt;hash&gt;"
+
+# Option 1: Discard experiment and return:
+git switch main             # Return to main branch
+
+# Option 2: Save commits made while detached:
+git switch -c recovery-branch # Creates branch pointing here!</pre>
+        </div>
+      </article>
+
+      <!-- Card 10: Git Worktrees (NEW) -->
+      <article class="card" data-category="pro" data-keywords="worktree parallel branches hotfix concurrent">
+        <div class="card-top">
+          <div class="card-title">Git Worktrees (Parallel Folders)</div>
+          <span class="card-tag">Pro Workflows</span>
+        </div>
+        <p class="card-desc">Check out multiple branches simultaneously into separate directories without re-cloning or stashing.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Worktree Commands</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content"># Create separate folder for hotfix branch
+git worktree add ../hotfix-folder hotfix-branch
+
+# Work in both directories simultaneously
+git worktree list           # View active worktree locations
+git worktree remove ../hotfix-folder # Clean up when done</pre>
+        </div>
+      </article>
+
+      <!-- Card 11: Remote Operations & Sync -->
+      <article class="card" data-category="daily" data-keywords="remote push pull rebase fetch prune origin">
+        <div class="card-top">
+          <div class="card-title">Remote Operations &amp; Sync</div>
+          <span class="card-tag">Daily Workflow</span>
+        </div>
+        <p class="card-desc">Collaborate safely with upstream remotes without creating messy merge bubbles.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Remote Commands</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git remote add origin &lt;url&gt; # Register remote upstream
+git push -u origin main     # First push: sets upstream tracking
+git push                    # Routine push to tracked upstream
+git fetch --prune origin    # Fetch and remove stale deleted branches
+git pull --rebase origin main # Pull upstream linearly without merge commits</pre>
+        </div>
+      </article>
+
+      <!-- Card 12: Modern Global Configurations -->
+      <article class="card" data-category="config" data-keywords="config defaultBranch autocrlf user email credential">
+        <div class="card-top">
+          <div class="card-title">Standard Global Configuration</div>
+          <span class="card-tag">Setup &amp; Config</span>
+        </div>
+        <p class="card-desc">Set these standard options once per development machine.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Global Configs</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --global init.defaultBranch main
+git config --global pull.rebase true
+git config --global core.autocrlf true     # (Windows; use input on macOS/Linux)
+git config --global credential.helper manager</pre>
+        </div>
+      </article>
+
+      <!-- Card 13: Productivity Aliases -->
+      <article class="card" data-category="config" data-keywords="aliases alias shortcut lg graph">
+        <div class="card-top">
+          <div class="card-title">Essential Modern Aliases</div>
+          <span class="card-tag">Setup &amp; Config</span>
+        </div>
+        <p class="card-desc">Add these high-efficiency aliases to your <code>~/.gitconfig</code>.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Alias Setup</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content">git config --global alias.st "status -sb"
+git config --global alias.sw "switch"
+git config --global alias.sc "switch -c"
+git config --global alias.rest "restore"
+git config --global alias.unstage "restore --staged"
+git config --global alias.lg "log --graph --oneline --decorate --all"</pre>
+        </div>
+      </article>
+
+      <!-- Card 14: .gitignore & Secrets Hygiene -->
+      <article class="card" data-category="daily" data-keywords="gitignore env secrets cache untrack">
+        <div class="card-top">
+          <div class="card-title">.gitignore &amp; Secret Hygiene</div>
+          <span class="card-tag">Daily Workflow</span>
+        </div>
+        <p class="card-desc">Prevent sensitive credentials and dependencies from ever entering Git history.</p>
+
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span class="snippet-label">Standard .gitignore Patterns</span>
+            <button class="copy-btn" onclick="copySnippet(this)">Copy</button>
+          </div>
+          <pre class="code-content"># Secrets & Environment (NEVER COMMIT)
+.env
+.env.*
+*.pem
+*.key
+
+# Dependencies & Build artifacts
+node_modules/
+dist/
+build/
+*.log
+
+# Untrack previously committed file:
+git rm --cached &lt;file-path&gt;</pre>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>GitMatrix • Modern Git Reference, Architecture &amp; Playbook • Built for high-velocity software engineering</p>
+    <p style="margin-top: 4px; font-size: 0.75rem;">Includes Git 2.23+ switch/restore syntax, worktrees, conflict resolution &amp; safe pull standards.</p>
+  </footer>
+
+  <script>
+    // Theme Switcher Logic
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const htmlElem = document.documentElement;
+
+    const savedTheme = localStorage.getItem('theme') || 
+      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    htmlElem.setAttribute('data-theme', savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlElem.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      htmlElem.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+
+    // Copy to Clipboard Logic
+    function copySnippet(btn) {
+      const pre = btn.closest('.snippet-block').querySelector('pre.code-content');
+      if (!pre) return;
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        btn.innerText = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerText = 'Copy';
+          btn.classList.remove('copied');
+        }, 1800);
+      });
+    }
+
+    // Category Filtering & Search
+    const filterPills = document.querySelectorAll('.filter-pill');
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.card');
+    const resultsCount = document.getElementById('resultsCount');
+
+    let activeFilter = 'all';
+
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeFilter = pill.getAttribute('data-filter');
+        filterCards();
+      });
+    });
+
+    searchInput.addEventListener('input', () => {
+      filterCards();
+    });
+
+    // Keyboard shortcut / to search
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+
+    function filterCards() {
+      const query = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const category = card.getAttribute('data-category');
+        const keywords = card.getAttribute('data-keywords') || '';
+        const title = card.querySelector('.card-title')?.innerText.toLowerCase() || '';
+        const content = card.innerText.toLowerCase();
+
+        const matchesCategory = (activeFilter === 'all' || category === activeFilter);
+        const matchesQuery = (!query || title.includes(query) || keywords.includes(query) || content.includes(query));
+
+        if (matchesCategory && matchesQuery) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      resultsCount.innerText = `Showing ${visibleCount} of ${cards.length} modules`;
+    }
+  </script>
+</body>
+</html>
