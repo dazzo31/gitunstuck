@@ -146,10 +146,18 @@
 
     .search-input {
       width: 100%; background: var(--bg-surface); border: 1px solid var(--border);
-      border-radius: 9999px; padding: 8px 16px 8px 36px; font-size: 0.88rem;
+      border-radius: 9999px; padding: 8px 64px 8px 36px; font-size: 0.88rem;
       color: var(--text); outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .search-input:focus { border-color: var(--git-orange); box-shadow: 0 0 0 3px var(--git-orange-glow); }
+
+    .search-kbd {
+      position: absolute; right: 12px; display: flex; align-items: center; gap: 2px;
+      font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700;
+      color: var(--text-dim); background: var(--bg-card); border: 1px solid var(--border);
+      padding: 2px 6px; border-radius: 4px; pointer-events: none; user-select: none;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
 
     .controls-group { display: flex; align-items: center; gap: 10px; }
 
@@ -386,9 +394,63 @@
       content: "•"; position: absolute; left: 6px; color: var(--git-orange); font-weight: bold;
     }
 
-    /* Category Filter Pills */
+    /* Expandable Computer Science Deep Dive */
+    .jargon-deep-dive {
+      margin-top: 20px; background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); overflow: hidden; transition: border-color 0.2s ease;
+    }
+    .jargon-deep-dive:hover { border-color: var(--border-subtle); }
+    .jargon-summary {
+      padding: 12px 18px; font-weight: 700; font-size: 0.9rem; color: var(--text);
+      cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; background: rgba(255, 255, 255, 0.02); user-select: none;
+    }
+    .jargon-summary:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: -2px; }
+    .jargon-summary-title { display: flex; align-items: center; gap: 8px; }
+    .jargon-summary-badge {
+      font-size: 0.72rem; font-weight: 700; color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 2px 8px; border-radius: 4px; white-space: nowrap;
+    }
+    .jargon-deep-dive[open] .jargon-summary {
+      border-bottom: 1px solid var(--border-subtle); background: var(--bg-card);
+    }
+    .jargon-content {
+      padding: 18px 20px; background: var(--bg-card);
+    }
+    .jargon-intro {
+      font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;
+    }
+    .jargon-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: 16px;
+    }
+    .jargon-card {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm); padding: 14px 16px; display: flex; flex-direction: column;
+    }
+    .jargon-card-title {
+      font-size: 0.92rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 8px;
+    }
+    .jargon-card p {
+      font-size: 0.82rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 8px;
+    }
+    .jargon-card ul {
+      margin: 0; padding-left: 18px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.45;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .jargon-card ul strong { color: var(--text); }
+
+    /* Category & Risk Filter Controls */
+    .filter-controls-container {
+      margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .filter-group-label {
+      font-size: 0.72rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 0.05em; display: inline-flex; align-items: center; padding-right: 4px; white-space: nowrap;
+    }
     .filter-bar {
-      display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
+      display: flex; align-items: center; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
     }
     .filter-bar::-webkit-scrollbar { display: none; }
 
@@ -400,6 +462,25 @@
     .filter-pill:hover, .filter-pill.active {
       background: var(--git-orange); color: #ffffff; border-color: var(--git-orange);
     }
+
+    .risk-filter-bar {
+      margin-bottom: 0;
+    }
+    .risk-pill {
+      background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
+      padding: 5px 12px; border-radius: 9999px; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: all 0.15s ease;
+    }
+    .risk-pill:hover {
+      color: var(--text); border-color: var(--border-subtle);
+    }
+    .risk-pill.active {
+      background: var(--bg-card); color: var(--text); border-color: var(--accent-blue);
+      box-shadow: 0 0 0 1px var(--accent-blue);
+    }
+    .risk-pill-safe.active { border-color: var(--accent-green); color: var(--text); box-shadow: 0 0 0 1px var(--accent-green); }
+    .risk-pill-caution.active { border-color: var(--accent-amber); color: var(--text); box-shadow: 0 0 0 1px var(--accent-amber); }
+    .risk-pill-dest.active { border-color: var(--accent-red); color: var(--text); box-shadow: 0 0 0 1px var(--accent-red); }
 
     /* Cards Grid */
     .cards-grid {
@@ -605,7 +686,8 @@
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
         </label>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search tasks, errors, commands (Press /)..." aria-label="Search command modules">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search tasks, errors, commands..." aria-label="Search command modules">
+        <kbd class="search-kbd" title="Press / or Ctrl+K to search" aria-hidden="true">Ctrl K</kbd>
       </div>
 
       <!-- Utilities -->
@@ -814,23 +896,87 @@
       <div class="graph-explanation" id="graphExplanationPanel" aria-live="polite">
         <!-- Rendered dynamically by JavaScript -->
       </div>
+
+      <!-- EXPANDABLE COMPUTER SCIENCE DEEP DIVE (Learning Feature) -->
+      <details class="jargon-deep-dive" id="jargonDeepDive">
+        <summary class="jargon-summary">
+          <span class="jargon-summary-title">🎓 Computer Science Deep Dive: The Real Git Data Model (DAG, SHA Hashes, and Refs)</span>
+          <span class="jargon-summary-badge">Expand Technical Theory</span>
+        </summary>
+        <div class="jargon-content">
+          <p class="jargon-intro">
+            While real-world analogies (save points, breadcrumbs, bookmarks, camera lens) provide an intuitive daily mental model, under the hood Git is an elegant, mathematically rigorous <strong>Directed Acyclic Graph (DAG)</strong> built atop an immutable content-addressable object store. Here is the formal technical architecture:
+          </p>
+          <div class="jargon-grid">
+            <div class="jargon-card">
+              <h3 class="jargon-card-title">1. Directed Acyclic Graph (DAG)</h3>
+              <p>Git history is formally represented as a <strong>Directed Acyclic Graph</strong> $G = (V, E)$:</p>
+              <ul>
+                <li><strong>Vertices ($V$):</strong> Immutable commit objects representing project snapshots.</li>
+                <li><strong>Directed Edges ($E$):</strong> Pointers directed <em>backwards</em> from child commits to their parent(s). A commit points to its parent because the parent existed first; the parent cannot know its future children.</li>
+                <li><strong>Acyclic Invariant:</strong> It is mathematically impossible for a commit to be its own ancestor, preventing infinite loops during graph traversal.</li>
+                <li><strong>Topological Ordering:</strong> Git orders commits chronologically and topologically during operations like <code>git log</code> and <code>git rev-list</code>.</li>
+              </ul>
+            </div>
+            <div class="jargon-card">
+              <h3 class="jargon-card-title">2. Content-Addressable Object Store</h3>
+              <p>All data in <code>.git/objects/</code> is addressed by a cryptographic checksum (SHA-1 / SHA-256):</p>
+              <ul>
+                <li><strong>Blob:</strong> Raw file data (binary or text). Filenames and permissions are not stored inside blobs.</li>
+                <li><strong>Tree:</strong> Directory structure mapping filenames, file modes (POSIX permissions), and blob/tree SHA hashes.</li>
+                <li><strong>Commit:</strong> Top-level object storing: the root Tree hash, zero or more Parent commit hashes, author/committer timestamps, and the commit message.</li>
+                <li><strong>Annotated Tag:</strong> An immutable ref object pointing to a commit hash with GPG signature and tagger metadata.</li>
+              </ul>
+            </div>
+            <div class="jargon-card">
+              <h3 class="jargon-card-title">3. References (Refs) &amp; Symbolic Refs</h3>
+              <p>Branches and HEAD are lightweight pointers, not folder copies:</p>
+              <ul>
+                <li><strong>Branch Ref:</strong> A 41-byte text file in <code>.git/refs/heads/&lt;branch-name&gt;</code> containing a single 40-character hexadecimal commit hash. When you commit, Git writes the commit object and updates this file.</li>
+                <li><strong>HEAD (Symbolic Ref):</strong> The file <code>.git/HEAD</code> contains <code>ref: refs/heads/main</code>, delegating where the working tree is anchored. In <em>detached HEAD</em> state, <code>.git/HEAD</code> holds a raw commit hash instead of a branch path.</li>
+                <li><strong>Remote-Tracking Refs:</strong> Read-only pointers in <code>.git/refs/remotes/origin/</code> reflecting the last known commit on the remote server.</li>
+              </ul>
+            </div>
+            <div class="jargon-card">
+              <h3 class="jargon-card-title">4. Best Common Ancestor (BCA) &amp; 3-Way Merge</h3>
+              <p>How Git calculates merges without manual guesswork:</p>
+              <ul>
+                <li><strong>Lowest Common Ancestor (LCA):</strong> When merging two branches ($B_1$ and $B_2$), Git traverses the DAG backwards to find their <em>Best Common Ancestor</em> commit $A$.</li>
+                <li><strong>3-Way Diff Matrix:</strong> Git computes $\Delta_1 = \text{diff}(A, B_1)$ and $\Delta_2 = \text{diff}(A, B_2)$. Clean changes to disjoint lines are automatically combined. Changes to identical lines trigger conflict markers.</li>
+                <li><strong>Merge Commit:</strong> The resulting snapshot has <em>two parent pointers</em>: Parent 1 ($B_1$) and Parent 2 ($B_2$).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
     </section>
 
-    <!-- Category Filter Bar -->
-    <nav class="filter-bar" id="categoryFilter" aria-label="Category filter">
-      <button class="filter-pill active" data-filter="all" aria-pressed="true">All Modules</button>
-      <button class="filter-pill" data-filter="essential" aria-pressed="false">Daily Essentials</button>
-      <button class="filter-pill" data-filter="branch" aria-pressed="false">Branches &amp; Merging</button>
-      <button class="filter-pill" data-filter="undo" aria-pressed="false">Undo &amp; Recovery</button>
-      <button class="filter-pill" data-filter="cloud" aria-pressed="false">Cloud &amp; Remotes</button>
-      <button class="filter-pill pro-only" data-filter="pro" aria-pressed="false">Advanced / Pro</button>
-    </nav>
+    <!-- Category & Risk Filter Controls -->
+    <div class="filter-controls-container">
+      <nav class="filter-bar" id="categoryFilter" aria-label="Category filter">
+        <span class="filter-group-label" aria-hidden="true">Category:</span>
+        <button class="filter-pill active" data-filter="all" aria-pressed="true">All Modules</button>
+        <button class="filter-pill" data-filter="essential" aria-pressed="false">Daily Essentials</button>
+        <button class="filter-pill" data-filter="branch" aria-pressed="false">Branches &amp; Merging</button>
+        <button class="filter-pill" data-filter="undo" aria-pressed="false">Undo &amp; Recovery</button>
+        <button class="filter-pill" data-filter="cloud" aria-pressed="false">Cloud &amp; Remotes</button>
+        <button class="filter-pill pro-only" data-filter="pro" aria-pressed="false">Advanced / Pro</button>
+      </nav>
+
+      <nav class="filter-bar risk-filter-bar" id="riskFilter" aria-label="Risk level filter">
+        <span class="filter-group-label" aria-hidden="true">Risk Level:</span>
+        <button class="risk-pill active" data-risk-filter="all" aria-pressed="true">All Risks</button>
+        <button class="risk-pill risk-pill-safe" data-risk-filter="safe" aria-pressed="false">🟢 Safe / Read-Only</button>
+        <button class="risk-pill risk-pill-caution" data-risk-filter="caution" aria-pressed="false">🟡 Caution / Reversible</button>
+        <button class="risk-pill risk-pill-dest" data-risk-filter="destructive" aria-pressed="false">🔴 Destructive / Rewriting</button>
+      </nav>
+    </div>
 
     <!-- STANDARDIZED COMMAND & WORKFLOW CARDS GRID -->
     <div class="cards-grid" id="cardsGrid">
 
       <!-- CARD 1: Start a Repository from Scratch -->
-      <article class="card" id="card-init" data-category="essential" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
+      <article class="card" id="card-init" data-category="essential" data-risk="safe" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
         <div class="card-top">
           <h2 class="card-title">Start a Repository from Scratch</h2>
           <span class="card-tag">Onboarding</span>
@@ -870,7 +1016,7 @@ git push -u origin main</code></pre>
       </article>
 
       <!-- CARD 2: Clone an Existing Project -->
-      <article class="card" id="card-clone" data-category="essential" data-keywords="clone download github gitlab copy repo existing project setup fetch checkout local copy">
+      <article class="card" id="card-clone" data-category="essential" data-risk="safe" data-keywords="clone download github gitlab copy repo existing project setup fetch checkout local copy">
         <div class="card-top">
           <h2 class="card-title">Clone an Existing Project</h2>
           <span class="card-tag">Onboarding</span>
@@ -909,7 +1055,7 @@ git branch -a</code></pre>
       </article>
 
       <!-- CARD 3: Precise Staging & Checkpoints -->
-      <article class="card" id="card-stage" data-category="essential" data-keywords="save commit checkpoint status add diff staged patch inspect changes draft progress">
+      <article class="card" id="card-stage" data-category="essential" data-risk="safe" data-keywords="save commit checkpoint status add diff staged patch inspect changes draft progress">
         <div class="card-top">
           <h2 class="card-title">Precise Staging &amp; Checkpoints</h2>
           <span class="card-tag">Daily Essential</span>
@@ -953,7 +1099,7 @@ git commit -m "feat: add user authentication"</code></pre>
       </article>
 
       <!-- CARD 4: Branches as Isolated Sandboxes -->
-      <article class="card" id="card-branch" data-category="branch" data-keywords="branch sandbox switch test experiment create checkout switch -c parallel feature work">
+      <article class="card" id="card-branch" data-category="branch" data-risk="safe" data-keywords="branch sandbox switch test experiment create checkout switch -c parallel feature work">
         <div class="card-top">
           <h2 class="card-title">Branches: Isolated Sandboxes</h2>
           <span class="card-tag">Branches</span>
@@ -1008,7 +1154,7 @@ git switch main</code></pre>
       </article>
 
       <!-- CARD 5: Undoing Mistakes Safely -->
-      <article class="card" id="card-undo" data-category="undo" data-keywords="undo restore discard mistake reset revert staged unstage accidental throw away clean edits">
+      <article class="card" id="card-undo" data-category="undo" data-risk="destructive" data-keywords="undo restore discard mistake reset revert staged unstage accidental throw away clean edits">
         <div class="card-top">
           <h2 class="card-title">Undoing Mistakes Safely</h2>
           <span class="card-tag">Undo &amp; Recovery</span>
@@ -1049,7 +1195,7 @@ git revert &lt;commit-id&gt;</code></pre>
       </article>
 
       <!-- CARD 6: Working with Remotes & Team Sync -->
-      <article class="card" id="card-sync" data-category="cloud" data-keywords="github cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
+      <article class="card" id="card-sync" data-category="cloud" data-risk="caution" data-keywords="github cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
         <div class="card-top">
           <h2 class="card-title">Working with Remotes &amp; Team Sync</h2>
           <span class="card-tag">Cloud &amp; Remotes</span>
@@ -1082,12 +1228,12 @@ git push origin &lt;branch-name&gt;</code></pre>
           <strong>Verify result:</strong> Run <code>git status</code> to confirm your branch is up to date with <code>origin/main</code>.
         </div>
         <div class="callout tip">
-          <strong>Fetch vs. Pull:</strong> <code>git fetch</code> is download-only and 100% safe to inspect anytime without modifying local files.
+          <strong>Fetch vs. Pull:</strong> <code>git fetch</code> downloads remote objects and updates <code>origin/&lt;branch&gt;</code> tracking references without touching your local working files.
         </div>
       </article>
 
       <!-- CARD 7: Pipelines & Automated CI/CD -->
-      <article class="card" id="card-pipeline" data-category="cloud" data-keywords="pipeline ci cd github actions automated deploy test workflow .github/workflows gitlab robot">
+      <article class="card" id="card-pipeline" data-category="cloud" data-risk="safe" data-keywords="pipeline ci cd github actions automated deploy test workflow .github/workflows gitlab robot">
         <div class="card-top">
           <h2 class="card-title">Pipelines &amp; Automated CI/CD</h2>
           <span class="card-tag">Cloud &amp; Remotes</span>
@@ -1114,7 +1260,7 @@ git push origin &lt;branch-name&gt;</code></pre>
       </article>
 
       <!-- CARD 8: Stashing (The Pause Button) -->
-      <article class="card" id="card-stash" data-category="essential" data-keywords="stash shelf pause temporary switch untracked files save for later pop restore WIP emergency">
+      <article class="card" id="card-stash" data-category="essential" data-risk="caution" data-keywords="stash shelf pause temporary switch untracked files save for later pop restore WIP emergency">
         <div class="card-top">
           <h2 class="card-title">Stashing: Temporary Work Shelving</h2>
           <span class="card-tag">Daily Essential</span>
@@ -1152,7 +1298,7 @@ git stash pop</code></pre>
       </article>
 
       <!-- CARD 9: Merge Conflict Resolution -->
-      <article class="card" id="card-conflict" data-category="branch" data-keywords="conflict merge clash team overlapping markers resolve failed merge abort clash git merge --continue">
+      <article class="card" id="card-conflict" data-category="branch" data-risk="caution" data-keywords="conflict merge clash team overlapping markers resolve failed merge abort clash git merge --continue">
         <div class="card-top">
           <h2 class="card-title">Merge Conflict Resolution</h2>
           <span class="card-tag">Branches</span>
@@ -1196,7 +1342,7 @@ git merge --continue   # Or 'git merge --abort'</code></pre>
       </article>
 
       <!-- CARD 10: Interactive Rebase (Pro Only) -->
-      <article class="card pro-only" id="card-rebase" data-category="pro" data-keywords="rebase interactive squash clean commits shared history fixup reword rewrite history polish">
+      <article class="card pro-only" id="card-rebase" data-category="pro" data-risk="destructive" data-keywords="rebase interactive squash clean commits shared history fixup reword rewrite history polish">
         <div class="card-top">
           <h2 class="card-title">Interactive Rebase (Commit Polish)</h2>
           <span class="card-tag">Advanced / Pro</span>
@@ -1236,7 +1382,7 @@ git rebase --abort   # Safe escape hatch</code></pre>
       </article>
 
       <!-- CARD 11: Detached HEAD Recovery (Pro Only) -->
-      <article class="card pro-only" id="card-detached" data-category="pro" data-keywords="detached head recovery pointer hash commit switch lost commit missing work escape">
+      <article class="card pro-only" id="card-detached" data-category="pro" data-risk="caution" data-keywords="detached head recovery pointer hash commit switch lost commit missing work escape">
         <div class="card-top">
           <h2 class="card-title">Detached HEAD Recovery</h2>
           <span class="card-tag">Advanced / Pro</span>
@@ -1271,7 +1417,7 @@ git switch -c recovery-branch</code></pre>
       </article>
 
       <!-- CARD 12: Git Worktrees (Pro Only) -->
-      <article class="card pro-only" id="card-worktree" data-category="pro" data-keywords="worktree parallel multiple folders simultaneous branches hotfix concurrent separate directory">
+      <article class="card pro-only" id="card-worktree" data-category="pro" data-risk="safe" data-keywords="worktree parallel multiple folders simultaneous branches hotfix concurrent separate directory">
         <div class="card-top">
           <h2 class="card-title">Git Worktrees (Parallel Folders)</h2>
           <span class="card-tag">Advanced / Pro</span>
@@ -1306,7 +1452,7 @@ git worktree remove ../project-hotfix</code></pre>
       </article>
 
       <!-- CARD 13: Reflog Recovery (NEW PHASE 3 PRO) -->
-      <article class="card pro-only" id="card-reflog" data-category="undo" data-keywords="reflog recover lost commit restore accidental delete branch resurrect rescue head@{1} history rewind">
+      <article class="card pro-only" id="card-reflog" data-category="undo" data-risk="safe" data-keywords="reflog recover lost commit restore accidental delete branch resurrect rescue head@{1} history rewind">
         <div class="card-top">
           <h2 class="card-title">Reflog Recovery (Lost Work)</h2>
           <span class="card-tag">Advanced / Pro</span>
@@ -1342,7 +1488,7 @@ git switch -c rescue-branch HEAD@{2}</code></pre>
       </article>
 
       <!-- CARD 14: Regression Hunting: bisect & blame (NEW PHASE 3 PRO) -->
-      <article class="card pro-only" id="card-bisect" data-category="pro" data-keywords="bisect blame regression bug hunt binary search find broken commit investigate line author history">
+      <article class="card pro-only" id="card-bisect" data-category="pro" data-risk="safe" data-keywords="bisect blame regression bug hunt binary search find broken commit investigate line author history">
         <div class="card-top">
           <h2 class="card-title">Regression Hunting (bisect &amp; blame)</h2>
           <span class="card-tag">Advanced / Pro</span>
@@ -1382,7 +1528,7 @@ git blame -L 20,45 src/app.js</code></pre>
       </article>
 
       <!-- CARD 15: Release Tags & Semantic Versioning (Phase 5) -->
-      <article class="card" id="card-tag" data-category="cloud" data-keywords="tag release version semver annotated tag v1.0.0 publish milestone github releases software tag -a push tags">
+      <article class="card" id="card-tag" data-category="cloud" data-risk="safe" data-keywords="tag release version semver annotated tag v1.0.0 publish milestone github releases software tag -a push tags">
         <div class="card-top">
           <h2 class="card-title">Release Tags &amp; Semantic Versioning</h2>
           <span class="card-tag">Release Engineering</span>
@@ -1423,7 +1569,7 @@ git tag -l -n 1</code></pre>
       </article>
 
       <!-- CARD 16: Safe Force-Push (--force-with-lease) (Phase 5 Pro) -->
-      <article class="card pro-only" id="card-force-lease" data-category="cloud" data-keywords="force push force-with-lease pr rebase pull request overwrite team safe lease reject git push -f">
+      <article class="card pro-only" id="card-force-lease" data-category="cloud" data-risk="destructive" data-keywords="force push force-with-lease pr rebase pull request overwrite team safe lease reject git push -f">
         <div class="card-top">
           <h2 class="card-title">Safe Force-Push (--force-with-lease)</h2>
           <span class="card-tag">PR &amp; Team Hygiene</span>
@@ -1457,7 +1603,7 @@ git push --force-with-lease origin feature/auth
       </article>
 
       <!-- CARD 17: Port Isolated Commits (cherry-pick) (Phase 5 Pro) -->
-      <article class="card pro-only" id="card-cherry-pick" data-category="branch" data-keywords="cherry-pick port bugfix hotfix backport copy commit single commit pluck apply hash maintenance">
+      <article class="card pro-only" id="card-cherry-pick" data-category="branch" data-risk="caution" data-keywords="cherry-pick port bugfix hotfix backport copy commit single commit pluck apply hash maintenance">
         <div class="card-top">
           <h2 class="card-title">Port Isolated Commits (cherry-pick)</h2>
           <span class="card-tag">Branch Maintenance</span>
@@ -1545,6 +1691,7 @@ git cherry-pick 7a1b2c3
     const themeToggleBtn = document.getElementById('themeToggle');
     const modeButtons = document.querySelectorAll('.mode-btn');
     const filterPills = document.querySelectorAll('.filter-pill');
+    const riskPills = document.querySelectorAll('.risk-pill');
     const searchInput = document.getElementById('searchInput');
     const cards = document.querySelectorAll('.card');
     const noResultsElem = document.getElementById('noResults');
@@ -1965,6 +2112,7 @@ git cherry-pick 7a1b2c3
 
     // 3. Active Filter & Card Search Logic
     let activeFilter = 'all';
+    let activeRiskFilter = 'all';
 
     function filterCards() {
       const query = (searchInput && searchInput.value ? searchInput.value : '').toLowerCase().trim();
@@ -1973,6 +2121,7 @@ git cherry-pick 7a1b2c3
 
       cards.forEach(card => {
         const category = card.getAttribute('data-category');
+        const cardRisk = card.getAttribute('data-risk') || 'safe';
         const keywords = card.getAttribute('data-keywords') || '';
         const title = card.querySelector('.card-title')?.innerText.toLowerCase() || '';
         const content = card.innerText.toLowerCase();
@@ -1985,9 +2134,10 @@ git cherry-pick 7a1b2c3
         }
 
         const matchesCategory = (activeFilter === 'all' || category === activeFilter);
+        const matchesRisk = (activeRiskFilter === 'all' || cardRisk === activeRiskFilter);
         const matchesQuery = (!query || title.includes(query) || keywords.includes(query) || content.includes(query));
 
-        if (matchesCategory && matchesQuery) {
+        if (matchesCategory && matchesRisk && matchesQuery) {
           card.style.display = 'flex';
           visibleCount++;
         } else {
@@ -2053,7 +2203,21 @@ git cherry-pick 7a1b2c3
       });
     });
 
-    // 6. Search Input Listeners with Keyboard Shortcut
+    // 5b. Risk-Level Filter Button Listeners
+    riskPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        riskPills.forEach(p => {
+          p.classList.remove('active');
+          p.setAttribute('aria-pressed', 'false');
+        });
+        pill.classList.add('active');
+        pill.setAttribute('aria-pressed', 'true');
+        activeRiskFilter = pill.getAttribute('data-risk-filter') || 'all';
+        filterCards();
+      });
+    });
+
+    // 6. Search Input Listeners with Keyboard Shortcuts (/ & Ctrl+K)
     if (searchInput) {
       searchInput.addEventListener('input', () => {
         filterCards();
@@ -2061,9 +2225,25 @@ git cherry-pick 7a1b2c3
     }
 
     window.addEventListener('keydown', (e) => {
-      if (e.key === '/' && document.activeElement !== searchInput) {
+      const isInputFocused = document.activeElement && 
+        (document.activeElement.tagName === 'INPUT' || 
+         document.activeElement.tagName === 'TEXTAREA' || 
+         document.activeElement.isContentEditable);
+
+      // Focus search on '/' (when not typing in an input) or 'Ctrl+K' / 'Cmd+K' (globally)
+      if ((e.key === '/' && !isInputFocused) || ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K'))) {
         e.preventDefault();
-        if (searchInput) searchInput.focus();
+        if (searchInput) {
+          searchInput.focus();
+          searchInput.select();
+        }
+      } else if (e.key === 'Escape' && document.activeElement === searchInput) {
+        if (searchInput.value) {
+          searchInput.value = '';
+          filterCards();
+        } else {
+          searchInput.blur();
+        }
       }
     });
 
@@ -2071,8 +2251,14 @@ git cherry-pick 7a1b2c3
       resetFiltersBtn.addEventListener('click', () => {
         if (searchInput) searchInput.value = '';
         activeFilter = 'all';
+        activeRiskFilter = 'all';
         filterPills.forEach(pill => {
           const isAll = pill.getAttribute('data-filter') === 'all';
+          pill.classList.toggle('active', isAll);
+          pill.setAttribute('aria-pressed', isAll ? 'true' : 'false');
+        });
+        riskPills.forEach(pill => {
+          const isAll = pill.getAttribute('data-risk-filter') === 'all';
           pill.classList.toggle('active', isAll);
           pill.setAttribute('aria-pressed', isAll ? 'true' : 'false');
         });
@@ -2093,11 +2279,17 @@ git cherry-pick 7a1b2c3
           setMode('pro');
         }
 
-        // Reset search query and filter to ensure target is visible
+        // Reset search query and filters to ensure target is visible
         if (searchInput) searchInput.value = '';
         activeFilter = 'all';
+        activeRiskFilter = 'all';
         filterPills.forEach(p => {
           const isAll = p.getAttribute('data-filter') === 'all';
+          p.classList.toggle('active', isAll);
+          p.setAttribute('aria-pressed', isAll ? 'true' : 'false');
+        });
+        riskPills.forEach(p => {
+          const isAll = p.getAttribute('data-risk-filter') === 'all';
           p.classList.toggle('active', isAll);
           p.setAttribute('aria-pressed', isAll ? 'true' : 'false');
         });
