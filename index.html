@@ -441,6 +441,47 @@
     }
     .jargon-card ul strong { color: var(--text); }
 
+    /* Task-Integrated Deep Dive (In-Card Technical Theory) */
+    .task-deep-dive {
+      margin-top: 14px; border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm); overflow: hidden; background: var(--bg-surface);
+      transition: border-color 0.2s ease;
+    }
+    .task-deep-dive:hover { border-color: var(--border); }
+    .task-deep-dive-summary {
+      padding: 9px 12px; font-size: 0.78rem; font-weight: 700; color: var(--text);
+      cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      user-select: none; background: rgba(255, 255, 255, 0.02); transition: background-color 0.15s ease;
+    }
+    .task-deep-dive-summary:hover { background: rgba(56, 189, 248, 0.06); }
+    .task-deep-dive-summary:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: -2px; }
+    .task-deep-dive-title { display: flex; align-items: center; gap: 6px; }
+    .task-deep-dive-badge {
+      font-size: 0.68rem; font-weight: 700; color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 1px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .task-deep-dive[open] .task-deep-dive-summary {
+      border-bottom: 1px solid var(--border-subtle); background: rgba(56, 189, 248, 0.08);
+    }
+    [data-theme="light"] .task-deep-dive[open] .task-deep-dive-summary {
+      background: rgba(2, 132, 199, 0.08);
+    }
+    .task-deep-dive-content {
+      padding: 12px 14px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; background: var(--bg-card);
+    }
+    .task-deep-dive-content p { margin: 0 0 8px 0; }
+    .task-deep-dive-content p:last-child { margin-bottom: 0; }
+    .task-deep-dive-content ul {
+      margin: 0 0 10px 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px;
+    }
+    .task-deep-dive-content ul:last-child { margin-bottom: 0; }
+    .task-deep-dive-content strong { color: var(--text); }
+    .task-deep-dive-content code {
+      font-family: var(--font-mono); font-size: 0.76rem; background: var(--bg-surface);
+      border: 1px solid var(--border-subtle); padding: 1px 4px; border-radius: 3px;
+    }
+
     /* Category & Risk Filter Controls */
     .filter-controls-container {
       margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;
@@ -733,6 +774,8 @@
         <button class="task-chip" data-target="troubleshootConsole">🚑 Undo a mistake or recovery tree</button>
         <button class="task-chip" data-target="card-stash">⏸️ Pause work &amp; switch branches</button>
         <button class="task-chip" data-target="card-conflict">⚠️ Resolve a merge conflict</button>
+        <button class="task-chip pro-only" data-target="card-rebase">🧹 Clean up commits before PR</button>
+        <button class="task-chip pro-only" data-target="card-reflog">🔍 Rescue lost commits with reflog</button>
         <button class="task-chip" data-target="commitGraphExplorer">🗺️ Visual Timeline &amp; Branch Map</button>
         <button class="task-chip" data-target="card-tag">🏷️ Tag a production release</button>
       </div>
@@ -1192,6 +1235,34 @@ git revert &lt;commit-id&gt;</code></pre>
         <div class="card-related">
           <strong>Related:</strong> <code>git reset</code> · <code>git revert</code> · <code>git reflog</code>
         </div>
+        <details class="task-deep-dive" id="deepDiveThreeTrees">
+          <summary class="task-deep-dive-summary">
+            <span class="task-deep-dive-title">🔬 Deep Dive: The Three Trees &amp; Reset Matrix</span>
+            <span class="task-deep-dive-badge">CS Theory</span>
+          </summary>
+          <div class="task-deep-dive-content">
+            <p>Git does not just track files; it coordinates <strong>Three Trees</strong> of repository state:</p>
+            <ul>
+              <li><strong>HEAD:</strong> The commit snapshot checked out in your repository database.</li>
+              <li><strong>Index / Staging (<code>.git/index</code>):</strong> A binary cache recording file paths, stat caches, and blob SHA hashes for the next commit.</li>
+              <li><strong>Working Tree:</strong> The physical files and directories you edit directly on your operating system filesystem.</li>
+            </ul>
+            <p>The <code>git reset</code> command alters how many of these three trees move:</p>
+            <div class="table-container">
+              <table class="compare-table">
+                <thead>
+                  <tr><th>Reset Flag</th><th>HEAD</th><th>Index (Cart)</th><th>Working Tree</th><th>Risk Level</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>git reset --soft</code></td><td>Moves</td><td>Untouched</td><td>Untouched</td><td>🟢 Safe</td></tr>
+                  <tr><td><code>git reset --mixed</code> <em>(default)</em></td><td>Moves</td><td>Resets</td><td>Untouched</td><td>🟡 Reversible</td></tr>
+                  <tr><td><code>git reset --hard</code></td><td>Moves</td><td>Resets</td><td>Overwritten</td><td>🔴 Destructive</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p><strong>Takeaway:</strong> <code>git restore --staged</code> copies from HEAD into Index (leaving Working Tree alone), while <code>git restore</code> copies from Index into Working Tree.</p>
+          </div>
+        </details>
       </article>
 
       <!-- CARD 6: Working with Remotes & Team Sync -->
@@ -1379,6 +1450,22 @@ git rebase --abort   # Safe escape hatch</code></pre>
         <div class="callout warning">
           <strong>Golden Rule:</strong> Never rebase commits that have already been pushed to a shared public branch. Rewriting shared history breaks teammates' local branches.
         </div>
+        <details class="task-deep-dive" id="deepDiveRebasePipeline">
+          <summary class="task-deep-dive-summary">
+            <span class="task-deep-dive-title">🔬 Deep Dive: The Rebase Cherry-Pick Pipeline</span>
+            <span class="task-deep-dive-badge">CS Theory</span>
+          </summary>
+          <div class="task-deep-dive-content">
+            <p>Git cannot modify existing commits because commits in the DAG are cryptographically immutable. Under the hood, <code>git rebase</code> executes an automated patch pipeline:</p>
+            <ul>
+              <li><strong>1. LCA Discovery:</strong> Git traverses backwards to identify the Lowest Common Ancestor ($A$) between your branch and target base ($B$).</li>
+              <li><strong>2. Patch Generation:</strong> Commits unique to your branch are serialized into temporary diff patches in <code>.git/rebase-merge/</code>.</li>
+              <li><strong>3. HEAD Pointer Reset:</strong> Git resets <code>HEAD</code> to the target base commit ($B$).</li>
+              <li><strong>4. Sequential Replay:</strong> Git applies each patch one-by-one (automated <code>cherry-pick</code>). Each applied patch creates a <strong>brand new commit object</strong> with a new parent hash, new committer timestamp, and a completely different SHA checksum.</li>
+            </ul>
+            <p><strong>Why shared branches break:</strong> Teammates' local DAGs still point to the old commit SHAs. Pushing rebased commits results in divergent histories and duplicate commits.</p>
+          </div>
+        </details>
       </article>
 
       <!-- CARD 11: Detached HEAD Recovery (Pro Only) -->
@@ -1485,6 +1572,21 @@ git switch -c rescue-branch HEAD@{2}</code></pre>
         <div class="card-related">
           <strong>Related:</strong> <code>git reset</code> · <code>git branch</code>
         </div>
+        <details class="task-deep-dive" id="deepDiveReflogGC">
+          <summary class="task-deep-dive-summary">
+            <span class="task-deep-dive-title">🔬 Deep Dive: Object Reachability &amp; Garbage Collection</span>
+            <span class="task-deep-dive-badge">CS Theory</span>
+          </summary>
+          <div class="task-deep-dive-content">
+            <p>Git almost never deletes your commits immediately. Even after <code>git reset --hard</code> or deleting a branch:</p>
+            <ul>
+              <li><strong>Unreachable Objects:</strong> The commit objects remain in <code>.git/objects/</code>. They are merely disconnected from named branch refs (dangling in the DAG).</li>
+              <li><strong>Append-Only Reflogs:</strong> Files in <code>.git/logs/HEAD</code> and <code>.git/logs/refs/heads/</code> log every SHA hash that references have pointed to locally.</li>
+              <li><strong>Garbage Collection (<code>git gc</code>):</strong> Unreachable objects are only purged when <code>git gc</code> runs and an object exceeds both <code>gc.reflogExpire</code> (default: 90 days) and <code>gc.pruneExpire</code> (default: 14 days).</li>
+            </ul>
+            <p><strong>Takeaway:</strong> As long as you know the commit hash from <code>git reflog</code>, creating a new branch resurrects orphaned work into the active DAG with zero data loss.</p>
+          </div>
+        </details>
       </article>
 
       <!-- CARD 14: Regression Hunting: bisect & blame (NEW PHASE 3 PRO) -->
