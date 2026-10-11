@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitSimple • Modern Git Reference &amp; Architectural Guide</title>
-  <meta name="description" content="Safe, accessible, and modern Git reference with zero-jargon mental models for beginners and comprehensive command matrix for developers.">
+  <title>GitSimple • Modern Git Reference &amp; Problem-Solving Guide</title>
+  <meta name="description" content="Task-driven Git reference, safe workflows, standardized diagnostics, and zero-jargon mental models for developers and beginners alike.">
   <style>
     :root {
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -21,7 +21,7 @@
       
       --text: #f8fafc;
       --text-muted: #94a3b8;
-      --text-dim: #94a3b8; /* Enhanced for 4.5:1 ratio */
+      --text-dim: #94a3b8;
       
       --git-orange: #f05032;
       --git-orange-glow: rgba(240, 80, 50, 0.2);
@@ -48,7 +48,7 @@
       --border-subtle: #e2e8f0;
       
       --text: #0f172a;
-      --text-muted: #334155; /* High contrast */
+      --text-muted: #334155;
       --text-dim: #475569;
       
       --git-orange: #c2410c;
@@ -62,7 +62,6 @@
       --shadow-card: 0 4px 15px -2px rgba(0, 0, 0, 0.08);
     }
 
-    /* Accessibility: Reduced Motion */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -72,686 +71,373 @@
       }
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* Screen reader only utility */
     .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
     }
 
-    /* Skip Link for Keyboard Accessibility */
     .skip-link {
-      position: absolute;
-      top: -60px;
-      left: 16px;
-      background: var(--git-orange);
-      color: #ffffff;
-      padding: 10px 16px;
-      border-radius: var(--radius-sm);
-      font-weight: 700;
-      font-size: 0.9rem;
-      z-index: 1000;
-      text-decoration: none;
+      position: absolute; top: -60px; left: 16px; background: var(--git-orange);
+      color: #ffffff; padding: 10px 16px; border-radius: var(--radius-sm);
+      font-weight: 700; font-size: 0.9rem; z-index: 1000; text-decoration: none;
       transition: top 0.15s ease;
     }
-    .skip-link:focus {
-      top: 16px;
-      outline: 3px solid #ffffff;
-      outline-offset: 2px;
-    }
+    .skip-link:focus { top: 16px; outline: 3px solid #ffffff; outline-offset: 2px; }
 
-    /* Keyboard Focus Indicator */
-    *:focus-visible {
-      outline: 2px solid var(--git-orange);
-      outline-offset: 2px;
-    }
+    *:focus-visible { outline: 2px solid var(--git-orange); outline-offset: 2px; }
 
     body {
-      font-family: var(--font-sans);
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      transition: background-color 0.25s ease, color 0.25s ease;
+      font-family: var(--font-sans); background-color: var(--bg); color: var(--text);
+      line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column;
+      overflow-x: hidden; transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    /* Top Navigation */
+    /* Top Navigation Header */
     header.topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
-      background-color: rgba(11, 15, 25, 0.92);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 20px;
-      transition: background-color 0.25s ease;
+      position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);
+      background-color: rgba(11, 15, 25, 0.92); border-bottom: 1px solid var(--border);
+      padding: 12px 20px; transition: background-color 0.25s ease;
     }
-    [data-theme="light"] header.topbar {
-      background-color: rgba(255, 255, 255, 0.94);
-    }
+    [data-theme="light"] header.topbar { background-color: rgba(255, 255, 255, 0.94); }
 
     .topbar-content {
-      max-width: 1440px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
+      max-width: 1440px; margin: 0 auto; display: flex; align-items: center;
+      justify-content: space-between; gap: 16px; flex-wrap: wrap;
     }
 
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand-group { display: flex; align-items: center; gap: 12px; }
 
     .brand-logo {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--git-orange-glow);
-      border: 1px solid var(--git-orange);
-      border-radius: var(--radius-sm);
+      width: 36px; height: 36px; flex-shrink: 0; display: inline-flex;
+      align-items: center; justify-content: center; background: var(--git-orange-glow);
+      border: 1px solid var(--git-orange); border-radius: var(--radius-sm);
     }
 
-    /* Meaningful Heading in topbar */
     h1.brand-title {
-      font-size: 1.3rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
+      font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2;
     }
     h1.brand-title span { color: var(--git-orange); }
 
-    /* Experience Mode Switcher */
     .mode-switcher {
-      display: inline-flex;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 9999px;
-      padding: 3px;
-      gap: 4px;
+      display: inline-flex; background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 9999px; padding: 3px; gap: 4px;
     }
 
     .mode-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 6px 14px;
-      border-radius: 9999px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: var(--transition);
+      background: transparent; border: none; color: var(--text-muted);
+      padding: 6px 14px; border-radius: 9999px; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; gap: 6px; transition: var(--transition);
     }
     .mode-btn.active {
-      background: var(--git-orange);
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(240, 80, 50, 0.35);
+      background: var(--git-orange); color: #ffffff; box-shadow: 0 2px 8px rgba(240, 80, 50, 0.35);
     }
 
     .search-wrapper {
-      flex: 1;
-      min-width: 240px;
-      max-width: 380px;
-      position: relative;
-      display: flex;
-      align-items: center;
+      flex: 1; min-width: 240px; max-width: 380px; position: relative;
+      display: flex; align-items: center;
     }
 
     .search-label {
-      position: absolute;
-      left: 12px;
-      display: flex;
-      align-items: center;
-      color: var(--text-dim);
-      pointer-events: none;
-      z-index: 1;
+      position: absolute; left: 12px; display: flex; align-items: center;
+      color: var(--text-dim); pointer-events: none; z-index: 1;
     }
 
     .search-input {
-      width: 100%;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 9999px;
-      padding: 8px 16px 8px 36px;
-      font-size: 0.88rem;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      width: 100%; background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 9999px; padding: 8px 16px 8px 36px; font-size: 0.88rem;
+      color: var(--text); outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .search-input:focus {
-      border-color: var(--git-orange);
-      box-shadow: 0 0 0 3px var(--git-orange-glow);
-    }
+    .search-input:focus { border-color: var(--git-orange); box-shadow: 0 0 0 3px var(--git-orange-glow); }
 
-    .controls-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .controls-group { display: flex; align-items: center; gap: 10px; }
 
     .btn-icon {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      width: 38px;
-      height: 38px;
-      border-radius: var(--radius-sm);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: border-color 0.2s ease, color 0.2s ease;
+      background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
+      width: 38px; height: 38px; border-radius: var(--radius-sm); display: inline-flex;
+      align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease;
     }
-    .btn-icon:hover {
-      color: var(--text);
-      border-color: var(--git-orange);
-    }
+    .btn-icon:hover { color: var(--text); border-color: var(--git-orange); }
 
-    /* Container */
+    /* Main Container */
     main.container {
-      max-width: 1440px;
-      width: 100%;
-      margin: 20px auto 40px;
-      padding: 0 20px;
-      flex: 1;
+      max-width: 1440px; width: 100%; margin: 20px auto 40px; padding: 0 20px; flex: 1;
     }
 
-    /* Mental Model Primer Banner */
+    /* Task-First Quick Navigation */
+    .task-navigator {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 18px 20px; margin-bottom: 24px; box-shadow: var(--shadow-card);
+    }
+
+    .task-nav-header { margin-bottom: 12px; }
+
+    .task-nav-title {
+      font-size: 1.1rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 8px;
+    }
+
+    .task-nav-subtitle {
+      font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;
+    }
+
+    .task-chips {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;
+    }
+
+    .task-chip {
+      background: var(--bg-surface); border: 1px solid var(--border); color: var(--text);
+      padding: 6px 12px; border-radius: 9999px; font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .task-chip:hover {
+      border-color: var(--git-orange); color: #ffffff; background: rgba(240, 80, 50, 0.15);
+      transform: translateY(-1px);
+    }
+    [data-theme="light"] .task-chip:hover { color: var(--git-orange); background: rgba(194, 65, 12, 0.08); }
+
+    /* Beginner Mental Model Primer */
     .hero-primer {
       background: linear-gradient(135deg, rgba(240, 80, 50, 0.08) 0%, rgba(56, 189, 248, 0.06) 100%);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 28px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .primer-header {
-      margin-bottom: 16px;
+      border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;
+      margin-bottom: 28px; box-shadow: var(--shadow-card);
     }
 
     .primer-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--accent-green);
-      background: rgba(52, 211, 153, 0.12);
-      border: 1px solid rgba(52, 211, 153, 0.35);
-      padding: 3px 10px;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700;
+      color: var(--accent-green); background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.35);
+      padding: 3px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;
     }
 
-    .primer-title {
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
+    .primer-title { font-size: 1.45rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+    .primer-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-top: 4px; line-height: 1.45; }
 
-    .primer-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-      line-height: 1.45;
-    }
-
-    /* 4 Analogy Cards Grid */
     .analogies-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
-      gap: 16px;
-      margin-top: 20px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px; margin-top: 20px;
     }
 
     .analogy-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      transition: border-color 0.2s ease;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 16px; display: flex; flex-direction: column; transition: border-color 0.2s ease;
     }
-    .analogy-card:hover {
-      border-color: var(--git-orange);
-    }
+    .analogy-card:hover { border-color: var(--git-orange); }
 
-    .analogy-icon {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-    }
+    .analogy-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .analogy-term { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .analogy-meta { font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; margin-bottom: 8px; }
+    .analogy-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.45; }
 
-    .analogy-term {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 2px;
-    }
-    .analogy-meta {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--accent-blue);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .analogy-text {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    /* Daily Safe Recipe Box */
+    /* Safe Daily Recipe Box */
     .daily-recipe {
-      background: var(--bg-card);
-      border: 2px dashed rgba(240, 80, 50, 0.45);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      margin-top: 20px;
+      background: var(--bg-card); border: 2px dashed rgba(240, 80, 50, 0.45); border-radius: var(--radius-md);
+      padding: 20px; margin-top: 20px;
     }
 
     .recipe-title {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--git-orange);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1.1rem; font-weight: 800; color: var(--git-orange); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
     }
 
     .recipe-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-      gap: 12px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px;
     }
 
     .recipe-step {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 12px; display: flex; flex-direction: column;
     }
     .recipe-num {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      background: var(--git-orange);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 800;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 24px;
-      margin-bottom: 8px;
+      display: inline-block; width: 24px; height: 24px; background: var(--git-orange); color: #fff;
+      font-size: 0.75rem; font-weight: 800; border-radius: 50%; text-align: center; line-height: 24px; margin-bottom: 8px;
     }
-    .recipe-action {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    .recipe-desc {
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      margin-bottom: 8px;
-      line-height: 1.35;
-    }
+    .recipe-action { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .recipe-desc { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.35; }
 
-    /* Filter Pills */
+    /* Category Filter Pills */
     .filter-bar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      padding-bottom: 4px;
+      display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
     }
     .filter-bar::-webkit-scrollbar { display: none; }
 
     .filter-pill {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 6px 14px;
-      border-radius: 9999px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
+      padding: 6px 14px; border-radius: 9999px; font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
     .filter-pill:hover, .filter-pill.active {
-      background: var(--git-orange);
-      color: #ffffff;
-      border-color: var(--git-orange);
+      background: var(--git-orange); color: #ffffff; border-color: var(--git-orange);
     }
 
     /* Cards Grid */
     .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
-      gap: 20px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 20px;
     }
 
-    /* Card Styling */
+    /* Standardized Card Styling */
     .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      box-shadow: var(--shadow-card);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      transition: border-color 0.2s ease;
-      min-width: 0; /* Prevents overflow */
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 20px; box-shadow: var(--shadow-card); display: flex; flex-direction: column;
+      position: relative; transition: border-color 0.2s ease, box-shadow 0.2s ease; min-width: 0;
     }
-    .card:hover {
-      border-color: rgba(240, 80, 50, 0.45);
+    .card:hover { border-color: rgba(240, 80, 50, 0.45); }
+    .card.highlighted {
+      border-color: var(--git-orange) !important;
+      box-shadow: 0 0 0 3px var(--git-orange-glow), var(--shadow-card) !important;
     }
 
-    /* Beginner vs Pro Mode Visibility */
-    [data-view="beginner"] .pro-only {
-      display: none !important;
-    }
-    [data-view="pro"] #beginnerPrimer {
-      display: none;
-    }
+    /* View Visibility Rules */
+    [data-view="beginner"] .pro-only { display: none !important; }
+    [data-view="pro"] #beginnerPrimer { display: none; }
 
     .card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    h2.card-title { font-size: 1.08rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+
+    .card-tag {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--accent-blue); background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
+    }
+
+    /* Metadata Badge Bar (Scope & Risk) */
+    .card-meta-bar {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; padding-bottom: 10px;
       border-bottom: 1px solid var(--border-subtle);
     }
 
-    .card-tag {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-blue);
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      padding: 2px 8px;
-      border-radius: 4px;
-      flex-shrink: 0;
+    .badge {
+      font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 4px;
+      display: inline-flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.03em;
     }
+    .badge-scope { background: rgba(148, 163, 184, 0.12); color: var(--text-dim); border: 1px solid var(--border); }
+    .badge-risk-safe { background: rgba(52, 211, 153, 0.12); color: var(--accent-green); border: 1px solid rgba(52, 211, 153, 0.3); }
+    .badge-risk-rev { background: rgba(56, 189, 248, 0.12); color: var(--accent-blue); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-risk-caution { background: rgba(248, 113, 113, 0.12); color: var(--accent-red); border: 1px solid rgba(248, 113, 113, 0.3); }
+    .badge-risk-rewrite { background: rgba(251, 191, 36, 0.12); color: var(--accent-amber); border: 1px solid rgba(251, 191, 36, 0.3); }
 
-    h2.card-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text);
+    .card-scenario {
+      font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.45;
     }
+    .card-scenario strong { color: var(--text); }
 
-    .card-explain {
-      background: rgba(56, 189, 248, 0.08);
-      border-left: 3px solid var(--accent-blue);
-      padding: 8px 10px;
-      border-radius: 0 6px 6px 0;
-      font-size: 0.82rem;
-      color: var(--accent-blue);
-      margin-bottom: 12px;
-      line-height: 1.4;
-    }
-    [data-theme="light"] .card-explain {
-      background: rgba(3, 105, 161, 0.08);
-      color: #0369a1;
-    }
-
-    .card-desc {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      line-height: 1.45;
-    }
-
-    /* Snippet blocks */
+    /* Code Snippet Blocks */
     .snippet-block {
-      background: var(--bg-code);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      margin-bottom: 10px;
-      overflow: hidden;
-      min-width: 0;
+      background: var(--bg-code); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
+      margin-bottom: 12px; overflow: hidden; min-width: 0;
     }
 
     .snippet-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 12px;
-      background: rgba(255, 255, 255, 0.03);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 0.75rem;
-      color: var(--text-dim);
+      display: flex; align-items: center; justify-content: space-between; padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.75rem; color: var(--text-dim);
     }
 
     .copy-btn {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-dim);
-      cursor: pointer;
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 4px;
+      background: transparent; border: 1px solid transparent; color: var(--text-dim);
+      cursor: pointer; font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 4px;
       transition: all 0.15s ease;
     }
     .copy-btn:hover {
-      color: var(--accent-blue);
-      background: rgba(56, 189, 248, 0.1);
-      border-color: rgba(56, 189, 248, 0.25);
+      color: var(--accent-blue); background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.25);
     }
     .copy-btn.copied {
-      color: var(--accent-green) !important;
-      background: rgba(52, 211, 153, 0.12) !important;
-      border-color: var(--accent-green) !important;
+      color: var(--accent-green) !important; background: rgba(52, 211, 153, 0.12) !important; border-color: var(--accent-green) !important;
     }
     .copy-btn.copy-error {
-      color: var(--accent-red) !important;
-      background: rgba(248, 113, 113, 0.12) !important;
-      border-color: var(--accent-red) !important;
+      color: var(--accent-red) !important; background: rgba(248, 113, 113, 0.12) !important; border-color: var(--accent-red) !important;
     }
 
     pre.code-content {
-      padding: 10px 12px;
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      color: #38bdf8;
-      overflow-x: auto;
-      line-height: 1.45;
-      white-space: pre;
+      padding: 10px 12px; font-family: var(--font-mono); font-size: 0.82rem; color: #38bdf8;
+      overflow-x: auto; line-height: 1.45; white-space: pre;
     }
-    pre.code-content code {
-      font-family: inherit;
-      color: inherit;
-      background: transparent;
-    }
+    pre.code-content code { font-family: inherit; color: inherit; background: transparent; }
     [data-theme="light"] pre.code-content { color: #0284c7; }
 
-    /* Comparison Table Container */
-    .table-container {
-      width: 100%;
-      overflow-x: auto;
-      margin-top: 8px;
+    /* Card Field Details */
+    .card-effect, .card-verify, .card-related {
+      font-size: 0.8rem; line-height: 1.4; margin-bottom: 8px; color: var(--text-muted);
     }
+    .card-effect strong, .card-verify strong, .card-related strong { color: var(--text); }
+    .card-verify {
+      background: rgba(56, 189, 248, 0.06); padding: 6px 10px; border-radius: var(--radius-sm);
+      border-left: 2px solid var(--accent-blue);
+    }
+    [data-theme="light"] .card-verify { background: rgba(3, 105, 161, 0.06); }
+
+    .card-related code {
+      font-family: var(--font-mono); font-size: 0.78rem; background: var(--bg-surface);
+      padding: 1px 4px; border-radius: 3px; border: 1px solid var(--border);
+    }
+
+    /* Comparison Table Container */
+    .table-container { width: 100%; overflow-x: auto; margin-top: 8px; margin-bottom: 8px; }
 
     .compare-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8rem;
-      min-width: 280px;
+      width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 280px;
     }
     .compare-table th {
-      text-align: left;
-      padding: 6px 8px;
-      color: var(--text-dim);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--border-subtle);
+      text-align: left; padding: 6px 8px; color: var(--text-dim); font-size: 0.7rem;
+      text-transform: uppercase; border-bottom: 1px solid var(--border-subtle);
     }
-    .compare-table td {
-      padding: 6px 8px;
-      border-bottom: 1px solid var(--border-subtle);
-    }
+    .compare-table td { padding: 6px 8px; border-bottom: 1px solid var(--border-subtle); }
 
     .badge-modern {
-      font-size: 0.68rem;
-      padding: 1px 6px;
-      border-radius: 4px;
-      background: rgba(52, 211, 153, 0.15);
-      color: var(--accent-green);
-      font-weight: 700;
+      font-size: 0.68rem; padding: 1px 6px; border-radius: 4px;
+      background: rgba(52, 211, 153, 0.15); color: var(--accent-green); font-weight: 700;
     }
     .badge-legacy {
-      font-size: 0.68rem;
-      padding: 1px 6px;
-      border-radius: 4px;
-      background: rgba(248, 113, 113, 0.15);
-      color: var(--accent-red);
-      text-decoration: line-through;
+      font-size: 0.68rem; padding: 1px 6px; border-radius: 4px;
+      background: rgba(248, 113, 113, 0.15); color: var(--accent-red); text-decoration: line-through;
     }
 
     /* Callouts */
     .callout {
-      background: rgba(255, 255, 255, 0.02);
-      border-left: 3px solid var(--accent-blue);
-      padding: 8px 12px;
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 8px;
-      line-height: 1.4;
+      background: rgba(255, 255, 255, 0.02); border-left: 3px solid var(--accent-blue);
+      padding: 8px 12px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; line-height: 1.4;
     }
     .callout.warning {
-      border-left-color: var(--accent-red);
-      background: rgba(248, 113, 113, 0.08);
-      color: #fca5a5;
+      border-left-color: var(--accent-red); background: rgba(248, 113, 113, 0.08); color: #fca5a5;
     }
-    [data-theme="light"] .callout.warning {
-      color: #991b1b;
-      background: rgba(185, 28, 28, 0.08);
-    }
-    .callout.tip {
-      border-left-color: var(--accent-green);
-      background: rgba(52, 211, 153, 0.06);
-    }
+    [data-theme="light"] .callout.warning { color: #991b1b; background: rgba(185, 28, 28, 0.08); }
+    .callout.tip { border-left-color: var(--accent-green); background: rgba(52, 211, 153, 0.06); }
 
-    /* No Results Message */
+    /* No Results */
     .no-results {
-      text-align: center;
-      padding: 40px 20px;
-      background: var(--bg-card);
-      border: 1px dashed var(--border);
-      border-radius: var(--radius-md);
-      margin-top: 20px;
+      text-align: center; padding: 40px 20px; background: var(--bg-card);
+      border: 1px dashed var(--border); border-radius: var(--radius-md); margin-top: 20px;
     }
-    .no-results p {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
+    .no-results p { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 12px; }
     .reset-btn {
-      background: var(--git-orange);
-      color: #ffffff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
+      background: var(--git-orange); color: #ffffff; border: none; padding: 8px 16px;
+      border-radius: var(--radius-sm); font-weight: 700; font-size: 0.85rem; cursor: pointer;
     }
 
-    /* Footer */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 20px;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      background: var(--bg-surface);
-      margin-top: auto;
+      border-top: 1px solid var(--border); padding: 24px 20px; text-align: center;
+      font-size: 0.85rem; color: var(--text-dim); background: var(--bg-surface); margin-top: auto;
     }
 
-    /* Print Stylesheet: Complete Reference for Wall Poster or PDF */
+    /* Print Stylesheet */
     @media print {
-      body {
-        background: #ffffff !important;
-        color: #111827 !important;
-        padding: 0 !important;
-      }
-      header.topbar, .filter-bar, .search-wrapper, .controls-group, .skip-link, .copy-btn, .mode-switcher, #noResults {
+      body { background: #ffffff !important; color: #111827 !important; padding: 0 !important; }
+      header.topbar, .task-navigator, .filter-bar, .search-wrapper, .controls-group, .skip-link, .copy-btn, .mode-switcher, #noResults {
         display: none !important;
       }
-      #beginnerPrimer {
-        display: block !important;
-        page-break-after: avoid;
-        background: #f8fafc !important;
-        border: 1px solid #cbd5e1 !important;
-      }
-      .cards-grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-      }
+      #beginnerPrimer { display: block !important; page-break-after: avoid; background: #f8fafc !important; border: 1px solid #cbd5e1 !important; }
+      .cards-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
       .card {
-        display: flex !important;
-        page-break-inside: avoid;
-        background: #ffffff !important;
-        border: 1px solid #94a3b8 !important;
-        color: #111827 !important;
-        box-shadow: none !important;
+        display: flex !important; page-break-inside: avoid; background: #ffffff !important;
+        border: 1px solid #94a3b8 !important; color: #111827 !important; box-shadow: none !important;
       }
-      .card-desc, .card-explain, .analogy-text, .callout {
-        color: #374151 !important;
-      }
-      pre.code-content {
-        background: #f1f5f9 !important;
-        color: #0f172a !important;
-        border: 1px solid #cbd5e1 !important;
-      }
-      pre.code-content code {
-        color: #0f172a !important;
-      }
-      .badge-modern, .badge-legacy {
-        border: 1px solid #64748b !important;
-      }
+      .card-scenario, .card-effect, .card-verify, .analogy-text, .callout { color: #374151 !important; }
+      pre.code-content { background: #f1f5f9 !important; color: #0f172a !important; border: 1px solid #cbd5e1 !important; }
+      pre.code-content code { color: #0f172a !important; }
     }
   </style>
 </head>
@@ -760,7 +446,7 @@
   <!-- Skip Link for Keyboard Access -->
   <a href="#mainContent" class="skip-link">Skip to main content</a>
 
-  <!-- ARIA Live Announcer for Screen Readers -->
+  <!-- ARIA Live Announcer -->
   <div id="liveAnnouncer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Top Navigation Header -->
@@ -775,9 +461,9 @@
         <h1 class="brand-title">Git<span>Simple</span></h1>
       </div>
 
-      <!-- Mode Switcher: Beginner vs Pro -->
+      <!-- Mode Switcher -->
       <div class="mode-switcher" id="modeSwitcher" role="group" aria-label="Experience Mode">
-        <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Simple language, real-world analogies, hides advanced commands">
+        <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Task-driven language, real-world analogies, hides advanced commands">
           🌱 Plain English
         </button>
         <button class="mode-btn" data-mode="pro" aria-pressed="false" title="Full developer matrix, rebase, DAG architecture, and worktrees">
@@ -785,7 +471,7 @@
         </button>
       </div>
 
-      <!-- Quick Search with Persistent Label -->
+      <!-- Quick Search -->
       <div class="search-wrapper">
         <label for="searchInput" class="search-label" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -793,7 +479,7 @@
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
         </label>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search commands &amp; modules (Press /)..." aria-label="Search command modules">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search tasks, errors, commands (Press /)..." aria-label="Search command modules">
       </div>
 
       <!-- Utilities -->
@@ -823,7 +509,26 @@
   </header>
 
   <main class="container" id="mainContent">
-    <!-- Beginner Mental Model Hero (Shown in Plain English mode) -->
+
+    <!-- TASK-FIRST QUICK NAVIGATOR ("What are you trying to do?") -->
+    <section class="task-navigator" aria-labelledby="taskNavHeading">
+      <div class="task-nav-header">
+        <h2 class="task-nav-title" id="taskNavHeading">🎯 What are you trying to do?</h2>
+        <p class="task-nav-subtitle">Click a goal to jump directly to its complete, verified workflow:</p>
+      </div>
+      <div class="task-chips">
+        <button class="task-chip" data-target="card-init">🚀 Start a new project</button>
+        <button class="task-chip" data-target="card-clone">📥 Clone an existing project</button>
+        <button class="task-chip" data-target="card-stage">✍️ Save daily work safely</button>
+        <button class="task-chip" data-target="card-branch">🌿 Create a feature branch</button>
+        <button class="task-chip" data-target="card-sync">🔄 Sync updates with GitHub</button>
+        <button class="task-chip" data-target="card-undo">🚑 Undo a mistake or discard edits</button>
+        <button class="task-chip" data-target="card-stash">⏸️ Pause work &amp; switch branches</button>
+        <button class="task-chip" data-target="card-conflict">⚠️ Resolve a merge conflict</button>
+      </div>
+    </section>
+
+    <!-- Beginner Mental Model Primer (Shown in Plain English mode) -->
     <section class="hero-primer" id="beginnerPrimer" aria-labelledby="primerHeading">
       <div class="primer-header">
         <span class="primer-badge">Zero Experience? Start Here</span>
@@ -858,7 +563,7 @@
           <div class="analogy-icon" aria-hidden="true">☁️</div>
           <div class="analogy-term">Remote &amp; Pipelines</div>
           <div class="analogy-meta">Cloud Storage &amp; Configured Robot</div>
-          <p class="analogy-text"><strong>GitHub</strong> is a cloud host for your repo. A <strong>Pipeline</strong> (like GitHub Actions) is a robot that runs automated tests and deploys, <em>if your repository has a workflow file configured</em>.</p>
+          <p class="analogy-text"><strong>GitHub</strong> is a cloud host for your repo. A <strong>Pipeline</strong> is a robot that runs automated tests and deploys, <em>if your repository has a workflow file configured</em>.</p>
         </div>
       </div>
 
@@ -867,55 +572,42 @@
         <div class="recipe-title">
           <span aria-hidden="true">🛡️</span> The Safe Daily Workflow Routine
         </div>
-        <p class="recipe-desc" style="margin-bottom: 12px; font-size: 0.85rem;">
-          Avoid blindly staging everything. Follow this verified sequence to inspect what changed, stage only intended files, review your staged diff, commit, and push when ready.
-        </p>
         <div class="recipe-steps">
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">1</span>
             <div class="recipe-action">Inspect Status</div>
             <div class="recipe-desc">See which files were modified or untracked.</div>
-            <div class="snippet-block">
-              <pre class="code-content"><code>git status</code></pre>
-            </div>
+            <div class="snippet-block"><pre class="code-content"><code>git status</code></pre></div>
           </div>
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">2</span>
             <div class="recipe-action">Stage Intended Files</div>
             <div class="recipe-desc">Add only the specific files you meant to touch.</div>
-            <div class="snippet-block">
-              <pre class="code-content"><code>git add src/app.js</code></pre>
-            </div>
+            <div class="snippet-block"><pre class="code-content"><code>git add src/app.js</code></pre></div>
           </div>
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">3</span>
             <div class="recipe-action">Review Staged Diff</div>
             <div class="recipe-desc">Verify line-by-line what will enter the commit.</div>
-            <div class="snippet-block">
-              <pre class="code-content"><code>git diff --staged</code></pre>
-            </div>
+            <div class="snippet-block"><pre class="code-content"><code>git diff --staged</code></pre></div>
           </div>
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">4</span>
             <div class="recipe-action">Seal Checkpoint</div>
             <div class="recipe-desc">Record the snapshot with a meaningful note.</div>
-            <div class="snippet-block">
-              <pre class="code-content"><code>git commit -m "feat: login"</code></pre>
-            </div>
+            <div class="snippet-block"><pre class="code-content"><code>git commit -m "feat: login"</code></pre></div>
           </div>
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">5</span>
             <div class="recipe-action">Push When Ready</div>
             <div class="recipe-desc">Publish to your remote upstream.</div>
-            <div class="snippet-block">
-              <pre class="code-content"><code>git push</code></pre>
-            </div>
+            <div class="snippet-block"><pre class="code-content"><code>git push</code></pre></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Category Filter Bar with Accessible Label -->
+    <!-- Category Filter Bar -->
     <nav class="filter-bar" id="categoryFilter" aria-label="Category filter">
       <button class="filter-pill active" data-filter="all" aria-pressed="true">All Modules</button>
       <button class="filter-pill" data-filter="essential" aria-pressed="false">Daily Essentials</button>
@@ -925,68 +617,166 @@
       <button class="filter-pill pro-only" data-filter="pro" aria-pressed="false">Advanced / Pro</button>
     </nav>
 
-    <!-- Cards Grid -->
+    <!-- STANDARDIZED COMMAND & WORKFLOW CARDS GRID -->
     <div class="cards-grid" id="cardsGrid">
 
-      <!-- Card 1: Precise Staging & Inspection -->
-      <article class="card" data-category="essential" data-keywords="save commit checkpoint status add diff staged patch inspect">
+      <!-- CARD: Start a Repository from Scratch (NEW P0) -->
+      <article class="card" id="card-init" data-category="essential" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
+        <div class="card-top">
+          <h2 class="card-title">Start a Repository from Scratch</h2>
+          <span class="card-tag">Onboarding</span>
+        </div>
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Local → Remote</span>
+          <span class="badge badge-risk-safe">Risk: Safe</span>
+        </div>
+        <div class="card-scenario">
+          <strong>When to use:</strong> You started a new project folder on your machine and want to begin tracking it with Git and connect it to GitHub.
+        </div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Initialization Sequence</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code># 1. Initialize local repository with default branch 'main'
+git init -b main
+
+# 2. Stage all initial files and make the first milestone
+git add .
+git commit -m "feat: initial project setup"
+
+# 3. Link to your empty GitHub repository and push
+git remote add origin https://github.com/username/repo.git
+git push -u origin main</code></pre>
+        </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Creates a hidden <code>.git</code> database in your folder, snapshots your initial files, and links your local <code>main</code> branch to GitHub.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git remote -v</code> and <code>git status</code> to confirm clean tree and upstream tracking.
+        </div>
+        <div class="card-related">
+          <strong>Related:</strong> <code>git clone</code> · <code>.gitignore</code>
+        </div>
+      </article>
+
+      <!-- CARD: Clone an Existing Project (NEW P0) -->
+      <article class="card" id="card-clone" data-category="essential" data-keywords="clone download github gitlab copy repo existing project setup fetch checkout local copy">
+        <div class="card-top">
+          <h2 class="card-title">Clone an Existing Project</h2>
+          <span class="card-tag">Onboarding</span>
+        </div>
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Remote → Local</span>
+          <span class="badge badge-risk-safe">Risk: Safe</span>
+        </div>
+        <div class="card-scenario">
+          <strong>When to use:</strong> You want to download a team repository or open-source project from GitHub onto your computer and start working.
+        </div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Clone &amp; Inspect</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code># 1. Download complete repository history into a new folder:
+git clone https://github.com/username/repo.git
+
+# 2. Enter directory and inspect status:
+cd repo
+git status
+
+# 3. List all local and remote branches:
+git branch -a</code></pre>
+        </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Downloads the full historical object graph, sets up <code>origin</code> remote tracking branches, and checks out the default branch.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git branch -vv</code> to see the active checked-out branch.
+        </div>
+        <div class="card-related">
+          <strong>Related:</strong> <code>git switch</code> · <code>git fetch</code>
+        </div>
+      </article>
+
+      <!-- CARD: Precise Staging & Checkpoints -->
+      <article class="card" id="card-stage" data-category="essential" data-keywords="save commit checkpoint status add diff staged patch inspect changes draft progress">
         <div class="card-top">
           <h2 class="card-title">Precise Staging &amp; Checkpoints</h2>
           <span class="card-tag">Daily Essential</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> Don't blindly bundle all files. Stage only the files ready for this specific milestone and review before committing.
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Working Tree → Index</span>
+          <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
-        
+        <div class="card-scenario">
+          <strong>When to use:</strong> You edited several files and want to seal a clean milestone snapshot containing only the changes intended for this commit.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Status, Add &amp; Diff</span>
+            <span>Status, Add &amp; Diff</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Review status of your working files
+          <pre class="code-content"><code># 1. Review status of modified files:
 git status
 
-# 2. Stage specific intended files
-git add path/to/file.js
+# 2. Stage specific intended files:
+git add src/app.js
 
-# 3. Review the exact staged snapshot
+# 3. Review the exact staged snapshot:
 git diff --staged
 
-# 4. Commit with a concise message
+# 4. Commit with a clear note:
 git commit -m "feat: add user authentication"</code></pre>
         </div>
-
+        <div class="card-effect">
+          <strong>What happens:</strong> Places file snapshots into the staging index, then seals them into an immutable cryptographic commit object.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git status</code> to confirm "nothing to commit, working tree clean" and <code>git log -1</code> to inspect the new commit.
+        </div>
         <div class="callout warning">
-          <strong>Caution on <code>git add .</code>:</strong> This command stages <em>all</em> non-ignored changes in the current directory tree. It can easily sweep in unintended scratch files or sensitive temporary files. Prefer naming files or using <code>git add -p</code> to stage hunk-by-hunk.
+          <strong>Caution on <code>git add .</code>:</strong> Stages <em>all</em> non-ignored files under the current folder. Prefer naming files or using <code>git add -p</code> to stage hunk-by-hunk.
+        </div>
+        <div class="card-related">
+          <strong>Related:</strong> <code>git diff</code> · <code>git restore --staged</code>
         </div>
       </article>
 
-      <!-- Card 2: Branches as Sandboxes -->
-      <article class="card" data-category="branch" data-keywords="branch sandbox switch test experiment create checkout">
+      <!-- CARD: Branches as Isolated Sandboxes -->
+      <article class="card" id="card-branch" data-category="branch" data-keywords="branch sandbox switch test experiment create checkout switch -c parallel feature work">
         <div class="card-top">
           <h2 class="card-title">Branches: Isolated Sandboxes</h2>
           <span class="card-tag">Branches</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> Want to test an idea without breaking the working app? A branch is an isolated sandbox. If it fails, delete it. If it works, merge it back.
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Local History</span>
+          <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
-
+        <div class="card-scenario">
+          <strong>When to use:</strong> Starting a new feature, bugfix, or experiment without risking the working production code on <code>main</code>.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Branch Navigation</span>
+            <span>Branch Navigation</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># Create and jump into a new sandbox:
+          <pre class="code-content"><code># 1. Create and switch to a new branch:
 git switch -c feature/redesign
 
-# Work safely, edit files, and commit:
+# 2. Work safely, edit files, and commit:
 git add src/redesign.css
 git commit -m "style: apply new color palette"
 
-# Return to your main production line:
+# 3. Return to main branch when ready:
 git switch main</code></pre>
         </div>
-
+        <div class="card-effect">
+          <strong>What happens:</strong> Creates a lightweight 41-byte pointer to your current commit and moves <code>HEAD</code> to track it.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git branch --show-current</code> to verify your active branch.
+        </div>
         <div class="table-container">
           <table class="compare-table">
             <thead>
@@ -1008,105 +798,128 @@ git switch main</code></pre>
         </div>
       </article>
 
-      <!-- Card 3: Undoing Mistakes & Discarding -->
-      <article class="card" data-category="undo" data-keywords="undo restore discard mistake reset revert staged unstage">
+      <!-- CARD: Undoing Mistakes Safely -->
+      <article class="card" id="card-undo" data-category="undo" data-keywords="undo restore discard mistake reset revert staged unstage accidental throw away clean edits">
         <div class="card-top">
           <h2 class="card-title">Undoing Mistakes Safely</h2>
           <span class="card-tag">Undo &amp; Recovery</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> Distinguish between un-staging a file (keeping your local edits) and discarding changes (permanently deleting edits).
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Working Tree &amp; Index</span>
+          <span class="badge badge-risk-caution">Risk: Destructive / Reversible</span>
         </div>
-
+        <div class="card-scenario">
+          <strong>When to use:</strong> You made accidental edits or staged files too early and need to back out without losing unintended work.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Restore Commands</span>
+            <span>Restore Commands</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Unstage a file (keeps your working edits untouched):
+          <pre class="code-content"><code># 1. Unstage a file (SAFE: keeps your local edits in file):
 git restore --staged &lt;filename&gt;
 
-# 2. Discard uncommitted edits to a tracked file (PERMANENT):
+# 2. Discard uncommitted edits (PERMANENT: overwrites file):
 git restore &lt;filename&gt;
 
 # 3. Undo a pushed commit safely with an inverse commit:
 git revert &lt;commit-id&gt;</code></pre>
         </div>
-
+        <div class="card-effect">
+          <strong>What happens:</strong> <code>restore --staged</code> removes files from index without touching files on disk. <code>restore</code> copies the committed version over disk.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git status</code> to confirm file state.
+        </div>
         <div class="callout warning">
-          <strong>Permanent Loss Warning:</strong> <code>git restore &lt;filename&gt;</code> permanently overwrites uncommitted working-tree edits with the last committed version. Those unstaged edits are not in Git's database and cannot be recovered!
+          <strong>Permanent Loss Warning:</strong> <code>git restore &lt;filename&gt;</code> permanently overwrites uncommitted working edits. Those unstaged edits are not saved anywhere in Git.
+        </div>
+        <div class="card-related">
+          <strong>Related:</strong> <code>git reset</code> · <code>git revert</code>
         </div>
       </article>
 
-      <!-- Card 4: Cloud Sync & Pull vs Fetch -->
-      <article class="card" data-category="cloud" data-keywords="github cloud upload download sync push pull fetch remote">
+      <!-- CARD: Working with Remotes & Team Sync -->
+      <article class="card" id="card-sync" data-category="cloud" data-keywords="github cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
         <div class="card-top">
-          <h2 class="card-title">Syncing with Remote Remotes (GitHub)</h2>
+          <h2 class="card-title">Working with Remotes &amp; Team Sync</h2>
           <span class="card-tag">Cloud &amp; Remotes</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> Send your commits to the shared cloud repository, or download team updates without disrupting your local workspace.
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Remote &amp; Local</span>
+          <span class="badge badge-risk-rev">Risk: Reversible</span>
         </div>
-
+        <div class="card-scenario">
+          <strong>When to use:</strong> Sharing your commits with teammates on GitHub/GitLab, or downloading their latest updates before merging.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Push, Fetch &amp; Pull</span>
+            <span>Fetch, Rebase &amp; Push</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># Download remote changes WITHOUT modifying local files:
+          <pre class="code-content"><code># 1. Download remote changes WITHOUT altering working files:
 git fetch origin
 
-# Download AND integrate into active branch (fetch + rebase):
+# 2. Pull & integrate linearly into your branch:
 git pull --rebase origin main
 
-# Upload your new commits to remote:
-git push origin &lt;branch-name&gt;
-
-# First-time upstream tracking:
-git push -u origin main</code></pre>
+# 3. Upload your commits to remote:
+git push origin &lt;branch-name&gt;</code></pre>
         </div>
-
+        <div class="card-effect">
+          <strong>What happens:</strong> <code>fetch</code> updates remote-tracking references (`origin/main`). <code>pull --rebase</code> replays your local commits on top of incoming work.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git status</code> to confirm your branch is up to date with <code>origin/main</code>.
+        </div>
         <div class="callout tip">
-          <strong>Fetch vs. Pull:</strong> <code>git fetch</code> is download-only and 100% safe to run anytime. <code>git pull</code> downloads <em>and</em> immediately merges or rebases into your active working directory.
+          <strong>Fetch vs. Pull:</strong> <code>git fetch</code> is download-only and 100% safe to inspect anytime without modifying local files.
         </div>
       </article>
 
-      <!-- Card 5: Pipelines & Automated CI/CD -->
-      <article class="card" data-category="cloud" data-keywords="pipeline ci cd github actions automated deploy test workflow">
+      <!-- CARD: Pipelines & Automated CI/CD -->
+      <article class="card" id="card-pipeline" data-category="cloud" data-keywords="pipeline ci cd github actions automated deploy test workflow .github/workflows gitlab robot">
         <div class="card-top">
           <h2 class="card-title">Pipelines &amp; Automated CI/CD</h2>
           <span class="card-tag">Cloud &amp; Remotes</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> Pushing code to GitHub can trigger automated robots that run tests and publish your site—<em>if a workflow is configured</em>.
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Remote Cloud</span>
+          <span class="badge badge-risk-safe">Risk: Read-Only</span>
         </div>
-        <p class="card-desc">
-          Without an explicit workflow file (such as <code>.github/workflows/deploy.yml</code> for GitHub Actions), GitHub acts solely as code storage. Pushing code only triggers checks or deployments when a CI/CD configuration file exists.
-        </p>
+        <div class="card-scenario">
+          <strong>When to use:</strong> Understanding how pushing code triggers cloud robots that test code, build assets, and deploy websites automatically.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Workflow Location</span>
+            <span>Workflow File Convention</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># Workflows reside in your repository root:
+          <pre class="code-content"><code># Workflow files reside in repository root:
 .github/workflows/deploy.yml   # GitHub Actions
 .gitlab-ci.yml                 # GitLab CI</code></pre>
         </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Without an explicit workflow file, GitHub acts solely as code storage. Pushing only triggers automated jobs if a CI/CD workflow file is configured.
+        </div>
       </article>
 
-      <!-- Card 6: Stashing (The Pause Button) -->
-      <article class="card" data-category="essential" data-keywords="stash shelf pause temporary switch untracked">
+      <!-- CARD: Stashing (The Pause Button) -->
+      <article class="card" id="card-stash" data-category="essential" data-keywords="stash shelf pause temporary switch untracked files save for later pop restore WIP emergency">
         <div class="card-top">
           <h2 class="card-title">Stashing: Temporary Work Shelving</h2>
           <span class="card-tag">Daily Essential</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> Shelve messy, half-finished edits so your working folder is clean for an urgent bug fix, then pull your work back down later.
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Working Tree &amp; Stash</span>
+          <span class="badge badge-risk-rev">Risk: Reversible</span>
         </div>
-
+        <div class="card-scenario">
+          <strong>When to use:</strong> You are halfway through coding when an urgent bugfix is requested. Shelve your uncommitted edits so your workspace is clean, then restore them later.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Stash Lifecycle</span>
+            <span>Stash Lifecycle</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <pre class="code-content"><code># 1. Stash changes (use -u to include newly created files):
@@ -1115,30 +928,36 @@ git stash push -u -m "WIP: navigation refactor"
 # 2. Your workspace is now clean. Switch branches or patch...
 git switch hotfix
 
-# 3. Return and restore your shelved changes:
+# 3. Return to branch and pop your shelved work:
 git stash pop</code></pre>
         </div>
-
+        <div class="card-effect">
+          <strong>What happens:</strong> Saves modified and untracked files into the stash stack and reverts your working tree to <code>HEAD</code>.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git stash list</code> to inspect saved stashes.
+        </div>
         <div class="callout warning">
-          <strong>Untracked Files Caveat:</strong> By default, plain <code>git stash</code> only saves tracked modifications and <em>ignores newly created untracked files</em>. Always add <code>-u</code> (or <code>--include-untracked</code>) if you created new files.
+          <strong>Untracked Files Caveat:</strong> Default <code>git stash</code> ignores new untracked files. Always pass <code>-u</code> if you created new files.
         </div>
       </article>
 
-      <!-- Card 7: Realistic Merge Conflicts -->
-      <article class="card" data-category="branch" data-keywords="conflict merge clash team overlapping markers">
+      <!-- CARD: Merge Conflict Resolution -->
+      <article class="card" id="card-conflict" data-category="branch" data-keywords="conflict merge clash team overlapping markers resolve failed merge abort clash git merge --continue">
         <div class="card-top">
           <h2 class="card-title">Merge Conflict Resolution</h2>
           <span class="card-tag">Branches</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> When two branches change the same lines, Git marks the spot with conflict markers and waits for you to pick the correct code.
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Working Tree &amp; History</span>
+          <span class="badge badge-risk-rev">Risk: Reversible</span>
         </div>
-
-        <p class="card-desc">Git injects clean conflict markers into the file without explanatory text:</p>
-
+        <div class="card-scenario">
+          <strong>When to use:</strong> Git halts a merge or rebase because two branches altered identical lines and requires you to pick the right code.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">File with Conflict Markers</span>
+            <span>Realistic Conflict Markers</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <pre class="code-content"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
@@ -1147,34 +966,42 @@ const apiEndpoint = "https://api.v2.internal";
 const apiEndpoint = "https://api.v3.production";
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/endpoint-upgrade</code></pre>
         </div>
-
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Resolution Procedure</span>
+            <span>Resolution Steps</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Edit the file: remove the 3 marker lines and keep the right code
-# 2. Mark the conflict as resolved:
+          <pre class="code-content"><code># 1. Edit file: delete the 3 marker lines and keep the right code
+# 2. Mark conflict resolved:
 git add src/config.js
 
-# 3. Finalize the merge:
-git merge --continue   # Or 'git merge --abort' to cancel</code></pre>
+# 3. Finalize merge (or abort if you need to rethink):
+git merge --continue   # Or 'git merge --abort'</code></pre>
+        </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Staging the cleaned file signals Git that the conflict is resolved. Finalizing creates the merge commit.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git status</code> to confirm all merge conflicts are cleared.
         </div>
       </article>
 
-      <!-- Card 8: Interactive Rebase (Pro Only) -->
-      <article class="card pro-only" data-category="pro" data-keywords="rebase interactive squash clean commits shared history">
+      <!-- CARD: Interactive Rebase (Pro Only) -->
+      <article class="card pro-only" id="card-rebase" data-category="pro" data-keywords="rebase interactive squash clean commits shared history fixup reword rewrite history polish">
         <div class="card-top">
           <h2 class="card-title">Interactive Rebase (Commit Polish)</h2>
           <span class="card-tag">Advanced / Pro</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> Clean up and squash micro-commits on your local branch before opening a Pull Request.
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Local History</span>
+          <span class="badge badge-risk-rewrite">Risk: History Rewriting</span>
         </div>
-
+        <div class="card-scenario">
+          <strong>When to use:</strong> Squashing WIP micro-commits into clean milestones before opening a Pull Request for your team.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Rebase Session</span>
+            <span>Rebase Session</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <pre class="code-content"><code># Rebase the last 3 local commits:
@@ -1188,28 +1015,36 @@ git rebase -i HEAD~3
 git rebase --continue
 git rebase --abort   # Safe escape hatch</code></pre>
         </div>
-
+        <div class="card-effect">
+          <strong>What happens:</strong> Reconstructs a linear commit sequence with updated parent hashes.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git log --oneline -n 5</code> to inspect the newly squashed history.
+        </div>
         <div class="callout warning">
-          <strong>Golden Rule:</strong> Never rebase commits that have already been pushed to a shared public branch. Rebase rewrites commit hashes; doing so on shared branches breaks your teammates' histories.
+          <strong>Golden Rule:</strong> Never rebase commits that have already been pushed to a shared public branch. Rewriting shared history breaks teammates' local branches.
         </div>
       </article>
 
-      <!-- Card 9: Detached HEAD Recovery (Pro Only) -->
-      <article class="card pro-only" data-category="pro" data-keywords="detached head recovery pointer hash commit switch">
+      <!-- CARD: Detached HEAD Recovery (Pro Only) -->
+      <article class="card pro-only" id="card-detached" data-category="pro" data-keywords="detached head recovery pointer hash commit switch lost commit missing work escape">
         <div class="card-top">
           <h2 class="card-title">Detached HEAD Recovery</h2>
           <span class="card-tag">Advanced / Pro</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> Occurs when you inspect a specific commit hash rather than a branch pointer.
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: HEAD Pointer</span>
+          <span class="badge badge-risk-rev">Risk: Reversible</span>
         </div>
-
+        <div class="card-scenario">
+          <strong>When to use:</strong> You checked out a raw commit hash instead of a branch name, and need to safely save any test commits you made.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Diagnosis &amp; Safe Exit</span>
+            <span>Diagnosis &amp; Safe Exit</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># Check if detached:
+          <pre class="code-content"><code># 1. Check if detached:
 git status  # Shows: "HEAD detached at a1b2c3d"
 
 # Exit A: Discard experiments and return to safety:
@@ -1218,37 +1053,52 @@ git switch main
 # Exit B: Preserve commits made while detached:
 git switch -c recovery-branch</code></pre>
         </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Creating a branch attaches a named pointer to your current detached commit so garbage collection will not prune it.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git branch --show-current</code> to verify you are back on a named branch.
+        </div>
       </article>
 
-      <!-- Card 10: Git Worktrees (Pro Only) -->
-      <article class="card pro-only" data-category="pro" data-keywords="worktree parallel multiple folders simultaneous branches">
+      <!-- CARD: Git Worktrees (Pro Only) -->
+      <article class="card pro-only" id="card-worktree" data-category="pro" data-keywords="worktree parallel multiple folders simultaneous branches hotfix concurrent separate directory">
         <div class="card-top">
           <h2 class="card-title">Git Worktrees (Parallel Folders)</h2>
           <span class="card-tag">Advanced / Pro</span>
         </div>
-        <div class="card-explain">
-          <strong>In plain English:</strong> Check out two different branches simultaneously into separate directories without re-cloning.
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Working Trees &amp; Branches</span>
+          <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
-
+        <div class="card-scenario">
+          <strong>When to use:</strong> Checking out two different branches simultaneously into separate directories on your computer without re-cloning.
+        </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span class="snippet-label">Worktree Management</span>
+            <span>Worktree Management</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># Check out hotfix into a sibling folder:
+          <pre class="code-content"><code># 1. Check out hotfix branch into sibling folder:
 git worktree add ../project-hotfix hotfix-branch
 
-# List all active directories:
+# 2. List all active directory locations:
 git worktree list
 
-# Remove folder when finished:
+# 3. Clean up folder when finished:
 git worktree remove ../project-hotfix</code></pre>
+        </div>
+        <div class="card-effect">
+          <strong>What happens:</strong> Links multiple working directories to the same underlying <code>.git</code> repository database.
+        </div>
+        <div class="card-verify">
+          <strong>Verify result:</strong> Run <code>git worktree list</code> to verify registered directory paths.
         </div>
       </article>
 
     </div>
 
-    <!-- Empty State: Displayed when search/filters yield zero results -->
+    <!-- Empty State Message -->
     <div id="noResults" class="no-results" style="display: none;" role="status">
       <p>No command modules match your current search and filter combination.</p>
       <button id="resetFiltersBtn" class="reset-btn">Clear Search &amp; Reset Filters</button>
@@ -1278,11 +1128,10 @@ git worktree remove ../project-hotfix</code></pre>
       try {
         localStorage.setItem(key, val);
       } catch (e) {
-        // Silently ignore storage quota or permission errors
+        // Silently ignore storage errors
       }
     }
 
-    // Accessible Screen Reader Announcer
     function announceState(message) {
       const announcer = document.getElementById('liveAnnouncer');
       if (announcer) {
@@ -1300,6 +1149,7 @@ git worktree remove ../project-hotfix</code></pre>
     const cards = document.querySelectorAll('.card');
     const noResultsElem = document.getElementById('noResults');
     const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+    const taskChips = document.querySelectorAll('.task-chip');
 
     // 1. Theme Management (Sun / Moon SVG reflection)
     const sunIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -1356,7 +1206,8 @@ git worktree remove ../project-hotfix</code></pre>
         const content = card.innerText.toLowerCase();
         const isPro = card.classList.contains('pro-only');
 
-        if (currentMode === 'beginner' && isPro) {
+        // In beginner mode without an active search query, hide pro-only cards
+        if (currentMode === 'beginner' && isPro && !query) {
           card.style.display = 'none';
           return;
         }
@@ -1391,13 +1242,11 @@ git worktree remove ../project-hotfix</code></pre>
         btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       });
 
-      // Show/hide pro-only filter pill
       const proOnlyFilterPill = document.querySelector('.filter-pill[data-filter="pro"]');
       if (proOnlyFilterPill) {
         proOnlyFilterPill.style.display = mode === 'pro' ? 'inline-block' : 'none';
       }
 
-      // CRITICAL FIX: If switching to beginner mode while pro filter was active, reset to 'all'
       if (mode === 'beginner' && activeFilter === 'pro') {
         activeFilter = 'all';
         filterPills.forEach(pill => {
@@ -1446,7 +1295,6 @@ git worktree remove ../project-hotfix</code></pre>
       }
     });
 
-    // Reset Filters Button Handler
     if (resetFiltersBtn) {
       resetFiltersBtn.addEventListener('click', () => {
         if (searchInput) searchInput.value = '';
@@ -1461,7 +1309,37 @@ git worktree remove ../project-hotfix</code></pre>
       });
     }
 
-    // 6. Dependable Copy Snippet with Fallback & Visual Feedback
+    // 6. Task-Navigator Quick-Jump Handler
+    taskChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const targetId = chip.getAttribute('data-target');
+        const targetCard = document.getElementById(targetId);
+        if (!targetCard) return;
+
+        // If card is pro-only and current view is beginner, switch to pro view
+        if (targetCard.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
+          setMode('pro');
+        }
+
+        // Reset search query and filter to ensure card is visible
+        if (searchInput) searchInput.value = '';
+        activeFilter = 'all';
+        filterPills.forEach(p => {
+          const isAll = p.getAttribute('data-filter') === 'all';
+          p.classList.toggle('active', isAll);
+          p.setAttribute('aria-pressed', isAll ? 'true' : 'false');
+        });
+        filterCards();
+
+        // Scroll into view with smooth animation & visual highlight
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetCard.classList.add('highlighted');
+        announceState(`Jumped to ${targetCard.querySelector('.card-title')?.innerText || 'module'}`);
+        setTimeout(() => { targetCard.classList.remove('highlighted'); }, 2200);
+      });
+    });
+
+    // 7. Dependable Copy Snippet
     function copySnippet(btn) {
       const codeElem = btn.closest('.snippet-block')?.querySelector('pre.code-content code') ||
                        btn.closest('.snippet-block')?.querySelector('pre.code-content');
