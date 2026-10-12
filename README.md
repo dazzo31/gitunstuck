@@ -20,21 +20,24 @@ Examples target Git 2.28 or later (switch/restore require 2.23; init -b requires
 
 ## Development and tests
 
-Requires Node 24 and Git on PATH. No application dependency or build step is required for the existing static site.
+Requires Node 24 and Git on PATH. The application has no runtime dependencies. Playwright and axe-core are pinned development dependencies with a committed lockfile.
 
 From Bash or PowerShell:
 
 ```text
-node --test tests/baseline.test.mjs tests/baseline-git.test.mjs tests/foundation.test.mjs
+npm ci --ignore-scripts
+npm test
+npm run check
+npm run build
 ```
 
 Baseline tests intentionally reproduce defects against frozen original source fixtures. Foundation tests check corrected application behavior. Git fixtures run only in disposable temporary repositories and never touch the development checkout or live remotes.
 
-CI browser checks run on isolated GitHub-hosted runners. Baseline coverage includes desktop/mobile, dark/light and both explanation modes under the Pages `/gitunstuck/` subpath. These checks do not replace human screen-reader or visual review.
+CI browser checks run on isolated GitHub-hosted runners. Baseline and corrected behavior coverage includes desktop/mobile, dark/light and both explanation modes under the Pages `/gitunstuck/` subpath. Current behavior checks include clipboard text, filter composition, injection resistance, theme persistence, print and serious/critical automated accessibility violations. These checks do not replace human screen-reader or visual review. Browser setup on an ordinary local development machine: `npx playwright install chromium`; browser harness currently runs only in CI.
 
 ## Hosting
 
-GitHub Pages serves a static site; the stable deploy workflow is currently on main. Development branch checks do not deploy the site. Before integrating development changes, publish only a dedicated public build directory after successful quality checks. See `docs/IMPLEMENTATION_STATUS.md` for the actual phase status and outstanding work.
+GitHub Pages serves a static site. The updated deployment workflow requires the reusable quality checks to pass, runs only from main, and publishes `dist` rather than the full repository. Development branch checks do not deploy the site. See `docs/IMPLEMENTATION_STATUS.md` for actual phase status and outstanding work. No production deployment has been made from this work.
 
 ## License status
 

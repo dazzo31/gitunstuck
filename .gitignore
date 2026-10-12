@@ -13,4 +13,7 @@ desktop.ini
 dist/
 build/
 *.tmp
+node_modules/
+test-results/
+playwright-report/
 

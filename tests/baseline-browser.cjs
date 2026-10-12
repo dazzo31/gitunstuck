@@ -5,11 +5,12 @@ const { readFileSync } = require('node:fs');
 const { createServer } = require('node:http');
 const { resolve } = require('node:path');
 const assert = require('node:assert/strict');
+const axe = require('axe-core');
 
 (async () => {
   const root = resolve(__dirname, '..');
   const server = createServer((req, res) => {
-    const paths = { '/gitunstuck/': [process.env.BASELINE_FIXTURE ? 'tests/fixtures/baseline-index.html' : 'index.html', 'text/html'], '/gitunstuck/favicon.svg': ['favicon.svg', 'image/svg+xml'] };
+    const paths = { '/gitunstuck/': [process.env.BASELINE_FIXTURE ? 'tests/fixtures/baseline-index.html' : 'dist/index.html', 'text/html'], '/gitunstuck/favicon.svg': ['dist/favicon.svg', 'image/svg+xml'] };
     const asset = paths[new URL(req.url, 'http://localhost').pathname];
     if (!asset) { res.writeHead(404); res.end(); return; }
     res.setHeader('Content-Type', asset[1]); res.end(readFileSync(resolve(root, asset[0])));
@@ -21,6 +22,9 @@ const assert = require('node:assert/strict');
     let passed = 0;
     for (const width of [1440, 390]) for (const theme of ['dark', 'light']) for (const mode of ['beginner', 'pro']) {
       const context = await browser.newContext({ viewport: { width, height: 900 }, colorScheme: theme });
+      await context.addInitScript(() => {
+        Object.defineProperty(navigator, 'clipboard', { value: { writeText: async text => { window.copiedSnippet = text; } } });
+      });
       const page = await context.newPage(); const errors = [];
       page.on('pageerror', e => errors.push(e.message));
       await page.goto(`http://127.0.0.1:${server.address().port}/gitunstuck/`);
@@ -46,6 +50,21 @@ const assert = require('node:assert/strict');
         assert.equal(await page.locator('#treeSolutionPanel img').count(), 0);
         assert.equal(await page.locator('#treeSolutionPanel code').textContent(), '<img src=x onerror=alert(1)>');
         await page.locator('[data-location="staged"]').click();
+        const expectedCopy = await page.locator('#treeSolutionPanel code').textContent();
+        await page.locator('#treeSolutionPanel .copy-btn').click();
+        assert.equal(await page.evaluate(() => window.copiedSnippet), expectedCopy.trim());
+        await page.locator('#themeToggle').click();
+        await page.reload();
+        assert.equal(await page.locator('html').getAttribute('data-theme'), theme === 'dark' ? 'light' : 'dark');
+        await page.locator('#themeToggle').click();
+        await page.locator(`[data-mode="${mode}"]`).click();
+        await page.addScriptTag({ content: axe.source });
+        const violations = await page.evaluate(async () => (await axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] } })).violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => n.target) })));
+        console.log('ACCESSIBILITY_OBSERVATION', JSON.stringify({ width, theme, mode, violations }));
+        assert.deepEqual(violations.filter(v => ['serious', 'critical'].includes(v.impact)), [], 'Serious/critical accessibility gate');
+        await page.emulateMedia({ media: 'print' });
+        assert.equal(await page.locator('.topbar').evaluate(e => getComputedStyle(e).display), 'none');
+        await page.emulateMedia({ media: 'screen' });
       }
       await page.locator('.graph-tab-btn[data-scenario="merge"]').click();
       assert.equal(await page.locator('#graphSvgContainer svg').count(), 1);

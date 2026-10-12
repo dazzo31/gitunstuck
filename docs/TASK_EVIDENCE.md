@@ -24,3 +24,17 @@ Sources consulted: official git-restore, git-revert, git-stash, git-reset, git-r
 Browser tests run in GitHub Actions, not through an unsupported local preview. Baseline tests are frozen against fixtures; current source must independently pass foundation regressions. No production deployment or main-branch change is included.
 
 Phase 1 gate: CI run https://github.com/dazzo31/gitunstuck/actions/runs/38310871166 passed 33 source/Git checks and 16 browser matrix cases (8 baseline, 8 corrected). Final force-push wording uses explicit lease prerequisites, explains background-fetch caveat, and removes one-click copying; locally rechecked 33/33. No independent peer review or human screen-reader test claimed. License provenance is explicitly unresolved, rather than creating an unverified LICENSE.
+
+## Phase 2 — gate pending CI
+
+GU-0201: package.json declares Node 24, pinned Playwright 1.56.1 and axe-core 4.10.3; npm generated package-lock.json with integrity hashes. `npm install --package-lock-only --ignore-scripts --no-audit --no-fund` exited 0. Bash/PowerShell setup documented.
+
+GU-0202: foundation tests cover literal rendering, hostile values, filter AND composition, corrected recovery semantics and overlapping effects; 18 current-source tests plus 12 frozen baseline checks. Phase 3 will add schema validation tests when schemas exist.
+
+GU-0203: browser harness serves only the public build at /gitunstuck/ and adds clipboard-argument verification through a browser API stub, theme persistence/reload, printable layout and axe serious/critical gates. Browser runtime remains CI-only; no local browser run claimed. OS clipboard and human screen-reader review remain unverified.
+
+GU-0204: 15 isolated real-Git scenarios cover index/working tree, soft/mixed/hard reset, amend, revert success and conflict, detached rescue, reflog, merge/rebase/cherry-pick conflicts and abort, original-branch stash, divergent push using a disposable bare remote, and unborn HEAD. Git environment overrides and inherited Git variables are isolated; hooks disabled. Initial detached fixture expected the wrong non-quiet symbolic-ref exit status; corrected to --quiet. Final `npm test`: 45 passed, 0 failed, exit 0.
+
+GU-0205: `npm run check` and `npm run build` exited 0. Checks inspect IDs, task targets, local assets, JSON-LD and executable inline JavaScript. Build explicitly excludes tests, planning docs and Git metadata. Automated axe reports all violations and fails serious/critical results; moderate/minor issues are recorded for Phase 4. This is basic validation, not full HTML standards or WCAG certification.
+
+GU-0206: quality.yml runs on v2.0 pushes/PRs and supports workflow_call. deploy.yml requires the reusable quality job, restricts deployment to main, scopes write permissions to its deploy job, and uploads dist only. Actual main deployment is not authorized or performed. Final CI verification pending.
