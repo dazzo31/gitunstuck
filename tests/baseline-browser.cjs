@@ -11,7 +11,11 @@ const axe = require('axe-core');
   const root = resolve(__dirname, '..');
   const server = createServer((req, res) => {
     const paths = { '/gitunstuck/': [process.env.BASELINE_FIXTURE ? 'tests/fixtures/baseline-index.html' : 'dist/index.html', 'text/html'], '/gitunstuck/favicon.svg': ['dist/favicon.svg', 'image/svg+xml'] };
-    const asset = paths[new URL(req.url, 'http://localhost').pathname];
+    const pathname = new URL(req.url, 'http://localhost').pathname;
+    let asset = paths[pathname];
+    if (!asset && /^\/gitunstuck\/assets\/[a-zA-Z0-9_./-]+\.(css|js|mjs|json)$/.test(pathname) && !pathname.includes('..')) {
+      asset = ['dist/' + pathname.slice('/gitunstuck/'.length), pathname.endsWith('.css') ? 'text/css' : pathname.endsWith('.json') ? 'application/json' : 'text/javascript'];
+    }
     if (!asset) { res.writeHead(404); res.end(); return; }
     res.setHeader('Content-Type', asset[1]); res.end(readFileSync(resolve(root, asset[0])));
   });
@@ -46,7 +50,7 @@ const axe = require('axe-core');
         assert.equal(await page.locator('.card:visible').count(), 0, 'Search cannot override category');
         await page.locator('#resetFiltersBtn').click();
         await page.locator(`[data-mode="${mode}"]`).click();
-        await page.evaluate(() => { undoSolutions.unstaged.code = '<img src=x onerror=alert(1)>'; renderUndoSolution('unstaged'); });
+        await page.evaluate(() => { window.GitUnstuckKnowledge.undoSolutions.unstaged.code = '<img src=x onerror=alert(1)>'; window.GitUnstuck.renderUndoSolution('unstaged'); });
         assert.equal(await page.locator('#treeSolutionPanel img').count(), 0);
         assert.equal(await page.locator('#treeSolutionPanel code').textContent(), '<img src=x onerror=alert(1)>');
         await page.locator('[data-location="staged"]').click();

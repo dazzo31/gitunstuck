@@ -1,6 +1,9 @@
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import knowledge from '../assets/js/knowledge.mjs';
+import { validateKnowledge } from '../assets/js/schema.mjs';
 const html = readFileSync('index.html', 'utf8');
 assert.match(html, /<html[^>]*lang="en"/);
 assert.match(html, /name="viewport"/);
@@ -17,4 +20,10 @@ for (const m of html.matchAll(/(?:href|src)="([^"#]+)"/g)) {
   assert.ok(existsSync(m[1].split('#')[0]), `Missing local asset ${m[1]}`);
 }
 assert.ok(!html.includes('eval('), 'Dynamic code execution is forbidden');
+validateKnowledge(knowledge);
+for (const file of readdirSync('assets/js').filter(f => /\.m?js$/.test(f))) {
+  const source = readFileSync(`assets/js/${file}`, 'utf8');
+  assert.equal(spawnSync(process.execPath, ['--check', `assets/js/${file}`]).status, 0, file);
+  assert.ok(!source.includes('eval('), 'No eval in app source');
+}
 console.log('CHECK: HTML structure, IDs, task targets, local assets, JSON-LD and inline JS passed.');

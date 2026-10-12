@@ -2,9 +2,15 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import knowledge from '../assets/js/knowledge.mjs';
+import { matchesFilters } from '../assets/js/filter.mjs';
+import { textElement } from '../assets/js/dom.mjs';
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const script = html.match(/<script>\s*([\s\S]*?)<\/script>/)[1];
-const section = (a, b) => script.slice(script.indexOf(a), script.indexOf(b));
+const script = readFileSync(new URL('../assets/js/app.mjs', import.meta.url), 'utf8');
+const knowledgeSource = readFileSync(new URL('../assets/js/knowledge.mjs', import.meta.url), 'utf8');
+const section = (a, b) => a === 'const undoSolutions ='
+  ? `const undoSolutions = ${JSON.stringify(knowledge.undoSolutions)};\n` + (b === 'function renderUndoSolution' ? '' : script.slice(script.indexOf('function renderUndoSolution'), script.indexOf(b)))
+  : script.slice(script.indexOf(a), script.indexOf(b));
 class Node {
   constructor(tag) { this.tag = tag; this.children = []; this.attributes = {}; }
   set innerHTML(_) { throw new Error('Text renderer must not use innerHTML'); }
@@ -18,7 +24,7 @@ for (const key of ['unstaged', 'staged', 'local-commit', 'pushed-commit', 'lost-
   test(`recovery ${key}: placeholders survive text-only rendering`, () => {
     const panel = new Node('div');
     const expected = vm.runInNewContext(section('const undoSolutions =', 'treeChoiceBtns.forEach') + `\nrenderUndoSolution('${key}'); undoSolutions['${key}'].code;`, {
-      treeSolutionPanel: panel, document: { createElement: tag => new Node(tag) }, copySnippet() {}
+      treeSolutionPanel: panel, document: { createElement: tag => new Node(tag) }, copySnippet() {}, textElement
     });
     assert.equal(flatten(panel).find(n => n.tag === 'code').textContent, expected);
     assert.ok(flatten(panel).some(n => n.className === 'callout warning'));
@@ -27,13 +33,13 @@ for (const key of ['unstaged', 'staged', 'local-commit', 'pushed-commit', 'lost-
 test('hostile recipe text cannot become elements', () => {
   const panel = new Node('div'); const hostile = '<img src=x onerror=alert(1)>';
   vm.runInNewContext(section('const undoSolutions =', 'treeChoiceBtns.forEach') + `\nundoSolutions.unstaged.code = ${JSON.stringify(hostile)}; renderUndoSolution('unstaged');`, {
-    treeSolutionPanel: panel, document: { createElement: tag => new Node(tag) }, copySnippet() {}
+    treeSolutionPanel: panel, document: { createElement: tag => new Node(tag) }, copySnippet() {}, textElement
   });
   assert.equal(flatten(panel).find(n => n.tag === 'code').textContent, hostile);
   assert.ok(!flatten(panel).some(n => n.tag === 'img'));
 });
 test('current application compiles and retains all baseline card IDs', () => {
-  assert.doesNotThrow(() => new vm.Script(script));
+  assert.doesNotThrow(() => new vm.Script(script.replace(/^import .*;$/gm, '')));
   const baseline = readFileSync(new URL('fixtures/baseline-index.html', import.meta.url), 'utf8');
   for (const m of baseline.matchAll(/<article class="card[^>]*id="([^"]+)"/g)) assert.ok(html.includes(`id="${m[1]}"`));
 });
@@ -51,7 +57,7 @@ for (const [category, risk, query, visible] of [
   vm.runInNewContext(section('let activeFilter =', '// 4. View Switcher') + `\nactiveFilter=${JSON.stringify(category)}; activeRiskFilter=${JSON.stringify(risk)}; filterCards();`, {
     searchInput: { value: query }, htmlElem: { getAttribute: () => 'pro' },
     document: { body: { classList: { add() {}, remove() {} } } }, cards: [card],
-    noResultsElem: { style: {} }, searchFeedbackElem: null, searchFeedbackTextElem: null, announceState() {}
+    noResultsElem: { style: {} }, searchFeedbackElem: null, searchFeedbackTextElem: null, announceState() {}, matchesFilters
   });
   assert.equal(card.style.display, visible ? 'flex' : 'none');
 });
@@ -63,7 +69,7 @@ test('recovery guidance distinguishes index, conflicts, retention and shared his
   assert.ok(!data['pushed-commit'].code.includes('origin main'));
   assert.match(data['local-commit'].warning, /HEAD~1 requires a parent/);
   assert.match(data['lost-reflog'].warning, /discarded unstaged/);
-  assert.ok(!html.includes('Safe (No Conflicts)'));
+  assert.ok(!knowledgeSource.includes('Safe (No Conflicts)'));
   assert.ok(!html.includes('with zero data loss'));
 });
 test('stash, branch and tag recipes have explicit prerequisites and substitution', () => {

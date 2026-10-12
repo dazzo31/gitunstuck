@@ -42,3 +42,21 @@ GU-0206: quality.yml runs on v2.0 pushes/PRs and supports workflow_call. deploy.
 ### GU-0205 accessibility investigation and revised bounded fix
 
 CI 38311554873 failed the serious/critical gate on existing active-button contrast and non-focusable code scrollers. The first correction fixed dark desktop contexts. CI 38311871069 ran all eight contexts and narrowed remaining failures to light graph selection/command-chip contrast and mobile graph-wrapper focus. No later-phase feature was started. Revised fix: explicit light-chip foreground, uniform high-contrast graph selection, named keyboard-focusable graph region. Gates remain enabled; no violations are suppressed. CI rerun pending. Local 45/45, content/build checks exit 0. This records both failures rather than claiming earlier runs passed.
+
+Phase 2 final gate: https://github.com/dazzo31/gitunstuck/actions/runs/38312113731 succeeded at 82f2a7bf1dd5e84c61bf2f05b1d58f0da484f079. 45 source/Git checks, 8 frozen baseline and 8 current-browser scenarios, content/public build and serious/critical axe checks all pass. Progression to Phase 3 is now permitted.
+
+## Phase 3 — implementation verified locally; CI gate pending
+
+GU-0301: docs/decisions/001-static-modules.md records native ES modules, relative Pages asset paths, zero runtime dependencies, hash routing target and explicit compatibility API.
+
+GU-0302: CSS extracted to assets/css/site.css, existing controller to app.mjs, trusted content to knowledge.mjs, filtering to filter.mjs and text construction to dom.mjs. All 17 legacy card IDs and task targets remain. Existing static reference content stays available without JavaScript.
+
+GU-0303: schema.mjs validates command/workflow, observation, risk and provider models. Rejects malformed metadata, duplicate IDs, missing command refs, unsafe source protocols, executable SVG and uncontrolled explanation markup. No schema dependency added. Observation distinguishes known/unknown/not-applicable/contradictory. Tests exercise real validator rejection paths.
+
+GU-0304: 18 literal snippets and 17 workflow metadata entries are canonical definitions. Runtime uses canonical snippet text; parity tests compare all 18 snippets with no-JavaScript HTML fallback. Five recovery and five graph definitions extracted without text changes. No legacy anchor renamed.
+
+GU-0305: controller uses closure state and explicit copy/UI compatibility adapters; pure matching and text DOM helpers are separate. User text cannot enter trusted SVG/inline markup. Sources are HTTPS-validated. No eval/dynamic user execution introduced.
+
+GU-0306: architecture and contributor guidance document boundaries, content authoring, safety review and test/build process. No proposed parser, recovery engine or simulator is described as already implemented.
+
+Local verification: `npm test` 60 passed, 0 failed, exit 0; `npm run check`, `npm run build`, `git diff --check` exit 0. CI/browser parity gate pending; do not advance until it succeeds.
