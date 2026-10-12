@@ -1773,8 +1773,10 @@ git rebase -i HEAD~3
 # squash = combine into previous commit &amp; merge message
 # fixup  = combine into previous commit &amp; discard message
 
-git rebase --continue
-git rebase --abort   # Safe escape hatch</code></pre>
+# After resolving and staging any conflicts, choose continuation:
+# git rebase --continue
+# Or request cancellation instead (inspect status afterwards):
+# git rebase --abort</code></pre>
         </div>
         <div class="card-effect">
           <strong>What happens:</strong> Reconstructs a linear commit sequence with updated parent hashes.
@@ -2008,7 +2010,7 @@ git tag --sort=version:refname -n 1</code></pre>
       <!-- CARD 16: Safe Force-Push (--force-with-lease) (Phase 5 Pro) -->
       <article class="card pro-only" id="card-force-lease" data-category="cloud" data-effects="history-rewrite remote-publish data-loss-potential" data-keywords="force push force-with-lease pr rebase pull request overwrite team safe lease reject git push -f">
         <div class="card-top">
-          <h2 class="card-title">Safe Force-Push (--force-with-lease)</h2>
+          <h2 class="card-title">Force-Push with an Explicit Lease</h2>
           <span class="card-tag">PR &amp; Team Hygiene</span>
         </div>
         <div class="card-meta-bar">
@@ -2016,23 +2018,26 @@ git tag --sort=version:refname -n 1</code></pre>
           <span class="badge badge-risk-caution">Effects: Remote publish; history rewrite; possible loss</span>
         </div>
         <div class="card-scenario">
-          <strong>When to use:</strong> Updating a pull request branch after rebasing or squashing local commits, without the danger of destroying teammates' pushed work.
+          <strong>When to use:</strong> A coordinated update to an exclusively owned review branch after a deliberate rewrite. A lease does not establish ownership or guarantee that teammates' work is preserved.
         </div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span>Safe PR Force-Push</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+            <span>Inspect and Coordinate Before Rewriting</span>
           </div>
-          <pre class="code-content"><code># Safely push rebased branch to remote pull request:
-git push --force-with-lease origin feature/auth
+          <pre class="code-content"><code># Inspect repository and remote first:
+git status
+git branch -vv
+git remote -v
 
-# NEVER use raw 'git push --force' on shared repositories!</code></pre>
+# After coordination, use verified values and expected remote object ID:
+# git push --force-with-lease=refs/heads/&lt;remote-branch&gt;:&lt;expected-oid&gt; &lt;remote&gt; HEAD:refs/heads/&lt;remote-branch&gt;
+# Do not execute while any prerequisite remains unknown.</code></pre>
         </div>
         <div class="card-effect">
-          <strong>What happens:</strong> Git verifies if the remote branch has received commits from teammates since your last fetch. If someone else pushed work, Git refuses the push instead of blindly overwriting it.
+          <strong>What happens:</strong> An explicit lease checks the remote reference against the expected object ID you deliberately verified. The shorthand lease depends on local tracking refs and may be weakened by background fetches. Even a matching lease can overwrite wanted history.
         </div>
         <div class="card-verify">
-          <strong>Verify result:</strong> Git responds with <code>[forced update]</code> only if your local ref was synchronized with remote.
+          <strong>Verify result:</strong> Inspect the remote branch and intended history after publication. If rejected, stop and inspect new remote commits; do not simply refresh the lease and overwrite them.
         </div>
         <div class="card-related">
           <strong>Related:</strong> <code>git rebase -i</code> · <code>git fetch origin</code>
