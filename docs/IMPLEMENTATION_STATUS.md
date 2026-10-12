@@ -7,8 +7,8 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 - Baseline repository revision: `bf839df2fe30001824fa5068ce471046925a186f`
 - Current working branch: `v2.0` (remote); isolated local worktree `v2.0-work`
 - Working tree at start: clean
-- Current phase: `5 — status interpretation`
-- Current active task: `GU-0501`
+- Current phase: `6 — guided recovery`
+- Current active task: `GU-0601`
 - Last verified test command: `node --test tests/baseline.test.mjs tests/baseline-git.test.mjs` — 15 passed, 0 failed, exit 0
 - Last phase gate: `PASS` — baseline CI run 38310170424: 15 source/Git tests and 8 browser matrix cases passed
 
@@ -49,12 +49,12 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 | 4 | GU-0404 | Create stepper/diagnostic panels with distinct observation, action, expected outcome, danger and alternative sections | PASS | docs/TASK_EVIDENCE.md; CI 38314289366 |
 | 4 | GU-0405 | Add shell selector (PowerShell/Bash/CMD) and provider selector (GitHub/GitLab/Bitbucket/generic) | PASS | docs/TASK_EVIDENCE.md; CI 38314289366 |
 | 4 | GU-0406 | Accessibility audit: native semantic controls, labels, focus/keyboard order, accessible SVG explanations, reduced motion, color-independent danger labels, WCAG 2 | PASS | docs/TASK_EVIDENCE.md; CI 38314289366 |
-| 5 | GU-0501 | Support git status --porcelain=v2 --branch as canonical machine input and a clearly scoped human-friendly git status -sb subset | NOT_STARTED | — |
-| 5 | GU-0502 | Parse branch/upstream, detached/unborn HEAD, ahead/behind, index and worktree changes, untracked, rename, conflicts and supported submodule indications | NOT_STARTED | — |
-| 5 | GU-0503 | Distinguish **freshness unknown** and **remote state unknown**; status is not a live host query | NOT_STARTED | — |
-| 5 | GU-0504 | When status is insufficient, issue specific read-only diagnostics (e | NOT_STARTED | — |
-| 5 | GU-0505 | Build client-side paste UI with sanitization, redaction hints, size limits, empty-state and clear/reset | NOT_STARTED | — |
-| 5 | GU-0506 | Add golden fixtures across supported Git versions and formats; test status permutations and recovery from malformed input | NOT_STARTED | — |
+| 5 | GU-0501 | Support git status --porcelain=v2 --branch as canonical machine input and a clearly scoped human-friendly git status -sb subset | PASS | docs/TASK_EVIDENCE.md; CI 38315854612 |
+| 5 | GU-0502 | Parse branch/upstream, detached/unborn HEAD, ahead/behind, index and worktree changes, untracked, rename, conflicts and supported submodule indications | PASS | docs/TASK_EVIDENCE.md; CI 38315854612 |
+| 5 | GU-0503 | Distinguish **freshness unknown** and **remote state unknown**; status is not a live host query | PASS | docs/TASK_EVIDENCE.md; CI 38315854612 |
+| 5 | GU-0504 | When status is insufficient, issue specific read-only diagnostics (e | PASS | docs/TASK_EVIDENCE.md; CI 38315854612 |
+| 5 | GU-0505 | Build client-side paste UI with sanitization, redaction hints, size limits, empty-state and clear/reset | PASS | docs/TASK_EVIDENCE.md; CI 38315854612 |
+| 5 | GU-0506 | Add golden fixtures across supported Git versions and formats; test status permutations and recovery from malformed input | PASS | docs/TASK_EVIDENCE.md; CI 38315854612 |
 | 6 | GU-0601 | Define an auditable rules engine that maps observations + user intent + prerequisites to possible workflow steps | NOT_STARTED | — |
 | 6 | GU-0602 | Implement wizard navigation: back, restart, share non-sensitive flow link, 'I got a different result', progress indicator and local session state | NOT_STARTED | — |
 | 6 | GU-0603 | Implement at least eight tested end-to-end journeys: unstage, discard work with warning, amend local commit, revert shared commit, rejected push (divergence), merge in progress, detached-HEAD rescue and reflog-based **committed** work recovery | NOT_STARTED | — |
@@ -112,7 +112,7 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 | 2 | PASS | CI 38312113731: 45 checks + 16 browser contexts; axe gate passes | Chromium only; human screen-reader review not performed |
 | 3 | PASS | CI 38313033874: 60 tests + 16 browser contexts; content parity checked | Native modules; Chromium-only browser evidence |
 | 4 | PASS | CI 38314289366: 69 tests, 8 baseline and 8 current-browser cases with 5-view axe checks | Automated evidence; human screen-reader testing not performed |
-| 5 | NOT_STARTED | — | — |
+| 5 | PASS | CI 38315854612: 95 tests + desktop/mobile route/browser checks | Pasted data is partial; live remote/operation/freshness unknown |
 | 6 | NOT_STARTED | — | — |
 | 7 | NOT_STARTED | — | — |
 | 8 | NOT_STARTED | — | — |

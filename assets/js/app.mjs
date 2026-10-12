@@ -113,6 +113,7 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
       const button = element('button', 'copy-btn', 'Copy');
       button.type = 'button';
       button.setAttribute('aria-label', 'Copy snippet to clipboard');
+      if (['unstaged', 'local-commit'].includes(locationKey)) { button.disabled = true; button.title = 'Choose a verified individual action in the guided recovery flow; mixed destructive recipes are not one-click copied.'; }
       button.addEventListener('click', () => copySnippet(button));
       header.append(element('span', '', 'Recommended Command'), button);
       const pre = element('pre', 'code-content');
@@ -375,6 +376,8 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
 
     // 8. Dependable Copy Snippet
     function copySnippet(btn) {
+      const effects = btn.closest('.card')?.getAttribute('data-effects') || '';
+      if (effects.includes('data-loss-potential') || effects.includes('history-rewrite')) { announceState('Choose a verified individual action; combined high-risk recipes are not copied as a script.'); return; }
       const codeElem = btn.closest('.snippet-block')?.querySelector('pre.code-content code') ||
                        btn.closest('.snippet-block')?.querySelector('pre.code-content');
       if (!codeElem) return;
@@ -473,4 +476,8 @@ const provider = document.querySelector('.pipeline-tab-btn.active')?.getAttribut
 if (provider && pipelineSnippetCode) pipelineSnippetCode.textContent = formatSnippet(pipelineConfigs[provider].code, shell);
 }
 applyShell();
+document.querySelectorAll('.card[data-effects] .copy-btn').forEach(button => {
+  const effects = button.closest('.card').getAttribute('data-effects');
+  if (effects.includes('data-loss-potential') || effects.includes('history-rewrite')) { button.disabled = true; button.title = 'Combined high-risk recipe: inspect and choose an individual action in guided recovery.'; }
+});
 })();

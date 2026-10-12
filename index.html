@@ -225,15 +225,40 @@
         <section id="statusResults" aria-label="Status interpretation" hidden></section>
       </section>
       <div class="v2-problems">
-        <button type="button" data-recovery="staged">I staged the wrong files<span>Keep the edits; change the index.</span></button>
-        <button type="button" data-recovery="unstaged">I want to discard edits<span>Inspect what would be lost first.</span></button>
-        <button type="button" data-recovery="local-commit">My latest local commit is wrong<span>Review amend or reset prerequisites.</span></button>
-        <button type="button" data-recovery="pushed-commit">A shared commit needs undoing<span>Revert can require conflict resolution.</span></button>
-        <button type="button" data-recovery="lost-reflog">I lost committed work<span>Look for a retained commit.</span></button>
-        <a href="#card-conflict">I have a merge conflict<span>Identify the operation before continuing.</span></a>
-        <a href="#card-detached">I am on detached HEAD<span>Preserve wanted commits with a branch.</span></a>
-        <a href="#card-sync">My push was rejected<span>Inspect divergence and remote values.</span></a>
+        <button type="button" data-recovery="unstage">I staged the wrong files<span>Keep the edits; change the index.</span></button>
+        <button type="button" data-recovery="discard">I want to discard edits<span>Inspect what would be lost first.</span></button>
+        <button type="button" data-recovery="amend">My latest local commit is wrong<span>Review amend prerequisites.</span></button>
+        <button type="button" data-recovery="revert">A shared commit needs undoing<span>Revert can require conflict resolution.</span></button>
+        <button type="button" data-recovery="reflog">I lost committed work<span>Look for a retained commit.</span></button>
+        <a href="#fix/merge">I have a merge conflict<span>Identify the operation before continuing.</span></a>
+        <a href="#fix/detached">I am on detached HEAD<span>Preserve wanted commits with a branch.</span></a>
+        <a href="#fix/divergence">My push was rejected<span>Inspect divergence and remote values.</span></a>
       </div>
+      <section id="recoveryWizard" class="v2-status-box" aria-labelledby="recoveryHeading">
+        <h3 id="recoveryHeading">Choose a recovery intent</h3>
+        <label for="recoveryIntent">What outcome do you want?</label>
+        <select id="recoveryIntent"></select>
+        <form id="recoveryContext" hidden>
+          <fieldset><legend>Confirm facts from fresh diagnostics</legend>
+            <label><input type="checkbox" id="recoveryFresh"> I just gathered complete status from the intended repository.</label>
+            <label><input type="checkbox" id="recoveryVersion"> I checked Git 2.28+ and the recipe prerequisites.</label>
+            <label><input type="checkbox" id="recoveryPreserved"> I preserved wanted tracked, untracked and ignored work.</label>
+            <label><input type="checkbox" id="recoveryTarget"> I inspected the intended file/commit/ref and any new rescue name.</label>
+            <label for="recoveryOperation">Full git status identifies this operation</label>
+            <select id="recoveryOperation"><option value="unknown">Unknown / not checked</option><option value="none">No operation in progress</option><option value="merge">Merge</option><option value="rebase">Rebase</option><option value="cherry-pick">Cherry-pick</option><option value="revert">Revert</option></select>
+          </fieldset>
+          <fieldset id="recoveryExtra"><legend>Additional checks for this intent</legend>
+            <label data-check-intent="discard"><input type="checkbox" id="recoveryLoss"> I acknowledge the selected unstaged edits may be irrecoverably lost.</label>
+            <label data-check-intent="amend"><input type="checkbox" id="recoveryUnshared"> I verified that affected commits are unshared.</label>
+            <label data-check-intent="amend"><input type="checkbox" id="recoveryRewrite"> I acknowledge amend rewrites the latest commit and includes all staged content.</label>
+            <label data-check-intent="revert"><input type="checkbox" id="recoveryOrdinary"> I inspected the target and it is an ordinary single-parent commit.</label>
+            <label data-check-intent="divergence"><input type="checkbox" id="recoveryUpstream"> I fetched the verified remote and inspected the latest upstream graph before gathering status.</label>
+            <label data-check-intent="merge"><input type="checkbox" id="recoveryResolved"> I reviewed the intended resolution; any remaining unmerged paths still need staging.</label>
+            <label data-check-intent="reflog"><input type="checkbox" id="recoveryRetained"> I inspected an existing retained commit; I am not trying to recover discarded unstaged edits.</label>
+          </fieldset>
+        </form>
+        <section id="recoveryPlan" aria-label="Guided recovery"></section>
+      </section>
     </section>
     <section id="view-workflows" class="v2-view" aria-labelledby="workflowsHeading" hidden>
       <h2 id="workflowsHeading" tabindex="-1">Choose a workflow</h2>

@@ -900,3 +900,12 @@
 .v2-status-facts dd { overflow-wrap: anywhere; margin: 0; }
 .v2-status-paths { margin: 20px 0; }
 .v2-status-paths ul { padding-left: 20px; margin-top: 12px; overflow-wrap: anywhere; }
+.v2-status-box [hidden] { display: none !important; }
+#recoveryIntent, #recoveryOperation { background: var(--bg-surface); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 10px; max-width: 100%; font: inherit; }
+#recoveryContext fieldset { border: 1px solid var(--border); border-radius: 8px; padding: 18px; margin: 20px 0; }
+#recoveryContext legend { font-weight: 650; padding: 0 8px; }
+#recoveryContext label { font-weight: 400; font-size: .85rem; line-height: 1.6; margin: 12px 0; }
+#recoveryContext input[type="checkbox"] { margin-right: 8px; }
+.v2-blockers { color: var(--text-muted); padding-left: 22px; line-height: 1.6; font-size: .85rem; margin: 20px 0; }
+#recoveryPlan .callout { margin: 20px 0; }
+.copy-btn:disabled { opacity: .65; cursor: default; }

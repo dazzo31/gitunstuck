@@ -4,13 +4,14 @@ import { textElement as element } from './dom.mjs';
 import { formatSnippet } from './shell-format.mjs';
 import { parseRoute, viewNames } from './routing.mjs';
 import './status-ui.mjs';
+import './recovery-ui.mjs';
 
 const el = (tag, className, text) => element(document, tag, className, text);
 const views = viewNames;
 const titles = { fix: 'Fix My Git', workflows: 'Workflows', reference: 'Reference', playground: 'Playground', learn: 'Learn Git' };
 const view = name => document.getElementById(`view-${name}`);
 const move = (selector, destination) => document.querySelectorAll(selector).forEach(node => view(destination).append(node));
-move('#troubleshootConsole', 'fix');
+move('#troubleshootConsole', 'reference');
 move('.task-navigator', 'workflows');
 move('#commitGraphExplorer', 'playground');
 move('#beginnerPrimer, #jargonDeepDive', 'learn');

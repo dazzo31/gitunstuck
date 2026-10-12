@@ -86,3 +86,16 @@ GU-0505: client-local labeled paste UI, UTF-8 100 KiB limit, clear control, loca
 GU-0506: 16 golden states plus eight malformed/uncertainty scenarios; actual Git fixture confirms unborn, staged/unstaged, rename and detached parsing. Tests run locally with Git 2.51.1; CI Git version is recorded in its logs.
 
 Local `npm test`: 95 passed, 0 failed; content/public build checks exit 0. Browser suite checks hostile filename text, unknown freshness, no diagnostic persistence and clear behavior. Phase 5 CI gate pending.
+
+Phase 5 gate PASS: https://github.com/dazzo31/gitunstuck/actions/runs/38315854612 at 8e5e06f2e9a9224d625f4034c6ab83b61ec91e25 succeeded. 95 tests, content/public build and all browser route/accessibility scenarios pass.
+
+## Phase 6 — local checks pass; CI gate pending
+
+GU-0601: recovery.mjs validates nine atomic command definitions and eight workflow definitions. Rules expose no mutations for unsupported, contradictory, unknown-line or submodule states. Parsed freshness/operation/ownership never becomes an inferred fact; applicable user confirmations are explicit testimony.
+GU-0602: six-stage wizard (Inspect/Diagnose/Prepare/Act/Verify/Recover-Abort), back/restart/different-result controls, in-memory session and intent-only share link. Different-result clears stale diagnostic evidence and confirmations; changing evidence resets readiness.
+GU-0603: unstage, selected discard, unshared amend, ordinary shared revert, divergent push investigation, identified merge, detached committed rescue and retained-commit reflog rescue. Unborn, shared rewrite, unknown operation and missing target/remote facts yield diagnostic blockers.
+GU-0604: exact affected surfaces, overlapping effects, reasoning, uncertainty and acknowledgement gates. Loss acknowledgement required for discard; amend needs unshared confirmation and rewrite acknowledgement. Parameterized or destructive actions are not blindly copied. Mixed high-risk legacy reference recipes also lose one-click compound-script copying.
+GU-0605: merge resolution stages first, then fresh no-conflict evidence permits merge --continue. Revert/merge abort are conditional failure guidance. Wrong operation (e.g. rebase) blocks merge continuation. No automatic force-push, unrelated-history override or unstaged reflog recovery promise.
+GU-0606: eight real-Git engine journeys execute the model’s trusted command syntax in isolated repos with controlled fixture substitutions; actual index/tree/refs/parents asserted. An additional revert-conflict fixture blocks repeat and aborts correctly. Tests never execute user-pasted input or touch development history/live remotes.
+
+Local `npm test`: 133 passed, 0 failed; content/public build/diff checks exit 0. CI browser checks exercise blocked Prepare, verified unstage, no blind placeholder copying, share-link privacy and different-result reset; gate pending. Core web code still does not execute Git or upload diagnostics.

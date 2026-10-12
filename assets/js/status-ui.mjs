@@ -26,10 +26,12 @@ document.getElementById('interpretStatus').addEventListener('click', () => {
   output.replaceChildren(heading, description, details, caution, paths, next, block); output.hidden = false; heading.focus();
   // Ephemeral tab-only state; never persist or log input/output.
   window.GitUnstuck.getDiagnosticState = () => state;
+  document.dispatchEvent(new CustomEvent('gitunstuck:diagnostic-changed'));
 });
 document.getElementById('clearStatus').addEventListener('click', () => {
   input.value = ''; output.replaceChildren(); output.hidden = true;
   window.GitUnstuck.getDiagnosticState = () => null; input.focus();
+  document.dispatchEvent(new CustomEvent('gitunstuck:diagnostic-changed'));
 });
 input.maxLength = MAX_STATUS_BYTES;
-input.addEventListener('input', () => { output.hidden = true; window.GitUnstuck.getDiagnosticState = () => null; });
+input.addEventListener('input', () => { output.hidden = true; window.GitUnstuck.getDiagnosticState = () => null; document.dispatchEvent(new CustomEvent('gitunstuck:diagnostic-changed')); });
