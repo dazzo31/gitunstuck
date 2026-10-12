@@ -38,3 +38,7 @@ GU-0204: 15 isolated real-Git scenarios cover index/working tree, soft/mixed/har
 GU-0205: `npm run check` and `npm run build` exited 0. Checks inspect IDs, task targets, local assets, JSON-LD and executable inline JavaScript. Build explicitly excludes tests, planning docs and Git metadata. Automated axe reports all violations and fails serious/critical results; moderate/minor issues are recorded for Phase 4. This is basic validation, not full HTML standards or WCAG certification.
 
 GU-0206: quality.yml runs on v2.0 pushes/PRs and supports workflow_call. deploy.yml requires the reusable quality job, restricts deployment to main, scopes write permissions to its deploy job, and uploads dist only. Actual main deployment is not authorized or performed. Final CI verification pending.
+
+### GU-0205 accessibility investigation and revised bounded fix
+
+CI 38311554873 failed the serious/critical gate on existing active-button contrast and non-focusable code scrollers. The first correction fixed dark desktop contexts. CI 38311871069 ran all eight contexts and narrowed remaining failures to light graph selection/command-chip contrast and mobile graph-wrapper focus. No later-phase feature was started. Revised fix: explicit light-chip foreground, uniform high-contrast graph selection, named keyboard-focusable graph region. Gates remain enabled; no violations are suppressed. CI rerun pending. Local 45/45, content/build checks exit 0. This records both failures rather than claiming earlier runs passed.

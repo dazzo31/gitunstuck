@@ -947,7 +947,9 @@
     }
     .mode-btn.active, .filter-pill.active { background: #c2410c; color: #ffffff; }
     .filter-pill:hover { background: #c2410c; color: #ffffff; }
-    [data-theme="light"] pre.code-content, [data-theme="light"] .graph-command-chip { color: #38bdf8; }
+    [data-theme="light"] pre.code-content { color: #38bdf8; }
+    [data-theme="light"] .graph-command-chip { color: #0f172a; }
+    .graph-tab-btn.active, [data-theme="light"] .graph-tab-btn.active { color: #ffffff; background: #c2410c; }
     [data-theme="light"] .snippet-header, [data-theme="light"] .copy-btn { color: #cbd5e1; }
     [data-theme="light"] .copy-btn.copied { color: #34d399 !important; }
     [data-theme="light"] .copy-btn.copy-error { color: #f87171 !important; }
@@ -1206,7 +1208,7 @@
       </div>
 
       <!-- SVG Graph Canvas -->
-      <div class="graph-canvas-wrapper" id="graphCanvasWrapper">
+      <div class="graph-canvas-wrapper" id="graphCanvasWrapper" tabindex="0" role="region" aria-label="Commit graph; use arrow keys to scroll">
         <div id="graphSvgContainer" style="width: 100%; display: flex; justify-content: center;">
           <!-- Rendered dynamically by JavaScript -->
         </div>
