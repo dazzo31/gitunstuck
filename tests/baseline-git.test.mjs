@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync, writeFileSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { parseStatus } from '../assets/js/status.mjs';
 
 function repo(t) {
   const cwd = mkdtempSync(join(tmpdir(), 'gitunstuck-baseline-'));
@@ -102,4 +103,17 @@ test('real Git: unborn HEAD cannot be assumed to support restore --staged', t =>
   const r = repo(t); writeFileSync(r.file, 'new\n'); r.ok('add', '--', 'file.txt');
   assert.notEqual(r.git('restore', '--staged', '--', 'file.txt').status, 0);
   assert.match(r.ok('status', '--porcelain=v2', '--branch'), /# branch.oid \(initial\)/);
+});
+test('status parser agrees with real Git for unborn, mixed, rename and detached states', t => {
+  const r = repo(t); let parsed = parseStatus(r.ok('status', '--porcelain=v2', '--branch'));
+  assert.equal(parsed.branchKind, 'unborn'); assert.equal(parsed.hasCommit, false);
+  r.commit('base\n'); writeFileSync(r.file, 'staged\n'); r.ok('add', '--', 'file.txt'); writeFileSync(r.file, 'working\n');
+  parsed = parseStatus(r.ok('status', '--porcelain=v2', '--branch'));
+  assert.equal(parsed.staged, 1); assert.equal(parsed.unstaged, 1); assert.equal(parsed.unknownLineCount, 0);
+  r.ok('restore', '--', 'file.txt'); r.ok('commit', '-m', 'staged'); r.ok('mv', 'file.txt', 'new name.txt');
+  parsed = parseStatus(r.ok('status', '--porcelain=v2', '--branch'));
+  assert.equal(parsed.changes[0].kind, 'rename-or-copy'); assert.equal(parsed.changes[0].originalPath, 'file.txt');
+  assert.equal(parsed.unknownLineCount, 0); r.ok('commit', '-m', 'rename'); r.ok('switch', '--detach', 'HEAD');
+  parsed = parseStatus(r.ok('status', '--porcelain=v2', '--branch'));
+  assert.equal(parsed.branchKind, 'detached'); assert.equal(parsed.hasCommit, true);
 });

@@ -887,3 +887,16 @@
   .v2-nav, .v2-context, .v2-shell-note, .v2-hero, .v2-problems, #workflowStepper { display: none !important; }
   .v2-view[hidden], .v2-view { display: block !important; }
 }
+.v2-status-box { border: 1px solid var(--border); background: var(--bg-card); border-radius: 12px; padding: 24px; margin: 24px 0; }
+.v2-status-box > p { color: var(--text-muted); line-height: 1.6; margin: 14px 0; }
+.v2-status-box label { display: block; font-weight: 650; margin-bottom: 10px; }
+#statusInput { width: 100%; resize: vertical; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-surface); color: var(--text); padding: 14px; font-family: var(--font-mono); line-height: 1.5; font-size: .85rem; }
+#statusInput::placeholder { color: var(--text-muted); }
+#statusResults { margin-top: 24px; }
+#statusResults h3, #statusResults h4 { margin: 18px 0 12px; }
+#statusResults p { line-height: 1.6; color: var(--text-muted); }
+.v2-status-facts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px 20px; margin: 20px 0; font-size: .85rem; }
+.v2-status-facts dt { color: var(--text-muted); }
+.v2-status-facts dd { overflow-wrap: anywhere; margin: 0; }
+.v2-status-paths { margin: 20px 0; }
+.v2-status-paths ul { padding-left: 20px; margin-top: 12px; overflow-wrap: anywhere; }

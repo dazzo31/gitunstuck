@@ -73,3 +73,16 @@ GU-0405: provider/shell preferences are allowlisted and stored locally under git
 GU-0406: semantic links/selects/buttons, route focus, named graph/code scroll regions, responsive menu, reduced-motion jump behavior and contrast rules retained. Browser suite exercises all five views, stepper failure return and all-mode parity with axe across desktop/mobile and themes. Human screen-reader review remains a limitation, not a claimed pass.
 
 Local: `npm test` 69 passed, 0 failed; `npm run check`, `npm run build`, `git diff --check` exit 0. New browser route/accessibility gate pending; no Phase 5 features started.
+
+Phase 4 gate PASS: https://github.com/dazzo31/gitunstuck/actions/runs/38314289366 at 0d322583dc9d816cb1c2e2673a071b47a0aa2426 succeeded. 69 tests, 8 baseline and 8 current-browser contexts; all five routes/stepper failure path and serious/critical accessibility checks pass. Follow-up source review fixed query visibility outside Reference and route/step focus, locally verified. Public build now removes stale files; dedicated test proves no development material leaks.
+
+## Phase 5 — local checks pass; CI gate pending
+
+GU-0501: status.mjs implements non-NUL porcelain v2 --branch and scoped status -sb grammar. Unsupported long status remains unknown and requests canonical diagnostics.
+GU-0502: attached/detached/unborn HEAD, SHA-1/SHA-256 OIDs, upstream, ahead/behind, index/worktree, untracked, rename/copy, conflicts and submodule indications. Paths remain literal; they are never executed or interpolated into commands.
+GU-0503: freshness, live remote state and ongoing-operation identity always stay unknown. Counts are reported observations, never proof of a clean complete repository.
+GU-0504: missing facts/contradictions generate specific read-only status, branch, HEAD and graph diagnostics. Unknown/malformed input never yields a destructive guess.
+GU-0505: client-local labeled paste UI, UTF-8 100 KiB limit, clear control, local path details and redaction guidance. No logging/storage/network upload; editing input invalidates the prior result.
+GU-0506: 16 golden states plus eight malformed/uncertainty scenarios; actual Git fixture confirms unborn, staged/unstaged, rename and detached parsing. Tests run locally with Git 2.51.1; CI Git version is recorded in its logs.
+
+Local `npm test`: 95 passed, 0 failed; content/public build checks exit 0. Browser suite checks hostile filename text, unknown freshness, no diagnostic persistence and clear behavior. Phase 5 CI gate pending.

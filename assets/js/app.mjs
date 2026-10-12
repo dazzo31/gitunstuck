@@ -190,7 +190,7 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
       const queryTokens = query ? query.split(/\s+/).filter(Boolean) : [];
       let visibleCount = 0;
 
-      if (queryTokens.length > 0) {
+      if (queryTokens.length > 0 && document.getElementById?.('view-reference')?.hidden !== true) {
         document.body.classList.add('is-searching');
       } else {
         document.body.classList.remove('is-searching');

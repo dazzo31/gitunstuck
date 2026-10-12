@@ -215,6 +215,15 @@
     <section id="view-fix" class="v2-view" aria-labelledby="fixHeading">
       <h2 id="fixHeading" tabindex="-1">What went wrong?</h2>
       <p>Choose the closest problem. Inspect the prerequisites and keep wanted changes before taking an action.</p>
+      <section class="v2-status-box" aria-labelledby="statusHeading">
+        <h3 id="statusHeading">Start with what Git reports</h3>
+        <p>Run <code>git status --porcelain=v2 --branch</code> and paste its output below. A scoped <code>git status -sb</code> format also works. Input stays in this tab and is never executed or uploaded.</p>
+        <label for="statusInput">Git status output</label>
+        <textarea id="statusInput" rows="7" spellcheck="false" autocomplete="off" placeholder="# branch.oid (initial)&#10;# branch.head your-branch"></textarea>
+        <p class="v2-shell-note">100 KiB limit. Before sharing output or screenshots elsewhere, remove tokens, personal paths and private remote URLs.</p>
+        <div class="v2-step-controls"><button type="button" id="interpretStatus">Interpret status</button><button type="button" id="clearStatus">Clear pasted text</button></div>
+        <section id="statusResults" aria-label="Status interpretation" hidden></section>
+      </section>
       <div class="v2-problems">
         <button type="button" data-recovery="staged">I staged the wrong files<span>Keep the edits; change the index.</span></button>
         <button type="button" data-recovery="unstaged">I want to discard edits<span>Inspect what would be lost first.</span></button>

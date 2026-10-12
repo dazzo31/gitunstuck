@@ -3,6 +3,7 @@ import knowledge from './knowledge.mjs';
 import { textElement as element } from './dom.mjs';
 import { formatSnippet } from './shell-format.mjs';
 import { parseRoute, viewNames } from './routing.mjs';
+import './status-ui.mjs';
 
 const el = (tag, className, text) => element(document, tag, className, text);
 const views = viewNames;
@@ -27,7 +28,7 @@ function showShellNote() {
   window.GitUnstuck.applyShell(shell.value);
 }
 host.addEventListener('change', () => { savePreference('provider', host.value); showShellNote(); });
-shell.addEventListener('change', () => { savePreference('shell', shell.value); showShellNote(); if (activeWorkflow) renderWorkflow(); });
+shell.addEventListener('change', () => { savePreference('shell', shell.value); showShellNote(); if (activeWorkflow) renderWorkflow(false); });
 document.getElementById('resetPreferences').addEventListener('click', () => {
   host.value = 'generic'; shell.value = 'powershell';
   savePreference('provider', host.value); savePreference('shell', shell.value);
@@ -40,6 +41,7 @@ function selectRoute(event) {
   const target = legacy ? document.getElementById(legacy) : null;
   activeRoute = candidate || target?.closest('.v2-view')?.id.replace('view-', '') || 'fix';
   for (const name of views) view(name).hidden = name !== activeRoute;
+  document.body.classList.toggle('is-searching', activeRoute === 'reference' && document.getElementById('searchInput').value.trim().length > 0);
   document.querySelectorAll('#v2NavLinks a').forEach(link => {
     if (link.hash === `#${activeRoute}`) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
   });
@@ -75,7 +77,7 @@ for (const recipe of knowledge.workflows) {
   const link = el('a', '', recipe.title); link.href = `#workflows/${recipe.id}`;
   link.append(el('span', '', recipe.effects.join(' · '))); choices.append(link);
 }
-function renderWorkflow() {
+function renderWorkflow(focus = true) {
   const panel = document.getElementById('workflowStepper'); panel.hidden = false;
   const labels = ['Inspect', 'Decide', 'Act', 'Verify'];
   const heading = el('h3', '', activeWorkflow.title); const progress = el('p', 'v2-kicker', `Step ${workflowStep + 1} of 4 · ${labels[workflowStep]}`);
@@ -96,5 +98,6 @@ function renderWorkflow() {
     ['I got a different result', () => { workflowStep = 0; renderWorkflow(); document.getElementById('liveAnnouncer').textContent = 'Return to observation. Inspect status before taking another action.'; }, false]
   ]) { const button = el('button', '', label); button.type = 'button'; button.disabled = disabled; button.addEventListener('click', action); controls.append(button); }
   panel.replaceChildren(heading, progress, warning, body, controls);
+  if (focus) { heading.tabIndex = -1; heading.focus(); }
 }
 showShellNote(); selectRoute();

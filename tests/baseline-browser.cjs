@@ -73,6 +73,18 @@ const axe = require('axe-core');
         await page.addScriptTag({ content: axe.source });
         for (const route of ['fix', 'workflows', 'reference', 'playground', 'learn']) {
           await navigate(route);
+          if (route === 'fix') {
+            await page.locator('#statusInput').fill('# branch.oid ' + 'a'.repeat(40) + '\n# branch.head topic\n? <img src=x onerror=alert(1)>');
+            await page.locator('#interpretStatus').click();
+            await page.locator('#statusResults').waitFor({ state: 'visible' });
+            assert.match(await page.locator('#statusResults').textContent(), /Freshness.*unknown/s);
+            assert.equal(await page.locator('#statusResults img').count(), 0);
+            assert.equal(await page.evaluate(() => window.GitUnstuck.getDiagnosticState().untracked), 1);
+            assert.equal(await page.evaluate(() => Object.values(localStorage).some(value => value.includes('onerror'))), false);
+            await page.locator('#clearStatus').click();
+            assert.equal(await page.locator('#statusInput').inputValue(), '');
+            assert.equal(await page.evaluate(() => window.GitUnstuck.getDiagnosticState()), null);
+          }
           if (route === 'workflows') {
             await page.locator('#workflowChoices a[href="#workflows/card-branch"]').click();
             await page.locator('#workflowStepper').waitFor({ state: 'visible' });

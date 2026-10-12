@@ -7,8 +7,8 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 - Baseline repository revision: `bf839df2fe30001824fa5068ce471046925a186f`
 - Current working branch: `v2.0` (remote); isolated local worktree `v2.0-work`
 - Working tree at start: clean
-- Current phase: `4 — task-first interface`
-- Current active task: `GU-0401`
+- Current phase: `5 — status interpretation`
+- Current active task: `GU-0501`
 - Last verified test command: `node --test tests/baseline.test.mjs tests/baseline-git.test.mjs` — 15 passed, 0 failed, exit 0
 - Last phase gate: `PASS` — baseline CI run 38310170424: 15 source/Git tests and 8 browser matrix cases passed
 
@@ -43,12 +43,12 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 | 3 | GU-0304 | Move command and workflow content in small batches, diff old/new rendered text and verify ID + URL stability | PASS | docs/TASK_EVIDENCE.md; CI 38313033874 |
 | 3 | GU-0305 | Establish safe rendering helpers, trusted-content boundaries, parser error boundaries and no global implicit state | PASS | docs/TASK_EVIDENCE.md; CI 38313033874 |
 | 3 | GU-0306 | Add documentation: architecture, content authoring, safety-review checklist, how to run/tests and migration decisions | PASS | docs/TASK_EVIDENCE.md; CI 38313033874 |
-| 4 | GU-0401 | Rework landing page around problem search, common problems and clear entry points | NOT_STARTED | — |
-| 4 | GU-0402 | Introduce responsive shell/nav: mobile menu, breadcrumbs, persistent task context and direct links to routes | NOT_STARTED | — |
-| 4 | GU-0403 | Keep beginner and developer modes as **explanation depth**, not inconsistent datasets | NOT_STARTED | — |
-| 4 | GU-0404 | Create stepper/diagnostic panels with distinct observation, action, expected outcome, danger and alternative sections | NOT_STARTED | — |
-| 4 | GU-0405 | Add shell selector (PowerShell/Bash/CMD) and provider selector (GitHub/GitLab/Bitbucket/generic) | NOT_STARTED | — |
-| 4 | GU-0406 | Accessibility audit: native semantic controls, labels, focus/keyboard order, accessible SVG explanations, reduced motion, color-independent danger labels, WCAG 2 | NOT_STARTED | — |
+| 4 | GU-0401 | Rework landing page around problem search, common problems and clear entry points | PASS | docs/TASK_EVIDENCE.md; CI 38314289366 |
+| 4 | GU-0402 | Introduce responsive shell/nav: mobile menu, breadcrumbs, persistent task context and direct links to routes | PASS | docs/TASK_EVIDENCE.md; CI 38314289366 |
+| 4 | GU-0403 | Keep beginner and developer modes as **explanation depth**, not inconsistent datasets | PASS | docs/TASK_EVIDENCE.md; CI 38314289366 |
+| 4 | GU-0404 | Create stepper/diagnostic panels with distinct observation, action, expected outcome, danger and alternative sections | PASS | docs/TASK_EVIDENCE.md; CI 38314289366 |
+| 4 | GU-0405 | Add shell selector (PowerShell/Bash/CMD) and provider selector (GitHub/GitLab/Bitbucket/generic) | PASS | docs/TASK_EVIDENCE.md; CI 38314289366 |
+| 4 | GU-0406 | Accessibility audit: native semantic controls, labels, focus/keyboard order, accessible SVG explanations, reduced motion, color-independent danger labels, WCAG 2 | PASS | docs/TASK_EVIDENCE.md; CI 38314289366 |
 | 5 | GU-0501 | Support git status --porcelain=v2 --branch as canonical machine input and a clearly scoped human-friendly git status -sb subset | NOT_STARTED | — |
 | 5 | GU-0502 | Parse branch/upstream, detached/unborn HEAD, ahead/behind, index and worktree changes, untracked, rename, conflicts and supported submodule indications | NOT_STARTED | — |
 | 5 | GU-0503 | Distinguish **freshness unknown** and **remote state unknown**; status is not a live host query | NOT_STARTED | — |
@@ -111,7 +111,7 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 | 1 | PASS | CI 38310871166: 33 source/Git + 8 frozen baseline + 8 current browser cases passed | Final force-lease wording checked locally; license provenance unresolved |
 | 2 | PASS | CI 38312113731: 45 checks + 16 browser contexts; axe gate passes | Chromium only; human screen-reader review not performed |
 | 3 | PASS | CI 38313033874: 60 tests + 16 browser contexts; content parity checked | Native modules; Chromium-only browser evidence |
-| 4 | NOT_STARTED | — | — |
+| 4 | PASS | CI 38314289366: 69 tests, 8 baseline and 8 current-browser cases with 5-view axe checks | Automated evidence; human screen-reader testing not performed |
 | 5 | NOT_STARTED | — | — |
 | 6 | NOT_STARTED | — | — |
 | 7 | NOT_STARTED | — | — |
