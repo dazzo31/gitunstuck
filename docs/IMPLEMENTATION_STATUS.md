@@ -7,10 +7,10 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 - Baseline repository revision: `bf839df2fe30001824fa5068ce471046925a186f`
 - Current working branch: `v2.0` (remote); isolated local worktree `v2.0-work`
 - Working tree at start: clean
-- Current phase: `6 — guided recovery`
-- Current active task: `GU-0601`
-- Last verified test command: `node --test tests/baseline.test.mjs tests/baseline-git.test.mjs` — 15 passed, 0 failed, exit 0
-- Last phase gate: `PASS` — baseline CI run 38310170424: 15 source/Git tests and 8 browser matrix cases passed
+- Current phase: `7 — error troubleshooting catalogue`
+- Current active task: `GU-0701`
+- Last verified test command: `npm test` — 133 passed, 0 failed, exit 0
+- Last phase gate: `PASS` — Phase 6 CI run 38317457103: source/Git tests and desktop/mobile browser matrix passed
 
 ## Status codes
 
@@ -55,12 +55,12 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 | 5 | GU-0504 | When status is insufficient, issue specific read-only diagnostics (e | PASS | docs/TASK_EVIDENCE.md; CI 38315854612 |
 | 5 | GU-0505 | Build client-side paste UI with sanitization, redaction hints, size limits, empty-state and clear/reset | PASS | docs/TASK_EVIDENCE.md; CI 38315854612 |
 | 5 | GU-0506 | Add golden fixtures across supported Git versions and formats; test status permutations and recovery from malformed input | PASS | docs/TASK_EVIDENCE.md; CI 38315854612 |
-| 6 | GU-0601 | Define an auditable rules engine that maps observations + user intent + prerequisites to possible workflow steps | NOT_STARTED | — |
-| 6 | GU-0602 | Implement wizard navigation: back, restart, share non-sensitive flow link, 'I got a different result', progress indicator and local session state | NOT_STARTED | — |
-| 6 | GU-0603 | Implement at least eight tested end-to-end journeys: unstage, discard work with warning, amend local commit, revert shared commit, rejected push (divergence), merge in progress, detached-HEAD rescue and reflog-based **committed** work recovery | NOT_STARTED | — |
-| 6 | GU-0604 | Add context-aware risk panel: affected surfaces, possible loss, collaborative effects, preflight, expected state, failure/abort path | NOT_STARTED | — |
-| 6 | GU-0605 | Implement state-specific result interpretation, including conflicts, unsupported scenarios and contradictions | NOT_STARTED | — |
-| 6 | GU-0606 | Test complete flows in disposable Git repos; include paths in which the first action fails and the user must branch to alternative instructions | NOT_STARTED | — |
+| 6 | GU-0601 | Define an auditable rules engine that maps observations + user intent + prerequisites to possible workflow steps | PASS | docs/TASK_EVIDENCE.md; CI 38317457103 |
+| 6 | GU-0602 | Implement wizard navigation: back, restart, share non-sensitive flow link, 'I got a different result', progress indicator and local session state | PASS | docs/TASK_EVIDENCE.md; CI 38317457103 |
+| 6 | GU-0603 | Implement at least eight tested end-to-end journeys: unstage, discard work with warning, amend local commit, revert shared commit, rejected push (divergence), merge in progress, detached-HEAD rescue and reflog-based **committed** work recovery | PASS | docs/TASK_EVIDENCE.md; CI 38317457103 |
+| 6 | GU-0604 | Add context-aware risk panel: affected surfaces, possible loss, collaborative effects, preflight, expected state, failure/abort path | PASS | docs/TASK_EVIDENCE.md; CI 38317457103 |
+| 6 | GU-0605 | Implement state-specific result interpretation, including conflicts, unsupported scenarios and contradictions | PASS | docs/TASK_EVIDENCE.md; CI 38317457103 |
+| 6 | GU-0606 | Test complete flows in disposable Git repos; include paths in which the first action fails and the user must branch to alternative instructions | PASS | docs/TASK_EVIDENCE.md; CI 38317457103 |
 | 7 | GU-0701 | Build versioned error-pattern definitions and a deterministic ranker with exact-text, canonical error, synonyms, platform context and confidence scores | NOT_STARTED | — |
 | 7 | GU-0702 | Cover initially at least 20 common errors, including: rejected/non-fast-forward push; authentication and permission failures; missing Git repo; unfinished merge/rebase; untracked-file overwrite; unrelated histories; invalid refspec; detached HEAD; bad revision; lock file; missing upstream; divergent pull; cherry-pick conflict; local changes blocking switch; push protection; tag already exists; credential helper errors; remote not found | NOT_STARTED | — |
 | 7 | GU-0703 | For each error include probable causes, diagnostics, differentiating questions, recovery routes, supported hosts and last-reviewed documentation links | NOT_STARTED | — |
@@ -113,7 +113,7 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 | 3 | PASS | CI 38313033874: 60 tests + 16 browser contexts; content parity checked | Native modules; Chromium-only browser evidence |
 | 4 | PASS | CI 38314289366: 69 tests, 8 baseline and 8 current-browser cases with 5-view axe checks | Automated evidence; human screen-reader testing not performed |
 | 5 | PASS | CI 38315854612: 95 tests + desktop/mobile route/browser checks | Pasted data is partial; live remote/operation/freshness unknown |
-| 6 | NOT_STARTED | — | — |
+| 6 | PASS | CI 38317457103: 133 tests plus baseline/current browser matrix | Chromium only; manual confirmations remain testimony |
 | 7 | NOT_STARTED | — | — |
 | 8 | NOT_STARTED | — | — |
 | 9 | NOT_STARTED | — | — |

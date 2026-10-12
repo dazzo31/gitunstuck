@@ -99,3 +99,5 @@ GU-0605: merge resolution stages first, then fresh no-conflict evidence permits 
 GU-0606: eight real-Git engine journeys execute the model’s trusted command syntax in isolated repos with controlled fixture substitutions; actual index/tree/refs/parents asserted. An additional revert-conflict fixture blocks repeat and aborts correctly. Tests never execute user-pasted input or touch development history/live remotes.
 
 Local `npm test`: 133 passed, 0 failed; content/public build/diff checks exit 0. CI browser checks exercise blocked Prepare, verified unstage, no blind placeholder copying, share-link privacy and different-result reset; gate pending. Core web code still does not execute Git or upload diagnostics.
+
+Phase 6 gate PASS: https://github.com/dazzo31/gitunstuck/actions/runs/38317457103 at af4b7c0b45e0634c088fdbfee22b8f290e070bbf succeeded. All 133 source/Git tests, public build and browser route/accessibility scenarios passed. Phase 7 is next; v2.0 is not release complete.
