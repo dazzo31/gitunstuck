@@ -19,7 +19,7 @@ const axe = require('axe-core');
   let browser;
   try {
     browser = await chromium.launch();
-    let passed = 0;
+    let passed = 0; const accessibilityFailures = [];
     for (const width of [1440, 390]) for (const theme of ['dark', 'light']) for (const mode of ['beginner', 'pro']) {
       const context = await browser.newContext({ viewport: { width, height: 900 }, colorScheme: theme });
       await context.addInitScript(() => {
@@ -61,7 +61,7 @@ const axe = require('axe-core');
         await page.addScriptTag({ content: axe.source });
         const violations = await page.evaluate(async () => (await axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] } })).violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => n.target) })));
         console.log('ACCESSIBILITY_OBSERVATION', JSON.stringify({ width, theme, mode, violations }));
-        assert.deepEqual(violations.filter(v => ['serious', 'critical'].includes(v.impact)), [], 'Serious/critical accessibility gate');
+        accessibilityFailures.push(...violations.filter(v => ['serious', 'critical'].includes(v.impact)).map(v => ({ width, theme, mode, ...v })));
         await page.emulateMedia({ media: 'print' });
         assert.equal(await page.locator('.topbar').evaluate(e => getComputedStyle(e).display), 'none');
         await page.emulateMedia({ media: 'screen' });
@@ -81,6 +81,7 @@ const axe = require('axe-core');
       console.log('BASELINE_OBSERVATION', JSON.stringify(observation)); passed++;
       await context.close();
     }
+    assert.deepEqual(accessibilityFailures, [], 'Serious/critical accessibility gate across all eight contexts');
     console.log(`${process.env.BASELINE_FIXTURE ? 'BASELINE' : 'FOUNDATION'}_BROWSER: ${passed} passed, 0 failed; Chromium desktop/mobile x light/dark x beginner/pro.`);
   } finally { if (browser) await browser.close(); await new Promise(r => server.close(r)); }
 })().catch(e => { console.error(e); process.exitCode = 1; });

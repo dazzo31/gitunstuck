@@ -945,6 +945,13 @@
         display: block !important;
       }
     }
+    .mode-btn.active, .filter-pill.active { background: #c2410c; color: #ffffff; }
+    .filter-pill:hover { background: #c2410c; color: #ffffff; }
+    [data-theme="light"] pre.code-content, [data-theme="light"] .graph-command-chip { color: #38bdf8; }
+    [data-theme="light"] .snippet-header, [data-theme="light"] .copy-btn { color: #cbd5e1; }
+    [data-theme="light"] .copy-btn.copied { color: #34d399 !important; }
+    [data-theme="light"] .copy-btn.copy-error { color: #f87171 !important; }
+    pre[tabindex]:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; }
   </style>
 </head>
 <body>
@@ -1100,31 +1107,31 @@
             <span class="recipe-num" aria-hidden="true">1</span>
             <div class="recipe-action">Inspect Status</div>
             <div class="recipe-desc">See which files were modified or untracked.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git status</code></pre></div>
+            <div class="snippet-block"><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status</code></pre></div>
           </div>
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">2</span>
             <div class="recipe-action">Stage Intended Files</div>
             <div class="recipe-desc">Add only the specific files you meant to touch.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git add src/app.js</code></pre></div>
+            <div class="snippet-block"><pre class="code-content" tabindex="0" aria-label="Code example"><code>git add src/app.js</code></pre></div>
           </div>
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">3</span>
             <div class="recipe-action">Review Staged Diff</div>
             <div class="recipe-desc">Verify line-by-line what will enter the commit.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git diff --staged</code></pre></div>
+            <div class="snippet-block"><pre class="code-content" tabindex="0" aria-label="Code example"><code>git diff --staged</code></pre></div>
           </div>
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">4</span>
             <div class="recipe-action">Seal Checkpoint</div>
             <div class="recipe-desc">Record the snapshot with a meaningful note.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git commit -m "feat: login"</code></pre></div>
+            <div class="snippet-block"><pre class="code-content" tabindex="0" aria-label="Code example"><code>git commit -m "feat: login"</code></pre></div>
           </div>
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">5</span>
             <div class="recipe-action">Push When Ready</div>
             <div class="recipe-desc">Publish to your remote upstream.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git push</code></pre></div>
+            <div class="snippet-block"><pre class="code-content" tabindex="0" aria-label="Code example"><code>git push</code></pre></div>
           </div>
         </div>
       </div>
@@ -1314,7 +1321,7 @@
             <span>Initialization Sequence</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Choose your new repository's initial branch (Git 2.28+):
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Choose your new repository's initial branch (Git 2.28+):
 git init -b &lt;initial-branch&gt;
 
 # 2. Stage all initial files and make the first milestone
@@ -1354,7 +1361,7 @@ git push -u &lt;remote&gt; &lt;initial-branch&gt;</code></pre>
             <span>Clone &amp; Inspect</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Download complete repository history into a new folder:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Download complete repository history into a new folder:
 git clone https://github.com/username/repo.git
 
 # 2. Enter directory and inspect status:
@@ -1393,7 +1400,7 @@ git branch -a</code></pre>
             <span>Status, Add &amp; Diff</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Review status of modified files:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Review status of modified files:
 git status
 
 # 2. Stage specific intended files:
@@ -1437,7 +1444,7 @@ git commit -m "feat: add user authentication"</code></pre>
             <span>Branch Navigation</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Create and switch to a new branch:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Create and switch to a new branch:
 git switch -c feature/redesign
 
 # 2. Work safely, edit files, and commit:
@@ -1453,7 +1460,7 @@ git switch &lt;original-branch&gt;</code></pre>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git branch --show-current</code> to verify your active branch.
         </div>
-        <div class="table-container">
+        <div class="table-container" tabindex="0" role="region" aria-label="Comparison table">
           <table class="compare-table">
             <thead>
               <tr><th>Task</th><th>Modern Standard (Git 2.23+)</th><th>Legacy Overloaded</th></tr>
@@ -1492,7 +1499,7 @@ git switch &lt;original-branch&gt;</code></pre>
             <span>Restore Commands</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Unstage a file (SAFE: keeps your local edits in file):
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Unstage a file (SAFE: keeps your local edits in file):
 git restore --staged &lt;filename&gt;
 
 # 2. Discard uncommitted edits (PERMANENT: overwrites file):
@@ -1527,7 +1534,7 @@ git revert &lt;commit-id&gt;</code></pre>
               <li><strong>Working Tree:</strong> The physical files and directories you edit directly on your operating system filesystem.</li>
             </ul>
             <p>The <code>git reset</code> command alters how many of these three trees move:</p>
-            <div class="table-container">
+            <div class="table-container" tabindex="0" role="region" aria-label="Comparison table">
               <table class="compare-table">
                 <thead>
                   <tr><th>Reset Flag</th><th>HEAD</th><th>Index (Cart)</th><th>Working Tree</th><th>Risk Level</th></tr>
@@ -1562,7 +1569,7 @@ git revert &lt;commit-id&gt;</code></pre>
             <span>Fetch, Rebase &amp; Remote URLs</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Download remote changes WITHOUT altering working files:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Download remote changes WITHOUT altering working files:
 git fetch &lt;remote&gt;
 
 # 2. Pull & integrate linearly into your branch:
@@ -1592,7 +1599,7 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
           </summary>
           <div class="task-deep-dive-content">
             <p>The Git command-line engine is identical across all hosts, but team review workflows and automation conventions differ:</p>
-            <div class="table-container">
+            <div class="table-container" tabindex="0" role="region" aria-label="Comparison table">
               <table class="compare-table">
                 <thead>
                   <tr><th>Capability</th><th>🐙 GitHub</th><th>🦊 GitLab</th><th>🪣 Bitbucket</th></tr>
@@ -1637,7 +1644,7 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
             <span id="pipelineSnippetTitle">GitHub Actions (.github/workflows/ci.yml)</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code id="pipelineSnippetCode"># .github/workflows/ci.yml
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code id="pipelineSnippetCode"># .github/workflows/ci.yml
 name: CI
 on: [push, pull_request]
 
@@ -1678,7 +1685,7 @@ jobs:
             <span>Stash Lifecycle</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Stash changes (use -u to include newly created files):
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Stash changes (use -u to include newly created files):
 git stash push -u -m "WIP: navigation refactor"
 
 # 2. Your workspace is now clean. Switch branches or patch...
@@ -1721,7 +1728,7 @@ git stash apply &lt;stash-reference&gt;
             <span>Realistic Conflict Markers</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 const apiEndpoint = "https://api.v2.internal";
 =======
 const apiEndpoint = "https://api.v3.production";
@@ -1732,7 +1739,7 @@ const apiEndpoint = "https://api.v3.production";
             <span>Resolution Steps</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Edit file: delete the 3 marker lines and keep the right code
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Edit file: delete the 3 marker lines and keep the right code
 # 2. Mark conflict resolved:
 git add src/config.js
 
@@ -1765,7 +1772,7 @@ git merge --continue   # Or 'git merge --abort'</code></pre>
             <span>Rebase Session</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># Rebase the last 3 local commits:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># Rebase the last 3 local commits:
 git rebase -i HEAD~3
 
 # In editor:
@@ -1823,7 +1830,7 @@ git rebase -i HEAD~3
             <span>Diagnosis &amp; Safe Exit</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Check if detached:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Check if detached:
 git status  # Shows: "HEAD detached at a1b2c3d"
 
 # Exit A: Switch only after preserving any wanted detached commits:
@@ -1858,7 +1865,7 @@ git switch -c recovery-branch</code></pre>
             <span>Worktree Management</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Check out hotfix branch into sibling folder:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Check out hotfix branch into sibling folder:
 git worktree add ../project-hotfix hotfix-branch
 
 # 2. List all active directory locations:
@@ -1893,7 +1900,7 @@ git worktree remove ../project-hotfix</code></pre>
             <span>Reflog Rescue Recipe</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. View chronological action ledger:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. View chronological action ledger:
 git reflog -n 15
 
 # 2. Locate the commit hash before the mistake (e.g. HEAD@{2})
@@ -1944,7 +1951,7 @@ git branch rescue-branch &lt;verified-commit-id&gt;</code></pre>
             <span>Bisect Binary Search</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Start binary search:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Start binary search:
 git bisect start
 git bisect bad                 # Current version is broken
 git bisect good v1.2.0          # Known good previous release
@@ -1984,7 +1991,7 @@ git blame -L 20,45 src/app.js</code></pre>
             <span>Annotated Tag Workflow</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Create an annotated release tag:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Create an annotated release tag:
 git tag -a v1.0.0 -m "Release v1.0.0: Initial public launch"
 
 # 2. Push tag to GitHub (tags are not pushed by default!):
@@ -2024,7 +2031,7 @@ git tag --sort=version:refname -n 1</code></pre>
           <div class="snippet-header">
             <span>Inspect and Coordinate Before Rewriting</span>
           </div>
-          <pre class="code-content"><code># Inspect repository and remote first:
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># Inspect repository and remote first:
 git status
 git branch -vv
 git remote -v
@@ -2062,7 +2069,7 @@ git remote -v
             <span>Cherry-Pick Recipe</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Switch to target branch (e.g. maintenance branch):
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Switch to target branch (e.g. maintenance branch):
 git switch release/v1.0
 
 # 2. Pluck specific bugfix commit by hash:
@@ -2265,6 +2272,8 @@ git cherry-pick 7a1b2c3
       button.addEventListener('click', () => copySnippet(button));
       header.append(element('span', '', 'Recommended Command'), button);
       const pre = element('pre', 'code-content');
+      pre.tabIndex = 0;
+      pre.setAttribute('aria-label', 'Code example');
       pre.append(element('code', '', data.code));
       snippet.append(header, pre);
       treeSolutionPanel.replaceChildren(top, element('p', '', data.desc), snippet,
