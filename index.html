@@ -135,10 +135,10 @@
 
       <!-- Mode Switcher -->
       <div class="mode-switcher" id="modeSwitcher" role="group" aria-label="Experience Mode">
-        <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Task-driven language, real-world analogies, hides advanced commands">
+        <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Plain-language explanations; all workflows and warnings remain available">
           🌱 Plain English
         </button>
-        <button class="mode-btn" data-mode="pro" aria-pressed="false" title="Full developer matrix, rebase, DAG architecture, and worktrees">
+        <button class="mode-btn" data-mode="pro" aria-pressed="false" title="Developer terminology and detail; the same workflows and warnings">
           ⚡ Developer Hub
         </button>
       </div>
@@ -182,6 +182,65 @@
   </header>
 
   <main class="container" id="mainContent">
+    <section class="v2-hero" aria-labelledby="v2Title">
+      <div>
+        <p class="v2-kicker">GITUNSTUCK · 2.0 DEVELOPMENT</p>
+        <h2 id="v2Title">Understand the state.<br>Choose the next step.</h2>
+        <p>Get practical help with a Git problem, follow a workflow, or explore how history changes.</p>
+      </div>
+      <aside class="v2-local" aria-label="Local-first help">
+        <strong>Your work stays yours.</strong>
+        <p>This guide explains commands. It does not run Git, access your repository or upload terminal output.</p>
+      </aside>
+    </section>
+    <nav class="v2-nav" aria-label="Primary navigation">
+      <button id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="v2NavLinks">Explore GitUnstuck</button>
+      <div id="v2NavLinks">
+        <a href="#fix">Fix My Git</a>
+        <a href="#workflows">Workflows</a>
+        <a href="#reference">Reference</a>
+        <a href="#playground">Playground</a>
+        <a href="#learn">Learn Git</a>
+      </div>
+    </nav>
+    <div class="v2-context">
+      <p id="routeBreadcrumb" aria-live="polite">GitUnstuck / Fix My Git</p>
+      <div class="v2-preferences">
+        <label>Host <select id="providerSelect"><option value="generic">Generic Git</option><option value="github">GitHub</option><option value="gitlab">GitLab</option><option value="bitbucket">Bitbucket</option></select></label>
+        <label>Shell <select id="shellSelect"><option value="powershell">PowerShell</option><option value="bash">Bash</option><option value="cmd">CMD</option></select></label>
+        <button id="resetPreferences" type="button">Reset preferences</button>
+      </div>
+    </div>
+    <p class="v2-shell-note" id="shellNote" role="status">Replace placeholders with your verified values. Quote file paths with spaces.</p>
+    <section id="view-fix" class="v2-view" aria-labelledby="fixHeading">
+      <h2 id="fixHeading" tabindex="-1">What went wrong?</h2>
+      <p>Choose the closest problem. Inspect the prerequisites and keep wanted changes before taking an action.</p>
+      <div class="v2-problems">
+        <button type="button" data-recovery="staged">I staged the wrong files<span>Keep the edits; change the index.</span></button>
+        <button type="button" data-recovery="unstaged">I want to discard edits<span>Inspect what would be lost first.</span></button>
+        <button type="button" data-recovery="local-commit">My latest local commit is wrong<span>Review amend or reset prerequisites.</span></button>
+        <button type="button" data-recovery="pushed-commit">A shared commit needs undoing<span>Revert can require conflict resolution.</span></button>
+        <button type="button" data-recovery="lost-reflog">I lost committed work<span>Look for a retained commit.</span></button>
+        <a href="#card-conflict">I have a merge conflict<span>Identify the operation before continuing.</span></a>
+        <a href="#card-detached">I am on detached HEAD<span>Preserve wanted commits with a branch.</span></a>
+        <a href="#card-sync">My push was rejected<span>Inspect divergence and remote values.</span></a>
+      </div>
+    </section>
+    <section id="view-workflows" class="v2-view" aria-labelledby="workflowsHeading" hidden>
+      <h2 id="workflowsHeading" tabindex="-1">Choose a workflow</h2>
+      <p>Inspect → decide → act → verify. Each guide keeps prerequisites and cautions visible.</p>
+      <div id="workflowChoices" class="v2-problems"></div>
+      <section id="workflowStepper" aria-label="Selected workflow" hidden></section>
+    </section>
+    <section id="view-reference" class="v2-view" aria-label="Command reference" hidden></section>
+    <section id="view-playground" class="v2-view" aria-labelledby="playgroundHeading" hidden>
+      <h2 id="playgroundHeading" tabindex="-1">Explore commit history</h2>
+      <p>Compare illustrated history scenarios. The branch names are examples; no commands run on your computer.</p>
+    </section>
+    <section id="view-learn" class="v2-view" aria-labelledby="learnHeading" hidden>
+      <h2 id="learnHeading" tabindex="-1">Build your Git mental model</h2>
+      <p>Start with the working tree, index and commits. Use the examples to understand a command before running it.</p>
+    </section>
     <aside class="callout warning" aria-label="Command prerequisites">
       Examples target Git 2.28 or newer. Run <code>git --version</code> first.
       Replace every <code>&lt;placeholder&gt;</code> with your verified value before running a command; quote paths containing spaces.
@@ -1264,6 +1323,6 @@ git cherry-pick 7a1b2c3
     <p>GitUnstuck • Built for safe, modern software engineering • Includes Git 2.23+ switch &amp; restore syntax</p>
   </footer>
 
-  <script type="module" src="assets/js/app.mjs"></script>
+  <script type="module" src="assets/js/shell.mjs"></script>
 </body>
 </html>

@@ -2,6 +2,7 @@ import knowledge from './knowledge.mjs';
 import { validateKnowledge } from './schema.mjs';
 import { matchesFilters } from './filter.mjs';
 import { textElement } from './dom.mjs';
+import { formatSnippet } from './shell-format.mjs';
 (() => {
 'use strict';
 validateKnowledge(knowledge);
@@ -10,7 +11,7 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
 // Storage Safety Helpers (with strict value validation)
     function safeStorageGet(key, defaultVal, allowedValues) {
       try {
-        const val = localStorage.getItem(key);
+        const val = localStorage.getItem(`gitunstuck.${key}`) ?? localStorage.getItem(key);
         if (allowedValues && !allowedValues.includes(val)) {
           return defaultVal;
         }
@@ -22,7 +23,7 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
 
     function safeStorageSet(key, val) {
       try {
-        localStorage.setItem(key, val);
+        localStorage.setItem(`gitunstuck.${key}`, val);
       } catch (e) {
         // Silently ignore storage errors
       }
@@ -117,7 +118,7 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
       const pre = element('pre', 'code-content');
       pre.tabIndex = 0;
       pre.setAttribute('aria-label', 'Code example');
-      pre.append(element('code', '', data.code));
+      pre.append(element('code', '', formatSnippet(data.code, getShell())));
       snippet.append(header, pre);
       treeSolutionPanel.replaceChildren(top, element('p', '', data.desc), snippet,
         element('div', 'card-effect', `What happens: ${data.effect}`),
@@ -160,7 +161,7 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
           <strong>Architectural Takeaway:</strong> ${data.rule}
         </div>
       `;
-      graphExplanationPanel.querySelector('.graph-command-chip').textContent = data.command;
+      graphExplanationPanel.querySelector('.graph-command-chip').textContent = formatSnippet(data.command, getShell());
     }
 
     graphTabBtns.forEach(btn => {
@@ -186,7 +187,6 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
 
     function filterCards() {
       const query = (searchInput && searchInput.value ? searchInput.value : '').toLowerCase().trim();
-      const currentMode = htmlElem.getAttribute('data-view') || 'beginner';
       const queryTokens = query ? query.split(/\s+/).filter(Boolean) : [];
       let visibleCount = 0;
 
@@ -202,13 +202,6 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
         const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
         const title = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
         const content = (card.textContent || '').toLowerCase();
-        const isPro = card.classList.contains('pro-only');
-
-        // In beginner mode without an active search query, hide pro-only cards
-        if (currentMode === 'beginner' && isPro && queryTokens.length === 0) {
-          card.style.display = 'none';
-          return;
-        }
 
 
         const cardSearchText = `${title} ${keywords} ${content}`;
@@ -249,19 +242,6 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
         btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       });
 
-      const proOnlyFilterPill = document.querySelector('.filter-pill[data-filter="pro"]');
-      if (proOnlyFilterPill) {
-        proOnlyFilterPill.style.display = mode === 'pro' ? 'inline-block' : 'none';
-      }
-
-      if (mode === 'beginner' && activeFilter === 'pro') {
-        activeFilter = 'all';
-        filterPills.forEach(pill => {
-          const isAll = pill.getAttribute('data-filter') === 'all';
-          pill.classList.toggle('active', isAll);
-          pill.setAttribute('aria-pressed', isAll ? 'true' : 'false');
-        });
-      }
 
       filterCards();
       announceState(`Switched to ${mode === 'beginner' ? 'Plain English' : 'Developer Hub'} mode`);
@@ -369,11 +349,6 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
         const targetElem = document.getElementById(targetId);
         if (!targetElem) return;
 
-        // If target is a pro-only card and currently in beginner view, switch to pro view
-        if (targetElem.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
-          setMode('pro');
-        }
-
         // Reset search query and filters to ensure target is visible
         if (searchInput) searchInput.value = '';
         activeFilter = 'all';
@@ -391,7 +366,7 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
         filterCards();
 
         // Scroll into view with smooth animation & visual highlight
-        targetElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetElem.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
         targetElem.classList.add('highlighted');
         announceState(`Jumped to ${targetElem.querySelector('h2')?.innerText || 'module'}`);
         setTimeout(() => { targetElem.classList.remove('highlighted'); }, 2200);
@@ -471,7 +446,7 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
         const config = pipelineConfigs[provider];
         if (config && pipelineSnippetTitle && pipelineSnippetCode) {
           pipelineSnippetTitle.textContent = config.title;
-          pipelineSnippetCode.textContent = config.code;
+          pipelineSnippetCode.textContent = formatSnippet(config.code, getShell());
           announceState(`Pipeline configuration switched to ${config.title}`);
         }
       });
@@ -482,10 +457,20 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
     setMode(initialMode);
   
 window.copySnippet = copySnippet;
-window.GitUnstuck = { renderUndoSolution, setMode, filterCards };
+window.GitUnstuck = { renderUndoSolution, setMode, filterCards, applyShell, setTheme: applyTheme };
+function getShell() { return document.getElementById('shellSelect')?.value || 'powershell'; }
+function applyShell(shell = getShell()) {
 // Validate static fallback parity in CI; use canonical text at runtime.
 for (const recipe of workflows) {
  const nodes=document.querySelectorAll('#'+recipe.id+' pre code');
- recipe.commands.forEach((id,index)=>{if(nodes[index]) nodes[index].textContent=commands.find(c=>c.id===id).syntax;});
+ recipe.commands.forEach((id,index)=>{if(nodes[index]) nodes[index].textContent=formatSnippet(commands.find(c=>c.id===id).syntax, shell);});
 }
+const recovery = document.querySelector('.tree-choice-btn.active')?.getAttribute('data-location');
+if (recovery) renderUndoSolution(recovery);
+const graph = document.querySelector('.graph-tab-btn.active')?.getAttribute('data-scenario');
+if (graph) renderGraphScenario(graph);
+const provider = document.querySelector('.pipeline-tab-btn.active')?.getAttribute('data-provider');
+if (provider && pipelineSnippetCode) pipelineSnippetCode.textContent = formatSnippet(pipelineConfigs[provider].code, shell);
+}
+applyShell();
 })();

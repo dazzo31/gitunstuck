@@ -7,8 +7,8 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 - Baseline repository revision: `bf839df2fe30001824fa5068ce471046925a186f`
 - Current working branch: `v2.0` (remote); isolated local worktree `v2.0-work`
 - Working tree at start: clean
-- Current phase: `3 — modular foundation`
-- Current active task: `GU-0301`
+- Current phase: `4 — task-first interface`
+- Current active task: `GU-0401`
 - Last verified test command: `node --test tests/baseline.test.mjs tests/baseline-git.test.mjs` — 15 passed, 0 failed, exit 0
 - Last phase gate: `PASS` — baseline CI run 38310170424: 15 source/Git tests and 8 browser matrix cases passed
 
@@ -37,12 +37,12 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 | 2 | GU-0204 | Add real-Git integration harness that creates disposable repositories and disposable local bare remotes; assert real exit codes, index/tree, commit/ref states and conflicts | PASS | docs/TASK_EVIDENCE.md; CI 38312113731 |
 | 2 | GU-0205 | Add content validation, basic accessibility checks, HTML/JS syntax checks and a reproducible local smoke test for Pages subpath deployment | PASS | docs/TASK_EVIDENCE.md; CI 38312113731 |
 | 2 | GU-0206 | Update GitHub Actions so quality gates run on PRs and deployment requires successful checks; scope workflow permissions minimally; preserve existing deployment behaviour | PASS | docs/TASK_EVIDENCE.md; CI 38312113731 |
-| 3 | GU-0301 | Record architecture decision: static Pages, no backend required for core app, routing strategy compatible with /gitunstuck/, module/build approach and minimum supported browsers | NOT_STARTED | — |
-| 3 | GU-0302 | Extract CSS, application bootstrap, UI components, filtering/search and recovery data from monolithic HTML incrementally | NOT_STARTED | — |
-| 3 | GU-0303 | Create JSON/JS/typed schema for CommandDefinition, WorkflowDefinition, DiagnosticObservation, RiskAssessment, PlatformAdapter; choose a schema-validator with justified footprint | NOT_STARTED | — |
-| 3 | GU-0304 | Move command and workflow content in small batches, diff old/new rendered text and verify ID + URL stability | NOT_STARTED | — |
-| 3 | GU-0305 | Establish safe rendering helpers, trusted-content boundaries, parser error boundaries and no global implicit state | NOT_STARTED | — |
-| 3 | GU-0306 | Add documentation: architecture, content authoring, safety-review checklist, how to run/tests and migration decisions | NOT_STARTED | — |
+| 3 | GU-0301 | Record architecture decision: static Pages, no backend required for core app, routing strategy compatible with /gitunstuck/, module/build approach and minimum supported browsers | PASS | docs/TASK_EVIDENCE.md; CI 38313033874 |
+| 3 | GU-0302 | Extract CSS, application bootstrap, UI components, filtering/search and recovery data from monolithic HTML incrementally | PASS | docs/TASK_EVIDENCE.md; CI 38313033874 |
+| 3 | GU-0303 | Create JSON/JS/typed schema for CommandDefinition, WorkflowDefinition, DiagnosticObservation, RiskAssessment, PlatformAdapter; choose a schema-validator with justified footprint | PASS | docs/TASK_EVIDENCE.md; CI 38313033874 |
+| 3 | GU-0304 | Move command and workflow content in small batches, diff old/new rendered text and verify ID + URL stability | PASS | docs/TASK_EVIDENCE.md; CI 38313033874 |
+| 3 | GU-0305 | Establish safe rendering helpers, trusted-content boundaries, parser error boundaries and no global implicit state | PASS | docs/TASK_EVIDENCE.md; CI 38313033874 |
+| 3 | GU-0306 | Add documentation: architecture, content authoring, safety-review checklist, how to run/tests and migration decisions | PASS | docs/TASK_EVIDENCE.md; CI 38313033874 |
 | 4 | GU-0401 | Rework landing page around problem search, common problems and clear entry points | NOT_STARTED | — |
 | 4 | GU-0402 | Introduce responsive shell/nav: mobile menu, breadcrumbs, persistent task context and direct links to routes | NOT_STARTED | — |
 | 4 | GU-0403 | Keep beginner and developer modes as **explanation depth**, not inconsistent datasets | NOT_STARTED | — |
@@ -110,7 +110,7 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 | 0 | PASS | CI run 38310170424: 15 + 8 passed | Chromium emulated mobile; no human screen-reader validation |
 | 1 | PASS | CI 38310871166: 33 source/Git + 8 frozen baseline + 8 current browser cases passed | Final force-lease wording checked locally; license provenance unresolved |
 | 2 | PASS | CI 38312113731: 45 checks + 16 browser contexts; axe gate passes | Chromium only; human screen-reader review not performed |
-| 3 | NOT_STARTED | — | — |
+| 3 | PASS | CI 38313033874: 60 tests + 16 browser contexts; content parity checked | Native modules; Chromium-only browser evidence |
 | 4 | NOT_STARTED | — | — |
 | 5 | NOT_STARTED | — | — |
 | 6 | NOT_STARTED | — | — |

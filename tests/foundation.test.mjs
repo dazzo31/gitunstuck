@@ -5,6 +5,7 @@ import vm from 'node:vm';
 import knowledge from '../assets/js/knowledge.mjs';
 import { matchesFilters } from '../assets/js/filter.mjs';
 import { textElement } from '../assets/js/dom.mjs';
+import { formatSnippet } from '../assets/js/shell-format.mjs';
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const script = readFileSync(new URL('../assets/js/app.mjs', import.meta.url), 'utf8');
 const knowledgeSource = readFileSync(new URL('../assets/js/knowledge.mjs', import.meta.url), 'utf8');
@@ -24,7 +25,7 @@ for (const key of ['unstaged', 'staged', 'local-commit', 'pushed-commit', 'lost-
   test(`recovery ${key}: placeholders survive text-only rendering`, () => {
     const panel = new Node('div');
     const expected = vm.runInNewContext(section('const undoSolutions =', 'treeChoiceBtns.forEach') + `\nrenderUndoSolution('${key}'); undoSolutions['${key}'].code;`, {
-      treeSolutionPanel: panel, document: { createElement: tag => new Node(tag) }, copySnippet() {}, textElement
+      treeSolutionPanel: panel, document: { createElement: tag => new Node(tag) }, copySnippet() {}, textElement, formatSnippet, getShell: () => 'powershell'
     });
     assert.equal(flatten(panel).find(n => n.tag === 'code').textContent, expected);
     assert.ok(flatten(panel).some(n => n.className === 'callout warning'));
@@ -33,7 +34,7 @@ for (const key of ['unstaged', 'staged', 'local-commit', 'pushed-commit', 'lost-
 test('hostile recipe text cannot become elements', () => {
   const panel = new Node('div'); const hostile = '<img src=x onerror=alert(1)>';
   vm.runInNewContext(section('const undoSolutions =', 'treeChoiceBtns.forEach') + `\nundoSolutions.unstaged.code = ${JSON.stringify(hostile)}; renderUndoSolution('unstaged');`, {
-    treeSolutionPanel: panel, document: { createElement: tag => new Node(tag) }, copySnippet() {}, textElement
+    treeSolutionPanel: panel, document: { createElement: tag => new Node(tag) }, copySnippet() {}, textElement, formatSnippet, getShell: () => 'powershell'
   });
   assert.equal(flatten(panel).find(n => n.tag === 'code').textContent, hostile);
   assert.ok(!flatten(panel).some(n => n.tag === 'img'));

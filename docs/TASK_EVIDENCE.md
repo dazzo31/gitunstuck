@@ -60,3 +60,16 @@ GU-0305: controller uses closure state and explicit copy/UI compatibility adapte
 GU-0306: architecture and contributor guidance document boundaries, content authoring, safety review and test/build process. No proposed parser, recovery engine or simulator is described as already implemented.
 
 Local verification: `npm test` 60 passed, 0 failed, exit 0; `npm run check`, `npm run build`, `git diff --check` exit 0. CI/browser parity gate pending; do not advance until it succeeds.
+
+Phase 3 gate PASS: https://github.com/dazzo31/gitunstuck/actions/runs/38313033874 at c085c59542b9b7e621e093169d336755ddd720a0 passed 60 tests, content/public build, 8 baseline and 8 current-browser cases with accessibility gate.
+
+## Phase 4 — local checks pass; browser gate pending
+
+GU-0401: task-first landing, eight common problem entry points, local-first explanation and five primary destinations; native controls retained.
+GU-0402: native hash links and route resolver preserve Pages subpath and old card anchors; hashchange supports back/forward; mobile menu uses aria-expanded; route context/focus follows navigation. Unknown/malformed fragments fail safely. Existing sections moved into task views without changing their IDs.
+GU-0403: both explanation modes retain all 17 workflows and safety cautions. Advanced category remains available; jumping to a workflow does not silently change the mode. Static and canonical content parity remains enforced.
+GU-0404: all 17 workflows have Inspect/Decide/Act/Verify panels, persistent warning, back/restart and different-result diagnostic return. These are prerequisite-aware reference guides, not the state-driven engine planned in Phase 6. Action alternatives are not one-click copied as a compound script.
+GU-0405: provider/shell preferences are allowlisted and stored locally under gitunstuck.*; no diagnostic text is stored. Reset restores known preferences. CMD comment lines use REM and inline comments are removed outside quotes; PowerShell 5.1 avoids executable && outside quotes. Required placeholders remain literal until the user substitutes them. Formatting tests preserve quoted hashes/operators.
+GU-0406: semantic links/selects/buttons, route focus, named graph/code scroll regions, responsive menu, reduced-motion jump behavior and contrast rules retained. Browser suite exercises all five views, stepper failure return and all-mode parity with axe across desktop/mobile and themes. Human screen-reader review remains a limitation, not a claimed pass.
+
+Local: `npm test` 69 passed, 0 failed; `npm run check`, `npm run build`, `git diff --check` exit 0. New browser route/accessibility gate pending; no Phase 5 features started.
