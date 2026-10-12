@@ -9,7 +9,7 @@ const assert = require('node:assert/strict');
 (async () => {
   const root = resolve(__dirname, '..');
   const server = createServer((req, res) => {
-    const paths = { '/gitunstuck/': ['index.html', 'text/html'], '/gitunstuck/favicon.svg': ['favicon.svg', 'image/svg+xml'] };
+    const paths = { '/gitunstuck/': [process.env.BASELINE_FIXTURE ? 'tests/fixtures/baseline-index.html' : 'index.html', 'text/html'], '/gitunstuck/favicon.svg': ['favicon.svg', 'image/svg+xml'] };
     const asset = paths[new URL(req.url, 'http://localhost').pathname];
     if (!asset) { res.writeHead(404); res.end(); return; }
     res.setHeader('Content-Type', asset[1]); res.end(readFileSync(resolve(root, asset[0])));
@@ -30,7 +30,23 @@ const assert = require('node:assert/strict');
       await page.locator('[data-location="unstaged"]').click();
       const restore = await page.locator('#treeSolutionPanel code').textContent();
       assert.ok(restore.includes('git restore '));
-      assert.ok(!restore.includes('<filename>'), 'Original placeholder defect reproduced');
+      if (process.env.BASELINE_FIXTURE) assert.ok(!restore.includes('<filename>'), 'Original placeholder defect reproduced');
+      else {
+        assert.ok(restore.includes('<filename>'), 'Corrected placeholder rendered literally');
+        await page.locator('[data-mode="pro"]').click();
+        await page.locator('[data-risk-filter="inspect"]').click();
+        await page.locator('#searchInput').fill('force');
+        assert.equal(await page.locator('.card:visible').count(), 0, 'Search cannot override effect');
+        await page.locator('[data-risk-filter="all"]').click();
+        await page.locator('[data-filter="essential"]').click();
+        assert.equal(await page.locator('.card:visible').count(), 0, 'Search cannot override category');
+        await page.locator('#resetFiltersBtn').click();
+        await page.locator(`[data-mode="${mode}"]`).click();
+        await page.evaluate(() => { undoSolutions.unstaged.code = '<img src=x onerror=alert(1)>'; renderUndoSolution('unstaged'); });
+        assert.equal(await page.locator('#treeSolutionPanel img').count(), 0);
+        assert.equal(await page.locator('#treeSolutionPanel code').textContent(), '<img src=x onerror=alert(1)>');
+        await page.locator('[data-location="staged"]').click();
+      }
       await page.locator('.graph-tab-btn[data-scenario="merge"]').click();
       assert.equal(await page.locator('#graphSvgContainer svg').count(), 1);
       await page.locator('.pipeline-tab-btn[data-provider="gitlab"]').click();
@@ -46,6 +62,6 @@ const assert = require('node:assert/strict');
       console.log('BASELINE_OBSERVATION', JSON.stringify(observation)); passed++;
       await context.close();
     }
-    console.log(`BASELINE_BROWSER: ${passed} passed, 0 failed; Chromium desktop/mobile x light/dark x beginner/pro.`);
+    console.log(`${process.env.BASELINE_FIXTURE ? 'BASELINE' : 'FOUNDATION'}_BROWSER: ${passed} passed, 0 failed; Chromium desktop/mobile x light/dark x beginner/pro.`);
   } finally { if (browser) await browser.close(); await new Promise(r => server.close(r)); }
 })().catch(e => { console.error(e); process.exitCode = 1; });

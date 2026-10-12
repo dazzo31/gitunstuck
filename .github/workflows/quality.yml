@@ -16,12 +16,17 @@ jobs:
         with:
           node-version: '24'
       - name: Source and disposable Git baseline
-        run: node --test tests/baseline.test.mjs tests/baseline-git.test.mjs
+        run: node --test tests/*.test.mjs
       - name: Install isolated browser test runtime
         run: npm install --prefix "$RUNNER_TEMP/gitunstuck-browser" --no-save --package-lock=false playwright@1.56.1
       - name: Install Chromium on CI runner
         run: node "$RUNNER_TEMP/gitunstuck-browser/node_modules/playwright/cli.js" install --with-deps chromium
       - name: Desktop and mobile baseline observations
+        env:
+          PLAYWRIGHT_MODULE_PATH: ${{ runner.temp }}/gitunstuck-browser/node_modules/playwright
+          BASELINE_FIXTURE: '1'
+        run: node tests/baseline-browser.cjs
+      - name: Corrected behavior regression
         env:
           PLAYWRIGHT_MODULE_PATH: ${{ runner.temp }}/gitunstuck-browser/node_modules/playwright
         run: node tests/baseline-browser.cjs

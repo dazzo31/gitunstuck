@@ -18,16 +18,13 @@
   <meta property="og:site_name" content="GitUnstuck">
   <meta property="og:title" content="GitUnstuck • The Visual Problem-Solving &amp; Recovery Guide">
   <meta property="og:description" content="Visual, task-first Git problem-solving reference. Features interactive undo decision tree, commit graph DAG explorer, multi-host remotes, and zero-jargon mental models.">
-  <meta property="og:image" content="https://dazzo31.github.io/gitunstuck/og-preview.png">
-  <meta property="og:image:alt" content="GitUnstuck Visual Guide &amp; Commit Graph Explorer">
   <meta property="og:locale" content="en_US">
 
   <!-- Twitter / X Cards -->
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:url" content="https://dazzo31.github.io/gitunstuck/">
   <meta name="twitter:title" content="GitUnstuck • The Visual Problem-Solving &amp; Recovery Guide">
   <meta name="twitter:description" content="Visual, task-first Git problem-solving reference. Features interactive undo decision tree, commit graph DAG explorer, and zero-jargon mental models.">
-  <meta name="twitter:image" content="https://dazzo31.github.io/gitunstuck/og-preview.png">
 
   <!-- Theme color & Web App metadata -->
   <meta name="application-name" content="GitUnstuck">
@@ -82,7 +79,7 @@
             "name": "How do I discard unstaged edits in my working files?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Run git restore <filename> or git restore . to discard uncommitted edits in your working directory."
+              "text": "Inspect git diff and preserve wanted edits before using git restore -- <filename>. By default it replaces the working file from the index, discarding unstaged edits."
             }
           },
           {
@@ -98,7 +95,7 @@
             "name": "How do I undo a commit that was already pushed to GitHub?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Run git revert <commit-hash> followed by git push. This creates a safe, audit-proof inverse commit that undoes the changes without rewriting public history."
+              "text": "For an ordinary shared commit, git revert <commit-hash> records an inverse commit without rewriting existing history. It can conflict: inspect git status, resolve and continue, or abort. Review and test before publishing."
             }
           },
           {
@@ -106,7 +103,7 @@
             "name": "How do I rescue a deleted branch or lost commit in Git?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Run git reflog -n 15 to find the commit hash before the mistake, then run git switch -c rescue-branch HEAD@{n} to resurrect the orphaned commit into active history."
+              "text": "Use git reflog -n 15 to identify retained committed work, inspect its commit ID, then create a rescue branch at that ID. Reflog does not guarantee recovery of discarded unstaged edits."
             }
           }
         ]
@@ -1019,6 +1016,12 @@
   </header>
 
   <main class="container" id="mainContent">
+    <aside class="callout warning" aria-label="Command prerequisites">
+      Examples target Git 2.28 or newer. Run <code>git --version</code> first.
+      Replace every <code>&lt;placeholder&gt;</code> with your verified value before running a command; quote paths containing spaces.
+      <code>main</code> in graph illustrations is an example branch name. Inspect <code>git branch -vv</code> and <code>git remote -v</code> for your repository.
+      Recipes explain choices; do not paste every alternative as one script. Inspect status and preserve wanted work before making changes.
+    </aside>
 
     <!-- Printable Header Banner (Visible only when printed) -->
     <div class="print-banner" aria-hidden="true">
@@ -1273,12 +1276,14 @@
         <button class="filter-pill pro-only" data-filter="pro" aria-pressed="false">Advanced / Pro</button>
       </nav>
 
-      <nav class="filter-bar risk-filter-bar" id="riskFilter" aria-label="Risk level filter">
-        <span class="filter-group-label" aria-hidden="true">Risk Level:</span>
-        <button class="risk-pill active" data-risk-filter="all" aria-pressed="true">All Risks</button>
-        <button class="risk-pill risk-pill-safe" data-risk-filter="safe" aria-pressed="false">🟢 Safe / Read-Only</button>
-        <button class="risk-pill risk-pill-caution" data-risk-filter="caution" aria-pressed="false">🟡 Caution / Reversible</button>
-        <button class="risk-pill risk-pill-dest" data-risk-filter="destructive" aria-pressed="false">🔴 Destructive / Rewriting</button>
+      <nav class="filter-bar risk-filter-bar" id="riskFilter" aria-label="Operation effect filter">
+        <span class="filter-group-label" aria-hidden="true">Effects (may overlap):</span>
+        <button class="risk-pill active" data-risk-filter="all" aria-pressed="true">All Effects</button>
+        <button class="risk-pill risk-pill-safe" data-risk-filter="inspect" aria-pressed="false">Inspect Only</button>
+        <button class="risk-pill risk-pill-caution" data-risk-filter="local-change" aria-pressed="false">Local Change</button>
+        <button class="risk-pill risk-pill-dest" data-risk-filter="data-loss-potential" aria-pressed="false">Data Loss Potential</button>
+        <button class="risk-pill" data-risk-filter="history-rewrite" aria-pressed="false">History Rewrite</button>
+        <button class="risk-pill" data-risk-filter="remote-publish" aria-pressed="false">Remote Publish</button>
       </nav>
     </div>
 
@@ -1292,14 +1297,14 @@
     <div class="cards-grid" id="cardsGrid">
 
       <!-- CARD 1: Start a Repository from Scratch -->
-      <article class="card" id="card-init" data-category="essential" data-risk="safe" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
+      <article class="card" id="card-init" data-category="essential" data-effects="local-change remote-publish" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
         <div class="card-top">
           <h2 class="card-title">Start a Repository from Scratch</h2>
           <span class="card-tag">Onboarding</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local → Remote</span>
-          <span class="badge badge-risk-safe">Risk: Safe</span>
+          <span class="badge badge-risk-safe">Effects: Local change</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You started a new project folder on your machine and want to begin tracking it with Git and connect it to GitHub.
@@ -1309,19 +1314,19 @@
             <span>Initialization Sequence</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Initialize local repository with default branch 'main'
-git init -b main
+          <pre class="code-content"><code># 1. Choose your new repository's initial branch (Git 2.28+):
+git init -b &lt;initial-branch&gt;
 
 # 2. Stage all initial files and make the first milestone
 git add .
 git commit -m "feat: initial project setup"
 
 # 3. Link to your empty GitHub repository and push
-git remote add origin https://github.com/username/repo.git
-git push -u origin main</code></pre>
+git remote add &lt;remote&gt; &lt;repository-url&gt;
+git push -u &lt;remote&gt; &lt;initial-branch&gt;</code></pre>
         </div>
         <div class="card-effect">
-          <strong>What happens:</strong> Creates a hidden <code>.git</code> database in your folder, snapshots your initial files, and links your local <code>main</code> branch to GitHub.
+          <strong>What happens:</strong> Initializes local history, snapshots staged files, and publishes to the selected remote/branch. Review staged files and secrets before committing or publishing.
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git remote -v</code> and <code>git status</code> to confirm clean tree and upstream tracking.
@@ -1332,14 +1337,14 @@ git push -u origin main</code></pre>
       </article>
 
       <!-- CARD 2: Clone an Existing Project -->
-      <article class="card" id="card-clone" data-category="essential" data-risk="safe" data-keywords="clone download github gitlab copy repo existing project setup fetch checkout local copy">
+      <article class="card" id="card-clone" data-category="essential" data-effects="local-change" data-keywords="clone download github gitlab copy repo existing project setup fetch checkout local copy">
         <div class="card-top">
           <h2 class="card-title">Clone an Existing Project</h2>
           <span class="card-tag">Onboarding</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote → Local</span>
-          <span class="badge badge-risk-safe">Risk: Safe</span>
+          <span class="badge badge-risk-safe">Effects: Local change</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You want to download a team repository or open-source project from GitHub onto your computer and start working.
@@ -1371,14 +1376,14 @@ git branch -a</code></pre>
       </article>
 
       <!-- CARD 3: Precise Staging & Checkpoints -->
-      <article class="card" id="card-stage" data-category="essential" data-risk="safe" data-keywords="save commit checkpoint status add diff staged patch inspect changes draft progress">
+      <article class="card" id="card-stage" data-category="essential" data-effects="local-change" data-keywords="save commit checkpoint status add diff staged patch inspect changes draft progress">
         <div class="card-top">
           <h2 class="card-title">Precise Staging &amp; Checkpoints</h2>
           <span class="card-tag">Daily Essential</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Tree → Index</span>
-          <span class="badge badge-risk-safe">Risk: Safe</span>
+          <span class="badge badge-risk-safe">Effects: Local change</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You edited several files and want to seal a clean milestone snapshot containing only the changes intended for this commit.
@@ -1415,14 +1420,14 @@ git commit -m "feat: add user authentication"</code></pre>
       </article>
 
       <!-- CARD 4: Branches as Isolated Sandboxes -->
-      <article class="card" id="card-branch" data-category="branch" data-risk="safe" data-keywords="branch sandbox switch test experiment create checkout switch -c parallel feature work">
+      <article class="card" id="card-branch" data-category="branch" data-effects="local-change" data-keywords="branch sandbox switch test experiment create checkout switch -c parallel feature work">
         <div class="card-top">
           <h2 class="card-title">Branches: Isolated Sandboxes</h2>
           <span class="card-tag">Branches</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local History</span>
-          <span class="badge badge-risk-safe">Risk: Safe</span>
+          <span class="badge badge-risk-safe">Effects: Local change</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Starting a new feature, bugfix, or experiment without risking the working production code on <code>main</code>.
@@ -1439,11 +1444,11 @@ git switch -c feature/redesign
 git add src/redesign.css
 git commit -m "style: apply new color palette"
 
-# 3. Return to main branch when ready:
-git switch main</code></pre>
+# 3. After committing/preserving changes, return to your original branch:
+git switch &lt;original-branch&gt;</code></pre>
         </div>
         <div class="card-effect">
-          <strong>What happens:</strong> Creates a lightweight 41-byte pointer to your current commit and moves <code>HEAD</code> to track it.
+          <strong>What happens:</strong> Creates a branch reference to your current commit and attaches HEAD to it. Branches share your working directory; uncommitted changes may carry across or block switching.
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git branch --show-current</code> to verify your active branch.
@@ -1470,14 +1475,14 @@ git switch main</code></pre>
       </article>
 
       <!-- CARD 5: Undoing Mistakes Safely -->
-      <article class="card" id="card-undo" data-category="undo" data-risk="destructive" data-keywords="undo restore discard mistake reset revert staged unstage accidental throw away clean edits push pushed commit">
+      <article class="card" id="card-undo" data-category="undo" data-effects="local-change history-rewrite data-loss-potential" data-keywords="undo restore discard mistake reset revert staged unstage accidental throw away clean edits push pushed commit">
         <div class="card-top">
           <h2 class="card-title">Undoing Mistakes Safely</h2>
           <span class="card-tag">Undo &amp; Recovery</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Tree &amp; Index</span>
-          <span class="badge badge-risk-caution">Risk: Destructive / Reversible</span>
+          <span class="badge badge-risk-caution">Effects: Local change; possible data loss</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You made accidental edits or staged files too early and need to back out without losing unintended work.
@@ -1497,7 +1502,7 @@ git restore &lt;filename&gt;
 git revert &lt;commit-id&gt;</code></pre>
         </div>
         <div class="card-effect">
-          <strong>What happens:</strong> <code>restore --staged</code> removes files from index without touching files on disk. <code>restore</code> copies the committed version over disk.
+          <strong>What happens:</strong> <code>restore --staged</code> restores the index from HEAD while preserving working files. Plain <code>restore</code> copies the index version into working files; staged content may differ from HEAD. Unstaging against HEAD requires an existing commit.
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git status</code> to confirm file state.
@@ -1505,6 +1510,7 @@ git revert &lt;commit-id&gt;</code></pre>
         <div class="callout warning">
           <strong>Permanent Loss Warning:</strong> <code>git restore &lt;filename&gt;</code> permanently overwrites uncommitted working edits. Those unstaged edits are not saved anywhere in Git.
         </div>
+        <div class="callout warning">Inspect <code>git diff</code> and <code>git diff --staged</code> first. Preserve wanted edits outside Git before discarding. Revert can conflict: inspect status, resolve then <code>git revert --continue</code>, or cancel with <code>git revert --abort</code>. Merge commits need a deliberate mainline choice.</div>
         <div class="card-related">
           <strong>Related:</strong> <code>git reset</code> · <code>git revert</code> · <code>git reflog</code>
         </div>
@@ -1527,8 +1533,8 @@ git revert &lt;commit-id&gt;</code></pre>
                   <tr><th>Reset Flag</th><th>HEAD</th><th>Index (Cart)</th><th>Working Tree</th><th>Risk Level</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td><code>git reset --soft</code></td><td>Moves</td><td>Untouched</td><td>Untouched</td><td>🟢 Safe</td></tr>
-                  <tr><td><code>git reset --mixed</code> <em>(default)</em></td><td>Moves</td><td>Resets</td><td>Untouched</td><td>🟡 Reversible</td></tr>
+                  <tr><td><code>git reset --soft</code></td><td>Moves</td><td>Untouched</td><td>Untouched</td><td>History rewrite; inspect target and shared history</td></tr>
+                  <tr><td><code>git reset --mixed</code> <em>(default)</em></td><td>Moves</td><td>Resets</td><td>Untouched</td><td>History rewrite; staging changes</td></tr>
                   <tr><td><code>git reset --hard</code></td><td>Moves</td><td>Resets</td><td>Overwritten</td><td>🔴 Destructive</td></tr>
                 </tbody>
               </table>
@@ -1539,14 +1545,14 @@ git revert &lt;commit-id&gt;</code></pre>
       </article>
 
       <!-- CARD 6: Working with Remotes & Team Sync (Multi-Host) -->
-      <article class="card" id="card-sync" data-category="cloud" data-risk="caution" data-keywords="github gitlab bitbucket cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
+      <article class="card" id="card-sync" data-category="cloud" data-effects="local-change history-rewrite remote-publish" data-keywords="github gitlab bitbucket cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
         <div class="card-top">
           <h2 class="card-title">Working with Remotes (GitHub, GitLab, Bitbucket)</h2>
           <span class="card-tag">Cloud &amp; Remotes</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote &amp; Local</span>
-          <span class="badge badge-risk-rev">Risk: Reversible</span>
+          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Sharing your commits with teammates on GitHub, GitLab, or Bitbucket, or downloading their latest updates before merging.
@@ -1557,13 +1563,13 @@ git revert &lt;commit-id&gt;</code></pre>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <pre class="code-content"><code># 1. Download remote changes WITHOUT altering working files:
-git fetch origin
+git fetch &lt;remote&gt;
 
 # 2. Pull & integrate linearly into your branch:
-git pull --rebase origin main
+git pull --rebase &lt;remote&gt; &lt;upstream-branch&gt;
 
 # 3. Upload your commits to remote:
-git push origin &lt;branch-name&gt;
+git push &lt;remote&gt; &lt;branch-name&gt;
 
 # Remote URL conventions across hosts:
 git remote add origin https://github.com/user/repo.git     # GitHub
@@ -1593,9 +1599,9 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
                 </thead>
                 <tbody>
                   <tr><td><strong>Code Review</strong></td><td>Pull Request (PR)</td><td>Merge Request (MR)</td><td>Pull Request (PR)</td></tr>
-                  <tr><td><strong>Official CLI</strong></td><td><code>gh pr create</code></td><td><code>glab mr create</code></td><td><code>bb</code> / Atlassian CLI</td></tr>
+                  <tr><td><strong>Review tools</strong></td><td><code>gh pr create</code> or website</td><td><code>glab mr create</code> or website</td><td>Website or documented REST API; no assumed <code>bb</code> command</td></tr>
                   <tr><td><strong>Issue Links</strong></td><td><code>#123</code> / <code>GH-123</code></td><td><code>#123</code> / <code>GL-123</code></td><td>Jira: <code>PROJ-123 #resolve</code></td></tr>
-                  <tr><td><strong>Default Branch</strong></td><td><code>main</code></td><td><code>main</code></td><td><code>main</code> (legacy: <code>master</code>)</td></tr>
+                  <tr><td><strong>Default Branch</strong></td><td>Repository setting</td><td>Repository setting</td><td>Repository setting</td></tr>
                   <tr><td><strong>CI/CD Config</strong></td><td><code>.github/workflows/*.yml</code></td><td><code>.gitlab-ci.yml</code></td><td><code>bitbucket-pipelines.yml</code></td></tr>
                 </tbody>
               </table>
@@ -1606,14 +1612,14 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
       </article>
 
       <!-- CARD 7: Pipelines & Automated CI/CD (Multi-Host) -->
-      <article class="card" id="card-pipeline" data-category="cloud" data-risk="safe" data-keywords="pipeline ci cd github actions gitlab bitbucket pipelines automated deploy test workflow .github/workflows gitlab robot">
+      <article class="card" id="card-pipeline" data-category="cloud" data-effects="local-change" data-keywords="pipeline ci cd github actions gitlab bitbucket pipelines automated deploy test workflow .github/workflows gitlab robot">
         <div class="card-top">
           <h2 class="card-title">Pipelines &amp; Automated CI/CD</h2>
           <span class="card-tag">Cloud &amp; Remotes</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote Cloud</span>
-          <span class="badge badge-risk-safe">Risk: Read-Only</span>
+          <span class="badge badge-risk-safe">Effects: Config change if installed</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Understanding how pushing code triggers cloud robots that test code, build assets, and deploy applications automatically across GitHub, GitLab, or Bitbucket.
@@ -1655,14 +1661,14 @@ jobs:
       </article>
 
       <!-- CARD 8: Stashing (The Pause Button) -->
-      <article class="card" id="card-stash" data-category="essential" data-risk="caution" data-keywords="stash shelf pause temporary switch untracked files save for later pop restore WIP emergency">
+      <article class="card" id="card-stash" data-category="essential" data-effects="local-change data-loss-potential" data-keywords="stash shelf pause temporary switch untracked files save for later pop restore WIP emergency">
         <div class="card-top">
           <h2 class="card-title">Stashing: Temporary Work Shelving</h2>
           <span class="card-tag">Daily Essential</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Tree &amp; Stash</span>
-          <span class="badge badge-risk-rev">Risk: Reversible</span>
+          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You are halfway through coding when an urgent bugfix is requested. Shelve your uncommitted edits so your workspace is clean, then restore them later.
@@ -1678,8 +1684,13 @@ git stash push -u -m "WIP: navigation refactor"
 # 2. Your workspace is now clean. Switch branches or patch...
 git switch hotfix
 
-# 3. Return to branch and pop your shelved work:
-git stash pop</code></pre>
+# 3. Commit/preserve the hotfix work, then return to the original branch:
+git switch &lt;original-branch&gt;
+
+# 4. Inspect the intended stash and apply it (keeps the stash):
+git stash list
+git stash apply &lt;stash-reference&gt;
+# Verify restored files before separately dropping that stash.</code></pre>
         </div>
         <div class="card-effect">
           <strong>What happens:</strong> Saves modified and untracked files into the stash stack and reverts your working tree to <code>HEAD</code>.
@@ -1688,19 +1699,19 @@ git stash pop</code></pre>
           <strong>Verify result:</strong> Run <code>git stash list</code> to inspect saved stashes.
         </div>
         <div class="callout warning">
-          <strong>Untracked Files Caveat:</strong> Default <code>git stash</code> ignores new untracked files. Always pass <code>-u</code> if you created new files.
+          <strong>Stash caveats:</strong> <code>-u</code> includes untracked files, but excludes ignored files. Stash is local and applying it can conflict. Identify the intended stash and original branch; inspect status before and after applying. There is no generic stash-apply abort; preserve wanted work before resolving conflicts.
         </div>
       </article>
 
       <!-- CARD 9: Merge Conflict Resolution -->
-      <article class="card" id="card-conflict" data-category="branch" data-risk="caution" data-keywords="conflict merge clash team overlapping markers resolve failed merge abort clash git merge --continue">
+      <article class="card" id="card-conflict" data-category="branch" data-effects="local-change data-loss-potential" data-keywords="conflict merge clash team overlapping markers resolve failed merge abort clash git merge --continue">
         <div class="card-top">
           <h2 class="card-title">Merge Conflict Resolution</h2>
           <span class="card-tag">Branches</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Tree &amp; History</span>
-          <span class="badge badge-risk-rev">Risk: Reversible</span>
+          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Git halts a merge or rebase because two branches altered identical lines and requires you to pick the right code.
@@ -1737,14 +1748,14 @@ git merge --continue   # Or 'git merge --abort'</code></pre>
       </article>
 
       <!-- CARD 10: Interactive Rebase (Pro Only) -->
-      <article class="card pro-only" id="card-rebase" data-category="pro" data-risk="destructive" data-keywords="rebase interactive squash clean commits shared history fixup reword rewrite history polish">
+      <article class="card pro-only" id="card-rebase" data-category="pro" data-effects="local-change history-rewrite data-loss-potential" data-keywords="rebase interactive squash clean commits shared history fixup reword rewrite history polish">
         <div class="card-top">
           <h2 class="card-title">Interactive Rebase (Commit Polish)</h2>
           <span class="card-tag">Advanced / Pro</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local History</span>
-          <span class="badge badge-risk-rewrite">Risk: History Rewriting</span>
+          <span class="badge badge-risk-rewrite">Effects: History rewrite</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Squashing WIP micro-commits into clean milestones before opening a Pull Request for your team.
@@ -1793,14 +1804,14 @@ git rebase --abort   # Safe escape hatch</code></pre>
       </article>
 
       <!-- CARD 11: Detached HEAD Recovery (Pro Only) -->
-      <article class="card pro-only" id="card-detached" data-category="pro" data-risk="caution" data-keywords="detached head recovery pointer hash commit switch lost commit missing work escape">
+      <article class="card pro-only" id="card-detached" data-category="pro" data-effects="local-change" data-keywords="detached head recovery pointer hash commit switch lost commit missing work escape">
         <div class="card-top">
           <h2 class="card-title">Detached HEAD Recovery</h2>
           <span class="card-tag">Advanced / Pro</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: HEAD Pointer</span>
-          <span class="badge badge-risk-rev">Risk: Reversible</span>
+          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You checked out a raw commit hash instead of a branch name, and need to safely save any test commits you made.
@@ -1813,8 +1824,8 @@ git rebase --abort   # Safe escape hatch</code></pre>
           <pre class="code-content"><code># 1. Check if detached:
 git status  # Shows: "HEAD detached at a1b2c3d"
 
-# Exit A: Discard experiments and return to safety:
-git switch main
+# Exit A: Switch only after preserving any wanted detached commits:
+git switch &lt;existing-branch&gt;
 
 # Exit B: Preserve commits made while detached:
 git switch -c recovery-branch</code></pre>
@@ -1828,14 +1839,14 @@ git switch -c recovery-branch</code></pre>
       </article>
 
       <!-- CARD 12: Git Worktrees (Pro Only) -->
-      <article class="card pro-only" id="card-worktree" data-category="pro" data-risk="safe" data-keywords="worktree parallel multiple folders simultaneous branches hotfix concurrent separate directory">
+      <article class="card pro-only" id="card-worktree" data-category="pro" data-effects="local-change" data-keywords="worktree parallel multiple folders simultaneous branches hotfix concurrent separate directory">
         <div class="card-top">
           <h2 class="card-title">Git Worktrees (Parallel Folders)</h2>
           <span class="card-tag">Advanced / Pro</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Trees &amp; Branches</span>
-          <span class="badge badge-risk-safe">Risk: Safe</span>
+          <span class="badge badge-risk-safe">Effects: Local change</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Checking out two different branches simultaneously into separate directories on your computer without re-cloning.
@@ -1863,14 +1874,14 @@ git worktree remove ../project-hotfix</code></pre>
       </article>
 
       <!-- CARD 13: Reflog Recovery (NEW PHASE 3 PRO) -->
-      <article class="card pro-only" id="card-reflog" data-category="undo" data-risk="safe" data-keywords="reflog recover lost commit restore accidental delete branch resurrect rescue head@{1} history rewind">
+      <article class="card pro-only" id="card-reflog" data-category="undo" data-effects="local-change" data-keywords="reflog recover lost commit restore accidental delete branch resurrect rescue head@{1} history rewind">
         <div class="card-top">
           <h2 class="card-title">Reflog Recovery (Lost Work)</h2>
           <span class="card-tag">Advanced / Pro</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local Reflog Ledger</span>
-          <span class="badge badge-risk-safe">Risk: Reversible</span>
+          <span class="badge badge-risk-safe">Effects: Local change; inspect prerequisites</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You accidentally ran <code>git reset --hard</code>, deleted a branch with unmerged work, or lost a commit and thought it was gone forever.
@@ -1885,10 +1896,10 @@ git reflog -n 15
 
 # 2. Locate the commit hash before the mistake (e.g. HEAD@{2})
 # 3. Create a rescue branch attached to that commit:
-git switch -c rescue-branch HEAD@{2}</code></pre>
+git branch rescue-branch &lt;verified-commit-id&gt;</code></pre>
         </div>
         <div class="card-effect">
-          <strong>What happens:</strong> Git stores all HEAD reference movements locally for 30-90 days before garbage collection. Creating a branch resurrects the orphaned commit into active history.
+          <strong>What happens:</strong> Reflogs can locate retained local commits. Expiry and object pruning depend on configuration and maintenance; recovery is not guaranteed. Creating a branch makes a retained commit reachable again.
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git log -1 rescue-branch</code> to confirm your lost code is restored.
@@ -1906,22 +1917,22 @@ git switch -c rescue-branch HEAD@{2}</code></pre>
             <ul>
               <li><strong>Unreachable Objects:</strong> The commit objects remain in <code>.git/objects/</code>. They are merely disconnected from named branch refs (dangling in the DAG).</li>
               <li><strong>Append-Only Reflogs:</strong> Files in <code>.git/logs/HEAD</code> and <code>.git/logs/refs/heads/</code> log every SHA hash that references have pointed to locally.</li>
-              <li><strong>Garbage Collection (<code>git gc</code>):</strong> Unreachable objects are only purged when <code>git gc</code> runs and an object exceeds both <code>gc.reflogExpire</code> (default: 90 days) and <code>gc.pruneExpire</code> (default: 14 days).</li>
+              <li><strong>Maintenance:</strong> Reflog expiry and object pruning use separate rules. Unreachable reflog entries normally expire sooner than reachable ones; configuration can change these defaults. Inspect retained commit IDs before creating a rescue ref.</li>
             </ul>
-            <p><strong>Takeaway:</strong> As long as you know the commit hash from <code>git reflog</code>, creating a new branch resurrects orphaned work into the active DAG with zero data loss.</p>
+            <p><strong>Takeaway:</strong> Rescue retained committed work before pruning. Reflog cannot restore arbitrary discarded unstaged edits. Inspect <code>git show &lt;commit-id&gt;</code> before creating a rescue branch.</p>
           </div>
         </details>
       </article>
 
       <!-- CARD 14: Regression Hunting: bisect & blame (NEW PHASE 3 PRO) -->
-      <article class="card pro-only" id="card-bisect" data-category="pro" data-risk="safe" data-keywords="bisect blame regression bug hunt binary search find broken commit investigate line author history">
+      <article class="card pro-only" id="card-bisect" data-category="pro" data-effects="local-change" data-keywords="bisect blame regression bug hunt binary search find broken commit investigate line author history">
         <div class="card-top">
           <h2 class="card-title">Regression Hunting (bisect &amp; blame)</h2>
           <span class="card-tag">Advanced / Pro</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local History</span>
-          <span class="badge badge-risk-safe">Risk: Safe / Read-Only</span>
+          <span class="badge badge-risk-safe">Effects: Local change (bisect checks out commits)</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> A bug appeared and you need to pinpoint the exact commit out of hundreds that introduced the regression, or see who authored specific lines.
@@ -1954,14 +1965,14 @@ git blame -L 20,45 src/app.js</code></pre>
       </article>
 
       <!-- CARD 15: Release Tags & Semantic Versioning (Phase 5) -->
-      <article class="card" id="card-tag" data-category="cloud" data-risk="safe" data-keywords="tag release version semver annotated tag v1.0.0 publish milestone github releases software tag -a push tags">
+      <article class="card" id="card-tag" data-category="cloud" data-effects="local-change remote-publish" data-keywords="tag release version semver annotated tag v1.0.0 publish milestone github releases software tag -a push tags">
         <div class="card-top">
           <h2 class="card-title">Release Tags &amp; Semantic Versioning</h2>
           <span class="card-tag">Release Engineering</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Repository Checkpoints</span>
-          <span class="badge badge-risk-safe">Risk: Safe / Immutable</span>
+          <span class="badge badge-risk-safe">Effects: Local change; remote publish</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Marking an official production release, milestone, or version number (e.g. <code>v1.0.0</code>) in your Git history.
@@ -1980,8 +1991,8 @@ git push origin v1.0.0
 # Or push all local tags at once:
 git push origin --tags
 
-# List all tags sorted by version:
-git tag -l -n 1</code></pre>
+# List all tags sorted by version with annotation lines:
+git tag --sort=version:refname -n 1</code></pre>
         </div>
         <div class="card-effect">
           <strong>What happens:</strong> Creates an annotated Git tag object containing author, timestamp, and release notes permanently referencing the current commit.
@@ -1995,14 +2006,14 @@ git tag -l -n 1</code></pre>
       </article>
 
       <!-- CARD 16: Safe Force-Push (--force-with-lease) (Phase 5 Pro) -->
-      <article class="card pro-only" id="card-force-lease" data-category="cloud" data-risk="destructive" data-keywords="force push force-with-lease pr rebase pull request overwrite team safe lease reject git push -f">
+      <article class="card pro-only" id="card-force-lease" data-category="cloud" data-effects="history-rewrite remote-publish data-loss-potential" data-keywords="force push force-with-lease pr rebase pull request overwrite team safe lease reject git push -f">
         <div class="card-top">
           <h2 class="card-title">Safe Force-Push (--force-with-lease)</h2>
           <span class="card-tag">PR &amp; Team Hygiene</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote Tracking Branch</span>
-          <span class="badge badge-risk-caution">Risk: Caution / Rewriting Remote</span>
+          <span class="badge badge-risk-caution">Effects: Remote publish; history rewrite; possible loss</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Updating a pull request branch after rebasing or squashing local commits, without the danger of destroying teammates' pushed work.
@@ -2029,14 +2040,14 @@ git push --force-with-lease origin feature/auth
       </article>
 
       <!-- CARD 17: Port Isolated Commits (cherry-pick) (Phase 5 Pro) -->
-      <article class="card pro-only" id="card-cherry-pick" data-category="branch" data-risk="caution" data-keywords="cherry-pick port bugfix hotfix backport copy commit single commit pluck apply hash maintenance">
+      <article class="card pro-only" id="card-cherry-pick" data-category="branch" data-effects="local-change" data-keywords="cherry-pick port bugfix hotfix backport copy commit single commit pluck apply hash maintenance">
         <div class="card-top">
           <h2 class="card-title">Port Isolated Commits (cherry-pick)</h2>
           <span class="card-tag">Branch Maintenance</span>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Commit Plucking</span>
-          <span class="badge badge-risk-rev">Risk: Reversible</span>
+          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Applying a specific bugfix commit from one branch (e.g. <code>main</code>) into a separate maintenance or release branch without merging the whole branch.
@@ -2177,81 +2188,84 @@ git cherry-pick 7a1b2c3
       'unstaged': {
         title: 'Discard Uncommitted Edits in Working Tree',
         scope: 'Working Tree',
-        riskBadge: '<span class="badge badge-risk-caution">Risk: Destructive</span>',
-        desc: 'You edited a tracked file on disk, but have NOT added it to staging. You want to wipe those edits and return to the last commit.',
+        riskBadge: '<span class="badge badge-risk-caution">Effects: Data loss potential</span>',
+        desc: 'You intend to discard unstaged edits to a tracked file. Inspect git diff and git diff --staged, and preserve wanted edits first.',
         code: '# Discard unstaged edits in a specific file:\ngit restore <filename>\n\n# Or discard all unstaged edits in current directory:\ngit restore .',
-        effect: 'Permanently overwrites your working file on disk with the version recorded in HEAD/index.',
+        effect: 'Overwrites the working file with the index version, which may differ from HEAD. Unstaged edits can be lost.',
         verify: 'Run git status — the file will no longer be listed under "Changes not staged for commit".',
-        warning: 'PERMANENT LOSS WARNING: Uncommitted working-tree edits cannot be recovered once discarded by Git.'
+        warning: 'DATA LOSS: Git cannot guarantee recovery of discarded unstaged edits. Stop if conflicts or another Git operation are in progress. Copy out wanted work first.'
       },
       'staged': {
         title: 'Unstage Files (Remove from Cart) Without Losing Edits',
         scope: 'Staging Area (Index)',
-        riskBadge: '<span class="badge badge-risk-safe">Risk: Safe / Reversible</span>',
+        riskBadge: '<span class="badge badge-risk-safe">Effects: Local change</span>',
         desc: 'You ran git add, but you are not ready to commit this file yet. You want to preserve your code edits in the file.',
         code: '# Unstage a specific file:\ngit restore --staged <filename>\n\n# Or unstage everything:\ngit restore --staged .',
         effect: 'Removes the file snapshot from the staging index. Your working code edits on disk remain 100% untouched.',
-        verify: 'Run git status — the file moves from green (Changes to be committed) to red (Changes not staged).',
-        warning: 'Safe operation: Does NOT delete your code.'
+        verify: 'Run git diff --staged and git diff to confirm intended index and working-file changes.',
+        warning: 'Working files are preserved. This HEAD-based recipe requires an existing commit; a new empty repository needs different unstaging guidance.'
       },
       'local-commit': {
         title: 'Rewind or Amend a Local Commit (Not Pushed)',
         scope: 'Local History',
-        riskBadge: '<span class="badge badge-risk-rev">Risk: Reversible</span>',
+        riskBadge: '<span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>',
         desc: 'You committed too early or forgot a file, but you have NOT pushed to GitHub yet.',
         code: '# Option A: Rewind 1 commit and keep changes staged in cart:\ngit reset --soft HEAD~1\n\n# Option B: Add a forgotten file to the previous commit:\ngit add <forgotten-file>\ngit commit --amend --no-edit',
         effect: 'Moves HEAD back one commit while keeping your staged code ready to edit and re-commit.',
         verify: 'Run git status and git log -1 to inspect the adjusted commit history.',
-        warning: 'Safe for local-only commits. Never rewrite commits already pushed to shared team branches.'
+        warning: 'HISTORY REWRITE: Verify the target and that affected commits are not shared. HEAD~1 requires a parent commit. Amend records all staged content, so review git diff --staged first. Do not run both alternatives as one sequence.'
       },
       'pushed-commit': {
-        title: 'Undo a Public Commit on GitHub (Safe Inverse Commit)',
+        title: 'Revert an Ordinary Shared Commit',
         scope: 'Remote / Shared History',
-        riskBadge: '<span class="badge badge-risk-safe">Risk: Safe (No Conflicts)</span>',
+        riskBadge: '<span class="badge badge-risk-caution">Effects: Local change; remote publish after review</span>',
         desc: 'The faulty commit has already been pushed to GitHub. Rewriting history with reset would break teammates\' branches.',
-        code: '# 1. Find the commit hash to undo:\ngit log -n 5 --oneline\n\n# 2. Create a safe inverse commit:\ngit revert <commit-id>\n\n# 3. Push the revert to GitHub:\ngit push origin main',
+        code: '# 1. Inspect status and select an ordinary commit:\ngit status\ngit log -n 5 --oneline\n\n# 2. With a clean tree, create an inverse commit:\ngit revert <commit-id>\n\n# 3. Inspect and test BEFORE publishing:\ngit status\ngit log -1\n# Publish separately using your verified remote/branch.',
         effect: 'Creates a NEW commit that applies the exact opposite changes. History remains forward-moving and clean.',
         verify: 'Run git log -1 to see the new revert commit, then push to upstream.',
-        warning: 'Team Standard: git revert is the approved way to fix public bugs without causing merge conflicts.'
+        warning: 'Revert can conflict. Inspect git status, resolve and stage intended files, then git revert --continue; or git revert --abort. Merge commits require an explicit mainline decision. Test the result before publishing.'
       },
       'lost-reflog': {
         title: 'Resurrect a Lost Commit or Deleted Branch via Reflog',
         scope: 'Local Reflog Ledger',
-        riskBadge: '<span class="badge badge-risk-safe">Risk: Reversible</span>',
+        riskBadge: '<span class="badge badge-risk-safe">Effects: Local change; inspect prerequisites</span>',
         desc: 'You accidentally ran reset --hard, deleted a branch with unmerged work, or lost a detached commit.',
-        code: '# 1. View your chronological local action ledger:\ngit reflog -n 15\n\n# 2. Locate the commit hash before the mistake (e.g. HEAD@{2})\n# 3. Create a rescue branch attached to that commit:\ngit switch -c rescue-branch HEAD@{2}',
-        effect: 'Recovers unreachable commits before Git\'s automatic garbage collection prunes them (retained locally for 30-90 days).',
+        code: '# 1. Find a retained commit ID:\ngit reflog -n 15\n\n# 2. Inspect the chosen commit:\ngit show <commit-id>\n\n# 3. Preserve it without switching your working tree:\ngit branch rescue-branch <commit-id>',
+        effect: 'Makes a retained commit reachable through a new branch. No working-tree switch is required; object availability and expiry vary.',
         verify: 'Run git log -1 rescue-branch to verify your recovered work is intact.',
-        warning: 'Local Ledger: The reflog tracks where HEAD has pointed on this computer.'
+        warning: 'Reflogs are local and may expire. They do not guarantee recovery of discarded unstaged edits. Verify the chosen ID and use an unused rescue branch name.'
       }
     };
 
     function renderUndoSolution(locationKey) {
       const data = undoSolutions[locationKey];
       if (!data || !treeSolutionPanel) return;
-
-      treeSolutionPanel.innerHTML = `
-        <div class="solution-top">
-          <div class="solution-title">${data.title}</div>
-          <div>
-            <span class="badge badge-scope">Scope: ${data.scope}</span>
-            ${data.riskBadge}
-          </div>
-        </div>
-        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">${data.desc}</p>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Recommended Command</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content"><code>${data.code}</code></pre>
-        </div>
-        <div class="card-effect"><strong>What happens:</strong> ${data.effect}</div>
-        <div class="card-verify"><strong>Verify result:</strong> ${data.verify}</div>
-        <div class="callout ${locationKey === 'unstaged' ? 'warning' : 'tip'}" style="margin-top:10px;">
-          ${data.warning}
-        </div>
-      `;
+      const element = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+      const top = element('div', 'solution-top');
+      top.append(element('h3', 'solution-title', data.title));
+      const badges = element('div');
+      badges.append(element('span', 'badge badge-scope', `Scope: ${data.scope}`));
+      badges.append(element('span', 'badge badge-risk-caution', data.riskBadge.replace(/<[^>]*>/g, '')));
+      top.append(badges);
+      const snippet = element('div', 'snippet-block');
+      const header = element('div', 'snippet-header');
+      const button = element('button', 'copy-btn', 'Copy');
+      button.type = 'button';
+      button.setAttribute('aria-label', 'Copy snippet to clipboard');
+      button.addEventListener('click', () => copySnippet(button));
+      header.append(element('span', '', 'Recommended Command'), button);
+      const pre = element('pre', 'code-content');
+      pre.append(element('code', '', data.code));
+      snippet.append(header, pre);
+      treeSolutionPanel.replaceChildren(top, element('p', '', data.desc), snippet,
+        element('div', 'card-effect', `What happens: ${data.effect}`),
+        element('div', 'card-verify', `Verify result: ${data.verify}`),
+        element('div', 'callout warning', data.warning));
     }
 
     treeChoiceBtns.forEach(btn => {
@@ -2359,7 +2373,7 @@ git cherry-pick 7a1b2c3
         bullets: [
           '<strong>Created a new sticky note:</strong> <code>git switch -c</code> placed a new bookmark on your project so you can work independently.',
           '<strong>Moved your camera (HEAD):</strong> You are now editing in this safe sandbox branch.',
-          '<strong>Your main branch is 100% safe:</strong> Even if your code breaks in c4, your main project stays clean and working at c3.',
+          '<strong>Commits stay on their named branches:</strong> Uncommitted changes can carry across switches; inspect status first.',
           '<strong>Zero fear of making mistakes:</strong> If your experiment fails, you can discard this branch with zero harm.'
         ],
         rule: 'Always create a branch when starting new work. It keeps your main codebase safe while you build and test.'
@@ -2473,7 +2487,7 @@ git cherry-pick 7a1b2c3
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--accent-red)"/>
             </marker>
           </defs>
-          <text x="380" y="20" text-anchor="middle" class="graph-hint-text" fill="var(--accent-amber)">👀 Time-travel mode: viewing an old save point without a bookmark. Existing branches are safe! 👀</text>
+          <text x="380" y="20" text-anchor="middle" class="graph-hint-text" fill="var(--accent-amber)">Viewing a historical commit without an attached branch. Preserve wanted work before switching.</text>
           <line x1="260" y1="125" x2="160" y2="125" class="graph-edge-base" marker-end="url(#arrow)"/>
           <line x1="460" y1="125" x2="340" y2="125" class="graph-edge-base" marker-end="url(#arrow)"/>
           <path d="M 300 70 C 300 90, 300 95, 300 100" fill="none" stroke="var(--accent-red)" stroke-width="2.5" marker-end="url(#arrow-red)"/>
@@ -2511,7 +2525,7 @@ git cherry-pick 7a1b2c3
       graphExplanationPanel.innerHTML = `
         <div class="graph-explanation-header">
           <span class="graph-scenario-name">${data.name}</span>
-          <code class="graph-command-chip">${data.command}</code>
+          <code class="graph-command-chip"></code>
         </div>
         <ul class="graph-details-list">
           ${data.bullets.map(b => `<li>${b}</li>`).join('')}
@@ -2520,6 +2534,7 @@ git cherry-pick 7a1b2c3
           <strong>Architectural Takeaway:</strong> ${data.rule}
         </div>
       `;
+      graphExplanationPanel.querySelector('.graph-command-chip').textContent = data.command;
     }
 
     graphTabBtns.forEach(btn => {
@@ -2557,7 +2572,7 @@ git cherry-pick 7a1b2c3
 
       cards.forEach(card => {
         const category = card.getAttribute('data-category');
-        const cardRisk = card.getAttribute('data-risk') || 'safe';
+        const cardEffects = (card.getAttribute('data-effects') || '').split(' ');
         const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
         const title = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
         const content = (card.textContent || '').toLowerCase();
@@ -2569,8 +2584,8 @@ git cherry-pick 7a1b2c3
           return;
         }
 
-        const matchesCategory = (queryTokens.length > 0 || activeFilter === 'all' || category === activeFilter);
-        const matchesRisk = (queryTokens.length > 0 || activeRiskFilter === 'all' || cardRisk === activeRiskFilter);
+        const matchesCategory = (activeFilter === 'all' || category === activeFilter);
+        const matchesRisk = (activeRiskFilter === 'all' || cardEffects.includes(activeRiskFilter));
 
         const cardSearchText = `${title} ${keywords} ${content}`;
         const matchesQuery = queryTokens.length === 0 || queryTokens.every(token => cardSearchText.includes(token));

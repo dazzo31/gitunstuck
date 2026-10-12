@@ -4,9 +4,9 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 
 // These checks document the ORIGINAL baseline; they are not release regression tests.
-const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8');
-const workflow = readFileSync(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
+const html = readFileSync(new URL('fixtures/baseline-index.html', import.meta.url), 'utf8');
+const readme = readFileSync(new URL('fixtures/baseline-README.md', import.meta.url), 'utf8');
+const workflow = readFileSync(new URL('fixtures/baseline-deploy.yml', import.meta.url), 'utf8');
 const script = html.match(/<script>\s*([\s\S]*?)<\/script>/)[1];
 function slice(from, to) { return script.slice(script.indexOf(from), script.indexOf(to)); }
 test('application JavaScript compiles without executing the page', () => {

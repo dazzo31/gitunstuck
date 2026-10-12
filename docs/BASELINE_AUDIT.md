@@ -75,3 +75,12 @@ GU-0001, GU-0002, GU-0003 and GU-0005 have evidence. GU-0004 is incomplete: desk
 The supplied plan requires this gate before Phase 1. The active Sites skill instructs: “If `$control-browser` is unavailable, skip browser QA: do not start a preview server, install a browser, or improvise another browser-control path.” The environment has no control-browser skill/tool. Playwright is present as a runtime dependency, but using it as an alternative would conflict with that instruction without a user override. No preview server or substitute browser was started.
 
 Next task: complete GU-0004 through supported browser tooling, or obtain an explicit user instruction permitting an alternative verification method. Then record the Phase 0 gate result and begin GU-0101. Later phases remain NOT_STARTED; optional companion remains unapproved. No code, commits, pushes, tags or deployment have been made.
+
+
+## Resolved baseline gate — 12 October 2026
+
+Remote branch `v2.0` now exists. Baseline commit `ff5b4fccf79a4164269d8e4fede249cb14df02cc` adds investigation files and CI only, with no application changes. GitHub Actions run https://github.com/dazzo31/gitunstuck/actions/runs/38310170424 completed successfully: 15 source/Git checks and 8 browser matrix cases. CI uses Playwright 1.56.1 and Chromium 141 on an isolated GitHub-hosted runner; no unsupported local preview was started.
+
+Widths 1440/390, both themes, both modes: all document widths equal viewport widths. Beginner mode shows 10 cards; developer mode 17. Recovery, merge graph, GitLab starter and slash focus work with no page errors. Browser confirms recovery placeholders are lost. Observations are automated, not human visual/screen-reader validation. GU-0004 and Phase 0 gate now PASS.
+
+Original source snapshots are retained under tests/fixtures; baseline tests use those snapshots after application fixes. Corrected behavior requires separate regression tests.

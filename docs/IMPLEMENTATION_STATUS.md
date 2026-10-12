@@ -5,12 +5,12 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 ## Session ledger
 
 - Baseline repository revision: `bf839df2fe30001824fa5068ce471046925a186f`
-- Current working branch: `v2.0` (local; remote creation pending GitHub connection)
+- Current working branch: `v2.0` (remote); isolated local worktree `v2.0-work`
 - Working tree at start: clean
-- Current phase: `0 — browser verification blocked`
-- Current active task: `GU-0004`
+- Current phase: `1 — correctness fixes`
+- Current active task: `GU-0101`
 - Last verified test command: `node --test tests/baseline.test.mjs tests/baseline-git.test.mjs` — 15 passed, 0 failed, exit 0
-- Last phase gate: `BLOCKED` — GU-0004 browser coverage not run
+- Last phase gate: `PASS` — baseline CI run 38310170424: 15 source/Git tests and 8 browser matrix cases passed
 
 ## Status codes
 
@@ -23,7 +23,7 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 | 0 | GU-0001 | Read README, index | PASS | docs/BASELINE_AUDIT.md; tests/baseline*.test.mjs |
 | 0 | GU-0002 | Inventory existing features: task links, mode switch, search/filter, recovery tree, graph demos, copy-to-clipboard, print, theme, and GitHub/GitLab/Bitbucket material | PASS | docs/BASELINE_AUDIT.md; tests/baseline*.test.mjs |
 | 0 | GU-0003 | Reproduce and record suspected issues with evidence: <filename> placeholders rendered via HTML; search query overriding risk/category filters; published-revert safety claims; stash sequence; hardcoded main; README GitSimple branding; assumptions about Git version and hosted CLIs | PASS | docs/BASELINE_AUDIT.md; tests/baseline*.test.mjs |
-| 0 | GU-0004 | Establish a user journey baseline and document screenshots or structured test observations for desktop/mobile, light/dark, beginner/developer modes | BLOCKED | Source inventory complete; desktop/mobile browser verification unavailable |
+| 0 | GU-0004 | Establish a user journey baseline and document screenshots or structured test observations for desktop/mobile, light/dark, beginner/developer modes | PASS | CI run 38310170424; 8 Chromium desktop/mobile x theme x mode observations |
 | 0 | GU-0005 | Create docs/IMPLEMENTATION_STATUS | PASS | docs/BASELINE_AUDIT.md; tests/baseline*.test.mjs |
 | 1 | GU-0101 | Safe rendering: | NOT_STARTED | — |
 | 1 | GU-0102 | Filter composition: | NOT_STARTED | — |
@@ -107,7 +107,7 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 
 | Phase | Verdict | Test evidence | Remaining risks |
 |---|---|---|---|
-| 0 | BLOCKED | 15 baseline tests pass; live HTTP 200 | Required browser observations not run |
+| 0 | PASS | CI run 38310170424: 15 + 8 passed | Chromium emulated mobile; no human screen-reader validation |
 | 1 | NOT_STARTED | — | — |
 | 2 | NOT_STARTED | — | — |
 | 3 | NOT_STARTED | — | — |

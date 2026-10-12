@@ -1,64 +1,41 @@
-# GitSimple • Modern Git Reference & Beginner Mental Model
+# GitUnstuck
 
-A dual-mode Git guide and reference hub built for developers and complete newcomers alike. 
+A static, local-first Git reference and troubleshooting guide for GitHub, GitLab, Bitbucket and generic Git.
 
-Tired of cheat sheets filled with confusing technical jargon like "DAG", "cryptographic blobs", and "detached HEADs"? **GitSimple** translates Git into plain English with real-world analogies while providing a full developer reference when you're ready.
+Live stable site: https://dazzo31.github.io/gitunstuck/
 
----
+The `v2.0` branch is development work. Its implementation plan, baseline audit and evidence ledger are committed alongside the source. It is not a completed production release.
 
-## 💡 The 60-Second Mental Model (For Complete Beginners)
+## Current capabilities
 
-| Git Concept | Real-World Analogy | What it actually means |
-| :--- | :--- | :--- |
-| **Repository ("Repo")** | 📁 **Project folder + Time machine** | A normal folder on your computer that automatically tracks and remembers every edit you make. |
-| **Commit** | 💾 **Video Game Save Point** | A permanent checkpoint. If you make a mistake later, you can reload your project right here. |
-| **Staging (`git add`)** | 🛒 **A Shopping Cart** | Putting selected files into a cart before you pay at the register (`git commit`) to seal the checkpoint. |
-| **Remote & GitHub** | ☁️ **Google Drive for Code** | A cloud copy of your project so your work is safe and teammates can collaborate. |
-| **Branch** | 🌿 **A Risk-Free Sandbox** | A safe draft where you can test crazy experiments without breaking your working project. |
-| **Pipeline (CI/CD)** | 🤖 **Automated Cloud Robot** | A helper that automatically tests and publishes your code the moment you push to GitHub. |
+- Task links, beginner/developer explanations and 17 command/workflow cards.
+- Search combined with category and effect filters.
+- Recovery recipes and five illustrated commit-graph scenarios.
+- Three provider CI starter examples, theme preferences, keyboard search, clipboard and print.
+- Client-side explanations only: the website does not execute Git commands.
 
----
+## Command prerequisites
 
-## ⚡ Your Entire Daily Routine (Only 3 Commands)
+Examples target Git 2.28 or later (switch/restore require 2.23; init -b requires 2.28). Replace every placeholder with a verified repository value before execution; quote paths containing spaces. Inspect status/diffs and preserve wanted changes before mutation. Revert, merge, rebase and stash application can conflict. Reflog can locate retained commits; it does not guarantee recovery of discarded unstaged edits. Graph branch names are illustrative.
 
-When you're starting out, 95% of your work is just these 3 steps:
+## Development and tests
 
-```bash
-# 1. Put all your changes into the cart:
-git add .
+Requires Node 24 and Git on PATH. No application dependency or build step is required for the existing static site.
 
-# 2. Seal the checkpoint with a descriptive message:
-git commit -m "Added button to homepage"
+From Bash or PowerShell:
 
-# 3. Upload your checkpoint to GitHub:
-git push
+```text
+node --test tests/baseline.test.mjs tests/baseline-git.test.mjs tests/foundation.test.mjs
 ```
 
----
+Baseline tests intentionally reproduce defects against frozen original source fixtures. Foundation tests check corrected application behavior. Git fixtures run only in disposable temporary repositories and never touch the development checkout or live remotes.
 
-## 🛠️ Features
+CI browser checks run on isolated GitHub-hosted runners. Baseline coverage includes desktop/mobile, dark/light and both explanation modes under the Pages `/gitunstuck/` subpath. These checks do not replace human screen-reader or visual review.
 
-- 🌱 **Dual Mode Experience:** Toggle between **"Plain English"** (friendly beginner mode) and **"Developer Hub"** (full command matrix).
-- 🔍 **Instant Search:** Find commands and concepts instantly by typing in the search bar or pressing `/`.
-- 🌓 **Dark / Light Theme:** Persistent theme toggling with high contrast.
-- 📋 **1-Click Copy:** Copy commands with instant visual feedback.
-- 🖨️ **Print & PDF Mode:** Clean `@media print` layout ready for printing as a cheat sheet or saving as PDF.
+## Hosting
 
----
+GitHub Pages serves a static site; the stable deploy workflow is currently on main. Development branch checks do not deploy the site. Before integrating development changes, publish only a dedicated public build directory after successful quality checks. See `docs/IMPLEMENTATION_STATUS.md` for the actual phase status and outstanding work.
 
-## 📦 How to Push to GitHub
+## License status
 
-1. Create an empty repository on [GitHub](https://github.com/new) (e.g. `git-simple`).
-2. Run in PowerShell or terminal:
-
-```bash
-git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-git push -u origin main
-```
-
-Your web app will automatically deploy to GitHub Pages via `.github/workflows/deploy.yml`!
-
----
-
-## 📄 License
-MIT License. Free for personal and team use.
+The original README stated MIT, but the baseline repository had no LICENSE file. A new license has not been added because the copyright/rights details have not been confirmed. Obtain owner confirmation before redistributing under a newly added license.
