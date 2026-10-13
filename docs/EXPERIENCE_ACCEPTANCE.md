@@ -46,3 +46,21 @@ CI 38368312325 at a50ffcbe80d6c81192d832126a11a53712ff77ea passed: 179 source/Gi
 Actually viewed: desktop Home and first-commit lesson, 390px dark Home, 320px light unstage help, and desktop Reference. Mobile Home showed both main choices within 390x844; narrow help retained readable text and a keyboard-focusable horizontally scrollable code region. Reference inspection found the CI example remained outside its disclosure and stretched a whole row; moved it inside. Page metadata/FAQ descriptions now match learning/help. Residual Safe Sandbox tab label removed. CI examples specify Node 24/dependency installation and remain explicitly limited to test jobs; GitLab/Bitbucket provider lint/live execution is unclaimed. YAML is no longer transformed into CMD REM comments when the example shell changes.
 
 Final source changes require their own CI confirmation; do not interpret the earlier passing SHA as proof of those later edits.
+
+## Final verified source
+
+CI 38370326359 at 9802e2f793d089870ba3a3db285676ae67064f08 passed all 179 source/Git tests, content/public-build checks, eight frozen-baseline contexts and eight experience contexts with 64 accessibility states plus no-JavaScript fallback. All 49 screenshots captured. CMD selection preserves CI YAML comments; the provider switch still displays the selected configuration.
+
+Three CI examples were parsed locally with PyYAML BaseLoader; assertions verified test/dependency structure and GitHub read-only permissions. Official GitHub Node.js, GitLab YAML and Bitbucket Node.js documentation was consulted on 2026-10-13. These checks do not replace GitLab/Bitbucket provider lint or live runs.
+
+The final desktop Home and mobile first-commit screenshots were viewed after the final run. Earlier representative mobile Home/help and Reference screenshots were also inspected; the CI panel/disclosure issue found during that inspection was corrected. Automated viewport coverage does not claim every image was individually reviewed.
+
+Independent HTTP retrieval from https://dazzo31.github.io/gitunstuck/ confirmed the published learning/help title, Home markup and absence of Developer Hub/Safe Sandbox labels. Automatic Pages deployment published v2.0; main was not merged or edited.
+
+### Saved previews
+
+![Desktop Home](images/home-desktop.webp)
+
+[Mobile Home](images/home-mobile.webp) · [Mobile first-commit lesson](images/first-commit-mobile.webp)
+
+Source/editorial corrections and automated gates are complete for this corrective pass. Human screen-reader testing and user design acceptance remain open. No Git simulator, CI generator or local companion was added. The next work is specific feedback on this reviewable experience, rather than restarting the old feature queue automatically.

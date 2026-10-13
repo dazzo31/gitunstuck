@@ -8,9 +8,9 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 - Current working branch: `v2.0` (remote); isolated local worktree `v2.0-work`
 - Working tree at start: clean
 - Current phase: `Corrective experience plan — R5 validation`
-- Current active task: `R5 — browser, visual and editorial acceptance`
+- Current active task: `R5 — human/user acceptance outstanding`
 - Last verified test command: `npm test` — 179 passed, 0 failed, exit 0
-- Last phase gate: `PASS` — Phase 6 CI run 38317457103: source/Git tests and desktop/mobile browser matrix passed
+- Last automated gate: `PASS` — CI 38370326359 at 9802e2f: 179 tests + eight experience contexts; human/user acceptance is separate
 
 ## Corrective experience work
 
@@ -19,10 +19,10 @@ The 2026-10-13 product review supersedes the feature queue. Historical phase pas
 | Work | Status | Evidence |
 | --- | --- | --- |
 | R1 content contracts | PASS | docs/CONTENT_INVENTORY.md; task-specific guides/reference validators |
-| R2 Home / lesson / help structure | IN_PROGRESS | Implemented; desktop screenshots inspected; full matrix pending |
+| R2 Home / lesson / help structure | IN_PROGRESS | Implemented; desktop/mobile representative screenshots inspected; CI 38370326359 passed |
 | R3 task-specific content | PASS | 17 guides; eight contextual help topics; corrected five diagram explanations |
-| R4 reference/search/controls | IN_PROGRESS | 24 command entries, seven comparisons, grouped search, scoped controls, fallback/print; browser gate pending |
-| R5 acceptance | IN_PROGRESS | 179 local tests; first browser runs found navigation timing and target-size issues, recorded in docs/EXPERIENCE_ACCEPTANCE.md |
+| R4 reference/search/controls | IN_PROGRESS | 24 command entries, seven comparisons, grouped search, scoped controls, fallback/print; CI 38370326359 passed |
+| R5 acceptance | IN_PROGRESS | 179 tests + eight current browser contexts passed; representative visual review done; human/user acceptance open |
 | R6 later features | DEFERRED | Simulator/generator/companion do not block core learning/help release |
 
 GitHub Pages is automatically building v2.0. The older claim that v2.0 pushes leave the live site unchanged was incorrect; main itself is unchanged. Its auto-Pages workflow is separate from the custom main-only gated deploy workflow.
@@ -76,11 +76,11 @@ GitHub Pages is automatically building v2.0. The older claim that v2.0 pushes le
 | 6 | GU-0604 | Add context-aware risk panel: affected surfaces, possible loss, collaborative effects, preflight, expected state, failure/abort path | PASS | docs/TASK_EVIDENCE.md; CI 38317457103 |
 | 6 | GU-0605 | Implement state-specific result interpretation, including conflicts, unsupported scenarios and contradictions | PASS | docs/TASK_EVIDENCE.md; CI 38317457103 |
 | 6 | GU-0606 | Test complete flows in disposable Git repos; include paths in which the first action fails and the user must branch to alternative instructions | PASS | docs/TASK_EVIDENCE.md; CI 38317457103 |
-| 7 | GU-0701 | Build versioned error-pattern definitions and a deterministic ranker with exact-text, canonical error, synonyms, platform context and confidence scores | IN_PROGRESS | 24 definitions; local and CI fixtures; browser gate pending |
-| 7 | GU-0702 | Cover initially at least 20 common errors, including: rejected/non-fast-forward push; authentication and permission failures; missing Git repo; unfinished merge/rebase; untracked-file overwrite; unrelated histories; invalid refspec; detached HEAD; bad revision; lock file; missing upstream; divergent pull; cherry-pick conflict; local changes blocking switch; push protection; tag already exists; credential helper errors; remote not found | IN_PROGRESS | 24 definitions; local and CI fixtures; browser gate pending |
-| 7 | GU-0703 | For each error include probable causes, diagnostics, differentiating questions, recovery routes, supported hosts and last-reviewed documentation links | IN_PROGRESS | 24 definitions; local and CI fixtures; browser gate pending |
-| 7 | GU-0704 | Implement search ranking, ambiguity handling, safe error display and 'none of these match' pathway | IN_PROGRESS | 24 definitions; local and CI fixtures; browser gate pending |
-| 7 | GU-0705 | Add fixtures with similar errors but different causes; show the correct branch of diagnostic logic | IN_PROGRESS | 24 definitions; local and CI fixtures; browser gate pending |
+| 7 | GU-0701 | Build versioned error-pattern definitions and a deterministic ranker with exact-text, canonical error, synonyms, platform context and confidence scores | PASS | CI 38360205967 (engineering); corrective experience review supersedes UI acceptance |
+| 7 | GU-0702 | Cover initially at least 20 common errors, including: rejected/non-fast-forward push; authentication and permission failures; missing Git repo; unfinished merge/rebase; untracked-file overwrite; unrelated histories; invalid refspec; detached HEAD; bad revision; lock file; missing upstream; divergent pull; cherry-pick conflict; local changes blocking switch; push protection; tag already exists; credential helper errors; remote not found | PASS | CI 38360205967 (engineering); corrective experience review supersedes UI acceptance |
+| 7 | GU-0703 | For each error include probable causes, diagnostics, differentiating questions, recovery routes, supported hosts and last-reviewed documentation links | PASS | CI 38360205967 (engineering); corrective experience review supersedes UI acceptance |
+| 7 | GU-0704 | Implement search ranking, ambiguity handling, safe error display and 'none of these match' pathway | PASS | CI 38360205967 (engineering); corrective experience review supersedes UI acceptance |
+| 7 | GU-0705 | Add fixtures with similar errors but different causes; show the correct branch of diagnostic logic | PASS | CI 38360205967 (engineering); corrective experience review supersedes UI acceptance |
 | 8 | GU-0801 | Define adapter capability manifest and validation: PR/MR terminology, CLI availability, authentication, branch rules, review, pipelines, releases, SaaS vs self-managed constraints | NOT_STARTED | — |
 | 8 | GU-0802 | Support provider selection and per-provider workflow views for clone, auth prerequisites, branch/push, review, policy-related rejection, CI investigation and release guidance | NOT_STARTED | — |
 | 8 | GU-0803 | Verify actual installed/documented official CLIs (gh, glab) and Bitbucket's supported web/API/tool options before showing executable examples | NOT_STARTED | — |
@@ -129,7 +129,7 @@ GitHub Pages is automatically building v2.0. The older claim that v2.0 pushes le
 | 4 | PASS | CI 38314289366: 69 tests, 8 baseline and 8 current-browser cases with 5-view axe checks | Automated evidence; human screen-reader testing not performed |
 | 5 | PASS | CI 38315854612: 95 tests + desktop/mobile route/browser checks | Pasted data is partial; live remote/operation/freshness unknown |
 | 6 | PASS | CI 38317457103: 133 tests plus baseline/current browser matrix | Chromium only; manual confirmations remain testimony |
-| 7 | NOT_STARTED | — | — |
+| 7 | PASS | CI 38360205967: 172 tests and browser scenarios | Product/experience acceptance tracked separately in corrective R1–R5 |
 | 8 | NOT_STARTED | — | — |
 | 9 | NOT_STARTED | — | — |
 | 10 | NOT_STARTED | — | — |

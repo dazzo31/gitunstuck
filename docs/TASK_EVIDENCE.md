@@ -108,3 +108,11 @@ GU-0701: versioned 24-family catalogue with deterministic canonical/regex/alias/
 GU-0702/0703: all requested error categories, separate HTTPS/SSH/write-access and local/remote ref errors, explicit cause alternatives, read-only allowlisted diagnostics, questions, safe next decisions and applicable gated recovery links. Official Git and GitHub documentation URLs opened successfully on 2026-10-13; per-entry review dates retained. Authentication is not tested against real accounts.
 GU-0704: ephemeral error input with UTF-8 limit/control-character boundaries, text-only rendering, clear/edit invalidation and none-match return to status. No uploads, persistence or user-text command interpolation. Ambiguous/weak matches expose no recovery choice link.
 GU-0705: canonical fixtures for every family, ambiguous could-not-apply/policy cases, provider mismatch, authentication distinctions, hostile text and real-Git failures. Browser suite now checks ambiguity, injection, no storage, edit invalidation and none-match focus. CI remains the phase gate.
+
+## Corrective learning/help pass
+
+The 2026-10-13 experience review superseded feature expansion. See CONTENT_INVENTORY.md and EXPERIENCE_ACCEPTANCE.md for scope, observed failures, corrections, actual screenshot review, source/CI examples and publishing correction.
+
+Final application source 9802e2f793d089870ba3a3db285676ae67064f08: CI 38370326359 passed 179 tests, content/build, eight baseline and eight current experience contexts with four sizes/two themes, 64 accessibility states and no-JavaScript fallback. 49 screenshots captured; representative images actually viewed. Independent HTTP response verified current Home/title/removed misleading labels. Main remains unmerged; GitHub’s separate auto-Pages flow publishes v2.0.
+
+Human screen-reader review and user design acceptance are open. No later feature roadmap was resumed. Passing these automated checks is not a production-readiness declaration.
