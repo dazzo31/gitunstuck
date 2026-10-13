@@ -371,6 +371,97 @@
     .recipe-action { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .recipe-desc { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.35; }
 
+    /* Emergency Triage Hero */
+    .emergency-hero {
+      background: linear-gradient(135deg, rgba(240, 80, 50, 0.12) 0%, rgba(30, 41, 59, 0.85) 100%);
+      border: 1px solid var(--git-orange); border-radius: var(--radius-lg);
+      padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-card);
+      position: relative; overflow: hidden;
+    }
+    [data-theme="light"] .emergency-hero {
+      background: linear-gradient(135deg, rgba(194, 65, 12, 0.08) 0%, rgba(241, 245, 249, 0.95) 100%);
+      border-color: rgba(194, 65, 12, 0.4);
+    }
+    .emergency-badge {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 800;
+      color: #ffffff; background: var(--git-orange); padding: 4px 12px; border-radius: 9999px;
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;
+    }
+    .emergency-title {
+      font-size: 1.45rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; line-height: 1.25;
+    }
+    .emergency-subtitle {
+      font-size: 0.92rem; color: var(--text-muted); margin-top: 6px; line-height: 1.4;
+    }
+    .emergency-chips {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+      gap: 10px; margin: 18px 0;
+    }
+    .emergency-chip {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 12px 14px; text-align: left; cursor: pointer; display: flex; flex-direction: column;
+      gap: 3px; transition: all 0.15s ease; color: var(--text);
+    }
+    .emergency-chip:hover {
+      border-color: var(--git-orange); transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(240, 80, 50, 0.2);
+    }
+    .emergency-chip .chip-icon { font-size: 1.3rem; margin-bottom: 2px; }
+    .emergency-chip .chip-title { font-size: 0.88rem; font-weight: 800; color: var(--text); }
+    .emergency-chip .chip-desc { font-size: 0.75rem; color: var(--text-dim); line-height: 1.3; }
+
+    .safety-snapshot-bar {
+      background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: var(--radius-sm); padding: 12px 16px; margin-top: 14px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    [data-theme="light"] .safety-snapshot-bar {
+      background: rgba(241, 245, 249, 0.9); border-color: rgba(3, 105, 161, 0.35);
+    }
+    .safety-snapshot-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+    }
+    .snapshot-shield {
+      font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); display: flex; align-items: center; gap: 6px;
+    }
+    .safety-snapshot-body {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .safety-snapshot-body p {
+      font-size: 0.82rem; color: var(--text-muted); margin: 0; flex: 1; min-width: 200px;
+    }
+    .compact-snippet { margin: 0 !important; min-width: 260px; }
+
+    /* Work Lost Reassurance Callout */
+    .work-lost-callout {
+      border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 14px;
+      border: 1px solid transparent; display: flex; flex-direction: column; gap: 4px;
+    }
+    .work-lost-callout.work-lost-safe {
+      background: rgba(52, 211, 153, 0.1); border-color: rgba(52, 211, 153, 0.35);
+    }
+    .work-lost-callout.work-lost-danger {
+      background: rgba(248, 113, 113, 0.12); border-color: rgba(248, 113, 113, 0.4);
+    }
+    .work-lost-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .work-lost-title {
+      font-size: 0.85rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 6px;
+    }
+    .work-lost-pill {
+      font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 9999px; text-transform: uppercase;
+    }
+    .work-lost-pill.safe {
+      background: var(--accent-green); color: #000;
+    }
+    .work-lost-pill.danger {
+      background: var(--accent-red); color: #fff;
+    }
+    .work-lost-msg {
+      font-size: 0.83rem; color: var(--text); line-height: 1.4;
+    }
+
     /* Interactive Troubleshooting Console (Decision Tree) */
     .troubleshoot-console {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
@@ -1025,6 +1116,59 @@
       <div class="print-banner-title">GitUnstuck • The Visual Problem-Solving &amp; Recovery Guide</div>
       <div class="print-banner-url">https://dazzo31.github.io/gitunstuck/ — Reference &amp; Verified Recipes</div>
     </div>
+
+    <!-- EMERGENCY TRIAGE HERO -->
+    <section class="emergency-hero" id="emergencyHero" aria-labelledby="emergencyHeading">
+      <div class="emergency-badge">🚨 Git Emergency? Don't Panic</div>
+      <h2 class="emergency-title" id="emergencyHeading">Git almost never loses your committed work.</h2>
+      <p class="emergency-subtitle">Take a breath. Click what just happened below to jump directly to a verified, safe resolution:</p>
+      <div class="emergency-chips" role="group" aria-label="Emergency problem selector">
+        <button class="emergency-chip" data-intent="undo" title="Discard uncommitted files, unstage, or undo local commits">
+          <span class="chip-icon">⏪</span>
+          <span class="chip-title">Undo a mistake</span>
+          <span class="chip-desc">Discard edits, unstage, or undo a commit</span>
+        </button>
+        <button class="emergency-chip" data-intent="push-rejected" title="Remote rejected non-fast-forward push or protected branch">
+          <span class="chip-icon">🚫</span>
+          <span class="chip-title">Push was rejected</span>
+          <span class="chip-desc">Protected branch or diverged history</span>
+        </button>
+        <button class="emergency-chip" data-intent="conflict" title="Resolve merge or rebase conflicts safely">
+          <span class="chip-icon">⚠️</span>
+          <span class="chip-title">Merge conflict</span>
+          <span class="chip-desc">Fix conflicts without losing code</span>
+        </button>
+        <button class="emergency-chip" data-intent="detached" title="Rescue commits made in detached HEAD state">
+          <span class="chip-icon">📍</span>
+          <span class="chip-title">Detached HEAD</span>
+          <span class="chip-desc">Save commits made without a branch</span>
+        </button>
+        <button class="emergency-chip" data-intent="auth" title="Fix GitHub Personal Access Tokens, SSH keys, or Bitbucket credentials">
+          <span class="chip-icon">🔑</span>
+          <span class="chip-title">Auth failed</span>
+          <span class="chip-desc">Tokens, SSH keys &amp; credential cache</span>
+        </button>
+        <button class="emergency-chip" data-intent="lost-work" title="Resurrect lost commits or deleted branches via reflog">
+          <span class="chip-icon">🔍</span>
+          <span class="chip-title">Lost work / commit</span>
+          <span class="chip-desc">Rescue deleted branch or commit with reflog</span>
+        </button>
+      </div>
+
+      <!-- Universal Safety Snapshot Recipe -->
+      <div class="safety-snapshot-bar">
+        <div class="safety-snapshot-header">
+          <span class="snapshot-shield">🛡️ Golden Safety Rule: Make a Bookmark Before Any Fix</span>
+        </div>
+        <div class="safety-snapshot-body">
+          <p>Create a backup branch now. It takes 1 second, does not change your files, and guarantees you can always return to this exact spot:</p>
+          <div class="snippet-block compact-snippet">
+            <pre class="code-content"><code>git branch backup-before-fix</code></pre>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy backup command">Copy</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- TASK-FIRST QUICK NAVIGATOR -->
     <section class="task-navigator" aria-labelledby="taskNavHeading">
@@ -2178,6 +2322,8 @@ git cherry-pick 7a1b2c3
         title: 'Discard Uncommitted Edits in Working Tree',
         scope: 'Working Tree',
         riskBadge: '<span class="badge badge-risk-caution">Risk: Destructive</span>',
+        workLostStatus: 'danger',
+        workLostText: '⚠️ Yes, if you run git restore on uncommitted files. Any edits on your disk that were never staged or committed will be permanently overwritten.',
         desc: 'You edited a tracked file on disk, but have NOT added it to staging. You want to wipe those edits and return to the last commit.',
         code: '# Discard unstaged edits in a specific file:\ngit restore <filename>\n\n# Or discard all unstaged edits in current directory:\ngit restore .',
         effect: 'Permanently overwrites your working file on disk with the version recorded in HEAD/index.',
@@ -2188,6 +2334,8 @@ git cherry-pick 7a1b2c3
         title: 'Unstage Files (Remove from Cart) Without Losing Edits',
         scope: 'Staging Area (Index)',
         riskBadge: '<span class="badge badge-risk-safe">Risk: Safe / Reversible</span>',
+        workLostStatus: 'safe',
+        workLostText: '🟢 No! git restore --staged only removes files from the staging index (cart). Your file edits on disk remain 100% intact and untouched.',
         desc: 'You ran git add, but you are not ready to commit this file yet. You want to preserve your code edits in the file.',
         code: '# Unstage a specific file:\ngit restore --staged <filename>\n\n# Or unstage everything:\ngit restore --staged .',
         effect: 'Removes the file snapshot from the staging index. Your working code edits on disk remain 100% untouched.',
@@ -2198,6 +2346,8 @@ git cherry-pick 7a1b2c3
         title: 'Rewind or Amend a Local Commit (Not Pushed)',
         scope: 'Local History',
         riskBadge: '<span class="badge badge-risk-rev">Risk: Reversible</span>',
+        workLostStatus: 'safe',
+        workLostText: '🟢 No! git reset --soft moves your local branch bookmark backwards but keeps all of your code changes staged and ready in the cart.',
         desc: 'You committed too early or forgot a file, but you have NOT pushed to GitHub yet.',
         code: '# Option A: Rewind 1 commit and keep changes staged in cart:\ngit reset --soft HEAD~1\n\n# Option B: Add a forgotten file to the previous commit:\ngit add <forgotten-file>\ngit commit --amend --no-edit',
         effect: 'Moves HEAD back one commit while keeping your staged code ready to edit and re-commit.',
@@ -2208,6 +2358,8 @@ git cherry-pick 7a1b2c3
         title: 'Undo a Public Commit on GitHub (Safe Inverse Commit)',
         scope: 'Remote / Shared History',
         riskBadge: '<span class="badge badge-risk-safe">Risk: Safe (No Conflicts)</span>',
+        workLostStatus: 'safe',
+        workLostText: '🟢 No! git revert creates a brand-new opposite commit without erasing or rewriting any history. Both the mistake and the fix are preserved.',
         desc: 'The faulty commit has already been pushed to GitHub. Rewriting history with reset would break teammates\' branches.',
         code: '# 1. Find the commit hash to undo:\ngit log -n 5 --oneline\n\n# 2. Create a safe inverse commit:\ngit revert <commit-id>\n\n# 3. Push the revert to GitHub:\ngit push origin main',
         effect: 'Creates a NEW commit that applies the exact opposite changes. History remains forward-moving and clean.',
@@ -2218,6 +2370,8 @@ git cherry-pick 7a1b2c3
         title: 'Resurrect a Lost Commit or Deleted Branch via Reflog',
         scope: 'Local Reflog Ledger',
         riskBadge: '<span class="badge badge-risk-safe">Risk: Reversible</span>',
+        workLostStatus: 'safe',
+        workLostText: '🟢 No! Git never immediately erases orphaned commits. They remain safely stored in your local reflog ledger for 30 to 90 days.',
         desc: 'You accidentally ran reset --hard, deleted a branch with unmerged work, or lost a detached commit.',
         code: '# 1. View your chronological local action ledger:\ngit reflog -n 15\n\n# 2. Locate the commit hash before the mistake (e.g. HEAD@{2})\n# 3. Create a rescue branch attached to that commit:\ngit switch -c rescue-branch HEAD@{2}',
         effect: 'Recovers unreachable commits before Git\'s automatic garbage collection prunes them (retained locally for 30-90 days).',
@@ -2237,6 +2391,13 @@ git cherry-pick 7a1b2c3
             <span class="badge badge-scope">Scope: ${data.scope}</span>
             ${data.riskBadge}
           </div>
+        </div>
+        <div class="work-lost-callout work-lost-${data.workLostStatus}">
+          <div class="work-lost-header">
+            <span class="work-lost-title">❓ Is my work lost?</span>
+            <span class="work-lost-pill ${data.workLostStatus}">${data.workLostStatus === 'safe' ? 'Work is Safe' : 'Permanent Loss Risk'}</span>
+          </div>
+          <div class="work-lost-msg">${data.workLostText}</div>
         </div>
         <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">${data.desc}</p>
         <div class="snippet-block">
@@ -2854,9 +3015,142 @@ git cherry-pick 7a1b2c3
       });
     });
 
+    // 9. Emergency Triage Chips & Failure-Intent Routing
+    const emergencyChips = document.querySelectorAll('.emergency-chip');
+    emergencyChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const intent = chip.getAttribute('data-intent');
+        handleIntentJump(intent);
+      });
+    });
+
+    function handleIntentJump(intent) {
+      if (!intent) return;
+      // Reset search & filters
+      if (searchInput) searchInput.value = '';
+      activeFilter = 'all';
+      activeRiskFilter = 'all';
+      filterPills.forEach(p => p.classList.toggle('active', p.getAttribute('data-filter') === 'all'));
+      riskPills.forEach(p => p.classList.toggle('active', p.getAttribute('data-risk-filter') === 'all'));
+      filterCards();
+
+      let targetId = '';
+      let undoKey = '';
+
+      switch (intent) {
+        case 'undo':
+          targetId = 'troubleshootConsole';
+          undoKey = 'unstaged';
+          break;
+        case 'push-rejected':
+          targetId = 'card-sync';
+          break;
+        case 'conflict':
+          targetId = 'card-conflict';
+          break;
+        case 'detached':
+          targetId = 'card-detached';
+          break;
+        case 'auth':
+          targetId = 'card-sync';
+          break;
+        case 'lost-work':
+          targetId = 'card-reflog';
+          break;
+        default:
+          targetId = intent;
+      }
+
+      if (undoKey && typeof renderUndoSolution === 'function') {
+        const btn = document.querySelector(`.tree-choice-btn[data-location="${undoKey}"]`);
+        if (btn) btn.click();
+      }
+
+      const targetElem = document.getElementById(targetId);
+      if (targetElem) {
+        if (targetElem.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
+          setMode('pro');
+        }
+        targetElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetElem.classList.add('highlighted');
+        announceState(`Jumped to emergency solution for ${intent}`);
+        setTimeout(() => targetElem.classList.remove('highlighted'), 2200);
+        try {
+          history.replaceState(null, '', `#intent-${intent}`);
+        } catch (e) {}
+      }
+    }
+
+    // 10. Terminal Paste Sanitizer & Host Auto-Detector
+    function normalizeTerminalInput(raw) {
+      if (!raw) return '';
+      // Limit to 100 KiB guard to eliminate ReDoS risks
+      let text = raw.length > 102400 ? raw.slice(0, 102400) : raw;
+      // Strip ANSI escape codes (terminal colors)
+      text = text.replace(/\x1b\[[0-9;]*[a-zA-Z]/g, '');
+      // Normalize CRLF to LF
+      text = text.replace(/\r\n/g, '\n');
+      return text;
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('paste', (e) => {
+        const pasted = (e.clipboardData || window.clipboardData)?.getData('text');
+        if (pasted) {
+          const clean = normalizeTerminalInput(pasted);
+          if (clean.includes('github.com') || clean.includes('gitlab.com') || clean.includes('bitbucket.org')) {
+            announceState('Detected cloud forge in pasted terminal snippet');
+          }
+          if (clean !== pasted) {
+            e.preventDefault();
+            const start = searchInput.selectionStart;
+            const end = searchInput.selectionEnd;
+            const val = searchInput.value;
+            searchInput.value = val.slice(0, start) + clean.trim() + val.slice(end);
+            filterCards();
+          }
+        }
+      });
+    }
+
+    // 11. Deep-Linking URL Hash Router
+    function handleHashRoute() {
+      const hash = window.location.hash;
+      if (!hash) return;
+      if (hash.startsWith('#undo-')) {
+        const loc = hash.replace('#undo-', '');
+        if (undoSolutions && undoSolutions[loc]) {
+          const btn = document.querySelector(`.tree-choice-btn[data-location="${loc}"]`);
+          if (btn) btn.click();
+          const elem = document.getElementById('troubleshootConsole');
+          if (elem) elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else if (hash.startsWith('#intent-')) {
+        const intent = hash.replace('#intent-', '');
+        handleIntentJump(intent);
+      } else if (hash.startsWith('#')) {
+        const id = hash.replace('#', '');
+        const target = document.getElementById(id);
+        if (target) {
+          if (target.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
+            setMode('pro');
+          }
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.classList.add('highlighted');
+          setTimeout(() => target.classList.remove('highlighted'), 2200);
+        }
+      }
+    }
+
+    window.addEventListener('hashchange', handleHashRoute);
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(handleHashRoute, 120);
+    });
+
     // Initialize Mode with Validated Storage Value
     const initialMode = safeStorageGet('mode', 'beginner', ['beginner', 'pro']);
     setMode(initialMode);
+    setTimeout(handleHashRoute, 120);
   </script>
 </body>
 </html>
