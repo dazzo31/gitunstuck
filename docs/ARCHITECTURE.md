@@ -16,3 +16,11 @@ Static Pages app; no core backend, telemetry or shell execution. Public assets a
 Bundled graph SVG and three-tag inline explanations are the sole trusted knowledge-markup boundary. Validators reject executable SVG and uncontrolled explanation tags. Recovery values render through textContent. Pasted data must never be added to knowledge objects, innerHTML, URLs, logs or storage. There is no arbitrary command executor.
 
 Node 24, Playwright 1.56.1 and axe-core 4.10.3 are development tools only. No framework/runtime dependency added. Native ES modules load through relative asset paths under /gitunstuck/. Explanations and examples target Git 2.28+. CI evidence currently covers Chromium; other browsers and human screen-reader review are limitations.
+
+## Learning/help structure
+
+Home is the default route. Learn and Help render task-specific records from guides.mjs, with reference.mjs holding command definitions and comparisons. Legacy workflows/playground hashes map to Learn; existing card anchors still map to Reference. The hidden legacy recovery adapter is retained for compatibility tests and is not a second advertised interface.
+
+shell.mjs owns routing, grouped search, contextual settings and guide/reference rendering. status.mjs/status-ui.mjs own ephemeral diagnostic interpretation; recovery.mjs/recovery-ui.mjs own gated mutation guidance; errors.mjs/errors-ui.mjs own ambiguous error explanations. No module executes pasted text. Native disclosures provide optional depth. Static essential examples remain in index.html, with canonical parity enforced by tests.
+
+The global experience-mode interface was removed; content now uses a shared accessible explanation with optional detail. Provider selection is explicitly limited to error interpretation. Reference shell formatting is allowlisted. Print excludes diagnostic state by default. tests/experience-browser.cjs runs on CI only and records rendered screenshots alongside behavioral/accessibility observations. Manual visual and screen-reader acceptance must be reported separately.

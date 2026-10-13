@@ -1000,3 +1000,6 @@ a { color: var(--git-orange); }
 }
 
 body.specific-reference #commandIndex, body.specific-reference #referenceTopicsHeading, body.specific-reference #cardsGrid, body.specific-reference .filter-controls-container, body.specific-reference #searchFeedback, body.specific-reference #noResults, body.specific-reference #commandComparisons { display:none!important; }
+
+body.specific-guide #learnHeading, body.specific-guide #learnHeading + p, body.specific-help #fixHeading, body.specific-help #fixHeading + p, body.specific-reference #referenceHeading, body.specific-reference #referenceHeading + p, body.home-route .route-context { display:none; }
+.reading-panel .code-content { font-size: .9rem; line-height: 1.7; }

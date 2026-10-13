@@ -6,13 +6,19 @@ Live stable site: https://dazzo31.github.io/gitunstuck/
 
 The `v2.0` branch is development work. Its implementation plan, baseline audit and evidence ledger are committed alongside the source. It is not a completed production release.
 
-## Current capabilities
+## Learning and help
 
-- Task links, beginner/developer explanations and 17 command/workflow cards.
-- Search combined with category and effect filters.
-- Recovery recipes and five illustrated commit-graph scenarios.
-- Three provider CI starter examples, theme preferences, keyboard search, clipboard and print.
-- Client-side explanations only: the website does not execute Git commands.
+The development experience starts at Home with Learn Git and Get help. Navigation is Home, Learn, Help and Reference.
+
+- 17 task-specific guides explain starting conditions, examples, expected results and failure paths.
+- Eight help topics are readable without pasting real repository data. Status interpretation and guided recovery are optional, contextual tools.
+- 24 command entries, seven comparisons and grouped search connect lessons, help, error explanations and reference topics.
+- Five fixed history illustrations explain commits, branch refs and HEAD. They are not a Git simulator.
+- Error matching covers 24 families and preserves ambiguity. Match wording does not establish the cause.
+- Shell formatting appears in Reference; provider choice scopes error interpretation. No global beginner/developer mode is advertised.
+- Inputs stay ephemeral; commands never run in the website. Print excludes diagnostic inputs/results, and essential examples remain available without JavaScript.
+
+The previous feature roadmap is paused. See docs/V2_EXPERIENCE_REVIEW_AND_FIX_PLAN.md and docs/EXPERIENCE_ACCEPTANCE.md for the corrective work and actual validation status. A green functional test run does not imply visual or editorial acceptance.
 
 ## Command prerequisites
 
@@ -33,7 +39,7 @@ npm run build
 
 Baseline tests intentionally reproduce defects against frozen original source fixtures. Foundation tests check corrected application behavior. Git fixtures run only in disposable temporary repositories and never touch the development checkout or live remotes.
 
-CI browser checks run on isolated GitHub-hosted runners. Baseline and corrected behavior coverage includes desktop/mobile, dark/light and both explanation modes under the Pages `/gitunstuck/` subpath. Current behavior checks include clipboard text, filter composition, injection resistance, theme persistence, print and serious/critical automated accessibility violations. These checks do not replace human screen-reader or visual review. Browser setup on an ordinary local development machine: `npx playwright install chromium`; browser harness currently runs only in CI.
+CI browser checks run on isolated GitHub-hosted runners. Baseline and corrected behavior coverage includes desktop/mobile, dark/light and both explanation modes under the Pages `/gitunstuck/` subpath. Current behavior checks include clipboard text, filter composition, injection resistance, theme persistence, print and serious/critical automated accessibility violations. These checks do not replace human screen-reader or visual review. Browser setup on an ordinary local development machine: `npx playwright install chromium`; browser harness currently runs only in CI. The experience suite captures four viewport sizes in both themes and saves screenshots as CI artifacts. Review those separately from automated assertions.
 
 ## Hosting
 

@@ -62,13 +62,17 @@ function selectRoute(event){const route=parseRoute(location.hash);let candidate=
  if(active==='fix'&&route.item){const ids={staged:'unstage',unstaged:'discard','local-commit':'amend','pushed-commit':'revert','lost-reflog':'reflog'};const item=helpTopics.find(x=>x.id===(ids[route.item]||route.item));if(item)renderHelp(item);else if(route.item.startsWith('error-')){const error=errors.find(x=>x.id===route.item.slice(6));if(error){document.getElementById('errorTools').open=true;document.getElementById('errorInput').value=error.canonical;document.getElementById('diagnoseError').click();}}}
  if(active==='reference'&&route.item){const item=reference.find(x=>x.id===route.item);if(item)renderCommand(item);}
  if(target&&!target.hidden){const detail=target.closest('details');if(detail)detail.open=true;target.tabIndex=-1;target.focus();target.scrollIntoView({block:'start',behavior:'auto'});}
- else if(event?.type==='hashchange'&&!route.item){const heading=view(active).querySelector('h2');heading?.focus();}
+ else if(event?.type==='hashchange'&&!route.item&&document.activeElement!==document.getElementById('searchInput')){const heading=view(active).querySelector('h2');heading?.focus();}
  document.body.classList.toggle('specific-reference',active==='reference'&&!!reference.find(x=>x.id===route.item));
+ document.body.classList.toggle('specific-guide',active==='learn'&&!!guides.find(x=>x.id===route.item));
+ document.body.classList.toggle('specific-help',active==='fix'&&!!helpTopics.find(x=>x.id===(route.item==='staged'?'unstage':route.item)));
+ document.body.classList.toggle('home-route',active==='home');
  search();
 }
 window.addEventListener('hashchange',selectRoute);
 document.getElementById('mobileNavToggle').addEventListener('click',e=>{const open=e.currentTarget.getAttribute('aria-expanded')!=='true';e.currentTarget.setAttribute('aria-expanded',String(open));document.getElementById('v2NavLinks').classList.toggle('expanded',open);});
 document.getElementById('searchInput').addEventListener('input',()=>{search();if(location.hash!=='#reference')location.hash='reference';});
 document.getElementById('searchInput').addEventListener('focus',()=>{if(document.getElementById('view-reference').hidden)location.hash='reference';});
+document.getElementById('searchInput').addEventListener('keyup',event=>{if(event.key==='Escape')search();});
 document.getElementById('clearSearchBtn').addEventListener('click',search);document.getElementById('resetFiltersBtn').addEventListener('click',search);
 window.GitUnstuck.setMode('beginner');shellNote();selectRoute();document.documentElement.dataset.enhanced='true';
