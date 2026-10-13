@@ -197,6 +197,41 @@
 
     *:focus-visible { outline: 2px solid var(--git-orange); outline-offset: 2px; }
 
+    /* Totakit-Inspired Thin Iconography System (1.5px stroke, geometric vector line style) */
+    .tota-icon {
+      width: 1.15em;
+      height: 1.15em;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      vertical-align: -0.16em;
+      display: inline-block;
+      flex-shrink: 0;
+      transition: transform 0.15s ease, stroke 0.15s ease;
+    }
+    .tota-icon-sm {
+      width: 14px;
+      height: 14px;
+      stroke-width: 1.5;
+    }
+    .tota-icon-md {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.5;
+    }
+    .tota-icon-lg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.5;
+    }
+    .tota-icon-xl {
+      width: 28px;
+      height: 28px;
+      stroke-width: 1.5;
+    }
+
     body {
       font-family: var(--font-sans); background-color: var(--bg); color: var(--text);
       line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column;
@@ -340,7 +375,12 @@
     }
     .analogy-card:hover { border-color: var(--git-orange); }
 
-    .analogy-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .analogy-icon {
+      margin-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      color: var(--accent-blue);
+    }
     .analogy-term { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
     .analogy-meta { font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; margin-bottom: 8px; }
     .analogy-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.45; }
@@ -1584,10 +1624,10 @@
       <!-- Mode Switcher -->
       <div class="mode-switcher" id="modeSwitcher" role="group" aria-label="Experience Mode">
         <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Task-driven language, real-world analogies, hides advanced commands">
-          🌱 Plain English (Beginner)
+          <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English (Beginner)
         </button>
         <button class="mode-btn" data-mode="pro" aria-pressed="false" title="Full developer matrix, rebase, DAG architecture, worktrees &amp; reflog">
-          ⚡ Pro Developer Hub
+          <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Pro Developer Hub
         </button>
       </div>
 
@@ -1640,41 +1680,41 @@
     <!-- EMERGENCY TRIAGE HERO -->
     <section class="emergency-hero" id="emergencyHero" aria-labelledby="emergencyHeading">
       <div class="hero-top-row">
-        <div class="emergency-badge">🚨 Git Emergency? Don't Panic</div>
+        <div class="emergency-badge"><svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Git Emergency? Don't Panic</div>
         <button id="heroJumpToAnalyzer" class="hero-analyzer-btn" title="Jump directly to terminal error &amp; status analyzer">
-          📟 Paste Terminal Error / Status →
+          <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Paste Terminal Error / Status →
         </button>
       </div>
       <h2 class="emergency-title" id="emergencyHeading">Git almost never loses your committed work.</h2>
       <p class="emergency-subtitle">Take a breath. Click what just happened below to jump directly to a verified, safe resolution:</p>
       <div class="emergency-chips" role="group" aria-label="Emergency problem selector">
         <button class="emergency-chip" data-intent="undo" title="Discard uncommitted files, unstage, or undo local commits">
-          <span class="chip-icon">⏪</span>
+          <span class="chip-icon"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><polyline points="3 3 3 8 8 8"/></svg></span>
           <span class="chip-title">Undo a mistake</span>
           <span class="chip-desc">Discard edits, unstage, or undo a commit</span>
         </button>
         <button class="emergency-chip" data-intent="push-rejected" title="Remote rejected non-fast-forward push or protected branch">
-          <span class="chip-icon">🚫</span>
+          <span class="chip-icon"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></span>
           <span class="chip-title">Push was rejected</span>
           <span class="chip-desc">Protected branch or diverged history</span>
         </button>
         <button class="emergency-chip" data-intent="conflict" title="Resolve merge or rebase conflicts safely">
-          <span class="chip-icon">⚠️</span>
+          <span class="chip-icon"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
           <span class="chip-title">Merge conflict</span>
           <span class="chip-desc">Fix conflicts without losing code</span>
         </button>
         <button class="emergency-chip" data-intent="detached" title="Rescue commits made in detached HEAD state">
-          <span class="chip-icon">📍</span>
+          <span class="chip-icon"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="22"/><line x1="2" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="22" y2="12"/></svg></span>
           <span class="chip-title">Detached HEAD</span>
           <span class="chip-desc">Save commits made without a branch</span>
         </button>
         <button class="emergency-chip" data-intent="auth" title="Fix GitHub Personal Access Tokens, SSH keys, or Bitbucket credentials">
-          <span class="chip-icon">🔑</span>
+          <span class="chip-icon"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 2l-2 2m-1.5 1.5L14 9l-1.5-1.5L11 9l-1-1-4 4a6 6 0 1 0 8.5 8.5l4-4-1-1 1.5-1.5L20.5 9 22 7.5 21 2z"/><circle cx="7.5" cy="16.5" r="1.5"/></svg></span>
           <span class="chip-title">Auth failed</span>
           <span class="chip-desc">Tokens, SSH keys &amp; credential cache</span>
         </button>
         <button class="emergency-chip" data-intent="lost-work" title="Resurrect lost commits or deleted branches via reflog">
-          <span class="chip-icon">🔍</span>
+          <span class="chip-icon"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><polyline points="11 8 11 11 13 13"/></svg></span>
           <span class="chip-title">Lost work / commit</span>
           <span class="chip-desc">Rescue deleted branch or commit with reflog</span>
         </button>
@@ -1683,14 +1723,14 @@
       <!-- Universal Safety Snapshot Recipe -->
       <div class="safety-snapshot-bar">
         <div class="safety-snapshot-header">
-          <span class="snapshot-shield">🛡️ Golden Safety Rule: Make a Bookmark Before Any Fix</span>
+          <span class="snapshot-shield"><svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Golden Safety Rule: Make a Bookmark Before Any Fix</span>
         </div>
         <p class="safety-snapshot-desc">Before running any troubleshooting or recovery command, save a snapshot so you can return to this exact spot if something goes wrong:</p>
         <div class="safety-options-grid">
           <!-- Option A: Clean Working Tree -->
           <div class="safety-option-card">
             <div class="safety-option-title">
-              <span>🌱</span> Option A: Clean working tree (only committed work)
+              <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Option A: Clean working tree (only committed work)
             </div>
             <div class="safety-option-desc">Use when <code>git status</code> is clean or you only need to bookmark your current commit checkpoint:</div>
             <div class="snippet-block compact-snippet">
@@ -1704,7 +1744,7 @@
           <!-- Option B: Full Snapshot (Uncommitted & Untracked) -->
           <div class="safety-option-card">
             <div class="safety-option-title">
-              <span>🛡️</span> Option B: I have uncommitted or untracked changes (Full Snapshot)
+              <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg> Option B: I have uncommitted or untracked changes (Full Snapshot)
             </div>
             <div class="safety-option-desc">Use when you have in-progress edits on disk that must be protected before running any reset or clean:</div>
             <div class="snippet-block compact-snippet">
@@ -1718,7 +1758,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
           </div>
         </div>
         <div class="safety-explanation-note">
-          💡 <strong>How it protects you:</strong> <code>git branch</code> saves your commit history, while <code>git stash push -u &amp;&amp; git stash apply</code> safely snapshots uncommitted and untracked files into the stash list without clearing your working directory.
+          <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/></svg> <strong>How it protects you:</strong> <code>git branch</code> saves your commit history, while <code>git stash push -u &amp;&amp; git stash apply</code> safely snapshots uncommitted and untracked files into the stash list without clearing your working directory.
         </div>
       </div>
     </section>
@@ -1726,22 +1766,22 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
     <!-- TASK-FIRST QUICK NAVIGATOR -->
     <section class="task-navigator" aria-labelledby="taskNavHeading">
       <div class="task-nav-header">
-        <h2 class="task-nav-title" id="taskNavHeading">🎯 What are you trying to do?</h2>
+        <h2 class="task-nav-title" id="taskNavHeading"><svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> What are you trying to do?</h2>
         <p class="task-nav-subtitle">Click a goal to jump directly to its complete, verified workflow:</p>
       </div>
       <div class="task-chips">
-        <button class="task-chip" data-target="card-init">🚀 Start a new project</button>
-        <button class="task-chip" data-target="card-clone">📥 Clone an existing project</button>
-        <button class="task-chip" data-target="card-stage">✍️ Save daily work safely</button>
-        <button class="task-chip" data-target="card-branch">🌿 Create a feature branch</button>
-        <button class="task-chip" data-target="card-sync">🔄 Sync updates with GitHub</button>
-        <button class="task-chip" data-target="troubleshootConsole">🚑 Undo a mistake or recovery tree</button>
-        <button class="task-chip" data-target="card-stash">⏸️ Pause work &amp; switch branches</button>
-        <button class="task-chip" data-target="card-conflict">⚠️ Resolve a merge conflict</button>
-        <button class="task-chip pro-only" data-target="card-rebase">🧹 Clean up commits before PR</button>
-        <button class="task-chip pro-only" data-target="card-reflog">🔍 Rescue lost commits with reflog</button>
-        <button class="task-chip" data-target="commitGraphExplorer">🗺️ Visual Timeline &amp; Branch Map</button>
-        <button class="task-chip" data-target="card-tag">🏷️ Tag a production release</button>
+        <button class="task-chip" data-target="card-init"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> Start a new project</button>
+        <button class="task-chip" data-target="card-clone"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Clone an existing project</button>
+        <button class="task-chip" data-target="card-stage"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="22.95" y2="12"/></svg> Save daily work safely</button>
+        <button class="task-chip" data-target="card-branch"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg> Create a feature branch</button>
+        <button class="task-chip" data-target="card-sync"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Sync updates with GitHub</button>
+        <button class="task-chip" data-target="troubleshootConsole"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/><line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/><line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/></svg> Undo a mistake or recovery tree</button>
+        <button class="task-chip" data-target="card-stash"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg> Pause work &amp; switch branches</button>
+        <button class="task-chip" data-target="card-conflict"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Resolve a merge conflict</button>
+        <button class="task-chip pro-only" data-target="card-rebase"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg> Clean up commits before PR</button>
+        <button class="task-chip pro-only" data-target="card-reflog"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg> Rescue lost commits with reflog</button>
+        <button class="task-chip" data-target="commitGraphExplorer"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Visual Timeline &amp; Branch Map</button>
+        <button class="task-chip" data-target="card-tag"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Tag a production release</button>
       </div>
     </section>
 
@@ -1753,7 +1793,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
             <span class="primer-badge">Zero Experience? Start Here • Beginner Guide</span>
             <h2 class="primer-title" id="primerHeading">The 60-Second Mental Model</h2>
             <p class="primer-subtitle">If you have never touched a code repository or pipeline, here is how Git actually works in plain English.</p>
-            <div class="primer-collapsed-tagline">💡 <strong>Quick Concept:</strong> Repo = Time Machine • Commit = Save Point • Staging = Cart • 5-Step Safe Routine <button type="button" class="tagline-expand-link" onclick="setPrimerCollapsed(false, true)" aria-label="Expand 60-Second Mental Model">[Expand Guide ↑]</button></div>
+            <div class="primer-collapsed-tagline"><svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/></svg> <strong>Quick Concept:</strong> Repo = Time Machine • Commit = Save Point • Staging = Cart • 5-Step Safe Routine <button type="button" class="tagline-expand-link" onclick="setPrimerCollapsed(false, true)" aria-label="Expand 60-Second Mental Model">[Expand Guide ↑]</button></div>
           </div>
           <button id="togglePrimerBtn" class="primer-toggle-btn" aria-expanded="true" aria-controls="primerBody">
             <span class="primer-toggle-icon">▲</span> Collapse Guide
@@ -1765,7 +1805,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
         <!-- 4 Real-World Analogies -->
         <div class="analogies-grid">
           <div class="analogy-card" id="analogy-repo">
-            <div class="analogy-icon" aria-hidden="true">📁</div>
+            <div class="analogy-icon" aria-hidden="true"><svg class="tota-icon tota-icon-xl" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2z"/></svg></div>
             <div class="analogy-term">The Repository ("Repo")</div>
             <div class="analogy-meta">Project Folder + Time Machine</div>
             <p class="analogy-text">A repository is your project folder paired with an automatic ledger. It tracks your files and records a permanent, rewound history of every saved change.</p>
@@ -1775,7 +1815,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
           </div>
 
           <div class="analogy-card" id="analogy-commit">
-            <div class="analogy-icon" aria-hidden="true">💾</div>
+            <div class="analogy-icon" aria-hidden="true"><svg class="tota-icon tota-icon-xl" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></div>
             <div class="analogy-term">The Commit</div>
             <div class="analogy-meta">A Game Save Point</div>
             <p class="analogy-text">A commit is a permanent snapshot of your project at one moment. If something breaks tomorrow, you can safely reload your codebase back to this exact checkpoint.</p>
@@ -1785,7 +1825,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
           </div>
 
           <div class="analogy-card" id="analogy-staging">
-            <div class="analogy-icon" aria-hidden="true">🛒</div>
+            <div class="analogy-icon" aria-hidden="true"><svg class="tota-icon tota-icon-xl" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
             <div class="analogy-term">The Staging Area (git add)</div>
             <div class="analogy-meta">Your Shopping Cart</div>
             <p class="analogy-text">Before you buy items, you place them into a cart. <code>git add</code> picks which edited files enter the cart. <code>git commit</code> pays at the register to seal the checkpoint.</p>
@@ -1795,7 +1835,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
           </div>
 
           <div class="analogy-card" id="analogy-remote">
-            <div class="analogy-icon" aria-hidden="true">☁️</div>
+            <div class="analogy-icon" aria-hidden="true"><svg class="tota-icon tota-icon-xl" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/></svg></div>
             <div class="analogy-term">Remote &amp; Pipelines</div>
             <div class="analogy-meta">Cloud Storage &amp; Configured Robot</div>
             <p class="analogy-text"><strong>GitHub</strong> is a cloud host for your repo. A <strong>Pipeline</strong> is a robot that runs automated tests and deploys, <em>if your repository has a workflow file configured</em>.</p>
@@ -1808,7 +1848,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
         <!-- Safe 5-Step Daily Routine -->
         <div class="daily-recipe">
           <div class="recipe-title">
-            <span aria-hidden="true">🛡️</span> The Safe Daily Workflow Routine
+            <svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> The Safe Daily Workflow Routine
           </div>
           <div class="recipe-steps">
             <div class="recipe-step">
@@ -1850,33 +1890,33 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
     <section class="troubleshoot-console" id="troubleshootConsole" aria-labelledby="troubleshootHeading">
       <div class="troubleshoot-header">
         <span class="primer-badge">Interactive Troubleshooter</span>
-        <h2 class="troubleshoot-title" id="troubleshootHeading">🚑 The Undo &amp; Recovery Decision Tree</h2>
+        <h2 class="troubleshoot-title" id="troubleshootHeading"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg> The Undo &amp; Recovery Decision Tree</h2>
         <p class="troubleshoot-subtitle">Not sure which command to use? Select where your changes are located to get the exact, safe recovery command.</p>
       </div>
 
       <div class="tree-selector-grid" role="radiogroup" aria-label="Where are the changes you need to undo?">
         <button class="tree-choice-btn active" data-location="unstaged" role="radio" aria-checked="true">
-          <span class="choice-icon" aria-hidden="true">📝</span>
+          <span class="choice-icon" aria-hidden="true"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
           <span class="choice-label">Unstaged in File</span>
           <span class="choice-sub">Edited on disk, not yet in cart</span>
         </button>
         <button class="tree-choice-btn" data-location="staged" role="radio" aria-checked="false">
-          <span class="choice-icon" aria-hidden="true">🛒</span>
+          <span class="choice-icon" aria-hidden="true"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
           <span class="choice-label">Staged in Cart</span>
           <span class="choice-sub">Ran 'git add', not yet committed</span>
         </button>
         <button class="tree-choice-btn" data-location="local-commit" role="radio" aria-checked="false">
-          <span class="choice-icon" aria-hidden="true">💾</span>
+          <span class="choice-icon" aria-hidden="true"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></span>
           <span class="choice-label">Committed Locally</span>
           <span class="choice-sub">Committed on laptop, not pushed</span>
         </button>
         <button class="tree-choice-btn" data-location="pushed-commit" role="radio" aria-checked="false">
-          <span class="choice-icon" aria-hidden="true">☁️</span>
+          <span class="choice-icon" aria-hidden="true"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span>
           <span class="choice-label">Pushed to Remote</span>
           <span class="choice-sub">Already on GitHub / shared branch</span>
         </button>
         <button class="tree-choice-btn" data-location="lost-reflog" role="radio" aria-checked="false">
-          <span class="choice-icon" aria-hidden="true">🔍</span>
+          <span class="choice-icon" aria-hidden="true"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><polyline points="11 8 11 11 13 13"/></svg></span>
           <span class="choice-label">Lost Commit / Branch</span>
           <span class="choice-sub">Accidental reset or deleted branch</span>
         </button>
@@ -1890,27 +1930,27 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
       <div class="terminal-analyzer-section" id="terminalAnalyzer">
         <div class="analyzer-header">
           <div class="analyzer-title-group">
-            <span class="analyzer-icon">📟</span>
+            <span class="analyzer-icon"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
             <h3 class="analyzer-title">Live Terminal Analyzer: Paste Status or Error Output</h3>
           </div>
-          <span class="privacy-badge">🔒 100% Client-Side • Never Uploaded</span>
+          <span class="privacy-badge"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> 100% Client-Side • Never Uploaded</span>
         </div>
         <p class="analyzer-subtitle">Run <code>git status</code>, <code>git status -sb</code>, or copy any red error message from your terminal. Paste it below for an instant, safe diagnosis:</p>
 
         <!-- Sample Quick-Fill Chips -->
         <div class="sample-paste-bar" aria-label="Load sample terminal outputs">
           <span class="sample-label">Try sample output:</span>
-          <button class="sample-paste-btn" data-sample="detached">📍 Detached HEAD</button>
-          <button class="sample-paste-btn" data-sample="conflict">⚠️ Merge Conflict</button>
-          <button class="sample-paste-btn" data-sample="diverged">🔀 Diverged Branch</button>
-          <button class="sample-paste-btn" data-sample="secret">🛡️ Secret Scan Rejection</button>
-          <button class="sample-paste-btn" data-sample="clean">✨ Clean Working Tree</button>
+          <button class="sample-paste-btn" data-sample="detached"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="22"/><line x1="2" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="22" y2="12"/></svg> Detached HEAD</button>
+          <button class="sample-paste-btn" data-sample="conflict"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Merge Conflict</button>
+          <button class="sample-paste-btn" data-sample="diverged"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg> Diverged Branch</button>
+          <button class="sample-paste-btn" data-sample="secret"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Secret Scan Rejection</button>
+          <button class="sample-paste-btn" data-sample="clean"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Clean Working Tree</button>
         </div>
 
         <div class="analyzer-input-wrapper">
           <textarea id="statusInputText" class="analyzer-textarea" placeholder="Paste git status, git status -sb, or terminal error output here..." rows="4" aria-label="Terminal status or error input"></textarea>
           <div class="analyzer-actions">
-            <button id="analyzeStatusBtn" class="btn-analyze">🔍 Diagnose Status</button>
+            <button id="analyzeStatusBtn" class="btn-analyze"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Diagnose Status</button>
             <button id="clearStatusBtn" class="btn-clear-analyzer">Clear</button>
           </div>
         </div>
@@ -1964,18 +2004,18 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
       <!-- LIVE .git/ REFS & HEAD INTERNALS INSPECTOR (Phase 5) -->
       <div class="git-internals-inspector" id="gitInternalsInspector" aria-labelledby="gitInternalsTitle">
         <div class="git-internals-header">
-          <span class="git-internals-title" id="gitInternalsTitle">🔍 Under the Hood: Actual .git/ Files</span>
+          <span class="git-internals-title" id="gitInternalsTitle"><svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Under the Hood: Actual .git/ Files</span>
           <span class="git-internals-badge">Live File System State</span>
         </div>
         <p class="git-internals-desc">See exactly what 41-byte text files Git reads and writes inside the hidden <code>.git/</code> database for this scenario:</p>
         <div class="git-internals-grid">
           <div class="git-file-card">
-            <div class="git-file-path">📄 .git/HEAD</div>
+            <div class="git-file-path"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> .git/HEAD</div>
             <div class="git-file-content"><code id="inspectorHeadContent">ref: refs/heads/main</code></div>
             <div class="git-file-note" id="inspectorHeadNote">Points to active branch ref</div>
           </div>
           <div class="git-file-card">
-            <div class="git-file-path" id="inspectorBranchPath">📄 .git/refs/heads/main</div>
+            <div class="git-file-path" id="inspectorBranchPath"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> .git/refs/heads/main</div>
             <div class="git-file-content"><code id="inspectorBranchContent">3a7f82b49e10d54c82b90198273645102938475a</code></div>
             <div class="git-file-note" id="inspectorBranchNote">40-char SHA-1 hash pointing to commit c3</div>
           </div>
@@ -1985,7 +2025,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
       <!-- EXPANDABLE COMPUTER SCIENCE DEEP DIVE (Learning Feature) -->
       <details class="jargon-deep-dive" id="jargonDeepDive">
         <summary class="jargon-summary">
-          <span class="jargon-summary-title">🎓 Computer Science Deep Dive: The Real Git Data Model (DAG, SHA Hashes, and Refs)</span>
+          <span class="jargon-summary-title"><svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Computer Science Deep Dive: The Real Git Data Model (DAG, SHA Hashes, and Refs)</span>
           <span class="jargon-summary-badge">Expand Technical Theory</span>
         </summary>
         <div class="jargon-content">
@@ -2051,9 +2091,9 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
       <nav class="filter-bar risk-filter-bar" id="riskFilter" aria-label="Risk level filter">
         <span class="filter-group-label" aria-hidden="true">Risk Level:</span>
         <button class="risk-pill active" data-risk-filter="all" aria-pressed="true">All Risks</button>
-        <button class="risk-pill risk-pill-safe" data-risk-filter="safe" aria-pressed="false">🟢 Safe / Read-Only</button>
-        <button class="risk-pill risk-pill-caution" data-risk-filter="caution" aria-pressed="false">🟡 Caution / Reversible</button>
-        <button class="risk-pill risk-pill-dest" data-risk-filter="destructive" aria-pressed="false">🔴 Destructive / Rewriting</button>
+        <button class="risk-pill risk-pill-safe" data-risk-filter="safe" aria-pressed="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg> Safe / Read-Only</button>
+        <button class="risk-pill risk-pill-caution" data-risk-filter="caution" aria-pressed="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg> Caution / Reversible</button>
+        <button class="risk-pill risk-pill-dest" data-risk-filter="destructive" aria-pressed="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg> Destructive / Rewriting</button>
       </nav>
     </div>
 
@@ -2072,7 +2112,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
           <h2 class="card-title">Start a Repository from Scratch</h2>
           <div class="card-top-actions">
             <span class="card-tag">Onboarding</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-init', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-init', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2080,7 +2120,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
           <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill">🌱 Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
           <span>Turns a regular folder into a tracked project with a time-machine ledger in <code>.git/</code>, then links it to GitHub.</span>
         </div>
         <div class="card-scenario">
@@ -2092,7 +2132,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <div class="var-customizer-bar">
-            <span class="var-customizer-label">✏️ Customize:</span>
+            <span class="var-customizer-label"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Customize:</span>
             <div class="var-input-group">
               <label class="var-input-label" for="var-init-url">repo URL:</label>
               <input type="text" id="var-init-url" class="var-input" data-target-code="code-init" data-placeholder="https://github.com/username/repo.git" value="https://github.com/username/repo.git" aria-label="Customize repository URL">
@@ -2126,7 +2166,7 @@ git push -u origin main</code></pre>
           <h2 class="card-title">Clone an Existing Project</h2>
           <div class="card-top-actions">
             <span class="card-tag">Onboarding</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-clone', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-clone', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2134,7 +2174,7 @@ git push -u origin main</code></pre>
           <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill">🌱 Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
           <span>Downloads an exact duplicate of the project and its entire history from GitHub onto your computer.</span>
         </div>
         <div class="card-scenario">
@@ -2146,7 +2186,7 @@ git push -u origin main</code></pre>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <div class="var-customizer-bar">
-            <span class="var-customizer-label">✏️ Customize:</span>
+            <span class="var-customizer-label"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Customize:</span>
             <div class="var-input-group">
               <label class="var-input-label" for="var-clone-url">repo URL:</label>
               <input type="text" id="var-clone-url" class="var-input" data-target-code="code-clone" data-placeholder="https://github.com/username/repo.git" value="https://github.com/username/repo.git" aria-label="Customize clone URL">
@@ -2179,7 +2219,7 @@ git branch -a</code></pre>
           <h2 class="card-title">Precise Staging &amp; Checkpoints</h2>
           <div class="card-top-actions">
             <span class="card-tag">Daily Essential</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-stage', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-stage', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2187,7 +2227,7 @@ git branch -a</code></pre>
           <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill">🌱 Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
           <span><code>git add</code> puts files into your shopping cart; <code>git commit</code> pays at the register to seal a permanent save point.</span>
         </div>
         <div class="card-scenario">
@@ -2199,7 +2239,7 @@ git branch -a</code></pre>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <div class="var-customizer-bar">
-            <span class="var-customizer-label">✏️ Customize:</span>
+            <span class="var-customizer-label"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Customize:</span>
             <div class="var-input-group">
               <label class="var-input-label" for="var-stage-file">file:</label>
               <input type="text" id="var-stage-file" class="var-input" data-target-code="code-stage" data-placeholder="src/app.js" value="src/app.js" aria-label="Customize filename to stage">
@@ -2241,7 +2281,7 @@ git commit -m "feat: add user authentication"</code></pre>
           <h2 class="card-title">Branches: Isolated Sandboxes</h2>
           <div class="card-top-actions">
             <span class="card-tag">Branches</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-branch', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-branch', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2249,7 +2289,7 @@ git commit -m "feat: add user authentication"</code></pre>
           <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill">🌱 Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
           <span>Creates an isolated sandbox where you can code and test safely without risking the working production code on <code>main</code>.</span>
         </div>
         <div class="card-scenario">
@@ -2265,7 +2305,7 @@ git commit -m "feat: add user authentication"</code></pre>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <div class="var-customizer-bar">
-            <span class="var-customizer-label">✏️ Customize:</span>
+            <span class="var-customizer-label"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Customize:</span>
             <div class="var-input-group">
               <label class="var-input-label" for="var-branch-name">branch:</label>
               <input type="text" id="var-branch-name" class="var-input" data-target-code="code-branch" data-placeholder="feature/redesign" value="feature/redesign" aria-label="Customize branch name">
@@ -2314,7 +2354,7 @@ git switch main</code></pre>
           <h2 class="card-title">Undoing Mistakes Safely</h2>
           <div class="card-top-actions">
             <span class="card-tag">Undo &amp; Recovery</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-undo', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-undo', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2322,7 +2362,7 @@ git switch main</code></pre>
           <span class="badge badge-risk-caution">Risk: Destructive / Reversible</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill">🌱 Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
           <span><code>restore --staged</code> takes items out of your shopping cart safely; <code>restore</code> throws away changes on disk permanently.</span>
         </div>
         <div class="card-scenario">
@@ -2338,7 +2378,7 @@ git switch main</code></pre>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <div class="var-customizer-bar">
-            <span class="var-customizer-label">✏️ Customize:</span>
+            <span class="var-customizer-label"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Customize:</span>
             <div class="var-input-group">
               <label class="var-input-label" for="var-undo-file">file:</label>
               <input type="text" id="var-undo-file" class="var-input" data-target-code="code-undo" data-placeholder="src/app.js" value="src/app.js" aria-label="Customize filename">
@@ -2405,7 +2445,7 @@ git revert a1b2c3d</code></pre>
           <h2 class="card-title">Working with Remotes (GitHub, GitLab, Bitbucket)</h2>
           <div class="card-top-actions">
             <span class="card-tag">Cloud &amp; Remotes</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-sync', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-sync', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2413,7 +2453,7 @@ git revert a1b2c3d</code></pre>
           <span class="badge badge-risk-rev">Risk: Reversible</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill">🌱 Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
           <span><code>git pull</code> downloads teammates' newest checkpoints; <code>git push</code> uploads your save points to the cloud host.</span>
         </div>
         <div class="card-scenario">
@@ -2425,7 +2465,7 @@ git revert a1b2c3d</code></pre>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <div class="var-customizer-bar">
-            <span class="var-customizer-label">✏️ Customize:</span>
+            <span class="var-customizer-label"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Customize:</span>
             <div class="var-input-group">
               <label class="var-input-label" for="var-sync-branch">branch:</label>
               <input type="text" id="var-sync-branch" class="var-input" data-target-code="code-sync" data-placeholder="feature/my-branch" value="feature/my-branch" aria-label="Customize branch name">
@@ -2464,7 +2504,7 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
             <div class="table-container">
               <table class="compare-table">
                 <thead>
-                  <tr><th>Capability</th><th>🐙 GitHub</th><th>🦊 GitLab</th><th>🪣 Bitbucket</th></tr>
+                  <tr><th>Capability</th><th><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> GitHub</th><th><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 5.5 2a.43.43 0 0 1 .4.28l2.24 6.9h7.72l2.24-6.9a.43.43 0 0 1 .4-.28.42.42 0 0 1 .39.21l2.44 7.51 1.22 3.78a.84.84 0 0 1-.3.89z"/></svg> GitLab</th><th><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 3.5h19l-2.6 15.6a2 2 0 0 1-2 1.7h-9.8a2 2 0 0 1-2-1.7L2.5 3.5z"/><path d="M14.5 13.5h-5l-.8-4.5h6.6z"/></svg> Bitbucket</th></tr>
                 </thead>
                 <tbody>
                   <tr><td><strong>Code Review</strong></td><td>Pull Request (PR)</td><td>Merge Request (MR)</td><td>Pull Request (PR)</td></tr>
@@ -2486,7 +2526,7 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
           <h2 class="card-title">Cloud Forge Troubleshooting (GitHub, GitLab, Bitbucket)</h2>
           <div class="card-top-actions">
             <span class="card-tag">Multi-Host Overlays</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-forge-troubleshoot', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-forge-troubleshoot', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2500,29 +2540,29 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
         <!-- 3-Way Host Selector -->
         <div class="forge-host-selector" role="tablist" aria-label="Select Cloud Host Platform">
           <button class="forge-host-btn active" data-forge="github" role="tab" aria-selected="true">
-            <span>🐙</span> GitHub
+            <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> GitHub
           </button>
           <button class="forge-host-btn" data-forge="gitlab" role="tab" aria-selected="false">
-            <span>🦊</span> GitLab
+            <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 5.5 2a.43.43 0 0 1 .4.28l2.24 6.9h7.72l2.24-6.9a.43.43 0 0 1 .4-.28.42.42 0 0 1 .39.21l2.44 7.51 1.22 3.78a.84.84 0 0 1-.3.89z"/></svg> GitLab
           </button>
           <button class="forge-host-btn" data-forge="bitbucket" role="tab" aria-selected="false">
-            <span>🪣</span> Bitbucket
+            <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 3.5h19l-2.6 15.6a2 2 0 0 1-2 1.7h-9.8a2 2 0 0 1-2-1.7L2.5 3.5z"/><path d="M14.5 13.5h-5l-.8-4.5h6.6z"/></svg> Bitbucket
           </button>
         </div>
 
         <!-- Incident Selector -->
         <div class="forge-incident-selector" role="tablist" aria-label="Select Troubleshooting Incident">
           <button class="forge-incident-btn active" data-incident="protected-branch" role="tab" aria-selected="true">
-            <span>🚫</span> Protected Branch Rejected
+            <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg> Protected Branch Rejected
           </button>
           <button class="forge-incident-btn" data-incident="auth" role="tab" aria-selected="false">
-            <span>🔑</span> Authentication &amp; Tokens
+            <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 2l-2 2m-1.5 1.5L14 9l-1.5-1.5L11 9l-1-1-4 4a6 6 0 1 0 8.5 8.5l4-4-1-1 1.5-1.5L20.5 9 22 7.5 21 2z"/><circle cx="7.5" cy="16.5" r="1.5"/></svg> Authentication &amp; Tokens
           </button>
           <button class="forge-incident-btn" data-incident="secret" role="tab" aria-selected="false">
-            <span>🛡️</span> Secret Scan Block (GH013)
+            <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Secret Scan Block (GH013)
           </button>
           <button class="forge-incident-btn" data-incident="fork" role="tab" aria-selected="false">
-            <span>🍴</span> Fork &amp; Upstream Sync
+            <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 15V9a3 3 0 0 0-3-3H9"/><line x1="6" y1="9" x2="6" y2="15"/></svg> Fork &amp; Upstream Sync
           </button>
         </div>
 
@@ -2538,7 +2578,7 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
           <h2 class="card-title">Pipelines &amp; Automated CI/CD</h2>
           <div class="card-top-actions">
             <span class="card-tag">Cloud &amp; Remotes</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-pipeline', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-pipeline', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2551,9 +2591,9 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
 
         <!-- 3-Way Host Starter Config Selector -->
         <div class="pipeline-provider-bar" role="tablist" aria-label="CI/CD Provider Starter Configs">
-          <button class="pipeline-tab-btn active" data-provider="github" role="tab" aria-selected="true"><span>🐙</span> GitHub Actions</button>
-          <button class="pipeline-tab-btn" data-provider="gitlab" role="tab" aria-selected="false"><span>🦊</span> GitLab CI/CD</button>
-          <button class="pipeline-tab-btn" data-provider="bitbucket" role="tab" aria-selected="false"><span>🪣</span> Bitbucket Pipelines</button>
+          <button class="pipeline-tab-btn active" data-provider="github" role="tab" aria-selected="true"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> GitHub Actions</button>
+          <button class="pipeline-tab-btn" data-provider="gitlab" role="tab" aria-selected="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 5.5 2a.43.43 0 0 1 .4.28l2.24 6.9h7.72l2.24-6.9a.43.43 0 0 1 .4-.28.42.42 0 0 1 .39.21l2.44 7.51 1.22 3.78a.84.84 0 0 1-.3.89z"/></svg> GitLab CI/CD</button>
+          <button class="pipeline-tab-btn" data-provider="bitbucket" role="tab" aria-selected="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 3.5h19l-2.6 15.6a2 2 0 0 1-2 1.7h-9.8a2 2 0 0 1-2-1.7L2.5 3.5z"/><path d="M14.5 13.5h-5l-.8-4.5h6.6z"/></svg> Bitbucket Pipelines</button>
         </div>
 
         <div class="snippet-block" id="pipelineSnippetBlock">
@@ -2590,7 +2630,7 @@ jobs:
           <h2 class="card-title">Stashing: Temporary Work Shelving</h2>
           <div class="card-top-actions">
             <span class="card-tag">Daily Essential</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-stash', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-stash', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2631,7 +2671,7 @@ git stash pop</code></pre>
           <h2 class="card-title">Merge Conflict Resolution</h2>
           <div class="card-top-actions">
             <span class="card-tag">Branches</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-conflict', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-conflict', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2678,7 +2718,7 @@ git merge --continue   # Or 'git merge --abort'</code></pre>
           <h2 class="card-title">Interactive Rebase (Commit Polish)</h2>
           <div class="card-top-actions">
             <span class="card-tag">Advanced / Pro</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-rebase', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-rebase', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2737,7 +2777,7 @@ git rebase --abort   # Safe escape hatch</code></pre>
           <h2 class="card-title">Detached HEAD Recovery</h2>
           <div class="card-top-actions">
             <span class="card-tag">Advanced / Pro</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-detached', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-detached', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2757,7 +2797,7 @@ git rebase --abort   # Safe escape hatch</code></pre>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <div class="var-customizer-bar">
-            <span class="var-customizer-label">✏️ Customize:</span>
+            <span class="var-customizer-label"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Customize:</span>
             <div class="var-input-group">
               <label class="var-input-label" for="var-detached-branch">branch:</label>
               <input type="text" id="var-detached-branch" class="var-input" data-target-code="code-detached" data-placeholder="recovery-branch" value="recovery-branch" aria-label="Customize recovery branch name">
@@ -2786,7 +2826,7 @@ git switch -c recovery-branch</code></pre>
           <h2 class="card-title">Git Worktrees (Parallel Folders)</h2>
           <div class="card-top-actions">
             <span class="card-tag">Advanced / Pro</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-worktree', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-worktree', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2824,7 +2864,7 @@ git worktree remove ../project-hotfix</code></pre>
           <h2 class="card-title">Reflog Recovery (Lost Work)</h2>
           <div class="card-top-actions">
             <span class="card-tag">Advanced / Pro</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-reflog', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-reflog', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2878,7 +2918,7 @@ git switch -c rescue-branch HEAD@{2}</code></pre>
           <h2 class="card-title">Regression Hunting (bisect &amp; blame)</h2>
           <div class="card-top-actions">
             <span class="card-tag">Advanced / Pro</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-bisect', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-bisect', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2921,7 +2961,7 @@ git blame -L 20,45 src/app.js</code></pre>
           <h2 class="card-title">Release Tags &amp; Semantic Versioning</h2>
           <div class="card-top-actions">
             <span class="card-tag">Release Engineering</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-tag', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-tag', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -2965,7 +3005,7 @@ git tag -l -n 1</code></pre>
           <h2 class="card-title">Safe Force-Push (--force-with-lease)</h2>
           <div class="card-top-actions">
             <span class="card-tag">PR &amp; Team Hygiene</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-force-lease', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-force-lease', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -3002,7 +3042,7 @@ git push --force-with-lease origin feature/auth
           <h2 class="card-title">Port Isolated Commits (cherry-pick)</h2>
           <div class="card-top-actions">
             <span class="card-tag">Branch Maintenance</span>
-            <button type="button" class="card-link-btn" onclick="copyCardLink('card-cherry-pick', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-cherry-pick', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
@@ -3217,7 +3257,7 @@ git cherry-pick 7a1b2c3
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="badge badge-scope">Scope: ${data.scope}</span>
             ${data.riskBadge}
-            <button type="button" class="card-link-btn" onclick="copyDecisionLink('${locationKey}', this)" aria-label="Copy direct link to this solution" title="Copy direct link">🔗 Link</button>
+            <button type="button" class="card-link-btn" onclick="copyDecisionLink('${locationKey}', this)" aria-label="Copy direct link to this solution" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="work-lost-callout work-lost-${data.workLostStatus}">
