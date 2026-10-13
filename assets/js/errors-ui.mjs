@@ -8,11 +8,11 @@ input.maxLength = MAX_ERROR_BYTES;
 function clear() {output.replaceChildren();output.hidden=true;}
 function render(focus=true) {
  const result = diagnoseError(input.value, provider.value);
- const heading=el('h3','',`Diagnosis: ${result.status}`);heading.tabIndex=-1;
- output.replaceChildren(heading,el('p','callout warning',result.message),el('p','',`Catalogue ${ERROR_CATALOGUE_VERSION}. Match scores rank wording; they are not probabilities or proof of a cause.`));
+ const heading=el('h3','',({matched:'Possible explanation',ambiguous:'Several explanations match',weak:'Related topics',none:'No close match',unsupported:'Use plain error text'})[result.status]);heading.tabIndex=-1;
+ output.replaceChildren(heading,el('p','callout warning',result.message),el('p','',`Catalogue ${ERROR_CATALOGUE_VERSION}. A wording match does not confirm the underlying cause.`));
  for(const match of result.matches) {
   const item=match.definition; const card=el('article','v2-error-match');
-  card.append(el('h4','',item.title),el('p','',`${match.reason} · score ${match.score.toFixed(2)} · supported hosts: ${item.providers.join(', ')}`));
+  card.append(el('h4','',item.title),el('p','',`${match.reason} · supported hosts: ${item.providers.join(', ')}`));
   for(const [label,lines] of [['Possible causes',item.causes],['Questions that distinguish causes',item.questions]]) {
    card.append(el('h5','',label)); const ul=el('ul');lines.forEach(text=>ul.append(el('li','',text)));card.append(ul);
   }

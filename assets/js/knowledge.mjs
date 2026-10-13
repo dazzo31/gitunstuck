@@ -24,10 +24,10 @@ const knowledge = {
     "local-commit": {
       "title": "Rewind or Amend a Local Commit (Not Pushed)",
       "scope": "Local History",
-      "riskBadge": "<span class=\"badge badge-risk-rev\">Effects: Local change; inspect prerequisites</span>",
-      "desc": "You committed too early or forgot a file, but you have NOT pushed to GitHub yet.",
+      "riskBadge": "<span class=\"badge badge-risk-caution\">Effects: History rewrite</span>",
+      "desc": "The affected commits are verified unshared; choose rewind or amend after inspecting the intended result.",
       "code": "# Option A: Rewind 1 commit and keep changes staged in cart:\ngit reset --soft HEAD~1\n\n# Option B: Add a forgotten file to the previous commit:\ngit add <forgotten-file>\ngit commit --amend --no-edit",
-      "effect": "Moves HEAD back one commit while keeping your staged code ready to edit and re-commit.",
+      "effect": "Choose one outcome: soft reset moves HEAD back while keeping index/worktree; amend replaces the latest commit using all staged content. Both rewrite history.",
       "verify": "Run git status and git log -1 to inspect the adjusted commit history.",
       "warning": "HISTORY REWRITE: Verify the target and that affected commits are not shared. HEAD~1 requires a parent commit. Amend records all staged content, so review git diff --staged first. Do not run both alternatives as one sequence."
     },
@@ -66,52 +66,52 @@ const knowledge = {
       "rule": "Branches are not giant duplicate folders on your hard drive — they are just tiny sticky notes pointing to your latest save point."
     },
     "branch": {
-      "name": "Branch (Safe Sandbox to Try Ideas)",
+      "name": "Create a branch reference",
       "command": "git switch -c feature/login && git commit -m \"add password reset\"",
       "svg": "<svg viewBox=\"0 0 760 210\" class=\"graph-svg\" aria-label=\"Branch Sandbox Visual Timeline\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"#64748b\"/>\n            </marker>\n            <marker id=\"arrow-green\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-green)\"/>\n            </marker>\n            <marker id=\"arrow-purple\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-purple)\"/>\n            </marker>\n            <marker id=\"arrow-orange\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--git-orange)\"/>\n            </marker>\n          </defs>\n          <text x=\"380\" y=\"22\" text-anchor=\"middle\" class=\"graph-hint-text\">← Safe sandbox: experiment on your branch without touching the working main branch ←</text>\n          <line x1=\"250\" y1=\"125\" x2=\"150\" y2=\"125\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <line x1=\"430\" y1=\"125\" x2=\"310\" y2=\"125\" stroke=\"var(--accent-green)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-green)\"/>\n          <path d=\"M 435 60 C 370 60, 340 100, 305 118\" fill=\"none\" stroke=\"var(--accent-purple)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-purple)\"/>\n          <circle cx=\"120\" cy=\"125\" r=\"22\" class=\"node-circle-base\"/>\n          <text x=\"120\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\">c1</text>\n          <text x=\"120\" y=\"162\" text-anchor=\"middle\" class=\"node-text-desc\">Initial</text>\n          <circle cx=\"280\" cy=\"125\" r=\"22\" class=\"node-circle-base\"/>\n          <text x=\"280\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\">c2</text>\n          <text x=\"280\" y=\"162\" text-anchor=\"middle\" class=\"node-text-desc\">Shared base</text>\n          <circle cx=\"460\" cy=\"125\" r=\"22\" class=\"node-circle-base\" stroke=\"var(--accent-green)\" stroke-width=\"3\"/>\n          <text x=\"460\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-green)\">c3</text>\n          <text x=\"460\" y=\"162\" text-anchor=\"middle\" class=\"node-text-desc\">main progress</text>\n          <circle cx=\"460\" cy=\"55\" r=\"22\" class=\"node-circle-base\" stroke=\"var(--accent-purple)\" stroke-width=\"3.5\"/>\n          <text x=\"460\" y=\"60\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-purple)\">c4</text>\n          <text x=\"460\" y=\"90\" text-anchor=\"middle\" class=\"node-text-desc\" font-weight=\"bold\" fill=\"var(--accent-purple)\">experimental feature</text>\n          <rect x=\"500\" y=\"114\" width=\"70\" height=\"22\" rx=\"4\" fill=\"rgba(52, 211, 153, 0.18)\" stroke=\"var(--accent-green)\" stroke-width=\"1.5\"/>\n          <text x=\"535\" y=\"129\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-green)\">main</text>\n          <rect x=\"500\" y=\"44\" width=\"105\" height=\"22\" rx=\"4\" fill=\"rgba(192, 132, 252, 0.18)\" stroke=\"var(--accent-purple)\" stroke-width=\"1.5\"/>\n          <text x=\"552\" y=\"59\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-purple)\">feature branch</text>\n          <rect x=\"625\" y=\"44\" width=\"75\" height=\"22\" rx=\"4\" fill=\"var(--git-orange)\"/>\n          <text x=\"662\" y=\"59\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#ffffff\">HEAD (You)</text>\n          <line x1=\"625\" y1=\"55\" x2=\"608\" y2=\"55\" stroke=\"var(--git-orange)\" stroke-width=\"2\" marker-end=\"url(#arrow-orange)\"/>\n        </svg>",
       "bullets": [
-        "<strong>Created a new sticky note:</strong> <code>git switch -c</code> placed a new bookmark on your project so you can work independently.",
-        "<strong>Moved your camera (HEAD):</strong> You are now editing in this safe sandbox branch.",
-        "<strong>Commits stay on their named branches:</strong> Uncommitted changes can carry across switches; inspect status first.",
-        "<strong>Zero fear of making mistakes:</strong> If your experiment fails, you can discard this branch with zero harm."
+        "<strong>A named reference:</strong> A branch points to a commit and moves when you commit on it.",
+        "<strong>Attached HEAD:</strong> HEAD names the branch you are currently using.",
+        "<strong>One working directory:</strong> Normal branches share working files. Uncommitted changes can carry across or block switches.",
+        "<strong>Separate folders:</strong> Use a worktree when you need a separate checkout, and preserve work before removing anything."
       ],
-      "rule": "Always create a branch when starting new work. It keeps your main codebase safe while you build and test."
+      "rule": "A branch names a line of history. It does not automatically isolate uncommitted files."
     },
     "merge": {
       "name": "Merging (Combining Your Work)",
       "command": "git switch main && git merge feature/login",
       "svg": "<svg viewBox=\"0 0 760 220\" class=\"graph-svg\" aria-label=\"Merging Work Visual Timeline\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"#64748b\"/>\n            </marker>\n            <marker id=\"arrow-blue\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-blue)\"/>\n            </marker>\n            <marker id=\"arrow-orange\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--git-orange)\"/>\n            </marker>\n          </defs>\n          <text x=\"380\" y=\"20\" text-anchor=\"middle\" class=\"graph-hint-text\">← Checkpoint c5 brings both sets of work together safely ←</text>\n          <line x1=\"180\" y1=\"110\" x2=\"110\" y2=\"110\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <path d=\"M 320 155 C 270 155, 250 125, 225 115\" fill=\"none\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <path d=\"M 320 65 C 270 65, 250 95, 225 105\" fill=\"none\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <path d=\"M 495 110 C 440 110, 410 145, 370 152\" fill=\"none\" stroke=\"var(--accent-blue)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-blue)\"/>\n          <path d=\"M 495 110 C 440 110, 410 75, 370 68\" fill=\"none\" stroke=\"var(--accent-blue)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-blue)\"/>\n          <circle cx=\"85\" cy=\"110\" r=\"20\" class=\"node-circle-base\"/>\n          <text x=\"85\" y=\"115\" text-anchor=\"middle\" class=\"node-text-title\">c1</text>\n          <circle cx=\"205\" cy=\"110\" r=\"20\" class=\"node-circle-base\"/>\n          <text x=\"205\" y=\"115\" text-anchor=\"middle\" class=\"node-text-title\">c2</text>\n          <circle cx=\"345\" cy=\"155\" r=\"20\" class=\"node-circle-base\" stroke=\"var(--accent-green)\" stroke-width=\"2.5\"/>\n          <text x=\"345\" y=\"160\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-green)\">c3</text>\n          <circle cx=\"345\" cy=\"65\" r=\"20\" class=\"node-circle-base\" stroke=\"var(--accent-purple)\" stroke-width=\"2.5\"/>\n          <text x=\"345\" y=\"70\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-purple)\">c4</text>\n          <circle cx=\"520\" cy=\"110\" r=\"24\" class=\"node-circle-base\" stroke=\"var(--accent-blue)\" stroke-width=\"3.5\"/>\n          <text x=\"520\" y=\"115\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-blue)\">c5</text>\n          <text x=\"520\" y=\"146\" text-anchor=\"middle\" class=\"node-text-desc\" font-weight=\"bold\" fill=\"var(--accent-blue)\">Combined together!</text>\n          <rect x=\"300\" y=\"24\" width=\"90\" height=\"20\" rx=\"4\" fill=\"rgba(192, 132, 252, 0.18)\" stroke=\"var(--accent-purple)\" stroke-width=\"1.5\"/>\n          <text x=\"345\" y=\"38\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"var(--accent-purple)\">feature branch</text>\n          <rect x=\"560\" y=\"99\" width=\"60\" height=\"22\" rx=\"4\" fill=\"rgba(52, 211, 153, 0.18)\" stroke=\"var(--accent-green)\" stroke-width=\"1.5\"/>\n          <text x=\"590\" y=\"114\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-green)\">main</text>\n          <rect x=\"640\" y=\"99\" width=\"75\" height=\"22\" rx=\"4\" fill=\"var(--git-orange)\"/>\n          <text x=\"677\" y=\"114\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#ffffff\">HEAD (You)</text>\n          <line x1=\"640\" y1=\"110\" x2=\"624\" y2=\"110\" stroke=\"var(--git-orange)\" stroke-width=\"2\" marker-end=\"url(#arrow-orange)\"/>\n        </svg>",
       "bullets": [
-        "<strong>Your feature is done:</strong> You tested your work and you are ready to include it in the main project.",
-        "<strong>A reunion checkpoint (c5):</strong> Git automatically compares changes from c3 and c4, combines them, and records checkpoint c5.",
-        "<strong>Notice the lines joining together:</strong> Checkpoint c5 connects both branches so no history is lost.",
-        "<strong>Main now has all your improvements:</strong> You can now safely delete the temporary feature branch bookmark."
+        "<strong>Inspect both histories:</strong> Verify the target and project integration policy.",
+        "<strong>This illustrated case:</strong> A successful non-fast-forward merge creates c5 with two parents.",
+        "<strong>Other outcomes:</strong> A merge can fast-forward or stop on conflicts; this picture does not predict every case.",
+        "<strong>Verify content:</strong> Inspect the resulting tree and run tests before publishing or deleting refs."
       ],
-      "rule": "Merging is like pouring two rivers into one: it combines work from both branches into a single shared milestone."
+      "rule": "Merging integrates ancestry; the resulting files still need review."
     },
     "rebase": {
       "name": "Rebase (Straighten Your Timeline)",
       "command": "git switch feature/login && git rebase main",
       "svg": "<svg viewBox=\"0 0 760 210\" class=\"graph-svg\" aria-label=\"Rebase Straight Timeline Visual\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"#64748b\"/>\n            </marker>\n            <marker id=\"arrow-green\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-green)\"/>\n            </marker>\n            <marker id=\"arrow-orange\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--git-orange)\"/>\n            </marker>\n          </defs>\n          <text x=\"380\" y=\"20\" text-anchor=\"middle\" class=\"graph-hint-text\">← Rebase moves your work to the front of the line so your project history is a simple straight line ←</text>\n          <line x1=\"200\" y1=\"120\" x2=\"115\" y2=\"120\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <line x1=\"355\" y1=\"120\" x2=\"255\" y2=\"120\" stroke=\"var(--accent-green)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-green)\"/>\n          <line x1=\"510\" y1=\"120\" x2=\"410\" y2=\"120\" stroke=\"var(--git-orange)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-orange)\"/>\n          <path d=\"M 235 60 C 235 85, 235 95, 235 98\" fill=\"none\" class=\"graph-edge-base\" stroke-dasharray=\"3,3\" opacity=\"0.4\" marker-end=\"url(#arrow)\"/>\n          <circle cx=\"90\" cy=\"120\" r=\"20\" class=\"node-circle-base\"/>\n          <text x=\"90\" y=\"125\" text-anchor=\"middle\" class=\"node-text-title\">c1</text>\n          <circle cx=\"235\" cy=\"120\" r=\"20\" class=\"node-circle-base\"/>\n          <text x=\"235\" y=\"125\" text-anchor=\"middle\" class=\"node-text-title\">c2</text>\n          <circle cx=\"235\" cy=\"45\" r=\"18\" class=\"node-circle-base\" stroke-dasharray=\"3,3\" opacity=\"0.4\"/>\n          <text x=\"235\" y=\"50\" text-anchor=\"middle\" class=\"node-text-title\" opacity=\"0.6\">c4</text>\n          <text x=\"235\" y=\"75\" text-anchor=\"middle\" class=\"node-text-desc\" opacity=\"0.6\">Old draft</text>\n          <circle cx=\"380\" cy=\"120\" r=\"20\" class=\"node-circle-base\" stroke=\"var(--accent-green)\" stroke-width=\"2.5\"/>\n          <text x=\"380\" y=\"125\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-green)\">c3</text>\n          <text x=\"380\" y=\"155\" text-anchor=\"middle\" class=\"node-text-desc\">main progress</text>\n          <circle cx=\"535\" cy=\"120\" r=\"24\" class=\"node-circle-base\" stroke=\"var(--git-orange)\" stroke-width=\"3.5\"/>\n          <text x=\"535\" y=\"125\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--git-orange)\">c4'</text>\n          <text x=\"535\" y=\"155\" text-anchor=\"middle\" class=\"node-text-desc\" font-weight=\"bold\" fill=\"var(--git-orange)\">replayed at front</text>\n          <rect x=\"345\" y=\"80\" width=\"70\" height=\"20\" rx=\"4\" fill=\"rgba(52, 211, 153, 0.18)\" stroke=\"var(--accent-green)\" stroke-width=\"1.5\"/>\n          <text x=\"380\" y=\"94\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"var(--accent-green)\">main</text>\n          <rect x=\"480\" y=\"52\" width=\"110\" height=\"22\" rx=\"4\" fill=\"rgba(192, 132, 252, 0.18)\" stroke=\"var(--accent-purple)\" stroke-width=\"1.5\"/>\n          <text x=\"535\" y=\"67\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-purple)\">feature branch</text>\n          <rect x=\"610\" y=\"52\" width=\"75\" height=\"22\" rx=\"4\" fill=\"var(--git-orange)\"/>\n          <text x=\"647\" y=\"67\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#ffffff\">HEAD (You)</text>\n          <line x1=\"610\" y1=\"63\" x2=\"593\" y2=\"63\" stroke=\"var(--git-orange)\" stroke-width=\"2\" marker-end=\"url(#arrow-orange)\"/>\n        </svg>",
       "bullets": [
-        "<strong>New updates happened on main:</strong> While you were coding on your branch, someone added c3 to main.",
-        "<strong>Replaying your work at the front:</strong> Rebase lifts your changes (c4) and replays them right after c3 as c4'.",
-        "<strong>A clean straight timeline:</strong> It looks like you started your work today on the freshest code, avoiding messy merge criss-crosses.",
-        "<strong>The old draft is safely discarded:</strong> Git replaces the old branch pointer with your new replayed checkpoint."
+        "<strong>A selected base:</strong> c3 is the inspected new base in this example.",
+        "<strong>Replayed change:</strong> The selected patch becomes c4' with different ancestry and identity.",
+        "<strong>Possible conflicts:</strong> Replaying can stop and require a correct resolution.",
+        "<strong>Changed reference:</strong> The branch points to the new sequence; old objects may remain retained locally."
       ],
-      "rule": "Golden Rule: Only rebase your own private work before sharing it. Never rebase commits already pushed to a team branch."
+      "rule": "Rebase unshared work deliberately; coordinate any exceptional shared rewrite."
     },
     "detached": {
       "name": "Looking at the Past (Detached HEAD State)",
       "command": "git switch --detach <hash-c2>",
       "svg": "<svg viewBox=\"0 0 760 210\" class=\"graph-svg\" aria-label=\"Detached HEAD Time Travel Visual\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"#64748b\"/>\n            </marker>\n            <marker id=\"arrow-red\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-red)\"/>\n            </marker>\n          </defs>\n          <text x=\"380\" y=\"20\" text-anchor=\"middle\" class=\"graph-hint-text\" fill=\"var(--accent-amber)\">Viewing a historical commit without an attached branch. Preserve wanted work before switching.</text>\n          <line x1=\"260\" y1=\"125\" x2=\"160\" y2=\"125\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <line x1=\"460\" y1=\"125\" x2=\"340\" y2=\"125\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <path d=\"M 300 70 C 300 90, 300 95, 300 100\" fill=\"none\" stroke=\"var(--accent-red)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-red)\"/>\n          <circle cx=\"130\" cy=\"125\" r=\"22\" class=\"node-circle-base\"/>\n          <text x=\"130\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\">c1</text>\n          <circle cx=\"300\" cy=\"125\" r=\"22\" class=\"node-circle-base\" stroke=\"var(--accent-amber)\" stroke-width=\"3\"/>\n          <text x=\"300\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-amber)\">c2</text>\n          <text x=\"300\" y=\"160\" text-anchor=\"middle\" class=\"node-text-desc\">inspecting past checkpoint</text>\n          <circle cx=\"490\" cy=\"125\" r=\"22\" class=\"node-circle-base\" stroke=\"var(--accent-green)\" stroke-width=\"3\"/>\n          <text x=\"490\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-green)\">c3</text>\n          <text x=\"490\" y=\"160\" text-anchor=\"middle\" class=\"node-text-desc\">main (today's work)</text>\n          <rect x=\"460\" y=\"80\" width=\"60\" height=\"20\" rx=\"4\" fill=\"rgba(52, 211, 153, 0.18)\" stroke=\"var(--accent-green)\" stroke-width=\"1.5\"/>\n          <text x=\"490\" y=\"94\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"var(--accent-green)\">main</text>\n          <circle cx=\"300\" cy=\"48\" r=\"20\" class=\"node-circle-base\" stroke=\"var(--accent-red)\" stroke-width=\"3\"/>\n          <text x=\"300\" y=\"53\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-red)\">exp</text>\n          <rect x=\"345\" y=\"36\" width=\"180\" height=\"24\" rx=\"4\" fill=\"rgba(248, 113, 113, 0.18)\" stroke=\"var(--accent-red)\" stroke-width=\"1.5\"/>\n          <text x=\"435\" y=\"52\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-red)\">HEAD (Viewing without bookmark)</text>\n          <line x1=\"345\" y1=\"48\" x2=\"324\" y2=\"48\" stroke=\"var(--accent-red)\" stroke-width=\"2\" marker-end=\"url(#arrow-red)\"/>\n        </svg>",
       "bullets": [
-        "<strong>You are browsing an old milestone:</strong> Your view (<code>HEAD</code>) hopped off branch bookmarks to look directly at c2.",
-        "<strong>Nothing is broken:</strong> It is like looking through an old photo album. Your main branch and recent work are completely safe.",
-        "<strong>Want to experiment here?</strong> If you want to make changes and keep them, run <code>git switch -c new-feature</code> to attach a new bookmark.",
-        "<strong>Return to safety anytime:</strong> Run <code>git switch main</code> to jump straight back to today's work."
+        "<strong>Direct HEAD:</strong> HEAD points to a commit instead of through a branch.",
+        "<strong>Normal inspection:</strong> Reading a historical commit is a valid use of detached HEAD.",
+        "<strong>Retain wanted commits:</strong> Verify the commit and create an unused branch before switching away.",
+        "<strong>Preserve edits separately:</strong> A branch reference does not record uncommitted files. Use your verified destination branch."
       ],
-      "rule": "Detached HEAD is harmless for reading history. If you make changes you want to keep, attach a bookmark with git switch -c <name>."
+      "rule": "Detached HEAD does not imply damage. Preserve wanted committed and uncommitted work appropriately."
     }
   },
   "pipelineConfigs": {
@@ -131,7 +131,7 @@ const knowledge = {
   "commands": [
     {
       "id": "card-init-snippet-1",
-      "syntax": "# 1. Choose your new repository's initial branch (Git 2.28+):\ngit init -b <initial-branch>\n\n# 2. Stage all initial files and make the first milestone\ngit add .\ngit commit -m \"feat: initial project setup\"\n\n# 3. Link to your empty GitHub repository and push\ngit remote add <remote> <repository-url>\ngit push -u <remote> <initial-branch>",
+      "syntax": "git init -b <initial-branch>\ngit status\n# Create or edit a file, then stage only that intended file:\ngit add -- <filename>\ngit diff --staged\ngit commit -m \"Initial commit\"",
       "minimumGit": "2.28",
       "requiredParameters": [
         "initial-branch",
@@ -144,11 +144,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Choose the intended project folder. Check that it is not already inside another repository. Choose an initial branch name and configure your Git author name/email; Git 2.28+ supports init -b."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "git status should identify your chosen branch. git log -1 --stat should show the intended first commit and files. Unstaged or untracked files may still remain; a completely clean tree is not required for a successful selected-file commit."
       ],
       "sources": [
         "https://git-scm.com/docs/git-init"
@@ -157,7 +156,7 @@ const knowledge = {
     },
     {
       "id": "card-clone-snippet-1",
-      "syntax": "# 1. Download complete repository history into a new folder:\ngit clone https://github.com/username/repo.git\n\n# 2. Enter directory and inspect status:\ncd repo\ngit status\n\n# 3. List all local and remote branches:\ngit branch -a",
+      "syntax": "git clone <repository-url> <new-folder>\ncd <new-folder>\ngit status\ngit remote -v\ngit branch -a",
       "minimumGit": "2.28",
       "requiredParameters": [],
       "effects": [
@@ -165,11 +164,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Copy the clone URL from the intended host and confirm you have read access. Choose a new destination folder. You do not need an existing local Git repository."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Check that the folder, configured remote URL and checked-out branch match the intended project. An empty remote can produce an unborn branch without a commit."
       ],
       "sources": [
         "https://git-scm.com/docs/git-clone"
@@ -178,7 +176,7 @@ const knowledge = {
     },
     {
       "id": "card-stage-snippet-1",
-      "syntax": "# 1. Review status of modified files:\ngit status\n\n# 2. Stage specific intended files:\ngit add src/app.js\n\n# 3. Review the exact staged snapshot:\ngit diff --staged\n\n# 4. Commit with a clear note:\ngit commit -m \"feat: add user authentication\"",
+      "syntax": "git status\ngit diff\ngit add -- <filename>\ngit diff --staged\ngit commit -m \"Describe the change\"\ngit log -1 --stat\ngit status",
       "minimumGit": "2.28",
       "requiredParameters": [],
       "effects": [
@@ -186,11 +184,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Use an existing repository on the intended branch, with a file you have edited. If this is a new project, start with the repository guide. Set your Git author identity if needed."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Compare the staged diff before committing with git show --stat HEAD afterwards. Only the intended staged snapshot should be recorded. Other files or later edits can remain uncommitted. No push occurs."
       ],
       "sources": [
         "https://git-scm.com/docs/git-status"
@@ -199,7 +196,7 @@ const knowledge = {
     },
     {
       "id": "card-branch-snippet-1",
-      "syntax": "# 1. Create and switch to a new branch:\ngit switch -c feature/redesign\n\n# 2. Work safely, edit files, and commit:\ngit add src/redesign.css\ngit commit -m \"style: apply new color palette\"\n\n# 3. After committing/preserving changes, return to your original branch:\ngit switch <original-branch>",
+      "syntax": "git status\ngit branch --show-current\ngit switch -c <new-branch>\n# Edit and commit your intended changes here.\n# Preserve remaining work before switching:\ngit switch <existing-branch>",
       "minimumGit": "2.28",
       "requiredParameters": [
         "original-branch"
@@ -209,11 +206,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Inspect status and preserve wanted work before switching. Choose an unused branch name and the correct starting commit."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "After creation, git branch --show-current should report the new name. After switching back, verify the expected branch and inspect status. Existing commits remain reachable through their refs."
       ],
       "sources": [
         "https://git-scm.com/docs/git-switch"
@@ -222,7 +218,7 @@ const knowledge = {
     },
     {
       "id": "card-undo-snippet-1",
-      "syntax": "# 1. Unstage a file (SAFE: keeps your local edits in file):\ngit restore --staged <filename>\n\n# 2. Discard uncommitted edits (PERMANENT: overwrites file):\ngit restore <filename>\n\n# 3. Undo a pushed commit safely with an inverse commit:\ngit revert <commit-id>",
+      "syntax": "# Start by inspecting; choose an action in the linked help guides:\ngit status\ngit diff\ngit diff --staged\ngit log -n 5 --oneline",
       "minimumGit": "2.28",
       "requiredParameters": [
         "filename",
@@ -235,11 +231,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Identify whether the change is unstaged, staged or committed. Inspect both diffs, commit ownership and any operation already in progress."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Define the intended outcome first: edits kept but unstaged, selected edits discarded, or an inverse commit recorded. Verify the corresponding index, working file or commit afterwards."
       ],
       "sources": [
         "https://git-scm.com/docs/git-restore"
@@ -248,7 +243,7 @@ const knowledge = {
     },
     {
       "id": "card-sync-snippet-1",
-      "syntax": "# 1. Download remote changes WITHOUT altering working files:\ngit fetch <remote>\n\n# 2. Pull & integrate linearly into your branch:\ngit pull --rebase <remote> <upstream-branch>\n\n# 3. Upload your commits to remote:\ngit push <remote> <branch-name>\n\n# Remote URL conventions across hosts:\ngit remote add origin https://github.com/user/repo.git     # GitHub\ngit remote add origin https://gitlab.com/user/repo.git     # GitLab\ngit remote add origin https://bitbucket.org/user/repo.git  # Bitbucket",
+      "syntax": "git status\ngit remote -v\ngit branch -vv\ngit fetch <remote>\ngit log --oneline --graph --decorate --all -n 20\n# Choose integration only after inspecting the fetched history.\n# Publish separately after testing and verifying the destination.",
       "minimumGit": "2.28",
       "requiredParameters": [
         "remote",
@@ -262,11 +257,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Inspect the actual remote and tracking branch. Preserve local work. Check the team’s integration policy and whether your commits are shared."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Inspect the fetched tracking ref and graph. After deliberate integration, check the intended history/files and run project tests. Verify the destination separately after publishing."
       ],
       "sources": [
         "https://git-scm.com/docs/git-fetch"
@@ -296,7 +290,7 @@ const knowledge = {
     },
     {
       "id": "card-stash-snippet-1",
-      "syntax": "# 1. Stash changes (use -u to include newly created files):\ngit stash push -u -m \"WIP: navigation refactor\"\n\n# 2. Your workspace is now clean. Switch branches or patch...\ngit switch hotfix\n\n# 3. Commit/preserve the hotfix work, then return to the original branch:\ngit switch <original-branch>\n\n# 4. Inspect the intended stash and apply it (keeps the stash):\ngit stash list\ngit stash apply <stash-reference>\n# Verify restored files before separately dropping that stash.",
+      "syntax": "git status\ngit stash push -u -m \"Work in progress\"\n# Inspect status before switching to an existing branch:\ngit switch <other-branch>\n# Finish/preserve that work, then return:\ngit switch <original-branch>\ngit stash list\ngit stash apply <stash-reference>",
       "minimumGit": "2.28",
       "requiredParameters": [
         "original-branch",
@@ -308,11 +302,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Inspect tracked, staged, untracked and ignored work. Identify the original branch and intended stash. Preserve important work separately."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Inspect restored file contents, git diff and git diff --staged. The intended stash should still be listed after apply. Do not assume status is clean or the staged arrangement was recreated."
       ],
       "sources": [
         "https://git-scm.com/docs/git-stash"
@@ -321,7 +314,7 @@ const knowledge = {
     },
     {
       "id": "card-conflict-snippet-1",
-      "syntax": "<<<<<<< HEAD\nconst apiEndpoint = \"https://api.v2.internal\";\n=======\nconst apiEndpoint = \"https://api.v3.production\";\n>>>>>>> feature/endpoint-upgrade",
+      "syntax": "git status\ngit diff --name-only --diff-filter=U\n# Edit and test the intended final contents.\ngit add -- <resolved-file>\ngit status\n# For an identified merge with all paths resolved:\ngit merge --continue",
       "minimumGit": "2.28",
       "requiredParameters": [
         "<<<<<< HEAD\nconst apiEndpoint = \"https://api.v2.internal\";\n=======\nconst apiEndpoint = \"https://api.v3.production\";\n"
@@ -332,11 +325,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Read full git status to identify a merge. Rebase, cherry-pick and revert have their own continuation commands. Preserve wanted work and inspect every unmerged path."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "No unmerged paths should remain. Inspect the merge commit’s parents and tree, and test the intended combined changes. Re-paste fresh status if using guided checks."
       ],
       "sources": [
         "https://docs.github.com/en/actions"
@@ -345,7 +337,7 @@ const knowledge = {
     },
     {
       "id": "card-conflict-snippet-2",
-      "syntax": "# 1. Edit file: delete the 3 marker lines and keep the right code\n# 2. Mark conflict resolved:\ngit add src/config.js\n\n# 3. Finalize merge (or abort if you need to rethink):\ngit merge --continue   # Or 'git merge --abort'",
+      "syntax": "git status\ngit diff --name-only --diff-filter=U",
       "minimumGit": "2.28",
       "requiredParameters": [],
       "effects": [
@@ -354,11 +346,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Read full git status to identify a merge. Rebase, cherry-pick and revert have their own continuation commands. Preserve wanted work and inspect every unmerged path."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "No unmerged paths should remain. Inspect the merge commit’s parents and tree, and test the intended combined changes. Re-paste fresh status if using guided checks."
       ],
       "sources": [
         "https://git-scm.com/docs/git-add"
@@ -367,7 +358,7 @@ const knowledge = {
     },
     {
       "id": "card-rebase-snippet-1",
-      "syntax": "# Rebase the last 3 local commits:\ngit rebase -i HEAD~3\n\n# In editor:\n# pick   = keep commit\n# squash = combine into previous commit & merge message\n# fixup  = combine into previous commit & discard message\n\n# After resolving and staging any conflicts, choose continuation:\n# git rebase --continue\n# Or request cancellation instead (inspect status afterwards):\n# git rebase --abort",
+      "syntax": "git status\ngit log --oneline -n 6\n# Only if the inspected private sequence has this ancestor:\ngit rebase -i HEAD~3\n# Resolve and stage conflicts before rebase --continue.\n# If cancellation is intended, inspect rebase --abort guidance.",
       "minimumGit": "2.28",
       "requiredParameters": [],
       "effects": [
@@ -377,11 +368,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Verify the selected commits have the needed ancestor and are unshared. Preserve work, inspect history and agree any collaboration policy before rewriting."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Inspect the resulting graph, intended file tree and project tests. Confirm the selected changes remain present in the intended order; do not publish rewritten history automatically."
       ],
       "sources": [
         "https://git-scm.com/docs/git-rebase"
@@ -390,7 +380,7 @@ const knowledge = {
     },
     {
       "id": "card-detached-snippet-1",
-      "syntax": "# 1. Check if detached:\ngit status  # Shows: \"HEAD detached at a1b2c3d\"\n\n# Exit A: Switch only after preserving any wanted detached commits:\ngit switch <existing-branch>\n\n# Exit B: Preserve commits made while detached:\ngit switch -c recovery-branch",
+      "syntax": "git status\ngit log -1 --oneline\ngit branch --list\n# Use an unused name and verified commit ID:\ngit branch <rescue-name> <verified-commit-id>",
       "minimumGit": "2.28",
       "requiredParameters": [
         "existing-branch"
@@ -400,11 +390,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Inspect HEAD and any uncommitted changes. If you created commits while detached, verify their IDs before switching elsewhere."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "git log -1 <rescue-name> should identify the intended commit. Inspect its files. Branch creation alone does not switch working files or save uncommitted edits."
       ],
       "sources": [
         "https://git-scm.com/docs/git-status"
@@ -413,7 +402,7 @@ const knowledge = {
     },
     {
       "id": "card-worktree-snippet-1",
-      "syntax": "# 1. Check out hotfix branch into sibling folder:\ngit worktree add ../project-hotfix hotfix-branch\n\n# 2. List all active directory locations:\ngit worktree list\n\n# 3. Clean up folder when finished:\ngit worktree remove ../project-hotfix",
+      "syntax": "git worktree list\ngit worktree add <new-folder> <available-branch>\n# Work in the new folder and preserve its changes.\ngit worktree list\n# Remove only after confirming its work is no longer needed:\ngit worktree remove <new-folder>",
       "minimumGit": "2.28",
       "requiredParameters": [],
       "effects": [
@@ -421,11 +410,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Inspect current worktrees and branch use. Choose a new folder and an existing branch not already checked out elsewhere."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Check the registered path and checked-out branch in worktree list, then inspect status inside that folder. Before removal verify its work is committed/preserved."
       ],
       "sources": [
         "https://git-scm.com/docs/git-worktree"
@@ -434,7 +422,7 @@ const knowledge = {
     },
     {
       "id": "card-reflog-snippet-1",
-      "syntax": "# 1. View chronological action ledger:\ngit reflog -n 15\n\n# 2. Locate the commit hash before the mistake (e.g. HEAD@{2})\n# 3. Create a rescue branch attached to that commit:\ngit branch rescue-branch <verified-commit-id>",
+      "syntax": "git reflog -n 20\ngit show <verified-commit-id>\ngit branch <unused-rescue-name> <verified-commit-id>\ngit log -1 <unused-rescue-name>",
       "minimumGit": "2.28",
       "requiredParameters": [
         "verified-commit-id"
@@ -444,11 +432,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "This is committed-work recovery. Confirm the object still exists locally and choose an unused rescue branch name. Reflogs are local and may expire."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Confirm the rescue branch points to the selected commit and inspect its tree for the wanted content. A new ref makes that retained commit reachable; it does not restore arbitrary disk edits."
       ],
       "sources": [
         "https://git-scm.com/docs/git-reflog"
@@ -457,7 +444,7 @@ const knowledge = {
     },
     {
       "id": "card-bisect-snippet-1",
-      "syntax": "# 1. Start binary search:\ngit bisect start\ngit bisect bad                 # Current version is broken\ngit bisect good v1.2.0          # Known good previous release\n\n# 2. Test intermediate commits checked out by Git:\ngit bisect good   # (or 'git bisect bad')\n\n# 3. Finish and return to active branch:\ngit bisect reset\n\n# Inspect line-by-line author timestamps:\ngit blame -L 20,45 src/app.js",
+      "syntax": "git bisect start\ngit bisect bad <known-bad-commit>\ngit bisect good <known-good-commit>\n# Test the selected revision, then choose exactly one:\n# git bisect good\n# git bisect bad\n# git bisect skip\n# Finish by returning to the original checkout:\ngit bisect reset\n# A separate attribution example:\ngit blame -L 20,45 -- <filename>",
       "minimumGit": "2.28",
       "requiredParameters": [],
       "effects": [
@@ -465,11 +452,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Preserve work and choose a reproducible test with known good/bad revisions. Bisect checks out intermediate commits; older revisions may need different build dependencies."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Inspect and reproduce the change identified by bisect; then verify the original checkout after reset. For blame, inspect the relevant commit and context rather than assigning fault."
       ],
       "sources": [
         "https://git-scm.com/docs/git-bisect"
@@ -478,7 +464,7 @@ const knowledge = {
     },
     {
       "id": "card-tag-snippet-1",
-      "syntax": "# 1. Create an annotated release tag:\ngit tag -a v1.0.0 -m \"Release v1.0.0: Initial public launch\"\n\n# 2. Push tag to GitHub (tags are not pushed by default!):\ngit push origin v1.0.0\n\n# Or push all local tags at once:\ngit push origin --tags\n\n# List all tags sorted by version with annotation lines:\ngit tag --sort=version:refname -n 1",
+      "syntax": "git status\ngit log -1\ngit tag -a <new-tag> <verified-commit-id> -m \"Describe the release\"\ngit show <new-tag>\n# Publish only after verifying the intended remote and policy:\ngit push <remote> refs/tags/<new-tag>\ngit tag --sort=version:refname -n 1",
       "minimumGit": "2.28",
       "requiredParameters": [],
       "effects": [
@@ -487,11 +473,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Verify the commit, unused tag name, release policy and actual remote. Semantic versioning is a project convention, not something Git enforces."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Inspect the tag target and annotation. After authorized publication, verify the exact tag ref on the chosen remote. describe reports a nearby reachable tag, not proof of a release or successful publication."
       ],
       "sources": [
         "https://git-scm.com/docs/git-tag"
@@ -500,7 +485,7 @@ const knowledge = {
     },
     {
       "id": "card-force-lease-snippet-1",
-      "syntax": "# Inspect repository and remote first:\ngit status\ngit branch -vv\ngit remote -v\n\n# After coordination, use verified values and expected remote object ID:\n# git push --force-with-lease=refs/heads/<remote-branch>:<expected-oid> <remote> HEAD:refs/heads/<remote-branch>\n# Do not execute while any prerequisite remains unknown.",
+      "syntax": "# Inspect first; no rewrite command is enabled here.\ngit status\ngit branch -vv\ngit remote -v\n# Advanced syntax, after deliberate verification and coordination:\n# git push --force-with-lease=refs/heads/<remote-branch>:<expected-oid> <remote> HEAD:refs/heads/<remote-branch>",
       "minimumGit": "2.28",
       "requiredParameters": [
         "remote-branch",
@@ -514,11 +499,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Only consider this for a deliberately coordinated rewrite with verified ownership, target and expected remote OID. Preserve wanted history and understand who relies on the branch."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "After any authorized publication, inspect the actual remote ref and intended history. If a lease fails, stop and investigate the new remote state rather than refreshing the expectation and overwriting it."
       ],
       "sources": [
         "https://git-scm.com/docs/git-status"
@@ -527,7 +511,7 @@ const knowledge = {
     },
     {
       "id": "card-cherry-pick-snippet-1",
-      "syntax": "# 1. Switch to target branch (e.g. maintenance branch):\ngit switch release/v1.0\n\n# 2. Pluck specific bugfix commit by hash:\ngit cherry-pick 7a1b2c3\n\n# If conflict occurs:\n# git cherry-pick --continue\n# Or cancel and return to safety:\n# git cherry-pick --abort",
+      "syntax": "git status\ngit show <ordinary-commit-id>\ngit switch <target-branch>\ngit cherry-pick <ordinary-commit-id>\n# If conflicts occur, resolve/test/stage first.\n# Only then: git cherry-pick --continue\n# To cancel the identified operation: git cherry-pick --abort",
       "minimumGit": "2.28",
       "requiredParameters": [],
       "effects": [
@@ -535,11 +519,10 @@ const knowledge = {
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
-        "Inspect git status and both diffs; preserve wanted work.",
-        "Verify repository-specific branch, remote and target values."
+        "Inspect the source commit and intended target branch, preserve work and start with no other operation in progress. Merge commits require additional mainline decisions not covered by this simple example."
       ],
       "verification": [
-        "Inspect git status and relevant commits/refs after the selected action."
+        "Inspect the resulting commit’s patch and target branch files, and run tests. A new identity may differ from the source; verify content rather than expecting identical hashes."
       ],
       "sources": [
         "https://git-scm.com/docs/git-switch"
@@ -550,7 +533,7 @@ const knowledge = {
   "workflows": [
     {
       "id": "card-init",
-      "title": "Start a Repository from Scratch",
+      "title": "Start a Git repository",
       "category": "essential",
       "effects": [
         "local-change",
@@ -560,15 +543,15 @@ const knowledge = {
         "card-init-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Choose the intended project folder. Check that it is not already inside another repository. Choose an initial branch name and configure your Git author name/email; Git 2.28+ supports init -b."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "git status should identify your chosen branch. git log -1 --stat should show the intended first commit and files. Unstaged or untracked files may still remain; a completely clean tree is not required for a successful selected-file commit."
       ]
     },
     {
       "id": "card-clone",
-      "title": "Clone an Existing Project",
+      "title": "Clone an existing project",
       "category": "essential",
       "effects": [
         "local-change"
@@ -577,15 +560,15 @@ const knowledge = {
         "card-clone-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Copy the clone URL from the intended host and confirm you have read access. Choose a new destination folder. You do not need an existing local Git repository."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Check that the folder, configured remote URL and checked-out branch match the intended project. An empty remote can produce an unborn branch without a commit."
       ]
     },
     {
       "id": "card-stage",
-      "title": "Precise Staging & Checkpoints",
+      "title": "Save your first commit",
       "category": "essential",
       "effects": [
         "local-change"
@@ -594,15 +577,15 @@ const knowledge = {
         "card-stage-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Use an existing repository on the intended branch, with a file you have edited. If this is a new project, start with the repository guide. Set your Git author identity if needed."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Compare the staged diff before committing with git show --stat HEAD afterwards. Only the intended staged snapshot should be recorded. Other files or later edits can remain uncommitted. No push occurs."
       ]
     },
     {
       "id": "card-branch",
-      "title": "Branches: Isolated Sandboxes",
+      "title": "Create and switch branches",
       "category": "branch",
       "effects": [
         "local-change"
@@ -611,15 +594,15 @@ const knowledge = {
         "card-branch-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Inspect status and preserve wanted work before switching. Choose an unused branch name and the correct starting commit."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "After creation, git branch --show-current should report the new name. After switching back, verify the expected branch and inspect status. Existing commits remain reachable through their refs."
       ]
     },
     {
       "id": "card-undo",
-      "title": "Undoing Mistakes Safely",
+      "title": "Choose how to undo a change",
       "category": "undo",
       "effects": [
         "local-change",
@@ -630,15 +613,15 @@ const knowledge = {
         "card-undo-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Identify whether the change is unstaged, staged or committed. Inspect both diffs, commit ownership and any operation already in progress."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Define the intended outcome first: edits kept but unstaged, selected edits discarded, or an inverse commit recorded. Verify the corresponding index, working file or commit afterwards."
       ]
     },
     {
       "id": "card-sync",
-      "title": "Working with Remotes (GitHub, GitLab, Bitbucket)",
+      "title": "Fetch, integrate and publish changes",
       "category": "cloud",
       "effects": [
         "local-change",
@@ -649,15 +632,15 @@ const knowledge = {
         "card-sync-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Inspect the actual remote and tracking branch. Preserve local work. Check the team’s integration policy and whether your commits are shared."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Inspect the fetched tracking ref and graph. After deliberate integration, check the intended history/files and run project tests. Verify the destination separately after publishing."
       ]
     },
     {
       "id": "card-pipeline",
-      "title": "Pipelines & Automated CI/CD",
+      "title": "Understand configured CI test jobs",
       "category": "cloud",
       "effects": [
         "local-change"
@@ -666,15 +649,15 @@ const knowledge = {
         "card-pipeline-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "A project needs tests, a supported runner and a configured host workflow. Check the file path, event triggers, permissions and dependency setup."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Check whether the intended event produced a job. Read its logs and verify the runner installed the required tools and dependencies. A passing test job does not establish deployment."
       ]
     },
     {
       "id": "card-stash",
-      "title": "Stashing: Temporary Work Shelving",
+      "title": "Temporarily set work aside",
       "category": "essential",
       "effects": [
         "local-change",
@@ -684,15 +667,15 @@ const knowledge = {
         "card-stash-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Inspect tracked, staged, untracked and ignored work. Identify the original branch and intended stash. Preserve important work separately."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Inspect restored file contents, git diff and git diff --staged. The intended stash should still be listed after apply. Do not assume status is clean or the staged arrangement was recreated."
       ]
     },
     {
       "id": "card-conflict",
-      "title": "Merge Conflict Resolution",
+      "title": "Resolve an identified merge conflict",
       "category": "branch",
       "effects": [
         "local-change",
@@ -703,15 +686,15 @@ const knowledge = {
         "card-conflict-snippet-2"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Read full git status to identify a merge. Rebase, cherry-pick and revert have their own continuation commands. Preserve wanted work and inspect every unmerged path."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "No unmerged paths should remain. Inspect the merge commit’s parents and tree, and test the intended combined changes. Re-paste fresh status if using guided checks."
       ]
     },
     {
       "id": "card-rebase",
-      "title": "Interactive Rebase (Commit Polish)",
+      "title": "Rewrite unshared commits with interactive rebase",
       "category": "pro",
       "effects": [
         "local-change",
@@ -722,15 +705,15 @@ const knowledge = {
         "card-rebase-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Verify the selected commits have the needed ancestor and are unshared. Preserve work, inspect history and agree any collaboration policy before rewriting."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Inspect the resulting graph, intended file tree and project tests. Confirm the selected changes remain present in the intended order; do not publish rewritten history automatically."
       ]
     },
     {
       "id": "card-detached",
-      "title": "Detached HEAD Recovery",
+      "title": "Understand detached HEAD and keep your commits",
       "category": "pro",
       "effects": [
         "local-change"
@@ -739,15 +722,15 @@ const knowledge = {
         "card-detached-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Inspect HEAD and any uncommitted changes. If you created commits while detached, verify their IDs before switching elsewhere."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "git log -1 <rescue-name> should identify the intended commit. Inspect its files. Branch creation alone does not switch working files or save uncommitted edits."
       ]
     },
     {
       "id": "card-worktree",
-      "title": "Git Worktrees (Parallel Folders)",
+      "title": "Use separate working folders with worktrees",
       "category": "pro",
       "effects": [
         "local-change"
@@ -756,15 +739,15 @@ const knowledge = {
         "card-worktree-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Inspect current worktrees and branch use. Choose a new folder and an existing branch not already checked out elsewhere."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Check the registered path and checked-out branch in worktree list, then inspect status inside that folder. Before removal verify its work is committed/preserved."
       ]
     },
     {
       "id": "card-reflog",
-      "title": "Reflog Recovery (Lost Work)",
+      "title": "Find a retained commit with reflog",
       "category": "undo",
       "effects": [
         "local-change"
@@ -773,15 +756,15 @@ const knowledge = {
         "card-reflog-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "This is committed-work recovery. Confirm the object still exists locally and choose an unused rescue branch name. Reflogs are local and may expire."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Confirm the rescue branch points to the selected commit and inspect its tree for the wanted content. A new ref makes that retained commit reachable; it does not restore arbitrary disk edits."
       ]
     },
     {
       "id": "card-bisect",
-      "title": "Regression Hunting (bisect & blame)",
+      "title": "Find a regression with bisect; inspect attribution with blame",
       "category": "pro",
       "effects": [
         "local-change"
@@ -790,15 +773,15 @@ const knowledge = {
         "card-bisect-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Preserve work and choose a reproducible test with known good/bad revisions. Bisect checks out intermediate commits; older revisions may need different build dependencies."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Inspect and reproduce the change identified by bisect; then verify the original checkout after reset. For blame, inspect the relevant commit and context rather than assigning fault."
       ]
     },
     {
       "id": "card-tag",
-      "title": "Release Tags & Semantic Versioning",
+      "title": "Create and publish a release tag",
       "category": "cloud",
       "effects": [
         "local-change",
@@ -808,15 +791,15 @@ const knowledge = {
         "card-tag-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Verify the commit, unused tag name, release policy and actual remote. Semantic versioning is a project convention, not something Git enforces."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Inspect the tag target and annotation. After authorized publication, verify the exact tag ref on the chosen remote. describe reports a nearby reachable tag, not proof of a release or successful publication."
       ]
     },
     {
       "id": "card-force-lease",
-      "title": "Force-Push with an Explicit Lease",
+      "title": "Understand an explicit force-push lease",
       "category": "cloud",
       "effects": [
         "history-rewrite",
@@ -827,15 +810,15 @@ const knowledge = {
         "card-force-lease-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Only consider this for a deliberately coordinated rewrite with verified ownership, target and expected remote OID. Preserve wanted history and understand who relies on the branch."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "After any authorized publication, inspect the actual remote ref and intended history. If a lease fails, stop and investigate the new remote state rather than refreshing the expectation and overwriting it."
       ]
     },
     {
       "id": "card-cherry-pick",
-      "title": "Port Isolated Commits (cherry-pick)",
+      "title": "Apply a selected commit with cherry-pick",
       "category": "branch",
       "effects": [
         "local-change"
@@ -844,13 +827,12 @@ const knowledge = {
         "card-cherry-pick-snippet-1"
       ],
       "prerequisites": [
-        "Select one operation, not every alternative in the snippet."
+        "Inspect the source commit and intended target branch, preserve work and start with no other operation in progress. Merge commits require additional mainline decisions not covered by this simple example."
       ],
       "verification": [
-        "Inspect intended repository state and test the result."
+        "Inspect the resulting commit’s patch and target branch files, and run tests. A new identity may differ from the source; verify content rather than expecting identical hashes."
       ]
     }
   ]
 };
-
 export default knowledge;

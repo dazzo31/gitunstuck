@@ -29,5 +29,12 @@ jobs:
         env:
           BASELINE_FIXTURE: '1'
         run: node tests/baseline-browser.cjs
-      - name: Corrected behavior regression
-        run: node tests/baseline-browser.cjs
+      - name: Learning and help experience regression
+        run: node tests/experience-browser.cjs
+      - name: Save rendered experience for visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: experience-screenshots
+          path: test-results/experience
+          retention-days: 7

@@ -3,6 +3,8 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { validateErrors } from '../assets/js/errors.mjs';
+import { validateGuides } from '../assets/js/guides.mjs';
+import { validateReference } from '../assets/js/reference.mjs';
 import knowledge from '../assets/js/knowledge.mjs';
 import { validateKnowledge } from '../assets/js/schema.mjs';
 const html = readFileSync('index.html', 'utf8');
@@ -23,6 +25,8 @@ for (const m of html.matchAll(/(?:href|src)="([^"#]+)"/g)) {
 assert.ok(!html.includes('eval('), 'Dynamic code execution is forbidden');
 validateKnowledge(knowledge);
 validateErrors();
+validateGuides();
+validateReference();
 for (const file of readdirSync('assets/js').filter(f => /\.m?js$/.test(f))) {
   const source = readFileSync(`assets/js/${file}`, 'utf8');
   assert.equal(spawnSync(process.execPath, ['--check', `assets/js/${file}`]).status, 0, file);

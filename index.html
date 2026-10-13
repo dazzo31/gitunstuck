@@ -133,17 +133,7 @@
         <h1 class="brand-title">Git<span>Unstuck</span></h1>
       </div>
 
-      <!-- Mode Switcher -->
-      <div class="mode-switcher" id="modeSwitcher" role="group" aria-label="Experience Mode">
-        <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Plain-language explanations; all workflows and warnings remain available">
-          🌱 Plain English
-        </button>
-        <button class="mode-btn" data-mode="pro" aria-pressed="false" title="Developer terminology and detail; the same workflows and warnings">
-          ⚡ Developer Hub
-        </button>
-      </div>
-
-      <!-- Quick Search -->
+      <!-- Search lessons, help and reference -->
       <div class="search-wrapper">
         <label for="searchInput" class="search-label" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -151,7 +141,7 @@
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
         </label>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search tasks, errors, commands..." aria-label="Search command modules">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search lessons, help, commands…" aria-label="Search Git lessons, help and reference">
         <kbd class="search-kbd" title="Press / or Ctrl+K to search" aria-hidden="true">Ctrl K</kbd>
       </div>
 
@@ -170,7 +160,7 @@
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
           </svg>
         </button>
-        <button onclick="window.print()" class="btn-icon" aria-label="Print reference poster or export PDF" title="Print Poster / Export PDF">
+        <button onclick="window.print()" class="btn-icon" aria-label="Print this guide or reference" title="Print this page">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <polyline points="6 9 6 2 18 2 18 9"></polyline>
             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
@@ -182,47 +172,38 @@
   </header>
 
   <main class="container" id="mainContent">
-    <section class="v2-hero" aria-labelledby="v2Title">
-      <div>
-        <p class="v2-kicker">GITUNSTUCK · 2.0 DEVELOPMENT</p>
-        <h2 id="v2Title">Understand the state.<br>Choose the next step.</h2>
-        <p>Get practical help with a Git problem, follow a workflow, or explore how history changes.</p>
-      </div>
-      <aside class="v2-local" aria-label="Local-first help">
-        <strong>Your work stays yours.</strong>
-        <p>This guide explains commands. It does not run Git, access your repository or upload terminal output.</p>
-      </aside>
-    </section>
     <nav class="v2-nav" aria-label="Primary navigation">
-      <button id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="v2NavLinks">Explore GitUnstuck</button>
-      <div id="v2NavLinks">
-        <a href="#fix">Fix My Git</a>
-        <a href="#workflows">Workflows</a>
-        <a href="#reference">Reference</a>
-        <a href="#playground">Playground</a>
-        <a href="#learn">Learn Git</a>
-      </div>
+      <button id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="v2NavLinks">Menu</button>
+      <div id="v2NavLinks"><a href="#home">Home</a><a href="#learn">Learn</a><a href="#fix">Help</a><a href="#reference">Reference</a></div>
     </nav>
-    <div class="v2-context">
-      <p id="routeBreadcrumb" aria-live="polite">GitUnstuck / Fix My Git</p>
-      <div class="v2-preferences">
-        <label>Host <select id="providerSelect"><option value="generic">Generic Git</option><option value="github">GitHub</option><option value="gitlab">GitLab</option><option value="bitbucket">Bitbucket</option></select></label>
-        <label>Shell <select id="shellSelect"><option value="powershell">PowerShell</option><option value="bash">Bash</option><option value="cmd">CMD</option></select></label>
-        <button id="resetPreferences" type="button">Reset preferences</button>
+    <p id="routeBreadcrumb" class="route-context">GitUnstuck / Home</p>
+    <section id="view-home" class="v2-view" aria-labelledby="homeHeading">
+      <div class="home-intro"><p class="eyebrow">A practical guide to Git</p><h2 id="homeHeading">Learn Git.<br>Find your next step.</h2><p>Understand the essentials, follow practical guides, and get help when something goes wrong.</p></div>
+      <div class="home-choices">
+        <a href="#learn" class="home-choice"><span class="choice-number">01 · Learn</span><h3>Learn Git</h3><p>Start with files, staging and commits. Build up to branches and working with a team.</p><span class="choice-link">Start learning →</span></a>
+        <a href="#fix" class="home-choice"><span class="choice-number">02 · Help</span><h3>Get help</h3><p>Choose a problem, understand the cause, and find a careful next step.</p><span class="choice-link">Find help →</span></a>
       </div>
-    </div>
-    <p class="v2-shell-note" id="shellNote" role="status">Replace placeholders with your verified values. Quote file paths with spaces.</p>
+      <p class="reference-entry">Already know what you need? <a href="#reference">Open the command reference →</a></p>
+      <div class="home-topics"><section aria-labelledby="startHeading"><h3 id="startHeading">Start here</h3><a href="#learn/card-stage">Save your first commit <span>Files → staging → history</span></a><a href="#learn/card-clone">Clone an existing project <span>Get a local checkout</span></a><a href="#learn/card-branch">Create and switch branches <span>Work on a named line of history</span></a></section><section aria-labelledby="commonHeading"><h3 id="commonHeading">Common questions</h3><a href="#fix/unstage">How do I undo git add?</a><a href="#fix/merge">How do I resolve a merge conflict?</a><a href="#fix/divergence">Why was my push rejected?</a></section></div>
+      <p class="home-footnote">Read, learn and inspect examples here. GitUnstuck does not run commands or access your repository.</p>
+    </section>
     <section id="view-fix" class="v2-view" aria-labelledby="fixHeading">
-      <h2 id="fixHeading" tabindex="-1">What went wrong?</h2>
-      <p>Choose the closest problem. Inspect the prerequisites and keep wanted changes before taking an action.</p>
-      <section class="v2-status-box" aria-labelledby="errorHeading">
-        <h3 id="errorHeading">Understand an error</h3>
+      <h2 id="fixHeading" tabindex="-1">Get help with Git</h2>
+      <p>Choose a question below. Read the explanation first; guided checks are available when your repository state matters.</p>
+      <div id="helpChoices" class="topic-list"></div>
+      <article id="helpArticle" class="reading-panel" hidden></article>
+      <details id="errorTools" class="help-tool"><summary>Have an error message? Find possible causes</summary>      <section class="v2-status-box" aria-labelledby="errorHeading">
+        <h3 id="errorHeading">Find possible causes of an error</h3>
         <p>Paste a redacted Git error or describe the problem. This stays in this tab; nothing is executed or uploaded. Remove tokens, credentials and private URLs before pasting. Maximum 100 KiB.</p>
+        <label id="providerLabel">Host for this error <select id="providerSelect"><option value="generic">Not specified</option><option value="github">GitHub</option><option value="gitlab">GitLab</option><option value="bitbucket">Bitbucket</option></select></label>
         <label for="errorInput">Error text or problem description</label>
         <textarea id="errorInput" rows="4" spellcheck="false" autocomplete="off" placeholder="fatal: not a git repository"></textarea>
         <div class="v2-step-controls"><button type="button" id="diagnoseError">Find possible causes</button><button type="button" id="clearError">Clear error</button></div>
         <section id="errorResults" aria-label="Possible error diagnoses" hidden></section>
       </section>
+      </details>
+      <details id="guidedChecks" class="help-tool" hidden><summary>Check my repository state before acting</summary>
+      <p class="tool-intro">Optional guided checks. These use only the text you paste; the website cannot verify your repository.</p>
       <section class="v2-status-box" aria-labelledby="statusHeading">
         <h3 id="statusHeading">Start with what Git reports</h3>
         <p>Run <code>git status --porcelain=v2 --branch</code> and paste its output below. A scoped <code>git status -sb</code> format also works. Input stays in this tab and is never executed or uploaded.</p>
@@ -232,18 +213,8 @@
         <div class="v2-step-controls"><button type="button" id="interpretStatus">Interpret status</button><button type="button" id="clearStatus">Clear pasted text</button></div>
         <section id="statusResults" aria-label="Status interpretation" hidden></section>
       </section>
-      <div class="v2-problems">
-        <button type="button" data-recovery="unstage">I staged the wrong files<span>Keep the edits; change the index.</span></button>
-        <button type="button" data-recovery="discard">I want to discard edits<span>Inspect what would be lost first.</span></button>
-        <button type="button" data-recovery="amend">My latest local commit is wrong<span>Review amend prerequisites.</span></button>
-        <button type="button" data-recovery="revert">A shared commit needs undoing<span>Revert can require conflict resolution.</span></button>
-        <button type="button" data-recovery="reflog">I lost committed work<span>Look for a retained commit.</span></button>
-        <a href="#fix/merge">I have a merge conflict<span>Identify the operation before continuing.</span></a>
-        <a href="#fix/detached">I am on detached HEAD<span>Preserve wanted commits with a branch.</span></a>
-        <a href="#fix/divergence">My push was rejected<span>Inspect divergence and remote values.</span></a>
-      </div>
       <section id="recoveryWizard" class="v2-status-box" aria-labelledby="recoveryHeading">
-        <h3 id="recoveryHeading">Choose a recovery intent</h3>
+        <h3 id="recoveryHeading">Guided checks for your chosen goal</h3>
         <label for="recoveryIntent">What outcome do you want?</label>
         <select id="recoveryIntent"></select>
         <form id="recoveryContext" hidden>
@@ -267,63 +238,37 @@
         </form>
         <section id="recoveryPlan" aria-label="Guided recovery"></section>
       </section>
+      </details>
     </section>
-    <section id="view-workflows" class="v2-view" aria-labelledby="workflowsHeading" hidden>
-      <h2 id="workflowsHeading" tabindex="-1">Choose a workflow</h2>
-      <p>Inspect → decide → act → verify. Each guide keeps prerequisites and cautions visible.</p>
-      <div id="workflowChoices" class="v2-problems"></div>
-      <section id="workflowStepper" aria-label="Selected workflow" hidden></section>
-    </section>
-    <section id="view-reference" class="v2-view" aria-label="Command reference" hidden></section>
-    <section id="view-playground" class="v2-view" aria-labelledby="playgroundHeading" hidden>
-      <h2 id="playgroundHeading" tabindex="-1">Explore commit history</h2>
-      <p>Compare illustrated history scenarios. The branch names are examples; no commands run on your computer.</p>
+    <section id="view-reference" class="v2-view" aria-labelledby="referenceHeading" hidden>
+      <h2 id="referenceHeading" tabindex="-1">Command reference</h2>
+      <p>Look up a command, compare its effects, or open a worked example. Replace placeholders with your own verified values.</p>
+      <div id="searchResults" hidden aria-label="Matching lessons and help"></div>
+      <div class="reference-settings"><label for="shellSelect">Example shell</label><select id="shellSelect"><option value="powershell">PowerShell</option><option value="bash">Bash</option><option value="cmd">CMD</option></select><button id="resetPreferences" type="button">Reset saved preferences</button></div>
+      <p id="shellNote" class="v2-shell-note"></p>
+      <nav id="commandIndex" aria-label="Commands"></nav>
+      <article id="commandPage" class="reading-panel" hidden></article>
+      <h3 id="referenceTopicsHeading">Worked examples by topic</h3>
     </section>
     <section id="view-learn" class="v2-view" aria-labelledby="learnHeading" hidden>
-      <h2 id="learnHeading" tabindex="-1">Build your Git mental model</h2>
-      <p>Start with the working tree, index and commits. Use the examples to understand a command before running it.</p>
+      <h2 id="learnHeading" tabindex="-1">Learn Git, one useful step at a time</h2>
+      <p>Start with a small change. Learn what each command does, then check its result. Technical detail is available when you need it.</p>
+      <div id="guideChoices" class="topic-list"></div>
+      <article id="guideArticle" class="reading-panel" hidden></article>
     </section>
-    <aside class="callout warning" aria-label="Command prerequisites">
-      Examples target Git 2.28 or newer. Run <code>git --version</code> first.
-      Replace every <code>&lt;placeholder&gt;</code> with your verified value before running a command; quote paths containing spaces.
-      <code>main</code> in graph illustrations is an example branch name. Inspect <code>git branch -vv</code> and <code>git remote -v</code> for your repository.
-      Recipes explain choices; do not paste every alternative as one script. Inspect status and preserve wanted work before making changes.
-    </aside>
-
+    <noscript><section class="reading-panel"><h2>Git basics and reference</h2><p>Git records commits when you explicitly create them. Saving a file alone does not record a commit. Read the examples below; interactive navigation, search and diagnostic tools require JavaScript.</p><p>Replace placeholders, inspect status and diffs, and preserve wanted work before changing files/history.</p></section><style>.v2-nav,.search-wrapper,#view-home,.help-tool,#recoveryWizard { display:none!important; } #view-reference { display:block!important; } #commandIndex,#shellSelect,.reference-settings { display:none!important; }</style></noscript>
     <!-- Printable Header Banner (Visible only when printed) -->
     <div class="print-banner" aria-hidden="true">
       <div class="print-banner-title">GitUnstuck • The Visual Problem-Solving &amp; Recovery Guide</div>
-      <div class="print-banner-url">https://dazzo31.github.io/gitunstuck/ — Reference &amp; Verified Recipes</div>
+      <div class="print-banner-url">https://dazzo31.github.io/gitunstuck/ — Learning Guides &amp; Command Reference</div>
     </div>
-
-    <!-- TASK-FIRST QUICK NAVIGATOR -->
-    <section class="task-navigator" aria-labelledby="taskNavHeading">
-      <div class="task-nav-header">
-        <h2 class="task-nav-title" id="taskNavHeading">🎯 What are you trying to do?</h2>
-        <p class="task-nav-subtitle">Click a goal to jump directly to its complete, verified workflow:</p>
-      </div>
-      <div class="task-chips">
-        <button class="task-chip" data-target="card-init">🚀 Start a new project</button>
-        <button class="task-chip" data-target="card-clone">📥 Clone an existing project</button>
-        <button class="task-chip" data-target="card-stage">✍️ Save daily work safely</button>
-        <button class="task-chip" data-target="card-branch">🌿 Create a feature branch</button>
-        <button class="task-chip" data-target="card-sync">🔄 Sync updates with GitHub</button>
-        <button class="task-chip" data-target="troubleshootConsole">🚑 Undo a mistake or recovery tree</button>
-        <button class="task-chip" data-target="card-stash">⏸️ Pause work &amp; switch branches</button>
-        <button class="task-chip" data-target="card-conflict">⚠️ Resolve a merge conflict</button>
-        <button class="task-chip pro-only" data-target="card-rebase">🧹 Clean up commits before PR</button>
-        <button class="task-chip pro-only" data-target="card-reflog">🔍 Rescue lost commits with reflog</button>
-        <button class="task-chip" data-target="commitGraphExplorer">🗺️ Visual Timeline &amp; Branch Map</button>
-        <button class="task-chip" data-target="card-tag">🏷️ Tag a production release</button>
-      </div>
-    </section>
 
     <!-- Beginner Mental Model Primer (Shown in Plain English mode) -->
     <section class="hero-primer" id="beginnerPrimer" aria-labelledby="primerHeading">
       <div class="primer-header">
         <span class="primer-badge">Zero Experience? Start Here</span>
-        <h2 class="primer-title" id="primerHeading">The 60-Second Mental Model</h2>
-        <p class="primer-subtitle">If you have never touched a code repository or pipeline, here is how Git actually works in plain English.</p>
+        <h2 class="primer-title" id="primerHeading">Files, staging and commits</h2>
+        <p class="primer-subtitle">Git records changes you explicitly commit. Start with these concepts before trying a command.</p>
       </div>
 
       <!-- 4 Real-World Analogies -->
@@ -332,35 +277,35 @@
           <div class="analogy-icon" aria-hidden="true">📁</div>
           <div class="analogy-term">The Repository ("Repo")</div>
           <div class="analogy-meta">Project Folder + Time Machine</div>
-          <p class="analogy-text">A repository is your project folder paired with an automatic ledger. It tracks your files and records a permanent, rewound history of every saved change.</p>
+          <p class="analogy-text">A repository contains Git metadata and recorded commits. Your working folder can also contain edits and untracked files that Git has not recorded.</p>
         </div>
 
         <div class="analogy-card">
           <div class="analogy-icon" aria-hidden="true">💾</div>
           <div class="analogy-term">The Commit</div>
           <div class="analogy-meta">A Game Save Point</div>
-          <p class="analogy-text">A commit is a permanent snapshot of your project at one moment. If something breaks tomorrow, you can safely reload your codebase back to this exact checkpoint.</p>
+          <p class="analogy-text">A commit records the staged snapshot and links to its parent history. Retained commits let you inspect earlier content; returning to it may affect your current files.</p>
         </div>
 
         <div class="analogy-card">
           <div class="analogy-icon" aria-hidden="true">🛒</div>
           <div class="analogy-term">The Staging Area (git add)</div>
           <div class="analogy-meta">Your Shopping Cart</div>
-          <p class="analogy-text">Before you buy items, you place them into a cart. <code>git add</code> picks which edited files enter the cart. <code>git commit</code> pays at the register to seal the checkpoint.</p>
+          <p class="analogy-text"><code>git add</code> copies the current contents of chosen files into the staging area. <code>git commit</code> records that staged snapshot. Later edits stay unstaged until you add them again.</p>
         </div>
 
         <div class="analogy-card">
           <div class="analogy-icon" aria-hidden="true">☁️</div>
           <div class="analogy-term">Remote &amp; Pipelines</div>
           <div class="analogy-meta">Cloud Storage &amp; Configured Robot</div>
-          <p class="analogy-text"><strong>GitHub</strong> is a cloud host for your repo. A <strong>Pipeline</strong> is a robot that runs automated tests and deploys, <em>if your repository has a workflow file configured</em>.</p>
+          <p class="analogy-text">A remote is another repository, often hosted on GitHub, GitLab or Bitbucket. CI runs configured jobs when their trigger conditions match. It does not automatically deploy every project.</p>
         </div>
       </div>
 
       <!-- Safe 5-Step Daily Routine -->
       <div class="daily-recipe">
         <div class="recipe-title">
-          <span aria-hidden="true">🛡️</span> The Safe Daily Workflow Routine
+          <span aria-hidden="true">🛡️</span> A daily commit routine
         </div>
         <div class="recipe-steps">
           <div class="recipe-step">
@@ -373,7 +318,7 @@
             <span class="recipe-num" aria-hidden="true">2</span>
             <div class="recipe-action">Stage Intended Files</div>
             <div class="recipe-desc">Add only the specific files you meant to touch.</div>
-            <div class="snippet-block"><pre class="code-content" tabindex="0" aria-label="Code example"><code>git add src/app.js</code></pre></div>
+            <div class="snippet-block"><pre class="code-content" tabindex="0" aria-label="Code example"><code>git add &lt;filename&gt;</code></pre></div>
           </div>
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">3</span>
@@ -390,7 +335,7 @@
           <div class="recipe-step">
             <span class="recipe-num" aria-hidden="true">5</span>
             <div class="recipe-action">Push When Ready</div>
-            <div class="recipe-desc">Publish to your remote upstream.</div>
+            <div class="recipe-desc">Publish separately after testing and verifying your configured upstream.</div>
             <div class="snippet-block"><pre class="code-content" tabindex="0" aria-label="Code example"><code>git push</code></pre></div>
           </div>
         </div>
@@ -398,11 +343,11 @@
     </section>
 
     <!-- PHASE 3: INTERACTIVE UNDO & RECOVERY DECISION TREE -->
-    <section class="troubleshoot-console" id="troubleshootConsole" aria-labelledby="troubleshootHeading">
+    <section class="troubleshoot-console" id="troubleshootConsole" hidden aria-labelledby="troubleshootHeading">
       <div class="troubleshoot-header">
         <span class="primer-badge">Interactive Troubleshooter</span>
         <h2 class="troubleshoot-title" id="troubleshootHeading">🚑 The Undo &amp; Recovery Decision Tree</h2>
-        <p class="troubleshoot-subtitle">Not sure which command to use? Select where your changes are located to get the exact, safe recovery command.</p>
+        <p class="troubleshoot-subtitle">Not sure which command to use? Select where your changes are located to compare the distinct outcomes and prerequisites.</p>
       </div>
 
       <div class="tree-selector-grid" role="radiogroup" aria-label="Where are the changes you need to undo?">
@@ -441,9 +386,9 @@
     <!-- PHASE 4: VISUAL COMMIT TIMELINE & BRANCH MAP -->
     <section class="graph-explorer" id="commitGraphExplorer" aria-labelledby="graphHeading">
       <div class="graph-header">
-        <span class="primer-badge">Interactive Visual Map</span>
-        <h2 class="graph-title" id="graphHeading">🗺️ How Git &amp; GitHub Actually Work (Visual Timeline)</h2>
-        <p class="graph-subtitle">Think of Git as an automatic scrapbook of save points. Each time you save, Git leaves a breadcrumb trail back to where you started. Click any button below to watch how save points, bookmarks (branches), and your current view (HEAD) move in real time:</p>
+        <span class="primer-badge">Illustrated examples</span>
+        <h2 class="graph-title" id="graphHeading">How commits and branches relate</h2>
+        <p class="graph-subtitle">Each commit records an explicit snapshot and its parent links. Choose an illustration to compare commits, branch references and HEAD. These are fixed examples, not a simulation.</p>
       </div>
 
       <!-- Graph Scenario Tabs -->
@@ -495,7 +440,7 @@
                 <li><strong>Vertices ($V$):</strong> Immutable commit objects representing project snapshots.</li>
                 <li><strong>Directed Edges ($E$):</strong> Pointers directed <em>backwards</em> from child commits to their parent(s). A commit points to its parent because the parent existed first; the parent cannot know its future children.</li>
                 <li><strong>Acyclic Invariant:</strong> It is mathematically impossible for a commit to be its own ancestor, preventing infinite loops during graph traversal.</li>
-                <li><strong>Topological Ordering:</strong> Git orders commits chronologically and topologically during operations like <code>git log</code> and <code>git rev-list</code>.</li>
+                <li><strong>Topological Ordering:</strong> History ordering depends on the chosen options in operations like <code>git log</code> and <code>git rev-list</code>.</li>
               </ul>
             </div>
             <div class="jargon-card">
@@ -505,7 +450,7 @@
                 <li><strong>Blob:</strong> Raw file data (binary or text). Filenames and permissions are not stored inside blobs.</li>
                 <li><strong>Tree:</strong> Directory structure mapping filenames, file modes (POSIX permissions), and blob/tree SHA hashes.</li>
                 <li><strong>Commit:</strong> Top-level object storing: the root Tree hash, zero or more Parent commit hashes, author/committer timestamps, and the commit message.</li>
-                <li><strong>Annotated Tag:</strong> An immutable ref object pointing to a commit hash with GPG signature and tagger metadata.</li>
+                <li><strong>Annotated Tag:</strong> A tag object naming a target object, with a tagger and message; a signature is optional. The tag reference itself can be moved.</li>
               </ul>
             </div>
             <div class="jargon-card">
@@ -565,323 +510,104 @@
 
       <!-- CARD 1: Start a Repository from Scratch -->
       <article class="card" id="card-init" data-category="essential" data-effects="local-change remote-publish" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
-        <div class="card-top">
-          <h2 class="card-title">Start a Repository from Scratch</h2>
-          <span class="card-tag">Onboarding</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Local → Remote</span>
-          <span class="badge badge-risk-safe">Effects: Local change</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> You started a new project folder on your machine and want to begin tracking it with Git and connect it to GitHub.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Initialization Sequence</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Choose your new repository's initial branch (Git 2.28+):
-git init -b &lt;initial-branch&gt;
-
-# 2. Stage all initial files and make the first milestone
-git add .
-git commit -m "feat: initial project setup"
-
-# 3. Link to your empty GitHub repository and push
-git remote add &lt;remote&gt; &lt;repository-url&gt;
-git push -u &lt;remote&gt; &lt;initial-branch&gt;</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Initializes local history, snapshots staged files, and publishes to the selected remote/branch. Review staged files and secrets before committing or publishing.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git remote -v</code> and <code>git status</code> to confirm clean tree and upstream tracking.
-        </div>
-        <div class="card-related">
-          <strong>Related:</strong> <code>git clone</code> · <code>.gitignore</code>
-        </div>
-      </article>
+<div class="card-top"><h2 class="card-title">Start a Git repository</h2><span class="card-tag">Start here</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · remote-publish</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Track a project that is not already a repository.</div>
+<div class="card-effect">Git does not record every file save. Initializing creates repository metadata; staging selects a snapshot, and committing records it. Review files and secrets before the first commit. Publishing is a separate task.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Choose the intended project folder. Check that it is not already inside another repository. Choose an initial branch name and configure your Git author name/email; Git 2.28+ supports init -b.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git init -b &lt;initial-branch&gt;
+git status
+# Create or edit a file, then stage only that intended file:
+git add -- &lt;filename&gt;
+git diff --staged
+git commit -m &quot;Initial commit&quot;</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> git status should identify your chosen branch. git log -1 --stat should show the intended first commit and files. Unstaged or untracked files may still remain; a completely clean tree is not required for a successful selected-file commit.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If Git reports an existing repository, stop and inspect its top-level directory. If identity or hooks prevent the commit, inspect that specific error; do not reinitialize or bypass hooks.</p></details><div class="card-related"><a href="#learn/card-init">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 2: Clone an Existing Project -->
       <article class="card" id="card-clone" data-category="essential" data-effects="local-change" data-keywords="clone download github gitlab copy repo existing project setup fetch checkout local copy">
-        <div class="card-top">
-          <h2 class="card-title">Clone an Existing Project</h2>
-          <span class="card-tag">Onboarding</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Remote → Local</span>
-          <span class="badge badge-risk-safe">Effects: Local change</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> You want to download a team repository or open-source project from GitHub onto your computer and start working.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Clone &amp; Inspect</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Download complete repository history into a new folder:
-git clone https://github.com/username/repo.git
-
-# 2. Enter directory and inspect status:
-cd repo
+<div class="card-top"><h2 class="card-title">Clone an existing project</h2><span class="card-tag">Start here</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Get a local checkout from a verified repository URL.</div>
+<div class="card-effect">Cloning creates a local repository, downloads available history and checks out its default branch when one exists. The remote name is normally origin for a plain clone, but inspect the result rather than assuming later targets.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Copy the clone URL from the intended host and confirm you have read access. Choose a new destination folder. You do not need an existing local Git repository.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git clone &lt;repository-url&gt; &lt;new-folder&gt;
+cd &lt;new-folder&gt;
 git status
-
-# 3. List all local and remote branches:
-git branch -a</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Downloads the full historical object graph, sets up <code>origin</code> remote tracking branches, and checks out the default branch.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git branch -vv</code> to see the active checked-out branch.
-        </div>
-        <div class="card-related">
-          <strong>Related:</strong> <code>git switch</code> · <code>git fetch</code>
-        </div>
-      </article>
+git remote -v
+git branch -a</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Check that the folder, configured remote URL and checked-out branch match the intended project. An empty remote can produce an unborn branch without a commit.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>A private repository can look missing when the account lacks access. Verify URL/account before retrying; do not paste credentials into a URL or overwrite an existing destination.</p></details><div class="card-related"><a href="#learn/card-clone">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 3: Precise Staging & Checkpoints -->
       <article class="card" id="card-stage" data-category="essential" data-effects="local-change" data-keywords="save commit checkpoint status add diff staged patch inspect changes draft progress">
-        <div class="card-top">
-          <h2 class="card-title">Precise Staging &amp; Checkpoints</h2>
-          <span class="card-tag">Daily Essential</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Working Tree → Index</span>
-          <span class="badge badge-risk-safe">Effects: Local change</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> You edited several files and want to seal a clean milestone snapshot containing only the changes intended for this commit.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Status, Add &amp; Diff</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Review status of modified files:
-git status
-
-# 2. Stage specific intended files:
-git add src/app.js
-
-# 3. Review the exact staged snapshot:
+<div class="card-top"><h2 class="card-title">Save your first commit</h2><span class="card-tag">Start here</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Choose the changes to record, then check the snapshot.</div>
+<div class="card-effect">Saving a file changes your working tree. git add copies its current contents into the staging area (index). git commit records the staged snapshot. If you edit again after adding, those later edits are not included until you stage them.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Use an existing repository on the intended branch, with a file you have edited. If this is a new project, start with the repository guide. Set your Git author identity if needed.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git diff
+git add -- &lt;filename&gt;
 git diff --staged
-
-# 4. Commit with a clear note:
-git commit -m "feat: add user authentication"</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Places file snapshots into the staging index, then seals them into an immutable cryptographic commit object.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git status</code> to confirm clean tree and <code>git log -1</code> to inspect the new commit.
-        </div>
-        <div class="callout warning">
-          <strong>Caution on <code>git add .</code>:</strong> Stages <em>all</em> non-ignored files under the current folder. Prefer naming files or using <code>git add -p</code> to stage hunk-by-hunk.
-        </div>
-        <div class="card-related">
-          <strong>Related:</strong> <code>git diff</code> · <code>git restore --staged</code>
-        </div>
-      </article>
+git commit -m &quot;Describe the change&quot;
+git log -1 --stat
+git status</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Compare the staged diff before committing with git show --stat HEAD afterwards. Only the intended staged snapshot should be recorded. Other files or later edits can remain uncommitted. No push occurs.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If there is nothing staged, inspect status and stage the intended changes. If the snapshot is wrong before commit, unstage without discarding edits. If the commit fails, inspect the identity/editor/hook error before retrying.</p></details><div class="card-related"><a href="#learn/card-stage">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 4: Branches as Isolated Sandboxes -->
       <article class="card" id="card-branch" data-category="branch" data-effects="local-change" data-keywords="branch sandbox switch test experiment create checkout switch -c parallel feature work">
-        <div class="card-top">
-          <h2 class="card-title">Branches: Isolated Sandboxes</h2>
-          <span class="card-tag">Branches</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Local History</span>
-          <span class="badge badge-risk-safe">Effects: Local change</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> Starting a new feature, bugfix, or experiment without risking the working production code on <code>main</code>.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Branch Navigation</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Create and switch to a new branch:
-git switch -c feature/redesign
+<div class="card-top"><h2 class="card-title">Create and switch branches</h2><span class="card-tag">Everyday Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Give a line of work a name and understand what switching changes.</div>
+<div class="card-effect">A branch is a movable reference to a commit, not an isolated copy of your files. Normal branches share one working directory. Uncommitted changes may carry across a switch or prevent it. A worktree provides a separate working directory.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Inspect status and preserve wanted work before switching. Choose an unused branch name and the correct starting commit.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git branch --show-current
+git switch -c &lt;new-branch&gt;
+# Edit and commit your intended changes here.
+# Preserve remaining work before switching:
+git switch &lt;existing-branch&gt;</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> After creation, git branch --show-current should report the new name. After switching back, verify the expected branch and inspect status. Existing commits remain reachable through their refs.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If switching would overwrite changes, preserve those changes first. Do not add discard/force flags just to make a switch succeed.</p></details><div class="card-related"><a href="#learn/card-branch">Read this learning guide →</a></div>
+</article>
 
-# 2. Work safely, edit files, and commit:
-git add src/redesign.css
-git commit -m "style: apply new color palette"
-
-# 3. After committing/preserving changes, return to your original branch:
-git switch &lt;original-branch&gt;</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Creates a branch reference to your current commit and attaches HEAD to it. Branches share your working directory; uncommitted changes may carry across or block switching.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git branch --show-current</code> to verify your active branch.
-        </div>
-        <div class="table-container" tabindex="0" role="region" aria-label="Comparison table">
-          <table class="compare-table">
-            <thead>
-              <tr><th>Task</th><th>Modern Standard (Git 2.23+)</th><th>Legacy Overloaded</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Switch branch</td>
-                <td><code>git switch &lt;name&gt;</code> <span class="badge-modern">Clean</span></td>
-                <td><span class="badge-legacy">git checkout &lt;name&gt;</span></td>
-              </tr>
-              <tr>
-                <td>Create &amp; switch</td>
-                <td><code>git switch -c &lt;name&gt;</code> <span class="badge-modern">Clear</span></td>
-                <td><span class="badge-legacy">git checkout -b &lt;name&gt;</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </article>
-
-      <!-- CARD 5: Undoing Mistakes Safely -->
+      <!-- CARD 5: Choose How to Undo a Change -->
       <article class="card" id="card-undo" data-category="undo" data-effects="local-change history-rewrite data-loss-potential" data-keywords="undo restore discard mistake reset revert staged unstage accidental throw away clean edits push pushed commit">
-        <div class="card-top">
-          <h2 class="card-title">Undoing Mistakes Safely</h2>
-          <span class="card-tag">Undo &amp; Recovery</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Working Tree &amp; Index</span>
-          <span class="badge badge-risk-caution">Effects: Local change; possible data loss</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> You made accidental edits or staged files too early and need to back out without losing unintended work.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Restore Commands</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Unstage a file (SAFE: keeps your local edits in file):
-git restore --staged &lt;filename&gt;
-
-# 2. Discard uncommitted edits (PERMANENT: overwrites file):
-git restore &lt;filename&gt;
-
-# 3. Undo a pushed commit safely with an inverse commit:
-git revert &lt;commit-id&gt;</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> <code>restore --staged</code> restores the index from HEAD while preserving working files. Plain <code>restore</code> copies the index version into working files; staged content may differ from HEAD. Unstaging against HEAD requires an existing commit.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git status</code> to confirm file state.
-        </div>
-        <div class="callout warning">
-          <strong>Permanent Loss Warning:</strong> <code>git restore &lt;filename&gt;</code> permanently overwrites uncommitted working edits. Those unstaged edits are not saved anywhere in Git.
-        </div>
-        <div class="callout warning">Inspect <code>git diff</code> and <code>git diff --staged</code> first. Preserve wanted edits outside Git before discarding. Revert can conflict: inspect status, resolve then <code>git revert --continue</code>, or cancel with <code>git revert --abort</code>. Merge commits need a deliberate mainline choice.</div>
-        <div class="card-related">
-          <strong>Related:</strong> <code>git reset</code> · <code>git revert</code> · <code>git reflog</code>
-        </div>
-        <details class="task-deep-dive" id="deepDiveThreeTrees">
-          <summary class="task-deep-dive-summary">
-            <span class="task-deep-dive-title">🔬 Deep Dive: The Three Trees &amp; Reset Matrix</span>
-            <span class="task-deep-dive-badge">CS Theory</span>
-          </summary>
-          <div class="task-deep-dive-content">
-            <p>Git does not just track files; it coordinates <strong>Three Trees</strong> of repository state:</p>
-            <ul>
-              <li><strong>HEAD:</strong> The commit snapshot checked out in your repository database.</li>
-              <li><strong>Index / Staging (<code>.git/index</code>):</strong> A binary cache recording file paths, stat caches, and blob SHA hashes for the next commit.</li>
-              <li><strong>Working Tree:</strong> The physical files and directories you edit directly on your operating system filesystem.</li>
-            </ul>
-            <p>The <code>git reset</code> command alters how many of these three trees move:</p>
-            <div class="table-container" tabindex="0" role="region" aria-label="Comparison table">
-              <table class="compare-table">
-                <thead>
-                  <tr><th>Reset Flag</th><th>HEAD</th><th>Index (Cart)</th><th>Working Tree</th><th>Risk Level</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td><code>git reset --soft</code></td><td>Moves</td><td>Untouched</td><td>Untouched</td><td>History rewrite; inspect target and shared history</td></tr>
-                  <tr><td><code>git reset --mixed</code> <em>(default)</em></td><td>Moves</td><td>Resets</td><td>Untouched</td><td>History rewrite; staging changes</td></tr>
-                  <tr><td><code>git reset --hard</code></td><td>Moves</td><td>Resets</td><td>Overwritten</td><td>🔴 Destructive</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <p><strong>Takeaway:</strong> <code>git restore --staged</code> copies from HEAD into Index (leaving Working Tree alone), while <code>git restore</code> copies from Index into Working Tree.</p>
-          </div>
-        </details>
-      </article>
+<div class="card-top"><h2 class="card-title">Choose how to undo a change</h2><span class="card-tag">Everyday Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · history-rewrite · data-loss-potential</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Separate unstaging, discarding edits and undoing a commit.</div>
+<div class="card-effect">Unstaging changes the index and preserves working files. Discarding overwrites selected working edits. Amend rewrites a commit. Revert records an inverse commit and can conflict. These are different goals; do not run all alternatives.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Identify whether the change is unstaged, staged or committed. Inspect both diffs, commit ownership and any operation already in progress.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code># Start by inspecting; choose an action in the linked help guides:
+git status
+git diff
+git diff --staged
+git log -n 5 --oneline</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Define the intended outcome first: edits kept but unstaged, selected edits discarded, or an inverse commit recorded. Verify the corresponding index, working file or commit afterwards.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If the state is uncertain or an operation is in progress, gather fresh status. Git cannot guarantee recovery of discarded unstaged edits.</p></details><div class="card-related"><a href="#learn/card-undo">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 6: Working with Remotes & Team Sync (Multi-Host) -->
       <article class="card" id="card-sync" data-category="cloud" data-effects="local-change history-rewrite remote-publish" data-keywords="github gitlab bitbucket cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
-        <div class="card-top">
-          <h2 class="card-title">Working with Remotes (GitHub, GitLab, Bitbucket)</h2>
-          <span class="card-tag">Cloud &amp; Remotes</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Remote &amp; Local</span>
-          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> Sharing your commits with teammates on GitHub, GitLab, or Bitbucket, or downloading their latest updates before merging.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Fetch, Rebase &amp; Remote URLs</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Download remote changes WITHOUT altering working files:
+<div class="card-top"><h2 class="card-title">Fetch, integrate and publish changes</h2><span class="card-tag">Everyday Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · history-rewrite · remote-publish</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Understand three different operations when working with a remote.</div>
+<div class="card-effect">Fetch updates local remote-tracking information without integrating it into your current branch. Integration is a separate merge or rebase decision. Push publishes to a chosen remote ref. The local Git operations are shared across hosts.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Inspect the actual remote and tracking branch. Preserve local work. Check the team’s integration policy and whether your commits are shared.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git remote -v
+git branch -vv
 git fetch &lt;remote&gt;
-
-# 2. Pull & integrate linearly into your branch:
-git pull --rebase &lt;remote&gt; &lt;upstream-branch&gt;
-
-# 3. Upload your commits to remote:
-git push &lt;remote&gt; &lt;branch-name&gt;
-
-# Remote URL conventions across hosts:
-git remote add origin https://github.com/user/repo.git     # GitHub
-git remote add origin https://gitlab.com/user/repo.git     # GitLab
-git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> <code>fetch</code> updates remote-tracking references (`origin/main`). <code>pull --rebase</code> replays your local commits on top of incoming work.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git status</code> to confirm your branch is up to date with <code>origin/main</code>.
-        </div>
-        <div class="callout tip">
-          <strong>Fetch vs. Pull:</strong> <code>git fetch</code> downloads remote objects and updates <code>origin/&lt;branch&gt;</code> tracking references without touching your local working files.
-        </div>
-        <details class="task-deep-dive" id="deepDiveCloudRosetta">
-          <summary class="task-deep-dive-summary">
-            <span class="task-deep-dive-title">🌐 The Cloud Host Rosetta Stone (GitHub vs. GitLab vs. Bitbucket)</span>
-            <span class="task-deep-dive-badge">Multi-Host</span>
-          </summary>
-          <div class="task-deep-dive-content">
-            <p>The Git command-line engine is identical across all hosts, but team review workflows and automation conventions differ:</p>
-            <div class="table-container" tabindex="0" role="region" aria-label="Comparison table">
-              <table class="compare-table">
-                <thead>
-                  <tr><th>Capability</th><th>🐙 GitHub</th><th>🦊 GitLab</th><th>🪣 Bitbucket</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td><strong>Code Review</strong></td><td>Pull Request (PR)</td><td>Merge Request (MR)</td><td>Pull Request (PR)</td></tr>
-                  <tr><td><strong>Review tools</strong></td><td><code>gh pr create</code> or website</td><td><code>glab mr create</code> or website</td><td>Website or documented REST API; no assumed <code>bb</code> command</td></tr>
-                  <tr><td><strong>Issue Links</strong></td><td><code>#123</code> / <code>GH-123</code></td><td><code>#123</code> / <code>GL-123</code></td><td>Jira: <code>PROJ-123 #resolve</code></td></tr>
-                  <tr><td><strong>Default Branch</strong></td><td>Repository setting</td><td>Repository setting</td><td>Repository setting</td></tr>
-                  <tr><td><strong>CI/CD Config</strong></td><td><code>.github/workflows/*.yml</code></td><td><code>.gitlab-ci.yml</code></td><td><code>bitbucket-pipelines.yml</code></td></tr>
-                </tbody>
-              </table>
-            </div>
-            <p><strong>Takeaway:</strong> Once configured as an <code>origin</code> remote, standard Git commands behave identically regardless of which platform hosts the repository.</p>
-          </div>
-        </details>
-      </article>
+git log --oneline --graph --decorate --all -n 20
+# Choose integration only after inspecting the fetched history.
+# Publish separately after testing and verifying the destination.</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Inspect the fetched tracking ref and graph. After deliberate integration, check the intended history/files and run project tests. Verify the destination separately after publishing.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>A rejected push can mean divergence, permissions or policy. Identify the cause; never select force-push from a rejection alone.</p></details><div class="card-related"><a href="#learn/card-sync">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 7: Pipelines & Automated CI/CD (Multi-Host) -->
       <article class="card" id="card-pipeline" data-category="cloud" data-effects="local-change" data-keywords="pipeline ci cd github actions gitlab bitbucket pipelines automated deploy test workflow .github/workflows gitlab robot">
         <div class="card-top">
-          <h2 class="card-title">Pipelines &amp; Automated CI/CD</h2>
+          <h2 class="card-title">Understand configured CI test jobs</h2>
           <span class="card-tag">Cloud &amp; Remotes</span>
         </div>
         <div class="card-meta-bar">
@@ -889,7 +615,7 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
           <span class="badge badge-risk-safe">Effects: Config change if installed</span>
         </div>
         <div class="card-scenario">
-          <strong>When to use:</strong> Understanding how pushing code triggers cloud robots that test code, build assets, and deploy applications automatically across GitHub, GitLab, or Bitbucket.
+          <strong>When to use:</strong> Understanding how a host runs a configured test job when its event and branch conditions match. These test-only sketches need project-specific dependency setup.
         </div>
 
         <!-- 3-Way Host Starter Config Selector -->
@@ -917,7 +643,7 @@ jobs:
         run: npm test</code></pre>
         </div>
         <div class="card-effect">
-          <strong>What happens:</strong> Without an explicit workflow file, cloud hosts act solely as code storage. Pushing only triggers automated jobs if a configuration file is detected in the repository root.
+          <strong>What happens:</strong> Without an explicit workflow file, cloud hosts act solely as code storage. Job creation depends on the provider configuration path and matching triggers. GitHub uses .github/workflows; GitLab and Bitbucket Cloud use their documented root files.
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Check the "Actions" (GitHub), "Pipelines" (GitLab), or "Pipelines" (Bitbucket) tab in your web browser to view live job logs.
@@ -929,427 +655,172 @@ jobs:
 
       <!-- CARD 8: Stashing (The Pause Button) -->
       <article class="card" id="card-stash" data-category="essential" data-effects="local-change data-loss-potential" data-keywords="stash shelf pause temporary switch untracked files save for later pop restore WIP emergency">
-        <div class="card-top">
-          <h2 class="card-title">Stashing: Temporary Work Shelving</h2>
-          <span class="card-tag">Daily Essential</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Working Tree &amp; Stash</span>
-          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> You are halfway through coding when an urgent bugfix is requested. Shelve your uncommitted edits so your workspace is clean, then restore them later.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Stash Lifecycle</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Stash changes (use -u to include newly created files):
-git stash push -u -m "WIP: navigation refactor"
-
-# 2. Your workspace is now clean. Switch branches or patch...
-git switch hotfix
-
-# 3. Commit/preserve the hotfix work, then return to the original branch:
+<div class="card-top"><h2 class="card-title">Temporarily set work aside</h2><span class="card-tag">Everyday Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · data-loss-potential</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Save local changes for later without confusing apply and drop.</div>
+<div class="card-effect">stash push -u includes untracked files but excludes ignored files. Applying a stash may conflict and retains the stash entry. pop also attempts to remove it after successful application. Review the result before dropping an entry.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Inspect tracked, staged, untracked and ignored work. Identify the original branch and intended stash. Preserve important work separately.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git stash push -u -m &quot;Work in progress&quot;
+# Inspect status before switching to an existing branch:
+git switch &lt;other-branch&gt;
+# Finish/preserve that work, then return:
 git switch &lt;original-branch&gt;
-
-# 4. Inspect the intended stash and apply it (keeps the stash):
 git stash list
-git stash apply &lt;stash-reference&gt;
-# Verify restored files before separately dropping that stash.</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Saves modified and untracked files into the stash stack and reverts your working tree to <code>HEAD</code>.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git stash list</code> to inspect saved stashes.
-        </div>
-        <div class="callout warning">
-          <strong>Stash caveats:</strong> <code>-u</code> includes untracked files, but excludes ignored files. Stash is local and applying it can conflict. Identify the intended stash and original branch; inspect status before and after applying. There is no generic stash-apply abort; preserve wanted work before resolving conflicts.
-        </div>
-      </article>
+git stash apply &lt;stash-reference&gt;</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Inspect restored file contents, git diff and git diff --staged. The intended stash should still be listed after apply. Do not assume status is clean or the staged arrangement was recreated.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If application conflicts, inspect status and resolve deliberately. There is no generic stash-apply abort. Do not drop the stash until you have verified and preserved the result.</p></details><div class="card-related"><a href="#learn/card-stash">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 9: Merge Conflict Resolution -->
       <article class="card" id="card-conflict" data-category="branch" data-effects="local-change data-loss-potential" data-keywords="conflict merge clash team overlapping markers resolve failed merge abort clash git merge --continue">
-        <div class="card-top">
-          <h2 class="card-title">Merge Conflict Resolution</h2>
-          <span class="card-tag">Branches</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Working Tree &amp; History</span>
-          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> Git halts a merge or rebase because two branches altered identical lines and requires you to pick the right code.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Realistic Conflict Markers</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-const apiEndpoint = "https://api.v2.internal";
-=======
-const apiEndpoint = "https://api.v3.production";
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/endpoint-upgrade</code></pre>
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Resolution Steps</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Edit file: delete the 3 marker lines and keep the right code
-# 2. Mark conflict resolved:
-git add src/config.js
-
-# 3. Finalize merge (or abort if you need to rethink):
-git merge --continue   # Or 'git merge --abort'</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Staging the cleaned file signals Git that the conflict is resolved. Finalizing creates the merge commit.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git status</code> to confirm all merge conflicts are cleared.
-        </div>
-      </article>
+<div class="card-top"><h2 class="card-title">Resolve an identified merge conflict</h2><span class="card-tag">Everyday Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · data-loss-potential</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Decide the final file contents, stage them and finish the merge.</div>
+<div class="card-effect">Conflict markers show competing content; deleting markers alone is not enough. Choose a correct final result, test it, then stage it. Modify/delete conflicts may have no text markers. Only continue after all unmerged paths are resolved.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Read full git status to identify a merge. Rebase, cherry-pick and revert have their own continuation commands. Preserve wanted work and inspect every unmerged path.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git diff --name-only --diff-filter=U
+# Edit and test the intended final contents.
+git add -- &lt;resolved-file&gt;
+git status
+# For an identified merge with all paths resolved:
+git merge --continue</code></pre></div>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git diff --name-only --diff-filter=U</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> No unmerged paths should remain. Inspect the merge commit’s parents and tree, and test the intended combined changes. Re-paste fresh status if using guided checks.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>For an identified merge, git merge --abort may cancel it; recovery of pre-existing uncommitted work is not guaranteed. Do not use merge continuation for a different operation.</p></details><div class="card-related"><a href="#learn/card-conflict">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 10: Interactive Rebase (Pro Only) -->
       <article class="card pro-only" id="card-rebase" data-category="pro" data-effects="local-change history-rewrite data-loss-potential" data-keywords="rebase interactive squash clean commits shared history fixup reword rewrite history polish">
-        <div class="card-top">
-          <h2 class="card-title">Interactive Rebase (Commit Polish)</h2>
-          <span class="card-tag">Advanced / Pro</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Local History</span>
-          <span class="badge badge-risk-rewrite">Effects: History rewrite</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> Squashing WIP micro-commits into clean milestones before opening a Pull Request for your team.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Rebase Session</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># Rebase the last 3 local commits:
+<div class="card-top"><h2 class="card-title">Rewrite unshared commits with interactive rebase</h2><span class="card-tag">Advanced Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · history-rewrite · data-loss-potential</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Reorder or combine a selected private commit sequence.</div>
+<div class="card-effect">Rebase replays changes onto a chosen base and may create new commit identities. Interactive actions can reorder, combine or remove commits. Replayed patches may conflict; linear history is a choice, not proof of correctness.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Verify the selected commits have the needed ancestor and are unshared. Preserve work, inspect history and agree any collaboration policy before rewriting.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git log --oneline -n 6
+# Only if the inspected private sequence has this ancestor:
 git rebase -i HEAD~3
-
-# In editor:
-# pick   = keep commit
-# squash = combine into previous commit &amp; merge message
-# fixup  = combine into previous commit &amp; discard message
-
-# After resolving and staging any conflicts, choose continuation:
-# git rebase --continue
-# Or request cancellation instead (inspect status afterwards):
-# git rebase --abort</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Reconstructs a linear commit sequence with updated parent hashes.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git log --oneline -n 5</code> to inspect the newly squashed history.
-        </div>
-        <div class="callout warning">
-          <strong>Golden Rule:</strong> Never rebase commits that have already been pushed to a shared public branch. Rewriting shared history breaks teammates' local branches.
-        </div>
-        <details class="task-deep-dive" id="deepDiveRebasePipeline">
-          <summary class="task-deep-dive-summary">
-            <span class="task-deep-dive-title">🔬 Deep Dive: The Rebase Cherry-Pick Pipeline</span>
-            <span class="task-deep-dive-badge">CS Theory</span>
-          </summary>
-          <div class="task-deep-dive-content">
-            <p>Git cannot modify existing commits because commits in the DAG are cryptographically immutable. Under the hood, <code>git rebase</code> executes an automated patch pipeline:</p>
-            <ul>
-              <li><strong>1. LCA Discovery:</strong> Git traverses backwards to identify the Lowest Common Ancestor ($A$) between your branch and target base ($B$).</li>
-              <li><strong>2. Patch Generation:</strong> Commits unique to your branch are serialized into temporary diff patches in <code>.git/rebase-merge/</code>.</li>
-              <li><strong>3. HEAD Pointer Reset:</strong> Git resets <code>HEAD</code> to the target base commit ($B$).</li>
-              <li><strong>4. Sequential Replay:</strong> Git applies each patch one-by-one (automated <code>cherry-pick</code>). Each applied patch creates a <strong>brand new commit object</strong> with a new parent hash, new committer timestamp, and a completely different SHA checksum.</li>
-            </ul>
-            <p><strong>Why shared branches break:</strong> Teammates' local DAGs still point to the old commit SHAs. Pushing rebased commits results in divergent histories and duplicate commits.</p>
-          </div>
-        </details>
-      </article>
+# Resolve and stage conflicts before rebase --continue.
+# If cancellation is intended, inspect rebase --abort guidance.</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Inspect the resulting graph, intended file tree and project tests. Confirm the selected changes remain present in the intended order; do not publish rewritten history automatically.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If rebase stops, read status and inspect the current patch. During rebase, ours/theirs refers to the replay context. Use the confirmed operation’s continue/abort procedure.</p></details><div class="card-related"><a href="#learn/card-rebase">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 11: Detached HEAD Recovery (Pro Only) -->
       <article class="card pro-only" id="card-detached" data-category="pro" data-effects="local-change" data-keywords="detached head recovery pointer hash commit switch lost commit missing work escape">
-        <div class="card-top">
-          <h2 class="card-title">Detached HEAD Recovery</h2>
-          <span class="card-tag">Advanced / Pro</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: HEAD Pointer</span>
-          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> You checked out a raw commit hash instead of a branch name, and need to safely save any test commits you made.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Diagnosis &amp; Safe Exit</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Check if detached:
-git status  # Shows: "HEAD detached at a1b2c3d"
-
-# Exit A: Switch only after preserving any wanted detached commits:
-git switch &lt;existing-branch&gt;
-
-# Exit B: Preserve commits made while detached:
-git switch -c recovery-branch</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Creating a branch attaches a named pointer to your current detached commit so garbage collection will not prune it.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git branch --show-current</code> to verify you are back on a named branch.
-        </div>
-      </article>
+<div class="card-top"><h2 class="card-title">Understand detached HEAD and keep your commits</h2><span class="card-tag">Advanced Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Inspect a commit directly, or give wanted committed work a branch name.</div>
+<div class="card-effect">Detached HEAD means HEAD points directly to a commit instead of through a branch. It is normal for inspecting history. A branch can retain a wanted commit; uncommitted edits need separate preservation.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Inspect HEAD and any uncommitted changes. If you created commits while detached, verify their IDs before switching elsewhere.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git log -1 --oneline
+git branch --list
+# Use an unused name and verified commit ID:
+git branch &lt;rescue-name&gt; &lt;verified-commit-id&gt;</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> git log -1 &lt;rescue-name&gt; should identify the intended commit. Inspect its files. Branch creation alone does not switch working files or save uncommitted edits.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If you already switched away, inspect reflog for a retained commit. Do not assume the branch name is main or switch until wanted work is preserved.</p></details><div class="card-related"><a href="#learn/card-detached">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 12: Git Worktrees (Pro Only) -->
       <article class="card pro-only" id="card-worktree" data-category="pro" data-effects="local-change" data-keywords="worktree parallel multiple folders simultaneous branches hotfix concurrent separate directory">
-        <div class="card-top">
-          <h2 class="card-title">Git Worktrees (Parallel Folders)</h2>
-          <span class="card-tag">Advanced / Pro</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Working Trees &amp; Branches</span>
-          <span class="badge badge-risk-safe">Effects: Local change</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> Checking out two different branches simultaneously into separate directories on your computer without re-cloning.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Worktree Management</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Check out hotfix branch into sibling folder:
-git worktree add ../project-hotfix hotfix-branch
-
-# 2. List all active directory locations:
+<div class="card-top"><h2 class="card-title">Use separate working folders with worktrees</h2><span class="card-tag">Advanced Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Check out separate branches without another full clone.</div>
+<div class="card-effect">Worktrees share repository objects while having separate working directories and indexes. They are the appropriate comparison when you need parallel folders; normal branch switching does not create that isolation.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Inspect current worktrees and branch use. Choose a new folder and an existing branch not already checked out elsewhere.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git worktree list
+git worktree add &lt;new-folder&gt; &lt;available-branch&gt;
+# Work in the new folder and preserve its changes.
 git worktree list
-
-# 3. Clean up folder when finished:
-git worktree remove ../project-hotfix</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Links multiple working directories to the same underlying <code>.git</code> repository database.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git worktree list</code> to verify registered directory paths.
-        </div>
-      </article>
+# Remove only after confirming its work is no longer needed:
+git worktree remove &lt;new-folder&gt;</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Check the registered path and checked-out branch in worktree list, then inspect status inside that folder. Before removal verify its work is committed/preserved.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If Git refuses because a branch is already checked out or a worktree has changes, investigate that state. Do not force removal as a generic fix.</p></details><div class="card-related"><a href="#learn/card-worktree">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 13: Reflog Recovery (NEW PHASE 3 PRO) -->
       <article class="card pro-only" id="card-reflog" data-category="undo" data-effects="local-change" data-keywords="reflog recover lost commit restore accidental delete branch resurrect rescue head@{1} history rewind">
-        <div class="card-top">
-          <h2 class="card-title">Reflog Recovery (Lost Work)</h2>
-          <span class="card-tag">Advanced / Pro</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Local Reflog Ledger</span>
-          <span class="badge badge-risk-safe">Effects: Local change; inspect prerequisites</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> You accidentally ran <code>git reset --hard</code>, deleted a branch with unmerged work, or lost a commit and thought it was gone forever.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Reflog Rescue Recipe</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. View chronological action ledger:
-git reflog -n 15
-
-# 2. Locate the commit hash before the mistake (e.g. HEAD@{2})
-# 3. Create a rescue branch attached to that commit:
-git branch rescue-branch &lt;verified-commit-id&gt;</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Reflogs can locate retained local commits. Expiry and object pruning depend on configuration and maintenance; recovery is not guaranteed. Creating a branch makes a retained commit reachable again.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git log -1 rescue-branch</code> to confirm your lost code is restored.
-        </div>
-        <div class="card-related">
-          <strong>Related:</strong> <code>git reset</code> · <code>git branch</code>
-        </div>
-        <details class="task-deep-dive" id="deepDiveReflogGC">
-          <summary class="task-deep-dive-summary">
-            <span class="task-deep-dive-title">🔬 Deep Dive: Object Reachability &amp; Garbage Collection</span>
-            <span class="task-deep-dive-badge">CS Theory</span>
-          </summary>
-          <div class="task-deep-dive-content">
-            <p>Git almost never deletes your commits immediately. Even after <code>git reset --hard</code> or deleting a branch:</p>
-            <ul>
-              <li><strong>Unreachable Objects:</strong> The commit objects remain in <code>.git/objects/</code>. They are merely disconnected from named branch refs (dangling in the DAG).</li>
-              <li><strong>Append-Only Reflogs:</strong> Files in <code>.git/logs/HEAD</code> and <code>.git/logs/refs/heads/</code> log every SHA hash that references have pointed to locally.</li>
-              <li><strong>Maintenance:</strong> Reflog expiry and object pruning use separate rules. Unreachable reflog entries normally expire sooner than reachable ones; configuration can change these defaults. Inspect retained commit IDs before creating a rescue ref.</li>
-            </ul>
-            <p><strong>Takeaway:</strong> Rescue retained committed work before pruning. Reflog cannot restore arbitrary discarded unstaged edits. Inspect <code>git show &lt;commit-id&gt;</code> before creating a rescue branch.</p>
-          </div>
-        </details>
-      </article>
+<div class="card-top"><h2 class="card-title">Find a retained commit with reflog</h2><span class="card-tag">Advanced Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Locate committed work that lost a branch reference.</div>
+<div class="card-effect">Reflog records local reference movements, not every file edit. It can help find a retained commit after a branch deletion or reset. It cannot guarantee recovery of discarded unstaged changes.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>This is committed-work recovery. Confirm the object still exists locally and choose an unused rescue branch name. Reflogs are local and may expire.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git reflog -n 20
+git show &lt;verified-commit-id&gt;
+git branch &lt;unused-rescue-name&gt; &lt;verified-commit-id&gt;
+git log -1 &lt;unused-rescue-name&gt;</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Confirm the rescue branch points to the selected commit and inspect its tree for the wanted content. A new ref makes that retained commit reachable; it does not restore arbitrary disk edits.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If the commit is unavailable, stop rather than inventing a recovery guarantee. Look for backups or another clone where appropriate.</p></details><div class="card-related"><a href="#learn/card-reflog">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 14: Regression Hunting: bisect & blame (NEW PHASE 3 PRO) -->
       <article class="card pro-only" id="card-bisect" data-category="pro" data-effects="local-change" data-keywords="bisect blame regression bug hunt binary search find broken commit investigate line author history">
-        <div class="card-top">
-          <h2 class="card-title">Regression Hunting (bisect &amp; blame)</h2>
-          <span class="card-tag">Advanced / Pro</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Local History</span>
-          <span class="badge badge-risk-safe">Effects: Local change (bisect checks out commits)</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> A bug appeared and you need to pinpoint the exact commit out of hundreds that introduced the regression, or see who authored specific lines.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Bisect Binary Search</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Start binary search:
-git bisect start
-git bisect bad                 # Current version is broken
-git bisect good v1.2.0          # Known good previous release
-
-# 2. Test intermediate commits checked out by Git:
-git bisect good   # (or 'git bisect bad')
-
-# 3. Finish and return to active branch:
+<div class="card-top"><h2 class="card-title">Find a regression with bisect; inspect attribution with blame</h2><span class="card-tag">Advanced Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Use distinct tools for a failing revision and line history.</div>
+<div class="card-effect">Bisect narrows a regression by classifying revisions. blame shows last-change attribution for lines; it is not proof of who caused a bug. Reliable test classifications matter more than speed.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Preserve work and choose a reproducible test with known good/bad revisions. Bisect checks out intermediate commits; older revisions may need different build dependencies.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git bisect start
+git bisect bad &lt;known-bad-commit&gt;
+git bisect good &lt;known-good-commit&gt;
+# Test the selected revision, then choose exactly one:
+# git bisect good
+# git bisect bad
+# git bisect skip
+# Finish by returning to the original checkout:
 git bisect reset
-
-# Inspect line-by-line author timestamps:
-git blame -L 20,45 src/app.js</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Performs a binary search across commit history in logarithmic steps ($\log_2 N$), isolating the faulty commit in minutes.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Git outputs: <code>[hash] is the first bad commit</code> with author and commit message.
-        </div>
-      </article>
+# A separate attribution example:
+git blame -L 20,45 -- &lt;filename&gt;</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Inspect and reproduce the change identified by bisect; then verify the original checkout after reset. For blame, inspect the relevant commit and context rather than assigning fault.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If a revision cannot be tested, consider skip and report the resulting uncertainty. Incorrect good/bad labels can invalidate the search.</p></details><div class="card-related"><a href="#learn/card-bisect">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 15: Release Tags & Semantic Versioning (Phase 5) -->
       <article class="card" id="card-tag" data-category="cloud" data-effects="local-change remote-publish" data-keywords="tag release version semver annotated tag v1.0.0 publish milestone github releases software tag -a push tags">
-        <div class="card-top">
-          <h2 class="card-title">Release Tags &amp; Semantic Versioning</h2>
-          <span class="card-tag">Release Engineering</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Repository Checkpoints</span>
-          <span class="badge badge-risk-safe">Effects: Local change; remote publish</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> Marking an official production release, milestone, or version number (e.g. <code>v1.0.0</code>) in your Git history.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Annotated Tag Workflow</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Create an annotated release tag:
-git tag -a v1.0.0 -m "Release v1.0.0: Initial public launch"
-
-# 2. Push tag to GitHub (tags are not pushed by default!):
-git push origin v1.0.0
-
-# Or push all local tags at once:
-git push origin --tags
-
-# List all tags sorted by version with annotation lines:
-git tag --sort=version:refname -n 1</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Creates an annotated Git tag object containing author, timestamp, and release notes permanently referencing the current commit.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git describe --tags</code> to verify the active release version.
-        </div>
-        <div class="card-related">
-          <strong>Related:</strong> <code>git log --oneline --decorate</code> · <code>git push origin --tags</code>
-        </div>
-      </article>
+<div class="card-top"><h2 class="card-title">Create and publish a release tag</h2><span class="card-tag">Working with a team</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · remote-publish</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Name a verified commit and publish only the intended tag.</div>
+<div class="card-effect">An annotated tag is an object with a message and a reference to a target. Creating it locally and publishing it are separate actions. Shared tag names should not be rewritten casually.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Verify the commit, unused tag name, release policy and actual remote. Semantic versioning is a project convention, not something Git enforces.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git log -1
+git tag -a &lt;new-tag&gt; &lt;verified-commit-id&gt; -m &quot;Describe the release&quot;
+git show &lt;new-tag&gt;
+# Publish only after verifying the intended remote and policy:
+git push &lt;remote&gt; refs/tags/&lt;new-tag&gt;
+git tag --sort=version:refname -n 1</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Inspect the tag target and annotation. After authorized publication, verify the exact tag ref on the chosen remote. describe reports a nearby reachable tag, not proof of a release or successful publication.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If a tag already exists, inspect its target and publication status. Prefer a new reviewed name to force-replacing a shared tag.</p></details><div class="card-related"><a href="#learn/card-tag">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 16: Safe Force-Push (--force-with-lease) (Phase 5 Pro) -->
       <article class="card pro-only" id="card-force-lease" data-category="cloud" data-effects="history-rewrite remote-publish data-loss-potential" data-keywords="force push force-with-lease pr rebase pull request overwrite team safe lease reject git push -f">
-        <div class="card-top">
-          <h2 class="card-title">Force-Push with an Explicit Lease</h2>
-          <span class="card-tag">PR &amp; Team Hygiene</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Remote Tracking Branch</span>
-          <span class="badge badge-risk-caution">Effects: Remote publish; history rewrite; possible loss</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> A coordinated update to an exclusively owned review branch after a deliberate rewrite. A lease does not establish ownership or guarantee that teammates' work is preserved.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Inspect and Coordinate Before Rewriting</span>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># Inspect repository and remote first:
+<div class="card-top"><h2 class="card-title">Understand an explicit force-push lease</h2><span class="card-tag">Advanced Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: history-rewrite · remote-publish · data-loss-potential</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Review a coordinated history rewrite without treating it as routine sync.</div>
+<div class="card-effect">An explicit lease checks whether the remote ref still equals the expected OID. That check does not prove ownership or that the replacement preserves wanted work. Shorthand leases can be affected by background fetches.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Only consider this for a deliberately coordinated rewrite with verified ownership, target and expected remote OID. Preserve wanted history and understand who relies on the branch.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code># Inspect first; no rewrite command is enabled here.
 git status
 git branch -vv
 git remote -v
-
-# After coordination, use verified values and expected remote object ID:
-# git push --force-with-lease=refs/heads/&lt;remote-branch&gt;:&lt;expected-oid&gt; &lt;remote&gt; HEAD:refs/heads/&lt;remote-branch&gt;
-# Do not execute while any prerequisite remains unknown.</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> An explicit lease checks the remote reference against the expected object ID you deliberately verified. The shorthand lease depends on local tracking refs and may be weakened by background fetches. Even a matching lease can overwrite wanted history.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Inspect the remote branch and intended history after publication. If rejected, stop and inspect new remote commits; do not simply refresh the lease and overwrite them.
-        </div>
-        <div class="card-related">
-          <strong>Related:</strong> <code>git rebase -i</code> · <code>git fetch origin</code>
-        </div>
-      </article>
+# Advanced syntax, after deliberate verification and coordination:
+# git push --force-with-lease=refs/heads/&lt;remote-branch&gt;:&lt;expected-oid&gt; &lt;remote&gt; HEAD:refs/heads/&lt;remote-branch&gt;</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> After any authorized publication, inspect the actual remote ref and intended history. If a lease fails, stop and investigate the new remote state rather than refreshing the expectation and overwriting it.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>For a rejected ordinary push, start with diagnosis. A permission, policy or divergence error is not authorization to rewrite history.</p></details><div class="card-related"><a href="#learn/card-force-lease">Read this learning guide →</a></div>
+</article>
 
       <!-- CARD 17: Port Isolated Commits (cherry-pick) (Phase 5 Pro) -->
       <article class="card pro-only" id="card-cherry-pick" data-category="branch" data-effects="local-change" data-keywords="cherry-pick port bugfix hotfix backport copy commit single commit pluck apply hash maintenance">
-        <div class="card-top">
-          <h2 class="card-title">Port Isolated Commits (cherry-pick)</h2>
-          <span class="card-tag">Branch Maintenance</span>
-        </div>
-        <div class="card-meta-bar">
-          <span class="badge badge-scope">Scope: Commit Plucking</span>
-          <span class="badge badge-risk-rev">Effects: Local change; inspect prerequisites</span>
-        </div>
-        <div class="card-scenario">
-          <strong>When to use:</strong> Applying a specific bugfix commit from one branch (e.g. <code>main</code>) into a separate maintenance or release branch without merging the whole branch.
-        </div>
-        <div class="snippet-block">
-          <div class="snippet-header">
-            <span>Cherry-Pick Recipe</span>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
-          </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code># 1. Switch to target branch (e.g. maintenance branch):
-git switch release/v1.0
-
-# 2. Pluck specific bugfix commit by hash:
-git cherry-pick 7a1b2c3
-
-# If conflict occurs:
-# git cherry-pick --continue
-# Or cancel and return to safety:
-# git cherry-pick --abort</code></pre>
-        </div>
-        <div class="card-effect">
-          <strong>What happens:</strong> Re-applies the exact code diff from the specified commit hash and records a brand new commit on the currently active branch.
-        </div>
-        <div class="card-verify">
-          <strong>Verify result:</strong> Run <code>git log -1 --stat</code> to confirm the bugfix commit was applied.
-        </div>
-        <div class="card-related">
-          <strong>Related:</strong> <code>git switch</code> · <code>git merge</code> · <code>git log --oneline</code>
-        </div>
-      </article>
+<div class="card-top"><h2 class="card-title">Apply a selected commit with cherry-pick</h2><span class="card-tag">Advanced Git</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
+<div class="card-scenario"><strong>Goal:</strong> Bring a change onto another branch without merging all its history.</div>
+<div class="card-effect">Cherry-pick applies a selected commit’s changes in the target context and usually records a new commit. The result can conflict or become empty; it does not transfer the whole source branch.</div>
+<details class="task-deep-dive"><summary>Before you start</summary><p>Inspect the source commit and intended target branch, preserve work and start with no other operation in progress. Merge commits require additional mainline decisions not covered by this simple example.</p></details>
+<div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
+git show &lt;ordinary-commit-id&gt;
+git switch &lt;target-branch&gt;
+git cherry-pick &lt;ordinary-commit-id&gt;
+# If conflicts occur, resolve/test/stage first.
+# Only then: git cherry-pick --continue
+# To cancel the identified operation: git cherry-pick --abort</code></pre></div>
+<div class="card-verify"><strong>Check the result:</strong> Inspect the resulting commit’s patch and target branch files, and run tests. A new identity may differ from the source; verify content rather than expecting identical hashes.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If the pick stops or becomes empty, inspect status and the intended outcome. Do not continue or skip automatically without understanding what is already applied.</p></details><div class="card-related"><a href="#learn/card-cherry-pick">Read this learning guide →</a></div>
+</article>
 
     </div>
 

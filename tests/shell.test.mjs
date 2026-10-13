@@ -11,7 +11,7 @@ for (const view of viewNames) test(`hash route ${view} is Pages-portable`, () =>
 test('legacy links and malformed fragments are preserved or fail safely', () => {
   assert.equal(parseRoute('#card-detached').legacy, 'card-detached');
   assert.equal(parseRoute('#fix/staged').item, 'staged');
-  assert.equal(parseRoute('#%').view, 'fix'); assert.equal(parseRoute('#%').malformed, true);
+  assert.equal(parseRoute('#%').view, 'home'); assert.equal(parseRoute('#%').malformed, true);
 });
 test('CMD comments convert without altering quoted message hashes', () => {
   assert.equal(formatSnippet('# inspect\ngit status # observe\ngit commit -m "Fix #123"', 'cmd'), 'REM inspect\ngit status\ngit commit -m "Fix #123"');

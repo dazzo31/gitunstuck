@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { guides, helpTopics, validateGuides } from '../assets/js/guides.mjs';
+import { reference, validateReference } from '../assets/js/reference.mjs';
+import { parseRoute } from '../assets/js/routing.mjs';
+import knowledge from '../assets/js/knowledge.mjs';
+test('fresh visits start at Home and old destinations remain mapped',()=>{assert.equal(parseRoute('').view,'home');assert.equal(parseRoute('#workflows/card-clone').view,'learn');assert.equal(parseRoute('#playground').item,'visuals');});
+test('all 17 topics have unique preparation and expected results',()=>{assert.equal(guides.length,17);assert.ok(validateGuides());assert.equal(new Set(guides.map(x=>x.prepare)).size,17);});
+test('every guide/help reference resolves to canonical content',()=>{const ids=new Set(reference.map(x=>x.id));for(const x of guides){x.commands.forEach(id=>assert.ok(ids.has(id)));assert.equal(knowledge.workflows.find(w=>w.id===x.id).title,x.title);}for(const x of helpTopics)assert.ok(guides.some(g=>g.id===x.guide));assert.ok(validateReference());});
+test('new project tasks do not require inspecting an existing repository first',()=>{const init=guides.find(x=>x.id==='card-init');const clone=guides.find(x=>x.id==='card-clone');assert.ok(init.example.indexOf('git init')<init.example.indexOf('git status'));assert.ok(clone.example.indexOf('git clone')<clone.example.indexOf('git status'));assert.match(clone.prepare,/do not need an existing/);});
+test('learning and help preserve index and working-file distinctions',()=>{const stage=guides.find(x=>x.id==='card-stage');assert.match(stage.explanation,/later edits are not included/);assert.match(helpTopics[0].explanation,/leaves the file on disk unchanged/);assert.match(helpTopics[0].explanation,/existing commit/);});
+test('branch/ref/retention teaching removes unsafe promises',()=>{assert.match(guides.find(x=>x.id==='card-branch').explanation,/share one working directory/);assert.match(guides.find(x=>x.id==='card-reflog').explanation,/cannot guarantee/);const text=JSON.stringify(knowledge.graphScenarios);assert.ok(!/zero harm|completely safe|safely discarded/.test(text));});
+test('Home has two purposeful entries and no terminal forms or preferences',()=>{const html=readFileSync('index.html','utf8');const home=html.slice(html.indexOf('id="view-home"'),html.indexOf('id="view-fix"'));assert.match(home,/Learn Git/);assert.match(home,/Get help/);assert.ok(!/<textarea|<select|checkbox/.test(home));assert.ok(!html.includes('Developer Hub'));});
+test('reference and task outcomes do not infer release or clean tree',()=>{assert.match(guides.find(x=>x.id==='card-tag').verify,/not proof of a release/);assert.match(guides.find(x=>x.id==='card-stage').verify,/remain uncommitted/);assert.match(guides.find(x=>x.id==='card-stash').verify,/still be listed/);});

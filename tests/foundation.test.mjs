@@ -77,7 +77,7 @@ test('stash, branch and tag recipes have explicit prerequisites and substitution
   const stash = html.slice(html.indexOf('id="card-stash"'), html.indexOf('<!-- CARD 9'));
   assert.match(stash, /git switch &lt;original-branch&gt;/);
   assert.ok(stash.indexOf('original-branch') < stash.indexOf('git stash apply'));
-  assert.match(stash, /applying it can conflict/);
+  assert.match(stash, /[Aa]pplying a stash may conflict/);
   assert.match(html, /git tag --sort=version:refname -n 1/);
   assert.match(html, /git init -b &lt;initial-branch&gt;/);
   assert.ok(!html.includes('<code>bb</code> / Atlassian CLI'));
