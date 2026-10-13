@@ -3766,7 +3766,7 @@ nothing to commit, working tree clean`
       }
 
       // Rule 10: Untracked Sensitive Files
-      if (/(?:Untracked files:[\s\S]*?\b(\.env|id_rsa|id_ed25519|\.pem|\.key|secrets\.json)\b)/i.test(text)) {
+      if (/(?:(?:Untracked files|\?\?)[\s\S]*?(?:^|\s)(?:\.env|id_rsa|id_ed25519|secrets\.json|\.pem|\.key)\b)/im.test(text)) {
         return {
           icon: '🔒',
           title: 'Sensitive Credential File in Untracked List',

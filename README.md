@@ -1,64 +1,83 @@
-# GitSimple • Modern Git Reference & Beginner Mental Model
+# GitUnstuck • Visual Problem-Solving & Cloud Forge Recovery Guide
 
-A dual-mode Git guide and reference hub built for developers and complete newcomers alike. 
+> **Live Application:** [dazzo31.github.io/gitunstuck](https://dazzo31.github.io/gitunstuck/)  
+> **Guiding Principle:** *Don't Panic. Git almost never loses your committed work.*
 
-Tired of cheat sheets filled with confusing technical jargon like "DAG", "cryptographic blobs", and "detached HEADs"? **GitSimple** translates Git into plain English with real-world analogies while providing a full developer reference when you're ready.
-
----
-
-## 💡 The 60-Second Mental Model (For Complete Beginners)
-
-| Git Concept | Real-World Analogy | What it actually means |
-| :--- | :--- | :--- |
-| **Repository ("Repo")** | 📁 **Project folder + Time machine** | A normal folder on your computer that automatically tracks and remembers every edit you make. |
-| **Commit** | 💾 **Video Game Save Point** | A permanent checkpoint. If you make a mistake later, you can reload your project right here. |
-| **Staging (`git add`)** | 🛒 **A Shopping Cart** | Putting selected files into a cart before you pay at the register (`git commit`) to seal the checkpoint. |
-| **Remote & GitHub** | ☁️ **Google Drive for Code** | A cloud copy of your project so your work is safe and teammates can collaborate. |
-| **Branch** | 🌿 **A Risk-Free Sandbox** | A safe draft where you can test crazy experiments without breaking your working project. |
-| **Pipeline (CI/CD)** | 🤖 **Automated Cloud Robot** | A helper that automatically tests and publishes your code the moment you push to GitHub. |
+**GitUnstuck** is an empathetic, interactive problem-solving guide and diagnostic cheatsheet designed to help developers recover from Git mistakes, navigate cloud platform rejections across **GitHub**, **GitLab**, and **Bitbucket**, and master Git's mental model without cognitive overload.
 
 ---
 
-## ⚡ Your Entire Daily Routine (Only 3 Commands)
+## 🌟 What's New in v2.1
 
-When you're starting out, 95% of your work is just these 3 steps:
+### 1. 🚨 "Don't Panic" Emergency Triage Hero
+When something breaks, beginners often panic fearing total code loss. The top of GitUnstuck now features:
+- **Instant Intent Chips:** One-click shortcuts for the top 6 panic scenarios (`Undo a mistake`, `Push was rejected`, `Merge conflict`, `Detached HEAD`, `Auth failed`, `Lost work / commit`).
+- **The Golden Safety Bookmark:** A prominent 1-second safety recipe (`git branch backup-before-fix`) guaranteeing you can always return to your current state before attempting any rewrite.
+
+### 2. 📟 Live In-Browser Terminal Analyzer
+- **Privacy-First (100% Client-Side):** Paste output from `git status`, `git status -sb`, or raw terminal error messages. Input is never transmitted over the network or uploaded anywhere.
+- **Input Sanitizer:** Automatically strips ANSI color escapes and normalizes Windows CRLF line endings.
+- **12-State Rule Engine:** Automatically diagnoses Detached HEAD, Merge Conflicts, Paused Rebases, Branch Divergence, Untracked Sensitive Files (`.env`, `id_rsa`), GH013 Secret Scan blocks, Protected Branch rejections, and Authentication failures.
+- **"Is My Work Lost?" Indicators:** Every diagnosis explicitly answers the #1 anxiety question upfront (`🟢 Work is Safe` vs `⚠️ Permanent Loss Risk`).
+- **1-Click Test Samples:** Built-in sample buttons (`Detached HEAD`, `Merge Conflict`, `Diverged Branch`, `Secret Scan`, `Clean Status`) allow users to test the diagnostic engine instantly.
+
+### 3. ☁️ Multi-Host Cloud Forge Overlays (GitHub • GitLab • Bitbucket)
+Platform-specific troubleshooting tabs covering the real-world divergence points between cloud providers:
+- **Protected Branch Rejections:** GH006 protected branch updates, GitLab protected branches, and Bitbucket branch permissions — with verified feature-branch + PR/MR creation workflows.
+- **Authentication & Credential Caching:** GitHub Personal Access Tokens (and the fine-grained `workflow` scope caveat), GitLab PATs and firewall port 443 fallback (`altssh.gitlab.com:443`), and Bitbucket Cloud's critical requirement to use the **Atlassian Account Email** with App Passwords.
+- **Push Protection Secret Scanning:** Handling GitHub GH013 and GitLab secret blocks via soft-resets and `.gitignore` sanitization.
+- **Fork Synchronization:** Syncing upstream remotes via web shortcuts and terminal commands.
+
+### 4. 🚑 Interactive Undo & Recovery Decision Tree
+Select where your unwanted changes currently live:
+- **Unstaged in File:** `git restore <file>` (Destructive risk warning)
+- **Staged in Cart:** `git restore --staged <file>` (100% safe, preserves disk edits)
+- **Committed Locally:** `git reset --soft HEAD~1` (Safe, rewinds checkpoint while keeping work in cart)
+- **Pushed to Remote:** `git revert <commit-id>` (Team-safe inverse commit)
+- **Lost Commit / Deleted Branch:** `git reflog -n 15` + `git switch -c rescue-branch` (Local ledger resurrection)
+
+### 5. 🗺️ Visual Timeline & Branch Map
+Interactive SVG visualization demonstrating how commits, branch labels, HEAD (your camera lens), and merge operations interact in real time.
+
+### 6. 🎓 Progressive Disclosure Architecture
+- **Surface Level:** Real-world analogies (Shopping Cart, Video Game Save Point, Breadcrumbs) and zero-jargon daily workflows.
+- **Deep Level:** Formal Computer Science Directed Acyclic Graph ($G=(V, E)$), SHA cryptographic object stores, and LCA 3-way merge matrix theories neatly organized in accessible `<details><summary>` drawers.
+
+---
+
+## 🔗 Deep-Linking & Team Sharing
+
+Every major resolution and workflow supports direct URL hash deep-linking for easy sharing in team chat:
+- `#emergencyHero` — Jump to emergency triage hero
+- `#troubleshootConsole` — Jump to the Undo Decision Tree
+- `#terminalAnalyzer` — Jump to the live terminal paste analyzer
+- `#card-forge-troubleshoot` — Jump to Cloud Forge Troubleshooter
+- `#forge-github`, `#forge-gitlab`, `#forge-bitbucket` — Pre-select specific cloud hosts
+- `#undo-unstaged`, `#undo-staged`, `#undo-local-commit`, `#undo-pushed-commit`, `#undo-lost-reflog` — Direct decision tree solutions
+- `#card-init`, `#card-clone`, `#card-stage`, `#card-branch`, `#card-sync`, `#card-conflict`, `#card-rebase`, `#card-detached`, `#card-reflog` — Direct workflow cards
+
+---
+
+## 🧪 Automated Regression Testing
+
+GitUnstuck includes an automated diagnostic test suite verifying input normalization, rule matching, and forge coverage:
 
 ```bash
-# 1. Put all your changes into the cart:
-git add .
-
-# 2. Seal the checkpoint with a descriptive message:
-git commit -m "Added button to homepage"
-
-# 3. Upload your checkpoint to GitHub:
-git push
+# Run the automated test runner (51 passing unit tests)
+node tests/test-analyzer.js
 ```
 
 ---
 
-## 🛠️ Features
+## 🛠️ Tech Stack & Philosophy
 
-- 🌱 **Dual Mode Experience:** Toggle between **"Plain English"** (friendly beginner mode) and **"Developer Hub"** (full command matrix).
-- 🔍 **Instant Search:** Find commands and concepts instantly by typing in the search bar or pressing `/`.
-- 🌓 **Dark / Light Theme:** Persistent theme toggling with high contrast.
-- 📋 **1-Click Copy:** Copy commands with instant visual feedback.
-- 🖨️ **Print & PDF Mode:** Clean `@media print` layout ready for printing as a cheat sheet or saving as PDF.
-
----
-
-## 📦 How to Push to GitHub
-
-1. Create an empty repository on [GitHub](https://github.com/new) (e.g. `git-simple`).
-2. Run in PowerShell or terminal:
-
-```bash
-git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-git push -u origin main
-```
-
-Your web app will automatically deploy to GitHub Pages via `.github/workflows/deploy.yml`!
+- **Zero Dependencies:** Pure vanilla HTML5, CSS3, and modern JavaScript.
+- **Zero Build Step:** Deploys instantly to GitHub Pages directly from repository files.
+- **Zero Data Transmission:** Complete privacy guarantee — user repository paths, branch names, and code snippets stay strictly inside the client's browser tab.
+- **Accessible (WCAG AA):** High-contrast dark and light modes, full keyboard navigation (`/` and `Ctrl+K` search shortcuts), reduced-motion support, and screen reader announcements.
 
 ---
 
 ## 📄 License
-MIT License. Free for personal and team use.
+
+MIT License. Free for developers, students, and teams worldwide.
