@@ -510,6 +510,88 @@
     }
     .solution-title { font-size: 1.05rem; font-weight: 700; color: var(--text); }
 
+    /* Terminal Status & Error Analyzer */
+    .terminal-analyzer-section {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 18px; margin-top: 20px;
+    }
+    .analyzer-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 6px;
+    }
+    .analyzer-title-group {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .analyzer-icon { font-size: 1.2rem; }
+    .analyzer-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+    .privacy-badge {
+      font-size: 0.72rem; font-weight: 700; color: var(--accent-green);
+      background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.35);
+      padding: 3px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .analyzer-subtitle {
+      font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;
+    }
+    .sample-paste-bar {
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .sample-label {
+      font-size: 0.75rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase;
+    }
+    .sample-paste-btn {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted);
+      padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s ease;
+    }
+    .sample-paste-btn:hover {
+      border-color: var(--accent-blue); color: var(--text); background: rgba(56, 189, 248, 0.1);
+    }
+    .analyzer-input-wrapper {
+      display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;
+    }
+    .analyzer-textarea {
+      width: 100%; background: var(--bg-code); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text); padding: 12px;
+      font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.45;
+      resize: vertical; min-height: 95px; outline: none; transition: border-color 0.2s ease;
+    }
+    .analyzer-textarea:focus {
+      border-color: var(--git-orange); box-shadow: 0 0 0 2px var(--git-orange-glow);
+    }
+    .analyzer-actions {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-analyze {
+      background: var(--git-orange); color: #ffffff; border: none; border-radius: var(--radius-sm);
+      padding: 8px 18px; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px; transition: var(--transition);
+    }
+    .btn-analyze:hover {
+      background: #e04528; box-shadow: 0 2px 8px rgba(240, 80, 50, 0.4);
+    }
+    .btn-clear-analyzer {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted);
+      border-radius: var(--radius-sm); padding: 8px 14px; font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s ease;
+    }
+    .btn-clear-analyzer:hover { color: var(--text); border-color: var(--border-subtle); }
+
+    .analyzer-result-panel {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 16px; margin-top: 14px; animation: fadeIn 0.25s ease;
+    }
+    .analyzer-result-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;
+    }
+    .analyzer-detected-badge {
+      font-size: 0.82rem; font-weight: 800; color: var(--accent-blue);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .analyzer-confidence-pill {
+      font-size: 0.72rem; font-weight: 700; color: var(--text-dim);
+      background: var(--bg-surface); border: 1px solid var(--border);
+      padding: 2px 8px; border-radius: 9999px;
+    }
+
     /* Visual Commit Graph Explorer (DAG Visualizer) */
     .graph-explorer {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
@@ -1361,6 +1443,41 @@
 
       <div class="tree-solution-panel" id="treeSolutionPanel" aria-live="polite">
         <!-- Rendered dynamically by JavaScript -->
+      </div>
+
+      <!-- LIVE TERMINAL STATUS & ERROR ANALYZER -->
+      <div class="terminal-analyzer-section" id="terminalAnalyzer">
+        <div class="analyzer-header">
+          <div class="analyzer-title-group">
+            <span class="analyzer-icon">📟</span>
+            <h3 class="analyzer-title">Live Terminal Analyzer: Paste Status or Error Output</h3>
+          </div>
+          <span class="privacy-badge">🔒 100% Client-Side • Never Uploaded</span>
+        </div>
+        <p class="analyzer-subtitle">Run <code>git status</code>, <code>git status -sb</code>, or copy any red error message from your terminal. Paste it below for an instant, safe diagnosis:</p>
+
+        <!-- Sample Quick-Fill Chips -->
+        <div class="sample-paste-bar" aria-label="Load sample terminal outputs">
+          <span class="sample-label">Try sample output:</span>
+          <button class="sample-paste-btn" data-sample="detached">📍 Detached HEAD</button>
+          <button class="sample-paste-btn" data-sample="conflict">⚠️ Merge Conflict</button>
+          <button class="sample-paste-btn" data-sample="diverged">🔀 Diverged Branch</button>
+          <button class="sample-paste-btn" data-sample="secret">🛡️ Secret Scan Rejection</button>
+          <button class="sample-paste-btn" data-sample="clean">✨ Clean Working Tree</button>
+        </div>
+
+        <div class="analyzer-input-wrapper">
+          <textarea id="statusInputText" class="analyzer-textarea" placeholder="Paste git status, git status -sb, or terminal error output here..." rows="4" aria-label="Terminal status or error input"></textarea>
+          <div class="analyzer-actions">
+            <button id="analyzeStatusBtn" class="btn-analyze">🔍 Diagnose Status</button>
+            <button id="clearStatusBtn" class="btn-clear-analyzer">Clear</button>
+          </div>
+        </div>
+
+        <!-- Analyzer Result Card -->
+        <div class="analyzer-result-panel" id="analyzerResultPanel" style="display:none;" aria-live="polite">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
       </div>
     </section>
 
@@ -3438,6 +3555,353 @@ git cherry-pick 7a1b2c3
     window.addEventListener('hashchange', handleHashRoute);
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(handleHashRoute, 120);
+    });
+
+    // 13. Live Terminal Status & Error Diagnosis Engine
+    const sampleTerminalOutputs = {
+      detached: `HEAD detached at 7a2b3c4
+nothing to commit, working tree clean`,
+      conflict: `On branch main
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   src/app.js
+
+no changes added to commit (use "git add" and/or "git commit -a")`,
+      diverged: `On branch main
+Your branch and 'origin/main' have diverged,
+and have 2 and 1 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+
+nothing to commit, working tree clean`,
+      secret: `remote: error: GH013: Repository rule violations found for refs/heads/main.
+remote: Review all 1 check failure at https://github.com/user/repo/rules
+remote: - Push cannot contain secrets: OpenAI API Key found in src/config.js
+To https://github.com/user/repo.git
+ ! [remote rejected] main -> main (push declined due to repository rule violations)
+error: failed to push some refs to 'https://github.com/user/repo.git'`,
+      clean: `On branch feature/login
+nothing to commit, working tree clean`
+    };
+
+    function jumpToTarget(id) {
+      const target = document.getElementById(id);
+      if (target) {
+        if (target.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
+          setMode('pro');
+        }
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.classList.add('highlighted');
+        setTimeout(() => target.classList.remove('highlighted'), 2200);
+      }
+    }
+
+    function analyzeGitOutput(raw) {
+      const text = normalizeTerminalInput(raw);
+      if (!text.trim()) return null;
+
+      // Rule 1: GH013 / Secret Scan
+      if (/GH013|repository rule violations|Push cannot contain secrets|Push rules: Secret detection/i.test(text)) {
+        return {
+          icon: '🛡️',
+          title: 'Remote Push Rejected: Secret / API Key Detected',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 No! Your commits are safely stored locally. The cloud remote rejected the push to protect your secrets.',
+          desc: 'GitHub or GitLab pre-receive secret scanning prevented private credentials from being pushed to public history.',
+          code: '# 1. Rewind the commit while keeping edits on disk:\ngit reset --soft HEAD~1\n\n# 2. Add sensitive file to .gitignore:\necho ".env" >> .gitignore\n\n# 3. Re-commit clean files and push:\ngit add .gitignore <clean-files>\ngit commit -m "fix: sanitize secrets"\ngit push origin <branch>',
+          effect: 'Removes the secret from Git commit objects before it reaches remote servers.',
+          verify: 'Push completes without GH013 rejection.',
+          warning: 'If the token was already exposed elsewhere, revoke and regenerate the API key immediately.',
+          linkText: 'Open Full Cloud Forge Overlays',
+          linkId: 'card-forge-troubleshoot'
+        };
+      }
+
+      // Rule 2: Protected Branch Rejection
+      if (/GH006|protected branch|hook declined|You are not allowed to push code to protected branches|cannot be updated directly/i.test(text)) {
+        return {
+          icon: '🚫',
+          title: 'Remote Push Rejected: Protected Branch Rules',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 No! All your commits exist safely on your computer. Direct pushes to this branch are restricted by team policy.',
+          desc: 'Your team or organization protects main/master to require peer code reviews before merging.',
+          code: '# 1. Move your commits onto a new feature branch:\ngit switch -c feature/my-fix\n\n# 2. Push the branch to remote:\ngit push -u origin feature/my-fix\n\n# 3. Align local main back to remote clean state:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main',
+          effect: 'Publishes your changes on a review branch and restores local main cleanly.',
+          verify: 'Run git status on both branches to verify local main matches remote.',
+          warning: 'Never attempt --force on a protected branch; it will be rejected and may violate organization policy.',
+          linkText: 'View Forge-Specific PR/MR Guide',
+          linkId: 'card-forge-troubleshoot'
+        };
+      }
+
+      // Rule 3: Auth Failure
+      if (/Authentication failed|Permission .* denied|Permission denied \(publickey\)|Support for password authentication was removed|Invalid username or password/i.test(text)) {
+        return {
+          icon: '🔑',
+          title: 'Authentication / Credential Failure',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 No! Your local work is 100% intact. Only remote transmission failed.',
+          desc: 'Remote rejected credentials: password authentication is deprecated on GitHub/Bitbucket; token or SSH key required.',
+          code: '# Clear cached credentials in Git Credential Manager:\ngit credential reject\n\n# Or test SSH key connection directly:\nssh -T git@github.com',
+          effect: 'Clears stale cached credentials and verifies cryptographic key access.',
+          verify: 'Remote returns verified welcome message.',
+          warning: 'Bitbucket Cloud users: You must use your full Atlassian account email address as username with App Passwords.',
+          linkText: 'Open Authentication Troubleshooter',
+          linkId: 'card-forge-troubleshoot'
+        };
+      }
+
+      // Rule 4: Merge Conflict
+      if (/Unmerged paths|both modified|both added|both deleted|fix conflicts and run "git commit"|You have unmerged paths/i.test(text)) {
+        return {
+          icon: '⚠️',
+          title: 'Merge Conflict in Progress',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 No! All conflicting files are preserved on disk with marker lines (<<<<<<< ======= >>>>>>>).',
+          desc: 'Git stopped automated integration because both branches modified identical lines of code.',
+          code: '# 1. List all files currently in conflict:\ngit diff --name-only --diff-filter=U\n\n# 2. Open each file, choose desired code, remove <<<<<<< markers\n\n# 3. Stage resolved files:\ngit add <resolved-file>\n\n# 4. Finalize the merge commit:\ngit merge --continue',
+          effect: 'Completes the merge operation and seals the combined snapshot.',
+          verify: 'Run git status — it will report "nothing to commit, working tree clean".',
+          warning: 'Do NOT run git merge --abort unless you want to throw away the merge and restart from scratch.',
+          linkText: 'View Full Merge Conflict Card',
+          linkId: 'card-conflict'
+        };
+      }
+
+      // Rule 5: Rebase in Progress
+      if (/rebase in progress|interactive rebase in progress|You are currently rebasing|rebase --continue/i.test(text)) {
+        return {
+          icon: '⚡',
+          title: 'Interactive Rebase Paused',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 No! Git paused execution so you can resolve the current commit patch.',
+          desc: 'A rebase replay encountered a conflict or an "edit" action instruction.',
+          code: '# Option A: Resolve conflict in files, stage, and proceed:\ngit add <resolved-file>\ngit rebase --continue\n\n# Option B: Safely cancel and return to original pre-rebase state:\ngit rebase --abort',
+          effect: 'Replays remaining commits onto the target base.',
+          verify: 'Run git status to verify rebase continuation.',
+          warning: 'Remember that during rebase, "ours" and "theirs" are swapped relative to the replay target.',
+          linkText: 'View Rebase Guide',
+          linkId: 'card-rebase'
+        };
+      }
+
+      // Rule 6: Detached HEAD
+      if (/HEAD detached at|HEAD detached from|HEAD detached/i.test(text)) {
+        return {
+          icon: '📍',
+          title: 'Detached HEAD State',
+          confidence: 'High Confidence',
+          workLostStatus: 'danger',
+          workLostText: '⚠️ Warning: HEAD is unattached! Any new commits made here will be orphaned if you switch branches without naming them.',
+          desc: 'You checked out a raw commit hash or tag instead of a named branch pointer.',
+          code: '# 1. Check if you created new commits while detached:\ngit log -1 --oneline\n\n# 2. Secure your commits with a named rescue branch:\ngit switch -c rescue-branch\n\n# 3. Or return to main if no commits were created:\ngit switch main',
+          effect: 'Creates a permanent named branch pointer anchored to your current commit checkpoint.',
+          verify: 'Run git branch --show-current to verify you are on a named branch.',
+          warning: 'Do NOT run git switch or git checkout before creating a rescue branch if you made commits!',
+          linkText: 'View Detached HEAD Card',
+          linkId: 'card-detached'
+        };
+      }
+
+      // Rule 7: Diverged Branches
+      if (/have diverged.*and have \d+ and \d+ different commits|Your branch and '.*' have diverged/i.test(text)) {
+        return {
+          icon: '🔀',
+          title: 'Branch Divergence (Different Local & Remote Commits)',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 No! Both your local commits and incoming remote commits exist safely.',
+          desc: 'Teammates pushed new work to the remote branch while you also made new commits locally.',
+          code: '# Recommended: Replay your commits linearly on top of remote work:\ngit pull --rebase origin <branch-name>\n\n# Alternative: Create an explicit 3-way merge commit:\ngit pull origin <branch-name>',
+          effect: 'Integrates remote updates with your local commits.',
+          verify: 'Run git log --oneline -5 to verify linear history, then push.',
+          warning: 'Avoid git push --force on shared branches. Use pull --rebase to integrate cleanly.',
+          linkText: 'View Team Sync Card',
+          linkId: 'card-sync'
+        };
+      }
+
+      // Rule 8: Ahead of Remote
+      if (/Your branch is ahead of '.*' by \d+ commit|\[ahead \d+\]/i.test(text)) {
+        return {
+          icon: '📤',
+          title: 'Unpushed Local Commits',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 No! Your changes are safely recorded in your local Git repository database.',
+          desc: 'You have sealed commits on this computer that have not yet been published to your remote cloud host.',
+          code: '# Upload your commits to remote:\ngit push origin <branch-name>',
+          effect: 'Updates remote tracking branch to match local HEAD.',
+          verify: 'Run git status — it will report up to date with origin.',
+          warning: 'Ensure your test suite passes before pushing shared commits.',
+          linkText: 'View Cloud Push Guide',
+          linkId: 'card-sync'
+        };
+      }
+
+      // Rule 9: Behind Remote
+      if (/Your branch is behind '.*' by \d+ commit|\[behind \d+\]/i.test(text)) {
+        return {
+          icon: '📥',
+          title: 'Branch Behind Remote',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 No! You just need to download incoming commits created by teammates.',
+          desc: 'Remote has commits that you do not yet have in your local working checkout.',
+          code: '# Download and integrate linearly:\ngit pull --rebase origin <branch-name>',
+          effect: 'Advances your local branch bookmark to include incoming remote changes.',
+          verify: 'Run git log -1 to inspect the latest downloaded commit.',
+          warning: 'Fetch first if you want to inspect incoming diffs without altering working files: git fetch origin',
+          linkText: 'View Team Sync Card',
+          linkId: 'card-sync'
+        };
+      }
+
+      // Rule 10: Untracked Sensitive Files
+      if (/(?:Untracked files:[\s\S]*?\b(\.env|id_rsa|id_ed25519|\.pem|\.key|secrets\.json)\b)/i.test(text)) {
+        return {
+          icon: '🔒',
+          title: 'Sensitive Credential File in Untracked List',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 Safe on disk, but high risk of accidental commit!',
+          desc: 'Git detected private configuration files (.env, keys) in your working folder that are not yet ignored.',
+          code: '# 1. Append sensitive files to .gitignore:\necho ".env" >> .gitignore\necho "*.pem" >> .gitignore\n\n# 2. Verify git status ignores them:\ngit status',
+          effect: 'Prevents sensitive credentials from accidentally being staged by git add .',
+          verify: 'Run git status — sensitive files must not appear under Untracked files.',
+          warning: 'Never commit API keys or private keys to version control.',
+          linkText: 'View Staging Guide',
+          linkId: 'card-stage'
+        };
+      }
+
+      // Rule 11: Not a Git Repo
+      if (/fatal: not a git repository/i.test(text)) {
+        return {
+          icon: '📁',
+          title: 'Not a Git Repository',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 No files were deleted. Your current folder is simply not configured with Git tracking.',
+          desc: 'The current working directory does not contain a .git metadata folder.',
+          code: '# Option A: Initialize Git in this project folder:\ngit init -b main\n\n# Option B: Or navigate to your existing project repository:\ncd path/to/your/actual/project\ngit status',
+          effect: 'Creates a new .git/ ledger or navigates to the correct repository checkout.',
+          verify: 'Run git status — it will display branch information instead of a fatal error.',
+          warning: 'Check if you are inside a child or parent directory before running git init.',
+          linkText: 'View Repository Init Guide',
+          linkId: 'card-init'
+        };
+      }
+
+      // Rule 12: Clean Working Tree
+      if (/nothing to commit, working tree clean/i.test(text)) {
+        return {
+          icon: '✨',
+          title: 'Working Tree Clean (No Pending Edits)',
+          confidence: 'High Confidence',
+          workLostStatus: 'safe',
+          workLostText: '🟢 All files on disk match your latest commit checkpoint. If your work seems missing, you may be on the wrong branch!',
+          desc: 'Git has recorded all modifications. There are no unstaged or uncommitted changes.',
+          code: '# 1. List all branches to see where you might have worked:\ngit branch -a\n\n# 2. View recent commit checkpoints:\ngit log -n 5 --oneline\n\n# 3. Check your local action ledger for recent switches:\ngit reflog -n 10',
+          effect: 'Inspects your full local history and branch bookmarks to locate misplaced commits.',
+          verify: 'Locate your commit ID in reflog, then run git switch <branch-name>.',
+          warning: 'Remember that git checkout and git switch alter which branch files are shown in your editor.',
+          linkText: 'View Reflog Recovery Guide',
+          linkId: 'card-reflog'
+        };
+      }
+
+      // Default Generic Diagnosis
+      return {
+        icon: '📋',
+        title: 'Diagnostic Output Inspected',
+        confidence: 'General Guidance',
+        workLostStatus: 'safe',
+        workLostText: '🟢 General status output analyzed. Take a breath and inspect the state below.',
+        desc: 'Git reported repository state information. Follow the verified safe sequence below:',
+        code: '# 1. Check detailed status without altering files:\ngit status\n\n# 2. Inspect unstaged and staged diffs:\ngit diff\ngit diff --staged\n\n# 3. View recent commit history:\ngit log -n 5 --oneline',
+        effect: 'Gathers clean diagnostics without altering your files.',
+        verify: 'Review the output to decide on next action.',
+        warning: 'Avoid running destructive commands with --hard or --force without a backup branch bookmark.',
+        linkText: 'Explore Undo Decision Tree',
+        linkId: 'troubleshootConsole'
+      };
+    }
+
+    // Connect Terminal Analyzer UI Elements
+    const statusInputText = document.getElementById('statusInputText');
+    const analyzeStatusBtn = document.getElementById('analyzeStatusBtn');
+    const clearStatusBtn = document.getElementById('clearStatusBtn');
+    const analyzerResultPanel = document.getElementById('analyzerResultPanel');
+    const samplePasteBtns = document.querySelectorAll('.sample-paste-btn');
+
+    function renderTerminalAnalysis() {
+      if (!statusInputText || !analyzerResultPanel) return;
+      const raw = statusInputText.value;
+      const res = analyzeGitOutput(raw);
+      if (!res) {
+        analyzerResultPanel.style.display = 'none';
+        return;
+      }
+
+      analyzerResultPanel.innerHTML = `
+        <div class="analyzer-result-header">
+          <span class="analyzer-detected-badge">${res.icon} ${res.title}</span>
+          <span class="analyzer-confidence-pill">${res.confidence}</span>
+        </div>
+        <div class="work-lost-callout work-lost-${res.workLostStatus}">
+          <div class="work-lost-header">
+            <span class="work-lost-title">❓ Is my work lost?</span>
+            <span class="work-lost-pill ${res.workLostStatus}">${res.workLostStatus === 'safe' ? 'Work is Safe' : 'Permanent Loss Risk'}</span>
+          </div>
+          <div class="work-lost-msg">${res.workLostText}</div>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">${res.desc}</p>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Recommended Terminal Command</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code>${res.code}</code></pre>
+        </div>
+        <div class="card-effect"><strong>What this accomplishes:</strong> ${res.effect}</div>
+        <div class="card-verify"><strong>Verify success:</strong> ${res.verify}</div>
+        ${res.warning ? `<div class="callout warning" style="margin-top:10px;">${res.warning}</div>` : ''}
+        ${res.linkText ? `<div style="margin-top:12px;"><button class="btn-clear-analyzer" onclick="jumpToTarget('${res.linkId}')">${res.linkText} →</button></div>` : ''}
+      `;
+      analyzerResultPanel.style.display = 'block';
+      announceState(`Terminal diagnosis: ${res.title}`);
+    }
+
+    if (analyzeStatusBtn) {
+      analyzeStatusBtn.addEventListener('click', renderTerminalAnalysis);
+    }
+
+    if (clearStatusBtn) {
+      clearStatusBtn.addEventListener('click', () => {
+        if (statusInputText) statusInputText.value = '';
+        if (analyzerResultPanel) analyzerResultPanel.style.display = 'none';
+        announceState('Terminal analyzer input cleared');
+      });
+    }
+
+    samplePasteBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sampleKey = btn.getAttribute('data-sample');
+        if (sampleKey && sampleTerminalOutputs[sampleKey] && statusInputText) {
+          statusInputText.value = sampleTerminalOutputs[sampleKey];
+          renderTerminalAnalysis();
+          announceState(`Loaded sample output for ${sampleKey}`);
+        }
+      });
     });
 
     // Initialize Mode with Validated Storage Value
