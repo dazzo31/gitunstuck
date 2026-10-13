@@ -682,6 +682,58 @@
       border: 1px solid var(--border-subtle); padding: 1px 4px; border-radius: 3px;
     }
 
+    /* Cloud Forge Multi-Host Troubleshooter */
+    .forge-overlay-card {
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.05) 0%, var(--bg-card) 100%);
+    }
+    .forge-host-selector {
+      display: flex; gap: 8px; margin: 12px 0 14px; flex-wrap: wrap;
+    }
+    .forge-host-btn {
+      background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
+      padding: 7px 14px; border-radius: 9999px; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease;
+    }
+    .forge-host-btn:hover { border-color: var(--accent-blue); color: var(--text); }
+    .forge-host-btn.active {
+      background: rgba(56, 189, 248, 0.16); color: #ffffff; border-color: var(--accent-blue);
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+    }
+    [data-theme="light"] .forge-host-btn.active {
+      background: rgba(3, 105, 161, 0.12); color: var(--accent-blue);
+    }
+    .forge-incident-selector {
+      display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 6px; margin-bottom: 14px;
+    }
+    .forge-incident-selector::-webkit-scrollbar { display: none; }
+    .forge-incident-btn {
+      background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-dim);
+      padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.76rem; font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: all 0.15s ease; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .forge-incident-btn:hover { color: var(--text); border-color: var(--border); }
+    .forge-incident-btn.active {
+      background: var(--bg-card); color: var(--text); border-color: var(--git-orange);
+      box-shadow: 0 0 0 1px var(--git-orange);
+    }
+    .forge-display-panel {
+      background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 16px; margin-top: 10px; animation: fadeIn 0.2s ease;
+    }
+    .forge-panel-title {
+      font-size: 0.96rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+    }
+    .forge-panel-desc {
+      font-size: 0.84rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 12px;
+    }
+    .forge-highlight-box {
+      background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: var(--radius-sm); padding: 10px 14px; margin-top: 10px;
+      font-size: 0.82rem; color: var(--text); line-height: 1.4;
+    }
+    .forge-highlight-box strong { color: var(--accent-amber); }
+
     /* CI/CD Provider Tab Switcher */
     .pipeline-provider-bar {
       display: flex; gap: 6px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none;
@@ -1747,6 +1799,55 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
             <p><strong>Takeaway:</strong> Once configured as an <code>origin</code> remote, standard Git commands behave identically regardless of which platform hosts the repository.</p>
           </div>
         </details>
+      </article>
+
+      <!-- CARD 6b: Cloud Forge Troubleshooting & Remote Overlays -->
+      <article class="card forge-overlay-card" id="card-forge-troubleshoot" data-category="cloud" data-risk="safe" data-keywords="github gitlab bitbucket auth authentication token pat password ssh protected branch rejected hook declined secret scanning gh013 credential manager push failure fork upstream sync">
+        <div class="card-top">
+          <h2 class="card-title">Cloud Forge Troubleshooting (GitHub, GitLab, Bitbucket)</h2>
+          <span class="card-tag">Multi-Host Overlays</span>
+        </div>
+        <div class="card-meta-bar">
+          <span class="badge badge-scope">Scope: Remote Authentication &amp; Rules</span>
+          <span class="badge badge-risk-safe">Risk: Reversible / Safe</span>
+        </div>
+        <div class="card-scenario">
+          <strong>When to use:</strong> You ran into a remote platform rejection on GitHub, GitLab, or Bitbucket: a protected branch push rejection, invalid authentication or credentials, automated secret detection blocks, or fork divergence.
+        </div>
+
+        <!-- 3-Way Host Selector -->
+        <div class="forge-host-selector" role="tablist" aria-label="Select Cloud Host Platform">
+          <button class="forge-host-btn active" data-forge="github" role="tab" aria-selected="true">
+            <span>🐙</span> GitHub
+          </button>
+          <button class="forge-host-btn" data-forge="gitlab" role="tab" aria-selected="false">
+            <span>🦊</span> GitLab
+          </button>
+          <button class="forge-host-btn" data-forge="bitbucket" role="tab" aria-selected="false">
+            <span>🪣</span> Bitbucket
+          </button>
+        </div>
+
+        <!-- Incident Selector -->
+        <div class="forge-incident-selector" role="tablist" aria-label="Select Troubleshooting Incident">
+          <button class="forge-incident-btn active" data-incident="protected-branch" role="tab" aria-selected="true">
+            <span>🚫</span> Protected Branch Rejected
+          </button>
+          <button class="forge-incident-btn" data-incident="auth" role="tab" aria-selected="false">
+            <span>🔑</span> Authentication &amp; Tokens
+          </button>
+          <button class="forge-incident-btn" data-incident="secret" role="tab" aria-selected="false">
+            <span>🛡️</span> Secret Scan Block (GH013)
+          </button>
+          <button class="forge-incident-btn" data-incident="fork" role="tab" aria-selected="false">
+            <span>🍴</span> Fork &amp; Upstream Sync
+          </button>
+        </div>
+
+        <!-- Dynamic Content Display Panel -->
+        <div class="forge-display-panel" id="forgeDisplayPanel" aria-live="polite">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
       </article>
 
       <!-- CARD 7: Pipelines & Automated CI/CD (Multi-Host) -->
@@ -3015,7 +3116,175 @@ git cherry-pick 7a1b2c3
       });
     });
 
-    // 9. Emergency Triage Chips & Failure-Intent Routing
+    // 9. Cloud Forge Troubleshooting Matrix & Overlays
+    const forgeScenarios = {
+      github: {
+        'protected-branch': {
+          title: 'GitHub: Protected Branch Update Failed (GH006 / Rule Violation)',
+          desc: 'GitHub branch protection rules prevent direct pushes to main/master without an approved Pull Request.',
+          code: '# 1. Package your commits into a new feature branch:\ngit switch -c feature/my-fix\n\n# 2. Push the new branch to GitHub:\ngit push -u origin feature/my-fix\n\n# 3. Open Pull Request on GitHub:\n# Use the URL printed in terminal, or run GitHub CLI:\ngh pr create --fill\n\n# 4. Safely sync your local main back to remote clean state:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main',
+          effect: 'Moves your committed changes safely onto a branch and prepares a Pull Request for team review.',
+          verify: 'Run git status on both branches to verify main is clean and feature/my-fix is published.',
+          gotcha: '<strong>GitHub Rule:</strong> Never force-push (<code>--force</code>) to a protected branch. The proper team path is always branch → Pull Request → merge.'
+        },
+        'auth': {
+          title: 'GitHub: Personal Access Tokens (PAT), SSH & Credential Caching',
+          desc: 'GitHub removed account password authentication in 2021. Pushing requires a Personal Access Token or SSH key.',
+          code: '# Option A: Authenticate cleanly via GitHub CLI (recommended):\ngh auth login\n\n# Option B: Clear cached stale credentials in Git Credential Manager:\ngit credential reject\n# (Enter: protocol=https, host=github.com, then press enter on empty line)\n\n# Option C: Test your SSH key connection:\nssh -T git@github.com',
+          effect: 'Resets invalid cached passwords in Windows Credential Manager / macOS Keychain and verifies access.',
+          verify: 'If SSH is working, GitHub prints: "Hi username! You\'ve successfully authenticated, but GitHub does not provide shell access."',
+          gotcha: '<strong>Fine-Grained PAT Caveat:</strong> Fine-grained tokens cannot push changes to <code>.github/workflows/*.yml</code> files. If editing workflows, use a Classic PAT with the <code>workflow</code> scope.'
+        },
+        'secret': {
+          title: 'GitHub: Push Protection Blocked Secret (GH013)',
+          desc: 'GitHub Secret Scanning detected a private key, API token, or credential embedded inside your commit history.',
+          code: '# 1. Rewind the commit while keeping file edits on disk:\ngit reset --soft HEAD~1\n\n# 2. Move sensitive secrets into a .env file and add to .gitignore:\necho ".env" >> .gitignore\n\n# 3. Re-commit clean files and push:\ngit add .gitignore <cleaned-files>\ngit commit -m "fix: remove sensitive secret"\ngit push origin <branch>',
+          effect: 'Strips the secret from Git commit objects before they ever touch GitHub servers.',
+          verify: 'Push succeeds without GH013 pre-receive hook rejection.',
+          gotcha: '<strong>False Positive?</strong> If the secret is a dummy test token, GitHub prints an unblock URL in the terminal output. Visit that URL in your browser to grant a one-time push bypass.'
+        },
+        'fork': {
+          title: 'GitHub: Sync Fork with Upstream Original Project',
+          desc: 'Your fork is behind the original repository and you need to incorporate incoming upstream changes.',
+          code: '# 1. Check your remotes (make sure upstream exists):\ngit remote -v\n\n# 2. Add the original repository as "upstream" if missing:\ngit remote add upstream https://github.com/original-owner/repo.git\n\n# 3. Fetch latest upstream commits and merge linearly:\ngit fetch upstream\ngit switch main\ngit merge upstream/main\n\n# 4. Push updated main to your personal fork:\ngit push origin main',
+          effect: 'Brings your fork up to date with the parent repository without creating merge divergence.',
+          verify: 'Run git log -1 to verify your local main matches upstream/main.',
+          gotcha: '<strong>Web Shortcut:</strong> You can also click the "Sync fork" button on your GitHub repository page, then run <code>git pull</code> locally.'
+        }
+      },
+      gitlab: {
+        'protected-branch': {
+          title: 'GitLab: You are not allowed to push code to protected branches',
+          desc: 'GitLab project settings restrict direct pushes to protected branches (usually main or develop).',
+          code: '# 1. Create a feature branch with your commits:\ngit switch -c feature/my-fix\n\n# 2. Push with GitLab push option to automatically open a Merge Request:\ngit push -u -o merge_request.create origin feature/my-fix\n\n# 3. Re-align local main with remote:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main',
+          effect: 'Publishes your work to GitLab and auto-generates a Merge Request in one command.',
+          verify: 'Check GitLab project web UI or follow the MR URL printed in terminal.',
+          gotcha: '<strong>GitLab Push Options:</strong> The <code>-o merge_request.create</code> flag is a native GitLab feature that creates the MR directly from your terminal!'
+        },
+        'auth': {
+          title: 'GitLab: Personal Access Tokens & SSH Alternative Port 443',
+          desc: 'Authenticating with GitLab over HTTPS requires a PAT with proper scopes, or SSH key.',
+          code: '# Option A: Authenticate using official GitLab CLI:\nglab auth login\n\n# Option B: Verify SSH key connection over default port 22:\nssh -T git@gitlab.com\n\n# Option C: If corporate firewall blocks port 22, use alternative port 443:\nssh -T -p 443 git@altssh.gitlab.com',
+          effect: 'Bypasses firewall restrictions and establishes authenticated SSH or token sessions.',
+          verify: 'GitLab returns: "Welcome to GitLab, @username!"',
+          gotcha: '<strong>Token Scope:</strong> When creating a GitLab PAT, make sure to check <code>write_repository</code>. Deploy tokens without write scope will fail silently with 403 Forbidden.'
+        },
+        'secret': {
+          title: 'GitLab: Push Rules Secret Detection Blocked',
+          desc: 'GitLab Push Rules blocked your commit because it contains forbidden filenames or potential credentials.',
+          code: '# 1. Soft-reset to preserve code edits:\ngit reset --soft HEAD~1\n\n# 2. Remove the secret and add config to .gitignore:\ngit rm --cached <sensitive-file>\ngit commit -m "fix: sanitize configuration"\ngit push origin <branch>',
+          effect: 'Removes the forbidden credentials from Git index and history.',
+          verify: 'Push completes successfully without pre-receive rejection.',
+          gotcha: '<strong>Enterprise GitLab:</strong> Self-hosted GitLab instances often enforce custom pre-receive regex checks for author email or issue reference IDs.'
+        },
+        'fork': {
+          title: 'GitLab: Sync Fork with Upstream Project',
+          desc: 'Keep your GitLab subgroup or user fork synchronized with the upstream group project.',
+          code: '# 1. Add upstream group remote:\ngit remote add upstream https://gitlab.com/upstream-group/repo.git\n\n# 2. Fetch and merge:\ngit fetch upstream\ngit switch main\ngit merge upstream/main\n\n# 3. Publish to your fork:\ngit push origin main',
+          effect: 'Incorporates upstream MRs and commits into your local and remote fork repository.',
+          verify: 'GitLab project overview shows "This branch is up to date with upstream/main".',
+          gotcha: '<strong>GitLab Mirroring:</strong> GitLab Premium/Ultimate supports automated pull mirroring in Settings → Repository → Mirroring.'
+        }
+      },
+      bitbucket: {
+        'protected-branch': {
+          title: 'Bitbucket: Branch cannot be updated directly (Branch Permissions)',
+          desc: 'Bitbucket repository branch permissions restrict direct commits to main.',
+          code: '# 1. Branch your work into a feature branch:\ngit switch -c feature/my-fix\n\n# 2. Push to Bitbucket:\ngit push -u origin feature/my-fix\n\n# 3. Open Pull Request:\n# Navigate to your Bitbucket repository -> "Pull requests" -> "Create pull request"\n\n# 4. Clean local main:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main',
+          effect: 'Stores your commits safely on a named branch and prepares a peer review Pull Request.',
+          verify: 'Run git status — local main is clean and up to date with origin/main.',
+          gotcha: '<strong>Jira Integration:</strong> Include your Jira issue key in the branch name (e.g. <code>feature/PROJ-123-login</code>) to automatically link PR status into Jira!'
+        },
+        'auth': {
+          title: 'Bitbucket: App Passwords & Atlassian Account Email Gotcha',
+          desc: 'Bitbucket Cloud deprecated account passwords for Git operations. You must use an App Password.',
+          code: '# 1. Generate an App Password in Bitbucket Personal Settings with "Repositories: Write"\n# 2. When Git prompts for username and password:\n#    Username: YOUR ATLASSIAN ACCOUNT EMAIL (e.g. name@example.com)\n#    Password: YOUR 20-CHARACTER APP PASSWORD\n\n# Or test SSH key connection:\nssh -T git@bitbucket.org',
+          effect: 'Authenticates with Bitbucket Cloud using modern token credentials.',
+          verify: 'Bitbucket responds to SSH: "authenticated via ssh key. You can use git to connect to Bitbucket."',
+          gotcha: '<strong>#1 Bitbucket Failure Mode:</strong> When prompted for username, entering your Bitbucket display handle fails! You MUST enter your full Atlassian account email address.'
+        },
+        'secret': {
+          title: 'Bitbucket: Commit Checker Hook Rejection',
+          desc: 'A Bitbucket repository hook rejected the commit due to file size, sensitive files, or commit message policy.',
+          code: '# 1. Rewind the commit:\ngit reset --soft HEAD~1\n\n# 2. Remove sensitive file or adjust commit message:\ngit commit -m "PROJ-123: valid commit message according to project policy"\ngit push origin <branch>',
+          effect: 'Adjusts the commit snapshot or message to comply with Bitbucket hooks.',
+          verify: 'Push completes with hook approval.',
+          gotcha: '<strong>Bitbucket Server vs Cloud:</strong> Bitbucket Server / Data Center often requires a valid Jira issue key prefix (e.g. <code>PROJ-123:</code>) in every commit message.'
+        },
+        'fork': {
+          title: 'Bitbucket: Sync Fork with Original Upstream',
+          desc: 'Synchronize a personal or workspace fork with the main repository.',
+          code: '# 1. Add upstream repository:\ngit remote add upstream https://bitbucket.org/parent-workspace/repo.git\n\n# 2. Fetch and merge updates:\ngit fetch upstream\ngit switch main\ngit merge upstream/main\n\n# 3. Push to your fork:\ngit push origin main',
+          effect: 'Keeps your fork aligned with the central team repository.',
+          verify: 'Run git log -1 to verify your branch head matches upstream/main.',
+          gotcha: '<strong>Bitbucket Cloud:</strong> Bitbucket offers a "Sync" banner at the top of the repository page if your fork has fallen behind.'
+        }
+      }
+    };
+
+    let activeForge = 'github';
+    let activeIncident = 'protected-branch';
+
+    function renderForgeScenario() {
+      const panel = document.getElementById('forgeDisplayPanel');
+      if (!panel) return;
+      const hostData = forgeScenarios[activeForge];
+      const data = hostData ? hostData[activeIncident] : null;
+      if (!data) return;
+
+      panel.innerHTML = `
+        <div class="forge-panel-title">${data.title}</div>
+        <div class="forge-panel-desc">${data.desc}</div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Verified Fix (${activeForge.toUpperCase()})</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code>${data.code}</code></pre>
+        </div>
+        <div class="card-effect"><strong>What this accomplishes:</strong> ${data.effect}</div>
+        <div class="card-verify"><strong>Verify success:</strong> ${data.verify}</div>
+        <div class="forge-highlight-box">${data.gotcha}</div>
+      `;
+    }
+
+    const forgeHostBtns = document.querySelectorAll('.forge-host-btn');
+    const forgeIncidentBtns = document.querySelectorAll('.forge-incident-btn');
+
+    function syncForgeButtons() {
+      forgeHostBtns.forEach(btn => {
+        const isMatch = btn.getAttribute('data-forge') === activeForge;
+        btn.classList.toggle('active', isMatch);
+        btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      });
+      forgeIncidentBtns.forEach(btn => {
+        const isMatch = btn.getAttribute('data-incident') === activeIncident;
+        btn.classList.toggle('active', isMatch);
+        btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      });
+    }
+
+    forgeHostBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeForge = btn.getAttribute('data-forge') || 'github';
+        syncForgeButtons();
+        renderForgeScenario();
+        announceState(`Switched forge troubleshooting to ${btn.innerText.trim()}`);
+      });
+    });
+
+    forgeIncidentBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeIncident = btn.getAttribute('data-incident') || 'protected-branch';
+        syncForgeButtons();
+        renderForgeScenario();
+        announceState(`Switched incident to ${btn.innerText.trim()}`);
+      });
+    });
+
+    renderForgeScenario();
+
+    // 10. Emergency Triage Chips & Failure-Intent Routing
     const emergencyChips = document.querySelectorAll('.emergency-chip');
     emergencyChips.forEach(chip => {
       chip.addEventListener('click', () => {
@@ -3043,7 +3312,10 @@ git cherry-pick 7a1b2c3
           undoKey = 'unstaged';
           break;
         case 'push-rejected':
-          targetId = 'card-sync';
+          targetId = 'card-forge-troubleshoot';
+          activeIncident = 'protected-branch';
+          syncForgeButtons();
+          renderForgeScenario();
           break;
         case 'conflict':
           targetId = 'card-conflict';
@@ -3052,7 +3324,10 @@ git cherry-pick 7a1b2c3
           targetId = 'card-detached';
           break;
         case 'auth':
-          targetId = 'card-sync';
+          targetId = 'card-forge-troubleshoot';
+          activeIncident = 'auth';
+          syncForgeButtons();
+          renderForgeScenario();
           break;
         case 'lost-work':
           targetId = 'card-reflog';
@@ -3081,7 +3356,7 @@ git cherry-pick 7a1b2c3
       }
     }
 
-    // 10. Terminal Paste Sanitizer & Host Auto-Detector
+    // 11. Terminal Paste Sanitizer & Host Auto-Detector
     function normalizeTerminalInput(raw) {
       if (!raw) return '';
       // Limit to 100 KiB guard to eliminate ReDoS risks
@@ -3098,9 +3373,18 @@ git cherry-pick 7a1b2c3
         const pasted = (e.clipboardData || window.clipboardData)?.getData('text');
         if (pasted) {
           const clean = normalizeTerminalInput(pasted);
-          if (clean.includes('github.com') || clean.includes('gitlab.com') || clean.includes('bitbucket.org')) {
-            announceState('Detected cloud forge in pasted terminal snippet');
+          let detectedHost = '';
+          if (clean.includes('github.com')) detectedHost = 'github';
+          else if (clean.includes('gitlab.com')) detectedHost = 'gitlab';
+          else if (clean.includes('bitbucket.org')) detectedHost = 'bitbucket';
+
+          if (detectedHost) {
+            activeForge = detectedHost;
+            syncForgeButtons();
+            renderForgeScenario();
+            announceState(`Auto-detected ${detectedHost} in pasted terminal snippet`);
           }
+
           if (clean !== pasted) {
             e.preventDefault();
             const start = searchInput.selectionStart;
@@ -3113,7 +3397,7 @@ git cherry-pick 7a1b2c3
       });
     }
 
-    // 11. Deep-Linking URL Hash Router
+    // 12. Deep-Linking URL Hash Router
     function handleHashRoute() {
       const hash = window.location.hash;
       if (!hash) return;
@@ -3128,6 +3412,15 @@ git cherry-pick 7a1b2c3
       } else if (hash.startsWith('#intent-')) {
         const intent = hash.replace('#intent-', '');
         handleIntentJump(intent);
+      } else if (hash.startsWith('#forge-')) {
+        const host = hash.replace('#forge-', '');
+        if (forgeScenarios[host]) {
+          activeForge = host;
+          syncForgeButtons();
+          renderForgeScenario();
+          const elem = document.getElementById('card-forge-troubleshoot');
+          if (elem) elem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       } else if (hash.startsWith('#')) {
         const id = hash.replace('#', '');
         const target = document.getElementById(id);
