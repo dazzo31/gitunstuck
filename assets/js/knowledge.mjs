@@ -139,8 +139,7 @@ const knowledge = {
         "repository-url"
       ],
       "effects": [
-        "local-change",
-        "remote-publish"
+        "local-change"
       ],
       "shellNotes": "Replace placeholders; quote paths with spaces. Comment lines use # in Bash/PowerShell; in CMD use REM.",
       "preflight": [
@@ -536,8 +535,7 @@ const knowledge = {
       "title": "Start a Git repository",
       "category": "essential",
       "effects": [
-        "local-change",
-        "remote-publish"
+        "local-change"
       ],
       "commands": [
         "card-init-snippet-1"

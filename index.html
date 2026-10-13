@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitUnstuck • The Visual Problem-Solving &amp; Recovery Guide</title>
-  <meta name="description" content="GitUnstuck is an interactive, visual problem-solving guide and cheatsheet for Git. Features zero-jargon mental models, interactive undo decision tree, commit graph DAG explorer, multi-host remotes (GitHub, GitLab, Bitbucket), and CI/CD starters.">
+  <title>GitUnstuck — Learn Git and Get Help</title>
+  <meta name="description" content="Learn Git with practical guides, find help for common problems, and look up command syntax and effects.">
   <meta name="keywords" content="git unstuck, git cheatsheet, git undo, git recovery, git reflog, git bisect, git cherry-pick, git rebase, git detached head, git visualizer, github, gitlab, bitbucket, git merge conflict, git commit graph, git reference guide">
   <meta name="author" content="GitUnstuck">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -16,15 +16,15 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dazzo31.github.io/gitunstuck/">
   <meta property="og:site_name" content="GitUnstuck">
-  <meta property="og:title" content="GitUnstuck • The Visual Problem-Solving &amp; Recovery Guide">
-  <meta property="og:description" content="Visual, task-first Git problem-solving reference. Features interactive undo decision tree, commit graph DAG explorer, multi-host remotes, and zero-jargon mental models.">
+  <meta property="og:title" content="GitUnstuck — Learn Git and Get Help">
+  <meta property="og:description" content="Learn Git with practical guides, find help for common problems, and look up command syntax and effects.">
   <meta property="og:locale" content="en_US">
 
   <!-- Twitter / X Cards -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:url" content="https://dazzo31.github.io/gitunstuck/">
-  <meta name="twitter:title" content="GitUnstuck • The Visual Problem-Solving &amp; Recovery Guide">
-  <meta name="twitter:description" content="Visual, task-first Git problem-solving reference. Features interactive undo decision tree, commit graph DAG explorer, and zero-jargon mental models.">
+  <meta name="twitter:title" content="GitUnstuck — Learn Git and Get Help">
+  <meta name="twitter:description" content="Learn Git with practical guides, find help for common problems, and look up command syntax and effects.">
 
   <!-- Theme color & Web App metadata -->
   <meta name="application-name" content="GitUnstuck">
@@ -34,83 +34,82 @@
 
   <!-- Schema.org JSON-LD Structured Data -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://dazzo31.github.io/gitunstuck/#website",
-        "url": "https://dazzo31.github.io/gitunstuck/",
-        "name": "GitUnstuck",
-        "description": "The Visual Problem-Solving & Recovery Guide for Git",
-        "inLanguage": "en-US"
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://dazzo31.github.io/gitunstuck/#website",
+      "url": "https://dazzo31.github.io/gitunstuck/",
+      "name": "GitUnstuck",
+      "description": "Learn Git with practical guides, help and command reference.",
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://dazzo31.github.io/gitunstuck/#webapp",
+      "url": "https://dazzo31.github.io/gitunstuck/",
+      "name": "GitUnstuck",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "JavaScript for navigation and interactive tools; essential reference is available without JavaScript.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
       },
-      {
-        "@type": "WebApplication",
-        "@id": "https://dazzo31.github.io/gitunstuck/#webapp",
-        "url": "https://dazzo31.github.io/gitunstuck/",
-        "name": "GitUnstuck",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "All",
-        "browserRequirements": "Requires JavaScript. Requires HTML5.",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        "featureList": [
-          "Task-First Quick Navigator",
-          "Interactive Undo Decision Tree",
-          "Interactive SVG Commit Graph Explorer",
-          "Standardized Workflow & Recovery Cards",
-          "Multi-Host Remote Conventions (GitHub, GitLab, Bitbucket)",
-          "3-Way CI/CD Starter Configuration Switcher",
-          "Computer Science DAG & Object Store Deep Dives",
-          "Keyboard Quick-Focus Shortcuts (/ & Ctrl+K)",
-          "Three-Tier Risk-Level Filtering"
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://dazzo31.github.io/gitunstuck/#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "How do I discard unstaged edits in my working files?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Inspect git diff and preserve wanted edits before using git restore -- <filename>. By default it replaces the working file from the index, discarding unstaged edits."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How do I unstage files without losing changes?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Run git restore --staged <filename> to remove files from staging (the shopping cart) while keeping your disk changes completely intact."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How do I undo a commit that was already pushed to GitHub?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "For an ordinary shared commit, git revert <commit-hash> records an inverse commit without rewriting existing history. It can conflict: inspect git status, resolve and continue, or abort. Review and test before publishing."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How do I rescue a deleted branch or lost commit in Git?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Use git reflog -n 15 to identify retained committed work, inspect its commit ID, then create a rescue branch at that ID. Reflog does not guarantee recovery of discarded unstaged edits."
-            }
+      "featureList": [
+        "Task-specific learning guides",
+        "Contextual Git help",
+        "Command reference and comparisons",
+        "Fixed commit-history illustrations",
+        "Optional local status interpretation",
+        "Ambiguous error explanations",
+        "Scoped shell formatting",
+        "Search lessons, help and reference"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://dazzo31.github.io/gitunstuck/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I discard unstaged edits in my working files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Inspect git diff and preserve wanted edits before using git restore -- <filename>. By default it replaces the working file from the index, discarding unstaged edits."
           }
-        ]
-      }
-    ]
-  }
-  </script>
+        },
+        {
+          "@type": "Question",
+          "name": "How do I unstage files without losing changes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "With an existing HEAD commit, git restore --staged -- <filename> restores the selected index entry from HEAD while preserving working-file edits. Inspect both diffs before and afterwards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I undo a commit that was already pushed to GitHub?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For an ordinary shared commit, git revert <commit-hash> records an inverse commit without rewriting existing history. It can conflict: inspect git status, resolve and continue, or abort. Review and test before publishing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I rescue a deleted branch or lost commit in Git?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use git reflog -n 15 to identify retained committed work, inspect its commit ID, then create a rescue branch at that ID. Reflog does not guarantee recovery of discarded unstaged edits."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
@@ -184,7 +183,7 @@
         <a href="#fix" class="home-choice"><span class="choice-number">02 · Help</span><h3>Get help</h3><p>Choose a problem, understand the cause, and find a careful next step.</p><span class="choice-link">Find help →</span></a>
       </div>
       <p class="reference-entry">Already know what you need? <a href="#reference">Open the command reference →</a></p>
-      <div class="home-topics"><section aria-labelledby="startHeading"><h3 id="startHeading">Start here</h3><a href="#learn/card-stage">Save your first commit <span>Files → staging → history</span></a><a href="#learn/card-clone">Clone an existing project <span>Get a local checkout</span></a><a href="#learn/card-branch">Create and switch branches <span>Work on a named line of history</span></a></section><section aria-labelledby="commonHeading"><h3 id="commonHeading">Common questions</h3><a href="#fix/unstage">How do I undo git add?</a><a href="#fix/merge">How do I resolve a merge conflict?</a><a href="#fix/divergence">Why was my push rejected?</a></section></div>
+      <div class="home-topics"><section aria-labelledby="startHeading"><h3 id="startHeading">Start here</h3><a href="#learn/essentials">Understand files, staging and commits <span>The Git mental model</span></a><a href="#learn/card-stage">Save your first commit <span>Files → staging → history</span></a><a href="#learn/card-clone">Clone an existing project <span>Get a local checkout</span></a><a href="#learn/card-branch">Create and switch branches <span>Work on a named line of history</span></a></section><section aria-labelledby="commonHeading"><h3 id="commonHeading">Common questions</h3><a href="#fix/unstage">How do I undo git add?</a><a href="#fix/merge">How do I resolve a merge conflict?</a><a href="#fix/divergence">Why was my push rejected?</a></section></div>
       <p class="home-footnote">Read, learn and inspect examples here. GitUnstuck does not run commands or access your repository.</p>
     </section>
     <section id="view-fix" class="v2-view" aria-labelledby="fixHeading">
@@ -509,9 +508,9 @@
     <div class="cards-grid" id="cardsGrid">
 
       <!-- CARD 1: Start a Repository from Scratch -->
-      <article class="card" id="card-init" data-category="essential" data-effects="local-change remote-publish" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
+      <article class="card" id="card-init" data-category="essential" data-effects="local-change" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
 <div class="card-top"><h2 class="card-title">Start a Git repository</h2><span class="card-tag">Start here</span></div>
-<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · remote-publish</span></div>
+<div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Track a project that is not already a repository.</div>
 <details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Git does not record every file save. Initializing creates repository metadata; staging selects a snapshot, and committing records it. Review files and secrets before the first commit. Publishing is a separate task.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Choose the intended project folder. Check that it is not already inside another repository. Choose an initial branch name and configure your Git author name/email; Git 2.28+ supports init -b.</p></details>
@@ -625,7 +624,7 @@ git log --oneline --graph --decorate --all -n 20
         </div>
 
         <!-- 3-Way Host Starter Config Selector -->
-        <div class="pipeline-provider-bar" role="tablist" aria-label="CI/CD Provider Starter Configs">
+<details class="topic-example"><summary>Read the example and checks</summary>        <div class="pipeline-provider-bar" role="tablist" aria-label="CI/CD Provider Starter Configs">
           <button class="pipeline-tab-btn active" data-provider="github" role="tab" aria-selected="true">🐙 GitHub Actions</button>
           <button class="pipeline-tab-btn" data-provider="gitlab" role="tab" aria-selected="false">🦊 GitLab CI/CD</button>
           <button class="pipeline-tab-btn" data-provider="bitbucket" role="tab" aria-selected="false">🪣 Bitbucket Pipelines</button>
@@ -648,7 +647,7 @@ jobs:
       - name: Run Tests
         run: npm test</code></pre>
         </div>
-        <details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">
+        <div class="card-effect">
           <strong>What happens:</strong> Without an explicit workflow file, cloud hosts act solely as code storage. Job creation depends on the provider configuration path and matching triggers. GitHub uses .github/workflows; GitLab and Bitbucket Cloud use their documented root files.
         </div>
         <div class="card-verify">

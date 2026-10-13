@@ -1,0 +1,40 @@
+# Learning/help corrective acceptance
+
+2026-10-13. User-directed corrective plan replaces feature expansion.
+
+## Implemented
+
+- Home defaults to learning/help, with no paste forms, host/shell controls or default repair.
+- Four primary destinations: Home, Learn, Help, Reference. Old workflow/playground hashes map to learning and fixed illustrations.
+- 17 unique task guides have a goal, real starting conditions, explanation, worked example, expected result and specific fallback. Initialization/cloning do not assume an existing repository.
+- Eight readable help topics precede optional diagnostic tools. One visible recovery interface; legacy adapter stays hidden for compatibility tests.
+- Canonical 24-command index, seven comparisons and grouped lesson/help/error/reference search. Existing reference filters still compose conjunctively.
+- Global mode controls removed. Shell formatting belongs to Reference; provider selection explicitly scopes error interpretation.
+- Corrected claims about file saves/commits, index snapshots, branches/worktrees, retained-commit recovery, detached HEAD and static illustrations. Static topic snippets match canonical knowledge.
+- Shared textarea/component styles; no diagnostic inputs/results in default print; useful static examples without JavaScript.
+- Read-only copy remains possible; parameterized/risky task examples do not get a blind compound-action copy button.
+
+## Verification so far
+
+Local: npm test 179 passed, 0 failed; npm run check, npm run build and git diff --check passed.
+
+CI 38367585806 at 807df456e4d9c4cc6b4573c1c08ed8b063e6e1d4: source/Git/build and frozen baseline passed. New browser test inspected old help state before hash navigation finished; corrected the wait. Also corrected independently discovered search-focus loss.
+
+CI 38367992092 at 6e06427239cdb5e2aac03fda8b4e00351e72b8c9: reference link target size failed axe. Increased link hit areas and made examples optional disclosures; accessibility assertion retained. The suite now records all accessibility states before evaluating its final unchanged serious/critical gate, helping diagnose multiple states together.
+
+Desktop Home and first-commit screenshots from the first run were actually viewed. They confirmed a learning/help first visit and a readable task-specific lesson. Further adjustments reduced duplicate section headings and enlarged code text. Full final visual review remains pending.
+
+## Required final checks
+
+- Four viewport sizes (1440x900, 768x1024, 390x844, 320x568), both themes.
+- Home, learning index, first commit, unstage help, gated action, error ambiguity, reference and command page.
+- Both first-visit choices fit 390x844; no horizontal document overflow.
+- Paste injection/no persistence, blocked prerequisites, literal placeholders, share-link privacy and failure return.
+- Search across actual content types with aliases; category/effect conjunction; navigation/legacy hashes; theme persistence; read-only copy; no-JavaScript and print privacy.
+- Actual screenshot inspection, reported separately from screenshot capture and axe.
+
+Human screen-reader sessions and user design acceptance are not represented by automated checks. The fixed visual scenarios are not a simulator; hosted CLI/API authentication and CI templates are not claimed end-to-end verified.
+
+## Publishing correction
+
+Inspection found GitHub's automatic “pages build and deployment” workflow runs for v2.0 and has been publishing this branch. Earlier statements that branch pushes left the live site untouched were incorrect. Main is unchanged, but the separate auto-Pages flow is not held by the custom quality gate. This was disclosed during the work; verify the live output rather than assuming branch-only preview.

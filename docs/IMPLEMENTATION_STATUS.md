@@ -7,10 +7,25 @@ Verified baseline and active blockers are recorded below. PASS on baseline check
 - Baseline repository revision: `bf839df2fe30001824fa5068ce471046925a186f`
 - Current working branch: `v2.0` (remote); isolated local worktree `v2.0-work`
 - Working tree at start: clean
-- Current phase: `7 — error troubleshooting catalogue`
-- Current active task: `GU-0701`
-- Last verified test command: `npm test` — 133 passed, 0 failed, exit 0
+- Current phase: `Corrective experience plan — R5 validation`
+- Current active task: `R5 — browser, visual and editorial acceptance`
+- Last verified test command: `npm test` — 179 passed, 0 failed, exit 0
 - Last phase gate: `PASS` — Phase 6 CI run 38317457103: source/Git tests and desktop/mobile browser matrix passed
+
+## Corrective experience work
+
+The 2026-10-13 product review supersedes the feature queue. Historical phase passes record engineering tests only; they do not establish that titles, teaching or first-visit design were accepted.
+
+| Work | Status | Evidence |
+| --- | --- | --- |
+| R1 content contracts | PASS | docs/CONTENT_INVENTORY.md; task-specific guides/reference validators |
+| R2 Home / lesson / help structure | IN_PROGRESS | Implemented; desktop screenshots inspected; full matrix pending |
+| R3 task-specific content | PASS | 17 guides; eight contextual help topics; corrected five diagram explanations |
+| R4 reference/search/controls | IN_PROGRESS | 24 command entries, seven comparisons, grouped search, scoped controls, fallback/print; browser gate pending |
+| R5 acceptance | IN_PROGRESS | 179 local tests; first browser runs found navigation timing and target-size issues, recorded in docs/EXPERIENCE_ACCEPTANCE.md |
+| R6 later features | DEFERRED | Simulator/generator/companion do not block core learning/help release |
+
+GitHub Pages is automatically building v2.0. The older claim that v2.0 pushes leave the live site unchanged was incorrect; main itself is unchanged. Its auto-Pages workflow is separate from the custom main-only gated deploy workflow.
 
 ## Status codes
 
