@@ -289,7 +289,8 @@ assert(indexHtml.includes('id="analogy-repo"') && indexHtml.includes("jumpToTarg
 assert(indexHtml.includes('id="analogy-commit"') && indexHtml.includes("jumpToTarget('card-stage')"), 'Analogy card for Commit links to card-stage');
 assert(indexHtml.includes('id="analogy-staging"') && indexHtml.includes("jumpToTarget('card-undo')"), 'Analogy card for Staging links to card-undo');
 assert(indexHtml.includes('id="analogy-remote"') && indexHtml.includes("jumpToTarget('card-sync')"), 'Analogy card for Remote links to card-sync');
-assert(indexHtml.includes('class="primer-cs-bridge"') && indexHtml.includes("jumpToTarget('jargonDeepDive')"), 'Primer includes cross-section bridge to CS Deep Dive');
+assert(indexHtml.includes('[data-view="pro"] #beginnerPrimer'), 'CSS rule exists to target beginnerPrimer in pro view');
+assert(!indexHtml.includes('class="primer-cs-bridge"'), 'Math theory bridge removed from 60-second beginner primer');
 assert(/class="card[^"]*\bpro-only\b[^"]*"[^>]*id="card-rebase"|id="card-rebase"[^>]*class="card[^"]*\bpro-only\b[^"]*"/.test(indexHtml), 'Interactive rebase card is marked pro-only');
 assert(indexHtml.includes('[data-view="beginner"] .pro-only:not(.emergency-revealed)'), 'Emergency reveal CSS rule preserves beginner view');
 assert(indexHtml.includes('class="plain-english-note"'), 'Adaptive plain-english notes exist in markup');

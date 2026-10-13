@@ -974,6 +974,11 @@
     .hero-primer.is-collapsed .primer-collapsed-tagline { display: block !important; }
     .hero-primer.is-collapsed .primer-body { display: none !important; }
 
+    /* In Pro / Developer mode, completely hide all beginner primer information */
+    [data-view="pro"] #beginnerPrimer {
+      display: none !important;
+    }
+
     /* Interactive Learning Bridge & Analogy Action Buttons */
     .analogy-action-btn {
       margin-top: auto;
@@ -994,41 +999,6 @@
     .analogy-action-btn:hover {
       color: var(--git-orange);
       transform: translateX(3px);
-    }
-    .primer-cs-bridge {
-      margin-top: 18px;
-      padding: 10px 14px;
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.22);
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-    [data-theme="light"] .primer-cs-bridge {
-      background: rgba(2, 132, 199, 0.06);
-      border-color: rgba(2, 132, 199, 0.25);
-    }
-    .bridge-link-btn {
-      background: transparent;
-      border: none;
-      color: var(--accent-blue);
-      font-weight: 700;
-      font-size: 0.82rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 0;
-      transition: color 0.15s ease;
-    }
-    .bridge-link-btn:hover {
-      color: var(--git-orange);
-      text-decoration: underline;
     }
     .tagline-expand-link {
       background: transparent;
@@ -1833,14 +1803,6 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
               <span>View Recipe: Cloud Sync</span> →
             </button>
           </div>
-        </div>
-
-        <!-- Cross-section Bridge to CS Deep Dive & Internals -->
-        <div class="primer-cs-bridge">
-          <span>🎓 <strong>Ready for the math?</strong> Transition from analogies to formal Git graph theory:</span>
-          <button type="button" class="bridge-link-btn" onclick="jumpToTarget('jargonDeepDive')" aria-label="Jump to Computer Science Deep Dive">
-            Explore DAG, SHA Hashes &amp; Ref Internals ↓
-          </button>
         </div>
 
         <!-- Safe 5-Step Daily Routine -->
