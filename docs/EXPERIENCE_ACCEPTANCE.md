@@ -38,3 +38,11 @@ Human screen-reader sessions and user design acceptance are not represented by a
 ## Publishing correction
 
 Inspection found GitHub's automatic “pages build and deployment” workflow runs for v2.0 and has been publishing this branch. Earlier statements that branch pushes left the live site untouched were incorrect. Main is unchanged, but the separate auto-Pages flow is not held by the custom quality gate. This was disclosed during the work; verify the live output rather than assuming branch-only preview.
+
+## Passed experience matrix
+
+CI 38368312325 at a50ffcbe80d6c81192d832126a11a53712ff77ea passed: 179 source/Git tests, content/build checks, 8 frozen-baseline contexts, 8 new experience contexts (four widths x two themes), 64 accessibility state observations and no-JavaScript fallback. 49 rendered screenshots captured.
+
+Actually viewed: desktop Home and first-commit lesson, 390px dark Home, 320px light unstage help, and desktop Reference. Mobile Home showed both main choices within 390x844; narrow help retained readable text and a keyboard-focusable horizontally scrollable code region. Reference inspection found the CI example remained outside its disclosure and stretched a whole row; moved it inside. Page metadata/FAQ descriptions now match learning/help. Residual Safe Sandbox tab label removed. CI examples specify Node 24/dependency installation and remain explicitly limited to test jobs; GitLab/Bitbucket provider lint/live execution is unclaimed. YAML is no longer transformed into CMD REM comments when the example shell changes.
+
+Final source changes require their own CI confirmation; do not interpret the earlier passing SHA as proof of those later edits.

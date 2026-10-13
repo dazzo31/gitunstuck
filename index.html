@@ -396,7 +396,7 @@
           <span>🌱</span> Normal Daily Saves
         </button>
         <button class="graph-tab-btn" data-scenario="branch" role="radio" aria-checked="false">
-          <span>🌿</span> Branch (Safe Sandbox)
+          <span>🌿</span> Branch reference
         </button>
         <button class="graph-tab-btn" data-scenario="merge" role="radio" aria-checked="false">
           <span>🔀</span> Merging (Combining Work)
@@ -620,7 +620,7 @@ git log --oneline --graph --decorate --all -n 20
           <span class="badge badge-risk-safe">Effects: Config change if installed</span>
         </div>
         <div class="card-scenario">
-          <strong>When to use:</strong> Understanding how a host runs a configured test job when its event and branch conditions match. These test-only sketches need project-specific dependency setup.
+          <strong>When to use:</strong> Understanding how a host runs a configured test job when its event and branch conditions match. These Node 24 test examples require package.json, a matching package-lock.json, a working npm test script and a suitable runner. Adapt them to the project; GitLab/Bitbucket provider lint and live runs have not been performed.
         </div>
 
         <!-- 3-Way Host Starter Config Selector -->
@@ -635,17 +635,22 @@ git log --oneline --graph --decorate --all -n 20
             <span id="pipelineSnippetTitle">GitHub Actions (.github/workflows/ci.yml)</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content" tabindex="0" aria-label="Code example"><code id="pipelineSnippetCode"># .github/workflows/ci.yml
-name: CI
+          <pre class="code-content" tabindex="0" aria-label="Code example"><code id="pipelineSnippetCode"># Test-only example: Node 24 project, lockfile and npm test required.
+# .github/workflows/ci.yml
+name: Test
 on: [push, pull_request]
-
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Tests
-        run: npm test</code></pre>
+      - uses: actions/setup-node@v4
+        with:
+          node-version: &quot;24&quot;
+      - run: npm ci
+      - run: npm test</code></pre>
         </div>
         <div class="card-effect">
           <strong>What happens:</strong> Without an explicit workflow file, cloud hosts act solely as code storage. Job creation depends on the provider configuration path and matching triggers. GitHub uses .github/workflows; GitLab and Bitbucket Cloud use their documented root files.

@@ -117,15 +117,15 @@ const knowledge = {
   "pipelineConfigs": {
     "github": {
       "title": "GitHub Actions (.github/workflows/ci.yml)",
-      "code": "# .github/workflows/ci.yml\nname: CI\non: [push, pull_request]\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Run Tests\n        run: npm test"
+      "code": "# Test-only example: Node 24 project, lockfile and npm test required.\n# .github/workflows/ci.yml\nname: Test\non: [push, pull_request]\npermissions:\n  contents: read\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: \"24\"\n      - run: npm ci\n      - run: npm test"
     },
     "gitlab": {
       "title": "GitLab CI/CD (.gitlab-ci.yml)",
-      "code": "# .gitlab-ci.yml\nstages:\n  - test\n\ntest-job:\n  stage: test\n  image: node:latest\n  script:\n    - npm test"
+      "code": "# Test-only example: Node 24 project, lockfile and npm test required.\n# .gitlab-ci.yml\nimage: node:24\nstages:\n  - test\ntest-job:\n  stage: test\n  script:\n    - npm ci\n    - npm test"
     },
     "bitbucket": {
       "title": "Bitbucket Pipelines (bitbucket-pipelines.yml)",
-      "code": "# bitbucket-pipelines.yml\npipelines:\n  default:\n    - step:\n        name: Test\n        image: node:latest\n        script:\n          - npm test"
+      "code": "# Test-only example: Node 24 project, lockfile and npm test required.\n# bitbucket-pipelines.yml (Bitbucket Cloud)\nimage: node:24\npipelines:\n  default:\n    - step:\n        name: Test\n        script:\n          - npm ci\n          - npm test"
     }
   },
   "commands": [
@@ -268,7 +268,7 @@ const knowledge = {
     },
     {
       "id": "card-pipeline-snippet-1",
-      "syntax": "# .github/workflows/ci.yml\nname: CI\non: [push, pull_request]\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Run Tests\n        run: npm test",
+      "syntax": "# Test-only example: Node 24 project, lockfile and npm test required.\n# .github/workflows/ci.yml\nname: Test\non: [push, pull_request]\npermissions:\n  contents: read\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: \"24\"\n      - run: npm ci\n      - run: npm test",
       "minimumGit": "2.28",
       "requiredParameters": [],
       "effects": [

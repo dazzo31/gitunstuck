@@ -449,7 +449,7 @@ const {undoSolutions,graphScenarios,pipelineConfigs,commands,workflows}=knowledg
         const config = pipelineConfigs[provider];
         if (config && pipelineSnippetTitle && pipelineSnippetCode) {
           pipelineSnippetTitle.textContent = config.title;
-          pipelineSnippetCode.textContent = formatSnippet(config.code, getShell());
+          pipelineSnippetCode.textContent = config.code;
           announceState(`Pipeline configuration switched to ${config.title}`);
         }
       });
@@ -473,7 +473,7 @@ if (recovery) renderUndoSolution(recovery);
 const graph = document.querySelector('.graph-tab-btn.active')?.getAttribute('data-scenario');
 if (graph) renderGraphScenario(graph);
 const provider = document.querySelector('.pipeline-tab-btn.active')?.getAttribute('data-provider');
-if (provider && pipelineSnippetCode) pipelineSnippetCode.textContent = formatSnippet(pipelineConfigs[provider].code, shell);
+if (provider && pipelineSnippetCode) pipelineSnippetCode.textContent = pipelineConfigs[provider].code;
 }
 applyShell();
 document.querySelectorAll('.card[data-effects] .copy-btn').forEach(button => {
