@@ -382,11 +382,26 @@
       background: linear-gradient(135deg, rgba(194, 65, 12, 0.08) 0%, rgba(241, 245, 249, 0.95) 100%);
       border-color: rgba(194, 65, 12, 0.4);
     }
+    .hero-top-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      flex-wrap: wrap; margin-bottom: 10px;
+    }
     .emergency-badge {
       display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 800;
       color: #ffffff; background: var(--git-orange); padding: 4px 12px; border-radius: 9999px;
-      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0;
     }
+    .hero-analyzer-btn {
+      background: rgba(56, 189, 248, 0.14); border: 1px solid var(--accent-blue);
+      color: var(--accent-blue); font-size: 0.84rem; font-weight: 700;
+      padding: 6px 14px; border-radius: 9999px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease;
+    }
+    .hero-analyzer-btn:hover {
+      background: var(--accent-blue); color: #0b0f19;
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.35); transform: translateY(-1px);
+    }
+    [data-theme="light"] .hero-analyzer-btn:hover { color: #ffffff; }
     .emergency-title {
       font-size: 1.45rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; line-height: 1.25;
     }
@@ -424,13 +439,34 @@
     .snapshot-shield {
       font-size: 0.85rem; font-weight: 800; color: var(--accent-blue); display: flex; align-items: center; gap: 6px;
     }
-    .safety-snapshot-body {
-      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    .safety-snapshot-desc {
+      font-size: 0.83rem; color: var(--text-muted); margin: 0; line-height: 1.45;
     }
-    .safety-snapshot-body p {
-      font-size: 0.82rem; color: var(--text-muted); margin: 0; flex: 1; min-width: 200px;
+    .safety-options-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+      gap: 12px; margin-top: 8px;
     }
-    .compact-snippet { margin: 0 !important; min-width: 260px; }
+    .safety-option-card {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 12px 14px; display: flex;
+      flex-direction: column; gap: 8px;
+    }
+    .safety-option-title {
+      font-size: 0.84rem; font-weight: 800; color: var(--text); display: flex;
+      align-items: center; gap: 6px;
+    }
+    .safety-option-desc {
+      font-size: 0.77rem; color: var(--text-dim); line-height: 1.35;
+    }
+    .safety-explanation-note {
+      font-size: 0.8rem; color: var(--text-muted); line-height: 1.45;
+      margin-top: 6px; padding-top: 8px; border-top: 1px dashed var(--border-subtle);
+    }
+    .safety-explanation-note code {
+      font-family: var(--font-mono); font-size: 0.75rem; background: var(--bg-surface);
+      border: 1px solid var(--border-subtle); padding: 1px 4px; border-radius: 3px;
+    }
+    .compact-snippet { margin: 0 !important; }
 
     /* Work Lost Reassurance Callout */
     .work-lost-callout {
@@ -590,6 +626,15 @@
       font-size: 0.72rem; font-weight: 700; color: var(--text-dim);
       background: var(--bg-surface); border: 1px solid var(--border);
       padding: 2px 8px; border-radius: 9999px;
+    }
+    .analyzer-trigger-badge {
+      background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius-sm); padding: 6px 10px; margin-bottom: 12px;
+      font-size: 0.78rem; color: var(--text); line-height: 1.4; word-break: break-all;
+    }
+    .analyzer-trigger-badge code {
+      font-family: var(--font-mono); font-size: 0.76rem; color: var(--accent-blue);
+      background: var(--bg-surface); padding: 1px 4px; border-radius: 3px;
     }
 
     /* Visual Commit Graph Explorer (DAG Visualizer) */
@@ -769,21 +814,28 @@
       border: 1px solid rgba(56, 189, 248, 0.4);
       background: linear-gradient(180deg, rgba(56, 189, 248, 0.05) 0%, var(--bg-card) 100%);
     }
-    .forge-host-selector {
+    .forge-host-selector,
+    .pipeline-provider-bar {
       display: flex; gap: 8px; margin: 12px 0 14px; flex-wrap: wrap;
     }
-    .forge-host-btn {
+    .forge-host-btn,
+    .pipeline-tab-btn {
       background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
-      padding: 7px 14px; border-radius: 9999px; font-size: 0.82rem; font-weight: 700;
+      padding: 6px 14px; border-radius: 9999px; font-size: 0.8rem; font-weight: 700;
       cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease;
+      white-space: nowrap;
     }
-    .forge-host-btn:hover { border-color: var(--accent-blue); color: var(--text); }
-    .forge-host-btn.active {
+    .forge-host-btn:hover,
+    .pipeline-tab-btn:hover { border-color: var(--accent-blue); color: var(--text); }
+    .forge-host-btn.active,
+    .pipeline-tab-btn.active {
       background: rgba(56, 189, 248, 0.16); color: #ffffff; border-color: var(--accent-blue);
       box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
     }
-    [data-theme="light"] .forge-host-btn.active {
+    [data-theme="light"] .forge-host-btn.active,
+    [data-theme="light"] .pipeline-tab-btn.active {
       background: rgba(3, 105, 161, 0.12); color: var(--accent-blue);
+      box-shadow: 0 0 0 2px rgba(3, 105, 161, 0.2);
     }
     .forge-incident-selector {
       display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 6px; margin-bottom: 14px;
@@ -791,13 +843,17 @@
     .forge-incident-selector::-webkit-scrollbar { display: none; }
     .forge-incident-btn {
       background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-dim);
-      padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.76rem; font-weight: 600;
+      padding: 5px 12px; border-radius: 9999px; font-size: 0.76rem; font-weight: 600;
       cursor: pointer; white-space: nowrap; transition: all 0.15s ease; display: inline-flex; align-items: center; gap: 5px;
     }
-    .forge-incident-btn:hover { color: var(--text); border-color: var(--border); }
+    .forge-incident-btn:hover { color: var(--text); border-color: var(--git-orange); }
     .forge-incident-btn.active {
-      background: var(--bg-card); color: var(--text); border-color: var(--git-orange);
-      box-shadow: 0 0 0 1px var(--git-orange);
+      background: rgba(240, 80, 50, 0.15); color: var(--text); border-color: var(--git-orange);
+      box-shadow: 0 0 0 2px var(--git-orange-glow);
+    }
+    [data-theme="light"] .forge-incident-btn.active {
+      background: rgba(194, 65, 12, 0.12); color: var(--git-orange);
+      box-shadow: 0 0 0 2px rgba(194, 65, 12, 0.2);
     }
     .forge-display-panel {
       background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -815,23 +871,6 @@
       font-size: 0.82rem; color: var(--text); line-height: 1.4;
     }
     .forge-highlight-box strong { color: var(--accent-amber); }
-
-    /* CI/CD Provider Tab Switcher */
-    .pipeline-provider-bar {
-      display: flex; gap: 6px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none;
-    }
-    .pipeline-provider-bar::-webkit-scrollbar { display: none; }
-    .pipeline-tab-btn {
-      background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
-      padding: 5px 10px; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600;
-      cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s ease;
-      white-space: nowrap;
-    }
-    .pipeline-tab-btn:hover { color: var(--text); border-color: var(--border-subtle); }
-    .pipeline-tab-btn.active {
-      background: var(--bg-card); color: var(--text); border-color: var(--accent-blue);
-      box-shadow: 0 0 0 1px var(--accent-blue);
-    }
 
     /* Category & Risk Filter Controls */
     .filter-controls-container {
@@ -891,8 +930,385 @@
       box-shadow: 0 0 0 3px var(--git-orange-glow), var(--shadow-card) !important;
     }
 
-    [data-view="beginner"] .pro-only { display: none !important; }
-    [data-view="pro"] #beginnerPrimer { display: none; }
+    [data-view="beginner"] .pro-only:not(.emergency-revealed) { display: none !important; }
+    .card.emergency-revealed {
+      border-color: var(--git-orange) !important;
+      position: relative;
+    }
+    .card.emergency-revealed::before {
+      content: '🚨 Emergency Rescue Reveal';
+      position: absolute;
+      top: -10px;
+      right: 14px;
+      background: var(--git-orange);
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 2px 6px rgba(240, 80, 50, 0.35);
+      z-index: 2;
+    }
+
+    .primer-toggle-btn {
+      background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
+      padding: 6px 14px; border-radius: 9999px; font-size: 0.78rem; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .primer-toggle-btn:hover { border-color: var(--git-orange); color: var(--text); }
+    .hero-primer {
+      transition: padding 0.2s ease;
+    }
+    .hero-primer .primer-collapsed-tagline {
+      display: none;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .hero-primer.is-collapsed { padding: 14px 20px; }
+    .hero-primer.is-collapsed .primer-subtitle { display: none !important; }
+    .hero-primer.is-collapsed .primer-collapsed-tagline { display: block !important; }
+    .hero-primer.is-collapsed .primer-body { display: none !important; }
+
+    /* Interactive Learning Bridge & Analogy Action Buttons */
+    .analogy-action-btn {
+      margin-top: auto;
+      padding-top: 12px;
+      background: transparent;
+      border: none;
+      color: var(--accent-blue);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-align: left;
+      padding-left: 0;
+      transition: color 0.15s ease, transform 0.15s ease;
+    }
+    .analogy-action-btn:hover {
+      color: var(--git-orange);
+      transform: translateX(3px);
+    }
+    .primer-cs-bridge {
+      margin-top: 18px;
+      padding: 10px 14px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    [data-theme="light"] .primer-cs-bridge {
+      background: rgba(2, 132, 199, 0.06);
+      border-color: rgba(2, 132, 199, 0.25);
+    }
+    .bridge-link-btn {
+      background: transparent;
+      border: none;
+      color: var(--accent-blue);
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0;
+      transition: color 0.15s ease;
+    }
+    .bridge-link-btn:hover {
+      color: var(--git-orange);
+      text-decoration: underline;
+    }
+    .tagline-expand-link {
+      background: transparent;
+      border: none;
+      color: var(--accent-blue);
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+      margin-left: 8px;
+      padding: 0;
+      text-decoration: underline;
+    }
+    .tagline-expand-link:hover {
+      color: var(--git-orange);
+    }
+
+    /* Adaptive Plain-English Annotations */
+    .plain-english-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(52, 211, 153, 0.08);
+      border: 1px solid rgba(52, 211, 153, 0.28);
+      border-radius: var(--radius-sm);
+      padding: 7px 10px;
+      margin-bottom: 12px;
+      font-size: 0.8rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    [data-theme="light"] .plain-english-note {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #064e3b;
+    }
+    .plain-english-pill {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--accent-green);
+      background: rgba(52, 211, 153, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      padding: 1px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    [data-theme="light"] .plain-english-pill {
+      color: #047857;
+      background: #d1fae5;
+      border-color: #6ee7b7;
+    }
+    [data-view="pro"] .plain-english-note {
+      display: none !important;
+    }
+
+    /* Variable Customizer Strip */
+    .var-customizer-bar {
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+    }
+    .var-customizer-label {
+      color: var(--accent-blue);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .var-input-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .var-input-label {
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+    .var-input {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      outline: none;
+      transition: border-color 0.15s ease;
+      min-width: 130px;
+    }
+    .var-input:focus {
+      border-color: var(--git-orange);
+      box-shadow: 0 0 0 2px var(--git-orange-glow);
+    }
+
+    /* Syntax Version Pill Toggle */
+    .syntax-toggle-group {
+      display: inline-flex;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .syntax-toggle-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .syntax-toggle-btn:hover {
+      color: var(--text);
+    }
+    .syntax-toggle-btn.active {
+      background: var(--accent-blue);
+      color: #0b0f19;
+    }
+    [data-theme="light"] .syntax-toggle-btn.active {
+      color: #ffffff;
+    }
+
+    .card-top-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .card-link-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-dim);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .card-link-btn:hover {
+      border-color: var(--git-orange);
+      color: var(--git-orange);
+      background: rgba(240, 80, 50, 0.08);
+    }
+    .card-link-btn.copied {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+      background: rgba(52, 211, 153, 0.12);
+    }
+
+    /* Live .git/ Files Internals Inspector (Phase 5) */
+    .git-internals-inspector {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-top: 14px;
+    }
+    .git-internals-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .git-internals-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .git-internals-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-purple);
+      background: rgba(192, 132, 252, 0.12);
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .git-internals-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .git-internals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .git-file-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .git-file-path {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+    }
+    .git-file-content {
+      background: var(--bg-code);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      word-break: break-all;
+    }
+    .git-file-content code {
+      font-family: inherit;
+      color: inherit;
+      background: transparent;
+    }
+    .git-file-note {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      font-style: italic;
+      line-height: 1.35;
+    }
+
+    [data-theme="light"] .git-internals-inspector {
+      background: #ffffff;
+      border-color: #cbd5e1;
+    }
+    [data-theme="light"] .git-file-card {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+    [data-theme="light"] .git-file-content {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      color: #0f172a;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    [data-theme="light"] .git-file-content code {
+      color: #0f172a;
+    }
+    [data-theme="light"] .git-file-path {
+      color: #0284c7;
+    }
+    [data-theme="light"] .git-file-note {
+      color: #475569;
+    }
+    [data-theme="light"] .analyzer-textarea {
+      background: #ffffff;
+      color: #0f172a;
+      border-color: #cbd5e1;
+    }
+    [data-theme="light"] .analyzer-textarea:focus {
+      border-color: var(--git-orange);
+      box-shadow: 0 0 0 2px var(--git-orange-glow);
+    }
 
     .card-top {
       display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
@@ -1198,10 +1614,10 @@
       <!-- Mode Switcher -->
       <div class="mode-switcher" id="modeSwitcher" role="group" aria-label="Experience Mode">
         <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Task-driven language, real-world analogies, hides advanced commands">
-          🌱 Plain English
+          🌱 Plain English (Beginner)
         </button>
-        <button class="mode-btn" data-mode="pro" aria-pressed="false" title="Full developer matrix, rebase, DAG architecture, and worktrees">
-          ⚡ Developer Hub
+        <button class="mode-btn" data-mode="pro" aria-pressed="false" title="Full developer matrix, rebase, DAG architecture, worktrees &amp; reflog">
+          ⚡ Pro Developer Hub
         </button>
       </div>
 
@@ -1253,7 +1669,12 @@
 
     <!-- EMERGENCY TRIAGE HERO -->
     <section class="emergency-hero" id="emergencyHero" aria-labelledby="emergencyHeading">
-      <div class="emergency-badge">🚨 Git Emergency? Don't Panic</div>
+      <div class="hero-top-row">
+        <div class="emergency-badge">🚨 Git Emergency? Don't Panic</div>
+        <button id="heroJumpToAnalyzer" class="hero-analyzer-btn" title="Jump directly to terminal error &amp; status analyzer">
+          📟 Paste Terminal Error / Status →
+        </button>
+      </div>
       <h2 class="emergency-title" id="emergencyHeading">Git almost never loses your committed work.</h2>
       <p class="emergency-subtitle">Take a breath. Click what just happened below to jump directly to a verified, safe resolution:</p>
       <div class="emergency-chips" role="group" aria-label="Emergency problem selector">
@@ -1294,12 +1715,40 @@
         <div class="safety-snapshot-header">
           <span class="snapshot-shield">🛡️ Golden Safety Rule: Make a Bookmark Before Any Fix</span>
         </div>
-        <div class="safety-snapshot-body">
-          <p>Create a backup branch now. It takes 1 second, does not change your files, and guarantees you can always return to this exact spot:</p>
-          <div class="snippet-block compact-snippet">
-            <pre class="code-content"><code>git branch backup-before-fix</code></pre>
-            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy backup command">Copy</button>
+        <p class="safety-snapshot-desc">Before running any troubleshooting or recovery command, save a snapshot so you can return to this exact spot if something goes wrong:</p>
+        <div class="safety-options-grid">
+          <!-- Option A: Clean Working Tree -->
+          <div class="safety-option-card">
+            <div class="safety-option-title">
+              <span>🌱</span> Option A: Clean working tree (only committed work)
+            </div>
+            <div class="safety-option-desc">Use when <code>git status</code> is clean or you only need to bookmark your current commit checkpoint:</div>
+            <div class="snippet-block compact-snippet">
+              <div class="snippet-header">
+                <span>Bookmark Commit</span>
+                <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy Option A backup command">Copy</button>
+              </div>
+              <pre class="code-content"><code>git branch backup-before-fix</code></pre>
+            </div>
           </div>
+          <!-- Option B: Full Snapshot (Uncommitted & Untracked) -->
+          <div class="safety-option-card">
+            <div class="safety-option-title">
+              <span>🛡️</span> Option B: I have uncommitted or untracked changes (Full Snapshot)
+            </div>
+            <div class="safety-option-desc">Use when you have in-progress edits on disk that must be protected before running any reset or clean:</div>
+            <div class="snippet-block compact-snippet">
+              <div class="snippet-header">
+                <span>Branch + Stash Snapshot</span>
+                <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy Option B backup commands">Copy</button>
+              </div>
+              <pre class="code-content"><code>git branch backup-before-fix
+git stash push -u -m "safety-backup" && git stash apply</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="safety-explanation-note">
+          💡 <strong>How it protects you:</strong> <code>git branch</code> saves your commit history, while <code>git stash push -u &amp;&amp; git stash apply</code> safely snapshots uncommitted and untracked files into the stash list without clearing your working directory.
         </div>
       </div>
     </section>
@@ -1329,77 +1778,107 @@
     <!-- Beginner Mental Model Primer (Shown in Plain English mode) -->
     <section class="hero-primer" id="beginnerPrimer" aria-labelledby="primerHeading">
       <div class="primer-header">
-        <span class="primer-badge">Zero Experience? Start Here</span>
-        <h2 class="primer-title" id="primerHeading">The 60-Second Mental Model</h2>
-        <p class="primer-subtitle">If you have never touched a code repository or pipeline, here is how Git actually works in plain English.</p>
-      </div>
-
-      <!-- 4 Real-World Analogies -->
-      <div class="analogies-grid">
-        <div class="analogy-card">
-          <div class="analogy-icon" aria-hidden="true">📁</div>
-          <div class="analogy-term">The Repository ("Repo")</div>
-          <div class="analogy-meta">Project Folder + Time Machine</div>
-          <p class="analogy-text">A repository is your project folder paired with an automatic ledger. It tracks your files and records a permanent, rewound history of every saved change.</p>
-        </div>
-
-        <div class="analogy-card">
-          <div class="analogy-icon" aria-hidden="true">💾</div>
-          <div class="analogy-term">The Commit</div>
-          <div class="analogy-meta">A Game Save Point</div>
-          <p class="analogy-text">A commit is a permanent snapshot of your project at one moment. If something breaks tomorrow, you can safely reload your codebase back to this exact checkpoint.</p>
-        </div>
-
-        <div class="analogy-card">
-          <div class="analogy-icon" aria-hidden="true">🛒</div>
-          <div class="analogy-term">The Staging Area (git add)</div>
-          <div class="analogy-meta">Your Shopping Cart</div>
-          <p class="analogy-text">Before you buy items, you place them into a cart. <code>git add</code> picks which edited files enter the cart. <code>git commit</code> pays at the register to seal the checkpoint.</p>
-        </div>
-
-        <div class="analogy-card">
-          <div class="analogy-icon" aria-hidden="true">☁️</div>
-          <div class="analogy-term">Remote &amp; Pipelines</div>
-          <div class="analogy-meta">Cloud Storage &amp; Configured Robot</div>
-          <p class="analogy-text"><strong>GitHub</strong> is a cloud host for your repo. A <strong>Pipeline</strong> is a robot that runs automated tests and deploys, <em>if your repository has a workflow file configured</em>.</p>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+          <div>
+            <span class="primer-badge">Zero Experience? Start Here • Beginner Guide</span>
+            <h2 class="primer-title" id="primerHeading">The 60-Second Mental Model</h2>
+            <p class="primer-subtitle">If you have never touched a code repository or pipeline, here is how Git actually works in plain English.</p>
+            <div class="primer-collapsed-tagline">💡 <strong>Quick Concept:</strong> Repo = Time Machine • Commit = Save Point • Staging = Cart • 5-Step Safe Routine <button type="button" class="tagline-expand-link" onclick="setPrimerCollapsed(false, true)" aria-label="Expand 60-Second Mental Model">[Expand Guide ↑]</button></div>
+          </div>
+          <button id="togglePrimerBtn" class="primer-toggle-btn" aria-expanded="true" aria-controls="primerBody">
+            <span class="primer-toggle-icon">▲</span> Collapse Guide
+          </button>
         </div>
       </div>
 
-      <!-- Safe 5-Step Daily Routine -->
-      <div class="daily-recipe">
-        <div class="recipe-title">
-          <span aria-hidden="true">🛡️</span> The Safe Daily Workflow Routine
+      <div id="primerBody" class="primer-body">
+        <!-- 4 Real-World Analogies -->
+        <div class="analogies-grid">
+          <div class="analogy-card" id="analogy-repo">
+            <div class="analogy-icon" aria-hidden="true">📁</div>
+            <div class="analogy-term">The Repository ("Repo")</div>
+            <div class="analogy-meta">Project Folder + Time Machine</div>
+            <p class="analogy-text">A repository is your project folder paired with an automatic ledger. It tracks your files and records a permanent, rewound history of every saved change.</p>
+            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-init')" aria-label="Jump to Start a Repository recipe">
+              <span>View Recipe: Start a Repo</span> →
+            </button>
+          </div>
+
+          <div class="analogy-card" id="analogy-commit">
+            <div class="analogy-icon" aria-hidden="true">💾</div>
+            <div class="analogy-term">The Commit</div>
+            <div class="analogy-meta">A Game Save Point</div>
+            <p class="analogy-text">A commit is a permanent snapshot of your project at one moment. If something breaks tomorrow, you can safely reload your codebase back to this exact checkpoint.</p>
+            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-stage')" aria-label="Jump to Stage and Commit recipe">
+              <span>View Recipe: Save Checkpoint</span> →
+            </button>
+          </div>
+
+          <div class="analogy-card" id="analogy-staging">
+            <div class="analogy-icon" aria-hidden="true">🛒</div>
+            <div class="analogy-term">The Staging Area (git add)</div>
+            <div class="analogy-meta">Your Shopping Cart</div>
+            <p class="analogy-text">Before you buy items, you place them into a cart. <code>git add</code> picks which edited files enter the cart. <code>git commit</code> pays at the register to seal the checkpoint.</p>
+            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-undo')" aria-label="Jump to Undo and Staging recipe">
+              <span>View Recipe: Unstage &amp; Undo</span> →
+            </button>
+          </div>
+
+          <div class="analogy-card" id="analogy-remote">
+            <div class="analogy-icon" aria-hidden="true">☁️</div>
+            <div class="analogy-term">Remote &amp; Pipelines</div>
+            <div class="analogy-meta">Cloud Storage &amp; Configured Robot</div>
+            <p class="analogy-text"><strong>GitHub</strong> is a cloud host for your repo. A <strong>Pipeline</strong> is a robot that runs automated tests and deploys, <em>if your repository has a workflow file configured</em>.</p>
+            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-sync')" aria-label="Jump to Sync with GitHub recipe">
+              <span>View Recipe: Cloud Sync</span> →
+            </button>
+          </div>
         </div>
-        <div class="recipe-steps">
-          <div class="recipe-step">
-            <span class="recipe-num" aria-hidden="true">1</span>
-            <div class="recipe-action">Inspect Status</div>
-            <div class="recipe-desc">See which files were modified or untracked.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git status</code></pre></div>
+
+        <!-- Cross-section Bridge to CS Deep Dive & Internals -->
+        <div class="primer-cs-bridge">
+          <span>🎓 <strong>Ready for the math?</strong> Transition from analogies to formal Git graph theory:</span>
+          <button type="button" class="bridge-link-btn" onclick="jumpToTarget('jargonDeepDive')" aria-label="Jump to Computer Science Deep Dive">
+            Explore DAG, SHA Hashes &amp; Ref Internals ↓
+          </button>
+        </div>
+
+        <!-- Safe 5-Step Daily Routine -->
+        <div class="daily-recipe">
+          <div class="recipe-title">
+            <span aria-hidden="true">🛡️</span> The Safe Daily Workflow Routine
           </div>
-          <div class="recipe-step">
-            <span class="recipe-num" aria-hidden="true">2</span>
-            <div class="recipe-action">Stage Intended Files</div>
-            <div class="recipe-desc">Add only the specific files you meant to touch.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git add src/app.js</code></pre></div>
-          </div>
-          <div class="recipe-step">
-            <span class="recipe-num" aria-hidden="true">3</span>
-            <div class="recipe-action">Review Staged Diff</div>
-            <div class="recipe-desc">Verify line-by-line what will enter the commit.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git diff --staged</code></pre></div>
-          </div>
-          <div class="recipe-step">
-            <span class="recipe-num" aria-hidden="true">4</span>
-            <div class="recipe-action">Seal Checkpoint</div>
-            <div class="recipe-desc">Record the snapshot with a meaningful note.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git commit -m "feat: login"</code></pre></div>
-          </div>
-          <div class="recipe-step">
-            <span class="recipe-num" aria-hidden="true">5</span>
-            <div class="recipe-action">Push When Ready</div>
-            <div class="recipe-desc">Publish to your remote upstream.</div>
-            <div class="snippet-block"><pre class="code-content"><code>git push</code></pre></div>
+          <div class="recipe-steps">
+            <div class="recipe-step">
+              <span class="recipe-num" aria-hidden="true">1</span>
+              <div class="recipe-action">Inspect Status</div>
+              <div class="recipe-desc">See which files were modified or untracked.</div>
+              <div class="snippet-block"><pre class="code-content"><code>git status</code></pre></div>
+            </div>
+            <div class="recipe-step">
+              <span class="recipe-num" aria-hidden="true">2</span>
+              <div class="recipe-action">Stage Intended Files</div>
+              <div class="recipe-desc">Add only the specific files you meant to touch.</div>
+              <div class="snippet-block"><pre class="code-content"><code>git add src/app.js</code></pre></div>
+            </div>
+            <div class="recipe-step">
+              <span class="recipe-num" aria-hidden="true">3</span>
+              <div class="recipe-action">Review Staged Diff</div>
+              <div class="recipe-desc">Verify line-by-line what will enter the commit.</div>
+              <div class="snippet-block"><pre class="code-content"><code>git diff --staged</code></pre></div>
+            </div>
+            <div class="recipe-step">
+              <span class="recipe-num" aria-hidden="true">4</span>
+              <div class="recipe-action">Seal Checkpoint</div>
+              <div class="recipe-desc">Record the snapshot with a meaningful note.</div>
+              <div class="snippet-block"><pre class="code-content"><code>git commit -m "feat: login"</code></pre></div>
+            </div>
+            <div class="recipe-step">
+              <span class="recipe-num" aria-hidden="true">5</span>
+              <div class="recipe-action">Push When Ready</div>
+              <div class="recipe-desc">Publish to your remote upstream.</div>
+              <div class="snippet-block"><pre class="code-content"><code>git push</code></pre></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1520,6 +1999,27 @@
         <!-- Rendered dynamically by JavaScript -->
       </div>
 
+      <!-- LIVE .git/ REFS & HEAD INTERNALS INSPECTOR (Phase 5) -->
+      <div class="git-internals-inspector" id="gitInternalsInspector" aria-labelledby="gitInternalsTitle">
+        <div class="git-internals-header">
+          <span class="git-internals-title" id="gitInternalsTitle">🔍 Under the Hood: Actual .git/ Files</span>
+          <span class="git-internals-badge">Live File System State</span>
+        </div>
+        <p class="git-internals-desc">See exactly what 41-byte text files Git reads and writes inside the hidden <code>.git/</code> database for this scenario:</p>
+        <div class="git-internals-grid">
+          <div class="git-file-card">
+            <div class="git-file-path">📄 .git/HEAD</div>
+            <div class="git-file-content"><code id="inspectorHeadContent">ref: refs/heads/main</code></div>
+            <div class="git-file-note" id="inspectorHeadNote">Points to active branch ref</div>
+          </div>
+          <div class="git-file-card">
+            <div class="git-file-path" id="inspectorBranchPath">📄 .git/refs/heads/main</div>
+            <div class="git-file-content"><code id="inspectorBranchContent">3a7f82b49e10d54c82b90198273645102938475a</code></div>
+            <div class="git-file-note" id="inspectorBranchNote">40-char SHA-1 hash pointing to commit c3</div>
+          </div>
+        </div>
+      </div>
+
       <!-- EXPANDABLE COMPUTER SCIENCE DEEP DIVE (Learning Feature) -->
       <details class="jargon-deep-dive" id="jargonDeepDive">
         <summary class="jargon-summary">
@@ -1533,10 +2033,10 @@
           <div class="jargon-grid">
             <div class="jargon-card">
               <h3 class="jargon-card-title">1. Directed Acyclic Graph (DAG)</h3>
-              <p>Git history is formally represented as a <strong>Directed Acyclic Graph</strong> $G = (V, E)$:</p>
+              <p>Git history is formally represented as a <strong>Directed Acyclic Graph</strong> <var>G</var> = (<var>V</var>, <var>E</var>):</p>
               <ul>
-                <li><strong>Vertices ($V$):</strong> Immutable commit objects representing project snapshots.</li>
-                <li><strong>Directed Edges ($E$):</strong> Pointers directed <em>backwards</em> from child commits to their parent(s). A commit points to its parent because the parent existed first; the parent cannot know its future children.</li>
+                <li><strong>Vertices (<var>V</var>):</strong> Immutable commit objects representing project snapshots.</li>
+                <li><strong>Directed Edges (<var>E</var>):</strong> Pointers directed <em>backwards</em> from child commits to their parent(s). A commit points to its parent because the parent existed first; the parent cannot know its future children.</li>
                 <li><strong>Acyclic Invariant:</strong> It is mathematically impossible for a commit to be its own ancestor, preventing infinite loops during graph traversal.</li>
                 <li><strong>Topological Ordering:</strong> Git orders commits chronologically and topologically during operations like <code>git log</code> and <code>git rev-list</code>.</li>
               </ul>
@@ -1564,9 +2064,9 @@
               <h3 class="jargon-card-title">4. Best Common Ancestor (BCA) &amp; 3-Way Merge</h3>
               <p>How Git calculates merges without manual guesswork:</p>
               <ul>
-                <li><strong>Lowest Common Ancestor (LCA):</strong> When merging two branches ($B_1$ and $B_2$), Git traverses the DAG backwards to find their <em>Best Common Ancestor</em> commit $A$.</li>
-                <li><strong>3-Way Diff Matrix:</strong> Git computes $\Delta_1 = \text{diff}(A, B_1)$ and $\Delta_2 = \text{diff}(A, B_2)$. Clean changes to disjoint lines are automatically combined. Changes to identical lines trigger conflict markers.</li>
-                <li><strong>Merge Commit:</strong> The resulting snapshot has <em>two parent pointers</em>: Parent 1 ($B_1$) and Parent 2 ($B_2$).</li>
+                <li><strong>Lowest Common Ancestor (LCA):</strong> When merging two branches (<var>B</var><sub>1</sub> and <var>B</var><sub>2</sub>), Git traverses the DAG backwards to find their <em>Best Common Ancestor</em> commit <var>A</var>.</li>
+                <li><strong>3-Way Diff Matrix:</strong> Git computes <code>Δ<sub>1</sub> = diff(<var>A</var>, <var>B</var><sub>1</sub>)</code> and <code>Δ<sub>2</sub> = diff(<var>A</var>, <var>B</var><sub>2</sub>)</code>. Clean changes to disjoint lines are automatically combined. Changes to identical lines trigger conflict markers.</li>
+                <li><strong>Merge Commit:</strong> The resulting snapshot has <em>two parent pointers</em>: Parent 1 (<var>B</var><sub>1</sub>) and Parent 2 (<var>B</var><sub>2</sub>).</li>
               </ul>
             </div>
           </div>
@@ -1608,11 +2108,18 @@
       <article class="card" id="card-init" data-category="essential" data-risk="safe" data-keywords="init new project create repository gitignore first commit start push remote upstream setup empty directory">
         <div class="card-top">
           <h2 class="card-title">Start a Repository from Scratch</h2>
-          <span class="card-tag">Onboarding</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Onboarding</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-init', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local → Remote</span>
           <span class="badge badge-risk-safe">Risk: Safe</span>
+        </div>
+        <div class="plain-english-note">
+          <span class="plain-english-pill">🌱 Plain English</span>
+          <span>Turns a regular folder into a tracked project with a time-machine ledger in <code>.git/</code>, then links it to GitHub.</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You started a new project folder on your machine and want to begin tracking it with Git and connect it to GitHub.
@@ -1622,7 +2129,14 @@
             <span>Initialization Sequence</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Initialize local repository with default branch 'main'
+          <div class="var-customizer-bar">
+            <span class="var-customizer-label">✏️ Customize:</span>
+            <div class="var-input-group">
+              <label class="var-input-label" for="var-init-url">repo URL:</label>
+              <input type="text" id="var-init-url" class="var-input" data-target-code="code-init" data-placeholder="https://github.com/username/repo.git" value="https://github.com/username/repo.git" aria-label="Customize repository URL">
+            </div>
+          </div>
+          <pre class="code-content"><code id="code-init"># 1. Initialize local repository with default branch 'main'
 git init -b main
 
 # 2. Stage all initial files and make the first milestone
@@ -1648,11 +2162,18 @@ git push -u origin main</code></pre>
       <article class="card" id="card-clone" data-category="essential" data-risk="safe" data-keywords="clone download github gitlab copy repo existing project setup fetch checkout local copy">
         <div class="card-top">
           <h2 class="card-title">Clone an Existing Project</h2>
-          <span class="card-tag">Onboarding</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Onboarding</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-clone', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote → Local</span>
           <span class="badge badge-risk-safe">Risk: Safe</span>
+        </div>
+        <div class="plain-english-note">
+          <span class="plain-english-pill">🌱 Plain English</span>
+          <span>Downloads an exact duplicate of the project and its entire history from GitHub onto your computer.</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You want to download a team repository or open-source project from GitHub onto your computer and start working.
@@ -1662,7 +2183,14 @@ git push -u origin main</code></pre>
             <span>Clone &amp; Inspect</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Download complete repository history into a new folder:
+          <div class="var-customizer-bar">
+            <span class="var-customizer-label">✏️ Customize:</span>
+            <div class="var-input-group">
+              <label class="var-input-label" for="var-clone-url">repo URL:</label>
+              <input type="text" id="var-clone-url" class="var-input" data-target-code="code-clone" data-placeholder="https://github.com/username/repo.git" value="https://github.com/username/repo.git" aria-label="Customize clone URL">
+            </div>
+          </div>
+          <pre class="code-content"><code id="code-clone"># 1. Download complete repository history into a new folder:
 git clone https://github.com/username/repo.git
 
 # 2. Enter directory and inspect status:
@@ -1687,11 +2215,18 @@ git branch -a</code></pre>
       <article class="card" id="card-stage" data-category="essential" data-risk="safe" data-keywords="save commit checkpoint status add diff staged patch inspect changes draft progress">
         <div class="card-top">
           <h2 class="card-title">Precise Staging &amp; Checkpoints</h2>
-          <span class="card-tag">Daily Essential</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Daily Essential</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-stage', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Tree → Index</span>
           <span class="badge badge-risk-safe">Risk: Safe</span>
+        </div>
+        <div class="plain-english-note">
+          <span class="plain-english-pill">🌱 Plain English</span>
+          <span><code>git add</code> puts files into your shopping cart; <code>git commit</code> pays at the register to seal a permanent save point.</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You edited several files and want to seal a clean milestone snapshot containing only the changes intended for this commit.
@@ -1701,7 +2236,18 @@ git branch -a</code></pre>
             <span>Status, Add &amp; Diff</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Review status of modified files:
+          <div class="var-customizer-bar">
+            <span class="var-customizer-label">✏️ Customize:</span>
+            <div class="var-input-group">
+              <label class="var-input-label" for="var-stage-file">file:</label>
+              <input type="text" id="var-stage-file" class="var-input" data-target-code="code-stage" data-placeholder="src/app.js" value="src/app.js" aria-label="Customize filename to stage">
+            </div>
+            <div class="var-input-group">
+              <label class="var-input-label" for="var-stage-msg">message:</label>
+              <input type="text" id="var-stage-msg" class="var-input" data-target-code="code-stage" data-placeholder="feat: add user authentication" value="feat: add user authentication" aria-label="Customize commit message">
+            </div>
+          </div>
+          <pre class="code-content"><code id="code-stage"># 1. Review status of modified files:
 git status
 
 # 2. Stage specific intended files:
@@ -1731,11 +2277,18 @@ git commit -m "feat: add user authentication"</code></pre>
       <article class="card" id="card-branch" data-category="branch" data-risk="safe" data-keywords="branch sandbox switch test experiment create checkout switch -c parallel feature work">
         <div class="card-top">
           <h2 class="card-title">Branches: Isolated Sandboxes</h2>
-          <span class="card-tag">Branches</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Branches</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-branch', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local History</span>
           <span class="badge badge-risk-safe">Risk: Safe</span>
+        </div>
+        <div class="plain-english-note">
+          <span class="plain-english-pill">🌱 Plain English</span>
+          <span>Creates an isolated sandbox where you can code and test safely without risking the working production code on <code>main</code>.</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Starting a new feature, bugfix, or experiment without risking the working production code on <code>main</code>.
@@ -1743,9 +2296,20 @@ git commit -m "feat: add user authentication"</code></pre>
         <div class="snippet-block">
           <div class="snippet-header">
             <span>Branch Navigation</span>
+            <div class="syntax-toggle-group" role="group" aria-label="Git Command Syntax">
+              <button class="syntax-toggle-btn active" data-syntax="modern" data-target-code="code-branch" aria-pressed="true">Modern (switch)</button>
+              <button class="syntax-toggle-btn" data-syntax="legacy" data-target-code="code-branch" aria-pressed="false">Legacy (checkout)</button>
+            </div>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Create and switch to a new branch:
+          <div class="var-customizer-bar">
+            <span class="var-customizer-label">✏️ Customize:</span>
+            <div class="var-input-group">
+              <label class="var-input-label" for="var-branch-name">branch:</label>
+              <input type="text" id="var-branch-name" class="var-input" data-target-code="code-branch" data-placeholder="feature/redesign" value="feature/redesign" aria-label="Customize branch name">
+            </div>
+          </div>
+          <pre class="code-content"><code id="code-branch"># 1. Create and switch to a new branch:
 git switch -c feature/redesign
 
 # 2. Work safely, edit files, and commit:
@@ -1786,11 +2350,18 @@ git switch main</code></pre>
       <article class="card" id="card-undo" data-category="undo" data-risk="destructive" data-keywords="undo restore discard mistake reset revert staged unstage accidental throw away clean edits push pushed commit">
         <div class="card-top">
           <h2 class="card-title">Undoing Mistakes Safely</h2>
-          <span class="card-tag">Undo &amp; Recovery</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Undo &amp; Recovery</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-undo', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Tree &amp; Index</span>
           <span class="badge badge-risk-caution">Risk: Destructive / Reversible</span>
+        </div>
+        <div class="plain-english-note">
+          <span class="plain-english-pill">🌱 Plain English</span>
+          <span><code>restore --staged</code> takes items out of your shopping cart safely; <code>restore</code> throws away changes on disk permanently.</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You made accidental edits or staged files too early and need to back out without losing unintended work.
@@ -1798,16 +2369,31 @@ git switch main</code></pre>
         <div class="snippet-block">
           <div class="snippet-header">
             <span>Restore Commands</span>
+            <div class="syntax-toggle-group" role="group" aria-label="Git Command Syntax">
+              <button class="syntax-toggle-btn active" data-syntax="modern" data-target-code="code-undo" aria-pressed="true">Modern (restore)</button>
+              <button class="syntax-toggle-btn" data-syntax="legacy" data-target-code="code-undo" aria-pressed="false">Legacy (checkout/reset)</button>
+            </div>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Unstage a file (SAFE: keeps your local edits in file):
-git restore --staged &lt;filename&gt;
+          <div class="var-customizer-bar">
+            <span class="var-customizer-label">✏️ Customize:</span>
+            <div class="var-input-group">
+              <label class="var-input-label" for="var-undo-file">file:</label>
+              <input type="text" id="var-undo-file" class="var-input" data-target-code="code-undo" data-placeholder="src/app.js" value="src/app.js" aria-label="Customize filename">
+            </div>
+            <div class="var-input-group">
+              <label class="var-input-label" for="var-undo-commit">commit:</label>
+              <input type="text" id="var-undo-commit" class="var-input" data-target-code="code-undo" data-placeholder="a1b2c3d" value="a1b2c3d" aria-label="Customize commit hash">
+            </div>
+          </div>
+          <pre class="code-content"><code id="code-undo"># 1. Unstage a file (SAFE: keeps your local edits in file):
+git restore --staged src/app.js
 
 # 2. Discard uncommitted edits (PERMANENT: overwrites file):
-git restore &lt;filename&gt;
+git restore src/app.js
 
 # 3. Undo a pushed commit safely with an inverse commit:
-git revert &lt;commit-id&gt;</code></pre>
+git revert a1b2c3d</code></pre>
         </div>
         <div class="card-effect">
           <strong>What happens:</strong> <code>restore --staged</code> removes files from index without touching files on disk. <code>restore</code> copies the committed version over disk.
@@ -1855,11 +2441,18 @@ git revert &lt;commit-id&gt;</code></pre>
       <article class="card" id="card-sync" data-category="cloud" data-risk="caution" data-keywords="github gitlab bitbucket cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
         <div class="card-top">
           <h2 class="card-title">Working with Remotes (GitHub, GitLab, Bitbucket)</h2>
-          <span class="card-tag">Cloud &amp; Remotes</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Cloud &amp; Remotes</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-sync', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote &amp; Local</span>
           <span class="badge badge-risk-rev">Risk: Reversible</span>
+        </div>
+        <div class="plain-english-note">
+          <span class="plain-english-pill">🌱 Plain English</span>
+          <span><code>git pull</code> downloads teammates' newest checkpoints; <code>git push</code> uploads your save points to the cloud host.</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Sharing your commits with teammates on GitHub, GitLab, or Bitbucket, or downloading their latest updates before merging.
@@ -1869,14 +2462,21 @@ git revert &lt;commit-id&gt;</code></pre>
             <span>Fetch, Rebase &amp; Remote URLs</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Download remote changes WITHOUT altering working files:
+          <div class="var-customizer-bar">
+            <span class="var-customizer-label">✏️ Customize:</span>
+            <div class="var-input-group">
+              <label class="var-input-label" for="var-sync-branch">branch:</label>
+              <input type="text" id="var-sync-branch" class="var-input" data-target-code="code-sync" data-placeholder="feature/my-branch" value="feature/my-branch" aria-label="Customize branch name">
+            </div>
+          </div>
+          <pre class="code-content"><code id="code-sync"># 1. Download remote changes WITHOUT altering working files:
 git fetch origin
 
 # 2. Pull & integrate linearly into your branch:
 git pull --rebase origin main
 
 # 3. Upload your commits to remote:
-git push origin &lt;branch-name&gt;
+git push origin feature/my-branch
 
 # Remote URL conventions across hosts:
 git remote add origin https://github.com/user/repo.git     # GitHub
@@ -1922,7 +2522,10 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
       <article class="card forge-overlay-card" id="card-forge-troubleshoot" data-category="cloud" data-risk="safe" data-keywords="github gitlab bitbucket auth authentication token pat password ssh protected branch rejected hook declined secret scanning gh013 credential manager push failure fork upstream sync">
         <div class="card-top">
           <h2 class="card-title">Cloud Forge Troubleshooting (GitHub, GitLab, Bitbucket)</h2>
-          <span class="card-tag">Multi-Host Overlays</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Multi-Host Overlays</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-forge-troubleshoot', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote Authentication &amp; Rules</span>
@@ -1971,7 +2574,10 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
       <article class="card" id="card-pipeline" data-category="cloud" data-risk="safe" data-keywords="pipeline ci cd github actions gitlab bitbucket pipelines automated deploy test workflow .github/workflows gitlab robot">
         <div class="card-top">
           <h2 class="card-title">Pipelines &amp; Automated CI/CD</h2>
-          <span class="card-tag">Cloud &amp; Remotes</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Cloud &amp; Remotes</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-pipeline', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote Cloud</span>
@@ -1983,9 +2589,9 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
 
         <!-- 3-Way Host Starter Config Selector -->
         <div class="pipeline-provider-bar" role="tablist" aria-label="CI/CD Provider Starter Configs">
-          <button class="pipeline-tab-btn active" data-provider="github" role="tab" aria-selected="true">🐙 GitHub Actions</button>
-          <button class="pipeline-tab-btn" data-provider="gitlab" role="tab" aria-selected="false">🦊 GitLab CI/CD</button>
-          <button class="pipeline-tab-btn" data-provider="bitbucket" role="tab" aria-selected="false">🪣 Bitbucket Pipelines</button>
+          <button class="pipeline-tab-btn active" data-provider="github" role="tab" aria-selected="true"><span>🐙</span> GitHub Actions</button>
+          <button class="pipeline-tab-btn" data-provider="gitlab" role="tab" aria-selected="false"><span>🦊</span> GitLab CI/CD</button>
+          <button class="pipeline-tab-btn" data-provider="bitbucket" role="tab" aria-selected="false"><span>🪣</span> Bitbucket Pipelines</button>
         </div>
 
         <div class="snippet-block" id="pipelineSnippetBlock">
@@ -2020,7 +2626,10 @@ jobs:
       <article class="card" id="card-stash" data-category="essential" data-risk="caution" data-keywords="stash shelf pause temporary switch untracked files save for later pop restore WIP emergency">
         <div class="card-top">
           <h2 class="card-title">Stashing: Temporary Work Shelving</h2>
-          <span class="card-tag">Daily Essential</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Daily Essential</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-stash', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Tree &amp; Stash</span>
@@ -2058,7 +2667,10 @@ git stash pop</code></pre>
       <article class="card" id="card-conflict" data-category="branch" data-risk="caution" data-keywords="conflict merge clash team overlapping markers resolve failed merge abort clash git merge --continue">
         <div class="card-top">
           <h2 class="card-title">Merge Conflict Resolution</h2>
-          <span class="card-tag">Branches</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Branches</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-conflict', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Tree &amp; History</span>
@@ -2102,7 +2714,10 @@ git merge --continue   # Or 'git merge --abort'</code></pre>
       <article class="card pro-only" id="card-rebase" data-category="pro" data-risk="destructive" data-keywords="rebase interactive squash clean commits shared history fixup reword rewrite history polish">
         <div class="card-top">
           <h2 class="card-title">Interactive Rebase (Commit Polish)</h2>
-          <span class="card-tag">Advanced / Pro</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Advanced / Pro</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-rebase', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local History</span>
@@ -2144,9 +2759,9 @@ git rebase --abort   # Safe escape hatch</code></pre>
           <div class="task-deep-dive-content">
             <p>Git cannot modify existing commits because commits in the DAG are cryptographically immutable. Under the hood, <code>git rebase</code> executes an automated patch pipeline:</p>
             <ul>
-              <li><strong>1. LCA Discovery:</strong> Git traverses backwards to identify the Lowest Common Ancestor ($A$) between your branch and target base ($B$).</li>
+              <li><strong>1. LCA Discovery:</strong> Git traverses backwards to identify the Lowest Common Ancestor (<var>A</var>) between your branch and target base (<var>B</var>).</li>
               <li><strong>2. Patch Generation:</strong> Commits unique to your branch are serialized into temporary diff patches in <code>.git/rebase-merge/</code>.</li>
-              <li><strong>3. HEAD Pointer Reset:</strong> Git resets <code>HEAD</code> to the target base commit ($B$).</li>
+              <li><strong>3. HEAD Pointer Reset:</strong> Git resets <code>HEAD</code> to the target base commit (<var>B</var>).</li>
               <li><strong>4. Sequential Replay:</strong> Git applies each patch one-by-one (automated <code>cherry-pick</code>). Each applied patch creates a <strong>brand new commit object</strong> with a new parent hash, new committer timestamp, and a completely different SHA checksum.</li>
             </ul>
             <p><strong>Why shared branches break:</strong> Teammates' local DAGs still point to the old commit SHAs. Pushing rebased commits results in divergent histories and duplicate commits.</p>
@@ -2158,7 +2773,10 @@ git rebase --abort   # Safe escape hatch</code></pre>
       <article class="card pro-only" id="card-detached" data-category="pro" data-risk="caution" data-keywords="detached head recovery pointer hash commit switch lost commit missing work escape">
         <div class="card-top">
           <h2 class="card-title">Detached HEAD Recovery</h2>
-          <span class="card-tag">Advanced / Pro</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Advanced / Pro</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-detached', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: HEAD Pointer</span>
@@ -2170,9 +2788,20 @@ git rebase --abort   # Safe escape hatch</code></pre>
         <div class="snippet-block">
           <div class="snippet-header">
             <span>Diagnosis &amp; Safe Exit</span>
+            <div class="syntax-toggle-group" role="group" aria-label="Git Command Syntax">
+              <button class="syntax-toggle-btn active" data-syntax="modern" data-target-code="code-detached" aria-pressed="true">Modern (switch)</button>
+              <button class="syntax-toggle-btn" data-syntax="legacy" data-target-code="code-detached" aria-pressed="false">Legacy (checkout)</button>
+            </div>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code># 1. Check if detached:
+          <div class="var-customizer-bar">
+            <span class="var-customizer-label">✏️ Customize:</span>
+            <div class="var-input-group">
+              <label class="var-input-label" for="var-detached-branch">branch:</label>
+              <input type="text" id="var-detached-branch" class="var-input" data-target-code="code-detached" data-placeholder="recovery-branch" value="recovery-branch" aria-label="Customize recovery branch name">
+            </div>
+          </div>
+          <pre class="code-content"><code id="code-detached"># 1. Check if detached:
 git status  # Shows: "HEAD detached at a1b2c3d"
 
 # Exit A: Discard experiments and return to safety:
@@ -2193,7 +2822,10 @@ git switch -c recovery-branch</code></pre>
       <article class="card pro-only" id="card-worktree" data-category="pro" data-risk="safe" data-keywords="worktree parallel multiple folders simultaneous branches hotfix concurrent separate directory">
         <div class="card-top">
           <h2 class="card-title">Git Worktrees (Parallel Folders)</h2>
-          <span class="card-tag">Advanced / Pro</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Advanced / Pro</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-worktree', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Trees &amp; Branches</span>
@@ -2228,7 +2860,10 @@ git worktree remove ../project-hotfix</code></pre>
       <article class="card pro-only" id="card-reflog" data-category="undo" data-risk="safe" data-keywords="reflog recover lost commit restore accidental delete branch resurrect rescue head@{1} history rewind">
         <div class="card-top">
           <h2 class="card-title">Reflog Recovery (Lost Work)</h2>
-          <span class="card-tag">Advanced / Pro</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Advanced / Pro</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-reflog', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local Reflog Ledger</span>
@@ -2279,7 +2914,10 @@ git switch -c rescue-branch HEAD@{2}</code></pre>
       <article class="card pro-only" id="card-bisect" data-category="pro" data-risk="safe" data-keywords="bisect blame regression bug hunt binary search find broken commit investigate line author history">
         <div class="card-top">
           <h2 class="card-title">Regression Hunting (bisect &amp; blame)</h2>
-          <span class="card-tag">Advanced / Pro</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Advanced / Pro</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-bisect', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Local History</span>
@@ -2308,7 +2946,7 @@ git bisect reset
 git blame -L 20,45 src/app.js</code></pre>
         </div>
         <div class="card-effect">
-          <strong>What happens:</strong> Performs a binary search across commit history in logarithmic steps ($\log_2 N$), isolating the faulty commit in minutes.
+          <strong>What happens:</strong> Performs a binary search across commit history in logarithmic steps (log<sub>2</sub> <var>N</var>), isolating the faulty commit in minutes.
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Git outputs: <code>[hash] is the first bad commit</code> with author and commit message.
@@ -2319,7 +2957,10 @@ git blame -L 20,45 src/app.js</code></pre>
       <article class="card" id="card-tag" data-category="cloud" data-risk="safe" data-keywords="tag release version semver annotated tag v1.0.0 publish milestone github releases software tag -a push tags">
         <div class="card-top">
           <h2 class="card-title">Release Tags &amp; Semantic Versioning</h2>
-          <span class="card-tag">Release Engineering</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Release Engineering</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-tag', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Repository Checkpoints</span>
@@ -2360,7 +3001,10 @@ git tag -l -n 1</code></pre>
       <article class="card pro-only" id="card-force-lease" data-category="cloud" data-risk="destructive" data-keywords="force push force-with-lease pr rebase pull request overwrite team safe lease reject git push -f">
         <div class="card-top">
           <h2 class="card-title">Safe Force-Push (--force-with-lease)</h2>
-          <span class="card-tag">PR &amp; Team Hygiene</span>
+          <div class="card-top-actions">
+            <span class="card-tag">PR &amp; Team Hygiene</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-force-lease', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote Tracking Branch</span>
@@ -2394,7 +3038,10 @@ git push --force-with-lease origin feature/auth
       <article class="card pro-only" id="card-cherry-pick" data-category="branch" data-risk="caution" data-keywords="cherry-pick port bugfix hotfix backport copy commit single commit pluck apply hash maintenance">
         <div class="card-top">
           <h2 class="card-title">Port Isolated Commits (cherry-pick)</h2>
-          <span class="card-tag">Branch Maintenance</span>
+          <div class="card-top-actions">
+            <span class="card-tag">Branch Maintenance</span>
+            <button type="button" class="card-link-btn" onclick="copyCardLink('card-cherry-pick', this)" aria-label="Copy direct link to this recipe" title="Copy direct link">🔗 Link</button>
+          </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Commit Plucking</span>
@@ -2605,9 +3252,10 @@ git cherry-pick 7a1b2c3
       treeSolutionPanel.innerHTML = `
         <div class="solution-top">
           <div class="solution-title">${data.title}</div>
-          <div>
+          <div style="display:flex; align-items:center; gap:8px;">
             <span class="badge badge-scope">Scope: ${data.scope}</span>
             ${data.riskBadge}
+            <button type="button" class="card-link-btn" onclick="copyDecisionLink('${locationKey}', this)" aria-label="Copy direct link to this solution" title="Copy direct link">🔗 Link</button>
           </div>
         </div>
         <div class="work-lost-callout work-lost-${data.workLostStatus}">
@@ -2655,6 +3303,11 @@ git cherry-pick 7a1b2c3
       'linear': {
         name: 'Daily Save Points (git commit)',
         command: 'git commit -m "feat: login button"',
+        headFile: 'ref: refs/heads/main',
+        headNote: 'HEAD is symbolic: points to your active "main" branch ref file',
+        branchPath: '📄 .git/refs/heads/main',
+        branchFile: '3a7f82b49e10d54c82b90198273645102938475a',
+        branchNote: '40-char SHA-1 hash of latest checkpoint c3',
         svg: `<svg viewBox="0 0 760 190" class="graph-svg" aria-label="Daily Save Points Visual Timeline" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -2696,6 +3349,11 @@ git cherry-pick 7a1b2c3
       'branch': {
         name: 'Branch (Safe Sandbox to Try Ideas)',
         command: 'git switch -c feature/login && git commit -m "add password reset"',
+        headFile: 'ref: refs/heads/feature/login',
+        headNote: 'HEAD shifted to track the new branch ref file',
+        branchPath: '📄 .git/refs/heads/feature/login',
+        branchFile: '7b2e109ac483f982146910837465019283746501f',
+        branchNote: '40-char SHA hash of feature checkpoint c4 (main remains at c2)',
         svg: `<svg viewBox="0 0 760 210" class="graph-svg" aria-label="Branch Sandbox Visual Timeline" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -2746,6 +3404,11 @@ git cherry-pick 7a1b2c3
       'merge': {
         name: 'Merging (Combining Your Work)',
         command: 'git switch main && git merge feature/login',
+        headFile: 'ref: refs/heads/main',
+        headNote: 'HEAD returned to main and points to merge milestone c5',
+        branchPath: '📄 .git/refs/heads/main',
+        branchFile: 'c5d1928374650192837465019283746501928374e',
+        branchNote: '40-char SHA hash of merge commit c5 (has two parent hashes)',
         svg: `<svg viewBox="0 0 760 220" class="graph-svg" aria-label="Merging Work Visual Timeline" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -2794,6 +3457,11 @@ git cherry-pick 7a1b2c3
       'rebase': {
         name: 'Rebase (Straighten Your Timeline)',
         command: 'git switch feature/login && git rebase main',
+        headFile: 'ref: refs/heads/feature/login',
+        headNote: 'HEAD points to feature/login replayed onto tip of main',
+        branchPath: '📄 .git/refs/heads/feature/login',
+        branchFile: '9f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90a',
+        branchNote: 'New commit hash c4\' created with c3 as its parent',
         svg: `<svg viewBox="0 0 760 210" class="graph-svg" aria-label="Rebase Straight Timeline Visual" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -2843,6 +3511,11 @@ git cherry-pick 7a1b2c3
       'detached': {
         name: 'Looking at the Past (Detached HEAD State)',
         command: 'git switch --detach <hash-c2>',
+        headFile: '4e9182ab30198273645102938475610293847501b',
+        headNote: '⚠️ DETACHED: .git/HEAD holds a direct raw commit hash (c2), NOT a branch ref!',
+        branchPath: '📄 .git/refs/heads/(none)',
+        branchFile: '(None — commits will be dangling until anchored to a branch)',
+        branchNote: 'Run git switch -c <name> to attach a named branch pointer',
         svg: `<svg viewBox="0 0 760 210" class="graph-svg" aria-label="Detached HEAD Time Travel Visual" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -2899,6 +3572,19 @@ git cherry-pick 7a1b2c3
           <strong>Architectural Takeaway:</strong> ${data.rule}
         </div>
       `;
+
+      // Live .git/ Files Internals Inspector update
+      const headElem = document.getElementById('inspectorHeadContent');
+      const headNoteElem = document.getElementById('inspectorHeadNote');
+      const branchPathElem = document.getElementById('inspectorBranchPath');
+      const branchElem = document.getElementById('inspectorBranchContent');
+      const branchNoteElem = document.getElementById('inspectorBranchNote');
+
+      if (headElem && data.headFile) headElem.textContent = data.headFile;
+      if (headNoteElem && data.headNote) headNoteElem.textContent = data.headNote;
+      if (branchPathElem && data.branchPath) branchPathElem.textContent = data.branchPath;
+      if (branchElem && data.branchFile) branchElem.textContent = data.branchFile;
+      if (branchNoteElem && data.branchNote) branchNoteElem.textContent = data.branchNote;
     }
 
     graphTabBtns.forEach(btn => {
@@ -2978,11 +3664,73 @@ git cherry-pick 7a1b2c3
       announceState(`Showing ${visibleCount} modules`);
     }
 
-    // 4. View Switcher Logic (Beginner vs Pro with Auto-Filter Reset)
+    // 4. View Switcher Logic (Beginner vs Pro with Auto-Filter Reset & Primer Collapse)
+    const beginnerPrimerElem = document.getElementById('beginnerPrimer');
+    const togglePrimerBtn = document.getElementById('togglePrimerBtn');
+
+    function setPrimerCollapsed(collapsed, userExplicit = false) {
+      if (!beginnerPrimerElem) return;
+      beginnerPrimerElem.classList.toggle('is-collapsed', collapsed);
+      if (userExplicit) {
+        beginnerPrimerElem.classList.toggle('user-expanded', !collapsed);
+        safeStorageSet('primerCollapsed', collapsed ? 'true' : 'false');
+      }
+      if (togglePrimerBtn) {
+        togglePrimerBtn.setAttribute('aria-expanded', (!collapsed).toString());
+        togglePrimerBtn.innerHTML = collapsed 
+          ? '<span class="primer-toggle-icon">▼</span> Expand Guide' 
+          : '<span class="primer-toggle-icon">▲</span> Collapse Guide';
+        togglePrimerBtn.setAttribute('aria-label', collapsed ? 'Expand 60-Second Mental Model' : 'Collapse 60-Second Mental Model');
+      }
+    }
+
+    function syncPrimerCollapseState(mode) {
+      if (!beginnerPrimerElem) return;
+      const savedPreference = safeStorageGet('primerCollapsed', null);
+      if (mode === 'pro') {
+        if (!beginnerPrimerElem.classList.contains('user-expanded')) {
+          setPrimerCollapsed(true, false);
+        }
+      } else {
+        const shouldCollapse = savedPreference === 'true';
+        setPrimerCollapsed(shouldCollapse, false);
+      }
+    }
+
+    if (togglePrimerBtn) {
+      togglePrimerBtn.addEventListener('click', () => {
+        const isCurrentlyCollapsed = beginnerPrimerElem?.classList.contains('is-collapsed');
+        setPrimerCollapsed(!isCurrentlyCollapsed, true);
+        announceState(!isCurrentlyCollapsed ? 'Beginner guide collapsed' : 'Beginner guide expanded');
+      });
+    }
+
+    // Hero quick-jump to Terminal Analyzer
+    const heroJumpToAnalyzerBtn = document.getElementById('heroJumpToAnalyzer');
+    if (heroJumpToAnalyzerBtn) {
+      heroJumpToAnalyzerBtn.addEventListener('click', () => {
+        const analyzerElem = document.getElementById('terminalAnalyzer');
+        const statusInput = document.getElementById('statusInputText');
+        if (analyzerElem) {
+          analyzerElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          analyzerElem.classList.add('highlighted');
+          setTimeout(() => analyzerElem.classList.remove('highlighted'), 2200);
+        }
+        if (statusInput) {
+          setTimeout(() => statusInput.focus(), 350);
+        }
+        announceState('Jumped to Live Terminal Analyzer');
+      });
+    }
+
     function setMode(mode) {
       if (mode !== 'beginner' && mode !== 'pro') mode = 'beginner';
       htmlElem.setAttribute('data-view', mode);
       safeStorageSet('mode', mode);
+
+      document.querySelectorAll('.card.emergency-revealed').forEach(c => {
+        c.classList.remove('emergency-revealed');
+      });
 
       modeButtons.forEach(btn => {
         const isActive = btn.getAttribute('data-mode') === mode;
@@ -3004,8 +3752,9 @@ git cherry-pick 7a1b2c3
         });
       }
 
+      syncPrimerCollapseState(mode);
       filterCards();
-      announceState(`Switched to ${mode === 'beginner' ? 'Plain English' : 'Developer Hub'} mode`);
+      announceState(`Switched to ${mode === 'beginner' ? 'Plain English (Beginner)' : 'Pro Developer Hub'} mode`);
     }
 
     modeButtons.forEach(btn => {
@@ -3140,25 +3889,56 @@ git cherry-pick 7a1b2c3
     });
 
     // 8. Dependable Copy Snippet
+    // 8. Dependable Copy Snippet with Bash Comment Stripping
+    function stripBashComments(text) {
+      if (!text) return { clean: '', hadComments: false };
+      const lines = text.split('\n');
+      const cleanLines = [];
+      let hadComments = false;
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('#')) {
+          hadComments = true;
+          continue;
+        }
+        if (trimmed === '') {
+          if (cleanLines.length > 0 && cleanLines[cleanLines.length - 1] !== '') {
+            cleanLines.push('');
+          }
+          continue;
+        }
+        cleanLines.push(line);
+      }
+      const clean = cleanLines.join('\n').trim();
+      return { clean: clean || text.trim(), hadComments };
+    }
+
     function copySnippet(btn) {
       const codeElem = btn.closest('.snippet-block')?.querySelector('pre.code-content code') ||
                        btn.closest('.snippet-block')?.querySelector('pre.code-content');
       if (!codeElem) return;
-      const textToCopy = codeElem.innerText.trim();
+      const rawText = codeElem.innerText;
+      const { clean: textToCopy, hadComments } = stripBashComments(rawText);
+      const feedbackMsg = hadComments ? 'Copied executable commands (comments stripped)' : 'Command snippet copied to clipboard';
+      const buttonLabel = hadComments ? 'Copied (clean)!' : 'Copied!';
 
+      copyTextToClipboard(textToCopy, btn, buttonLabel, feedbackMsg);
+    }
+
+    function copyTextToClipboard(text, btn, buttonLabel = 'Copied!', feedbackMsg = 'Command snippet copied to clipboard') {
       if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(textToCopy).then(() => {
-          setCopyButtonFeedback(btn, 'Copied!', true);
-          announceState('Command snippet copied to clipboard');
+        navigator.clipboard.writeText(text).then(() => {
+          setCopyButtonFeedback(btn, buttonLabel, true);
+          announceState(feedbackMsg);
         }).catch(() => {
-          fallbackCopyText(textToCopy, btn);
+          fallbackCopyText(text, btn, buttonLabel, feedbackMsg);
         });
       } else {
-        fallbackCopyText(textToCopy, btn);
+        fallbackCopyText(text, btn, buttonLabel, feedbackMsg);
       }
     }
 
-    function fallbackCopyText(text, btn) {
+    function fallbackCopyText(text, btn, buttonLabel = 'Copied!', feedbackMsg = 'Command snippet copied to clipboard') {
       try {
         const textArea = document.createElement('textarea');
         textArea.value = text;
@@ -3171,8 +3951,8 @@ git cherry-pick 7a1b2c3
         const success = document.execCommand('copy');
         document.body.removeChild(textArea);
         if (success) {
-          setCopyButtonFeedback(btn, 'Copied!', true);
-          announceState('Command snippet copied to clipboard');
+          setCopyButtonFeedback(btn, buttonLabel, true);
+          announceState(feedbackMsg);
         } else {
           setCopyButtonFeedback(btn, 'Copy failed', false);
           announceState('Copy operation failed');
@@ -3184,16 +3964,158 @@ git cherry-pick 7a1b2c3
     }
 
     function setCopyButtonFeedback(btn, text, isSuccess) {
-      btn.innerText = text;
+      if (!btn) return;
+      if (!btn.hasAttribute('data-original-text')) {
+        btn.setAttribute('data-original-text', btn.textContent.trim());
+      }
+      if (!btn.hasAttribute('data-original-aria')) {
+        btn.setAttribute('data-original-aria', btn.getAttribute('aria-label') || '');
+      }
+      btn.textContent = text;
       btn.classList.toggle('copied', isSuccess);
       btn.classList.toggle('copy-error', !isSuccess);
       btn.setAttribute('aria-label', text);
       setTimeout(() => {
-        btn.innerText = 'Copy';
+        btn.textContent = btn.getAttribute('data-original-text') || 'Copy';
         btn.classList.remove('copied', 'copy-error');
-        btn.setAttribute('aria-label', 'Copy snippet to clipboard');
+        const origAria = btn.getAttribute('data-original-aria');
+        if (origAria) {
+          btn.setAttribute('aria-label', origAria);
+        } else {
+          btn.removeAttribute('aria-label');
+        }
       }, 2000);
     }
+
+    function copyCardLink(id, btn) {
+      try {
+        const base = (window.location && window.location.href) ? window.location.href.split('#')[0] : '';
+        const targetUrl = base + '#' + id;
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', '#' + id);
+        }
+        copyTextToClipboard(targetUrl, btn, '🔗 Copied!', 'Direct recipe link copied to clipboard');
+      } catch (e) {
+        copyTextToClipboard('#' + id, btn, '🔗 Copied!', 'Direct recipe link copied to clipboard');
+      }
+    }
+
+    function copyDecisionLink(key, btn) {
+      try {
+        const base = (window.location && window.location.href) ? window.location.href.split('#')[0] : '';
+        const targetUrl = base + '#undo-' + key;
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', '#undo-' + key);
+        }
+        copyTextToClipboard(targetUrl, btn, '🔗 Copied!', 'Direct decision tree link copied to clipboard');
+      } catch (e) {
+        copyTextToClipboard('#undo-' + key, btn, '🔗 Copied!', 'Direct decision tree link copied to clipboard');
+      }
+    }
+
+    // Expose link copy functions globally for inline onclick handlers
+    window.copyCardLink = copyCardLink;
+    window.copyDecisionLink = copyDecisionLink;
+
+    // 8b. Variable Customizer & Git Syntax Toggle Controller
+    function convertModernToLegacy(text) {
+      if (!text) return '';
+      return text
+        .replace(/git switch -c /g, 'git checkout -b ')
+        .replace(/git switch --detach /g, 'git checkout --detach ')
+        .replace(/git switch /g, 'git checkout ')
+        .replace(/git restore --staged /g, 'git reset HEAD ')
+        .replace(/git restore /g, 'git checkout -- ');
+    }
+
+    function updateCustomizedCodeBlock(codeElem) {
+      if (!codeElem) return;
+      if (!codeElem.hasAttribute('data-template-modern')) {
+        const initialText = codeElem.textContent;
+        codeElem.setAttribute('data-template-modern', initialText);
+        codeElem.setAttribute('data-template-legacy', convertModernToLegacy(initialText));
+        codeElem.setAttribute('data-active-syntax', 'modern');
+      }
+
+      const syntax = codeElem.getAttribute('data-active-syntax') || 'modern';
+      const baseTemplate = syntax === 'legacy' 
+        ? codeElem.getAttribute('data-template-legacy') 
+        : codeElem.getAttribute('data-template-modern');
+      if (!baseTemplate) return;
+
+      const targetId = codeElem.id;
+      const inputs = document.querySelectorAll(`.var-input[data-target-code="${targetId}"]`);
+      let updatedText = baseTemplate;
+      inputs.forEach(inp => {
+        const ph = inp.getAttribute('data-placeholder');
+        const val = inp.value.trim() || ph;
+        if (ph) {
+          updatedText = updatedText.split(ph).join(val);
+        }
+      });
+      codeElem.textContent = updatedText;
+    }
+
+    function initCustomizersAndSyntax() {
+      // 1. Initialize templates for code blocks associated with customizers or syntax toggles
+      const targetCodeIds = new Set();
+      document.querySelectorAll('.var-input').forEach(input => {
+        const id = input.getAttribute('data-target-code');
+        if (id) targetCodeIds.add(id);
+      });
+      document.querySelectorAll('.syntax-toggle-btn').forEach(btn => {
+        const id = btn.getAttribute('data-target-code');
+        if (id) targetCodeIds.add(id);
+      });
+
+      targetCodeIds.forEach(id => {
+        const codeElem = document.getElementById(id);
+        if (!codeElem) return;
+        if (!codeElem.hasAttribute('data-template-modern')) {
+          const initialText = codeElem.textContent;
+          codeElem.setAttribute('data-template-modern', initialText);
+          codeElem.setAttribute('data-template-legacy', convertModernToLegacy(initialText));
+          codeElem.setAttribute('data-active-syntax', 'modern');
+        }
+      });
+
+      // 2. Attach Variable Customizer Listeners
+      document.querySelectorAll('.var-input').forEach(input => {
+        const targetId = input.getAttribute('data-target-code');
+        const codeElem = document.getElementById(targetId);
+        if (!codeElem) return;
+
+        input.addEventListener('input', () => {
+          updateCustomizedCodeBlock(codeElem);
+        });
+      });
+
+      // 3. Attach Syntax Version Toggle Listeners (Modern switch/restore vs Legacy checkout)
+      document.querySelectorAll('.syntax-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const group = btn.closest('.syntax-toggle-group');
+          if (!group) return;
+          const targetId = btn.getAttribute('data-target-code');
+          const syntax = btn.getAttribute('data-syntax') || 'modern';
+          const codeElem = document.getElementById(targetId);
+
+          group.querySelectorAll('.syntax-toggle-btn').forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+
+          if (!codeElem) return;
+          codeElem.setAttribute('data-active-syntax', syntax);
+          updateCustomizedCodeBlock(codeElem);
+          announceState(`Switched command to ${syntax === 'legacy' ? 'legacy checkout' : 'modern switch/restore'} syntax`);
+        });
+      });
+    }
+
+    initCustomizersAndSyntax();
+    window.addEventListener('DOMContentLoaded', initCustomizersAndSyntax);
 
     // 8. CI/CD Multi-Host Provider Switcher in card-pipeline
     const pipelineConfigs = {
@@ -3461,7 +4383,7 @@ git cherry-pick 7a1b2c3
       const targetElem = document.getElementById(targetId);
       if (targetElem) {
         if (targetElem.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
-          setMode('pro');
+          targetElem.classList.add('emergency-revealed');
         }
         targetElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
         targetElem.classList.add('highlighted');
@@ -3514,10 +4436,117 @@ git cherry-pick 7a1b2c3
       });
     }
 
-    // 12. Deep-Linking URL Hash Router
+    // 12. Deep-Linking URL Hash & Query Router
+    function jumpToTarget(id) {
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (target) {
+        if (target.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
+          target.classList.add('emergency-revealed');
+        }
+        if (target.classList.contains('card')) {
+          if (searchInput && searchInput.value) {
+            searchInput.value = '';
+          }
+          if (activeFilter !== 'all' || activeRiskFilter !== 'all') {
+            activeFilter = 'all';
+            activeRiskFilter = 'all';
+            filterPills.forEach(p => {
+              const isAll = p.getAttribute('data-filter') === 'all';
+              p.classList.toggle('active', isAll);
+              p.setAttribute('aria-pressed', isAll ? 'true' : 'false');
+            });
+            riskPills.forEach(p => {
+              const isAll = p.getAttribute('data-risk-filter') === 'all';
+              p.classList.toggle('active', isAll);
+              p.setAttribute('aria-pressed', isAll ? 'true' : 'false');
+            });
+          }
+          filterCards();
+        }
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.classList.add('highlighted');
+        setTimeout(() => target.classList.remove('highlighted'), 2200);
+        const cardTitle = target.querySelector('h2')?.innerText || id;
+        announceState(`Jumped to ${cardTitle}`);
+      }
+    }
+
     function handleHashRoute() {
-      const hash = window.location.hash;
+      // 1. Process URL search parameters (?category=...&risk=...&mode=...&undo=...&recipe=...&q=...)
+      try {
+        const searchStr = (window.location && window.location.search) ? window.location.search : '';
+        if (searchStr && typeof URLSearchParams !== 'undefined') {
+          const searchParams = new URLSearchParams(searchStr);
+
+          // Mode parameter (?mode=beginner or ?mode=pro)
+          const paramMode = searchParams.get('mode');
+          if (paramMode === 'beginner' || paramMode === 'pro') {
+            setMode(paramMode);
+          }
+
+          // Category filter parameter (?category=basic, branch, undo, etc.)
+          const paramCategory = searchParams.get('category');
+          if (paramCategory) {
+            const catPill = document.querySelector(`.filter-pill[data-filter="${paramCategory}"]`);
+            if (catPill) {
+              filterPills.forEach(p => {
+                p.classList.remove('active');
+                p.setAttribute('aria-pressed', 'false');
+              });
+              catPill.classList.add('active');
+              catPill.setAttribute('aria-pressed', 'true');
+              activeFilter = paramCategory;
+              filterCards();
+            }
+          }
+
+          // Risk filter parameter (?risk=safe, caution, rev)
+          const paramRisk = searchParams.get('risk');
+          if (paramRisk) {
+            const rkPill = document.querySelector(`.risk-pill[data-risk-filter="${paramRisk}"]`);
+            if (rkPill) {
+              riskPills.forEach(p => {
+                p.classList.remove('active');
+                p.setAttribute('aria-pressed', 'false');
+              });
+              rkPill.classList.add('active');
+              rkPill.setAttribute('aria-pressed', 'true');
+              activeRiskFilter = paramRisk;
+              filterCards();
+            }
+          }
+
+          // Search query parameter (?q=rebase)
+          const paramQ = searchParams.get('q');
+          if (paramQ && searchInput) {
+            searchInput.value = paramQ;
+            filterCards();
+          }
+
+          // Decision tree solution parameter (?undo=unstaged, staged, etc.)
+          const paramUndo = searchParams.get('undo');
+          if (paramUndo && undoSolutions && undoSolutions[paramUndo]) {
+            const btn = document.querySelector(`.tree-choice-btn[data-location="${paramUndo}"]`);
+            if (btn) btn.click();
+            const elem = document.getElementById('troubleshootConsole');
+            if (elem) elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+
+          // Recipe card parameter (?recipe=card-init or ?recipe=init)
+          const paramRecipe = searchParams.get('recipe');
+          if (paramRecipe) {
+            jumpToTarget(paramRecipe.startsWith('card-') ? paramRecipe : `card-${paramRecipe}`);
+          }
+        }
+      } catch (e) {
+        // Ignore URLSearchParams error in restricted environments
+      }
+
+      // 2. Process URL hash routing (#undo-..., #intent-..., #forge-..., #card-..., or any element ID)
+      const hash = (window.location && window.location.hash) ? window.location.hash : '';
       if (!hash) return;
+
       if (hash.startsWith('#undo-')) {
         const loc = hash.replace('#undo-', '');
         if (undoSolutions && undoSolutions[loc]) {
@@ -3528,30 +4557,26 @@ git cherry-pick 7a1b2c3
         }
       } else if (hash.startsWith('#intent-')) {
         const intent = hash.replace('#intent-', '');
-        handleIntentJump(intent);
+        if (typeof handleIntentJump === 'function') {
+          handleIntentJump(intent);
+        }
       } else if (hash.startsWith('#forge-')) {
         const host = hash.replace('#forge-', '');
-        if (forgeScenarios[host]) {
+        if (typeof forgeScenarios !== 'undefined' && forgeScenarios[host]) {
           activeForge = host;
-          syncForgeButtons();
-          renderForgeScenario();
+          if (typeof syncForgeButtons === 'function') syncForgeButtons();
+          if (typeof renderForgeScenario === 'function') renderForgeScenario();
           const elem = document.getElementById('card-forge-troubleshoot');
           if (elem) elem.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       } else if (hash.startsWith('#')) {
         const id = hash.replace('#', '');
-        const target = document.getElementById(id);
-        if (target) {
-          if (target.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
-            setMode('pro');
-          }
-          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          target.classList.add('highlighted');
-          setTimeout(() => target.classList.remove('highlighted'), 2200);
-        }
+        jumpToTarget(id);
       }
     }
 
+    window.jumpToTarget = jumpToTarget;
+    window.handleHashRoute = handleHashRoute;
     window.addEventListener('hashchange', handleHashRoute);
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(handleHashRoute, 120);
@@ -3587,32 +4612,139 @@ error: failed to push some refs to 'https://github.com/user/repo.git'`,
 nothing to commit, working tree clean`
     };
 
-    function jumpToTarget(id) {
-      const target = document.getElementById(id);
-      if (target) {
-        if (target.classList.contains('pro-only') && htmlElem.getAttribute('data-view') === 'beginner') {
-          setMode('pro');
-        }
-        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        target.classList.add('highlighted');
-        setTimeout(() => target.classList.remove('highlighted'), 2200);
+    function escapeHtml(str) {
+      if (!str || typeof str !== 'string') return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    function sanitizeGitToken(val) {
+      if (!val || typeof val !== 'string') return '';
+      return val.replace(/[;&|`$(){}<>"'\\!\s]/g, '').trim();
+    }
+
+    function extractGitContext(rawInput) {
+      const text = normalizeTerminalInput(rawInput);
+      const context = {
+        branch: '',
+        detachedSha: '',
+        conflictedFiles: [],
+        remote: '',
+        rejectedBranch: '',
+        modifiedFiles: [],
+        sensitiveFiles: []
+      };
+
+      if (!text) return context;
+
+      // 1. Current Branch
+      const branchMatch = text.match(/(?:On branch|The current branch)\s+([^\s\r\n]+)/i);
+      if (branchMatch && branchMatch[1]) {
+        context.branch = sanitizeGitToken(branchMatch[1]);
       }
+
+      // 2. Detached HEAD SHA
+      const detachedMatch = text.match(/HEAD detached (?:at|from)\s+([0-9a-f]{7,40})/i);
+      if (detachedMatch && detachedMatch[1]) {
+        context.detachedSha = sanitizeGitToken(detachedMatch[1]);
+      }
+
+      // 3. Conflicted Files
+      const conflictRegex = /(?:both modified:|both added:|both deleted:|CONFLICT \([^)]+\): Merge conflict in)\s+([^\r\n]+)/gi;
+      let confMatch;
+      while ((confMatch = conflictRegex.exec(text)) !== null) {
+        const file = confMatch[1].trim().replace(/^['"]|['"]$/g, '');
+        const cleanFile = sanitizeGitToken(file);
+        if (cleanFile && !context.conflictedFiles.includes(cleanFile)) {
+          context.conflictedFiles.push(cleanFile);
+        }
+      }
+
+      // 4. Remote & Rejected Push Branch
+      const remoteMatch = text.match(/(?:origin|upstream)\s+([^\s]+)/i);
+      if (remoteMatch && remoteMatch[1]) {
+        context.remote = sanitizeGitToken(remoteMatch[1]);
+      }
+
+      const rejectedMatch = text.match(/\[rejected\]\s+([^\s]+)\s+->\s+([^\s]+)/i);
+      if (rejectedMatch) {
+        if (rejectedMatch[1]) context.rejectedBranch = sanitizeGitToken(rejectedMatch[1]);
+        if (!context.branch && rejectedMatch[2]) context.branch = sanitizeGitToken(rejectedMatch[2]);
+      }
+
+      // 5. Modified Files
+      const modRegex = /modified:\s+([^\r\n]+)/gi;
+      let modMatch;
+      while ((modMatch = modRegex.exec(text)) !== null) {
+        const file = modMatch[1].trim().replace(/^['"]|['"]$/g, '');
+        const cleanFile = sanitizeGitToken(file);
+        if (cleanFile && !context.modifiedFiles.includes(cleanFile)) {
+          context.modifiedFiles.push(cleanFile);
+        }
+      }
+
+      // 6. Sensitive Files
+      const sensMatch = text.match(/(?:^|\s)(\.env|id_rsa|id_ed25519|secrets\.json|\.pem|\.key)\b/im);
+      if (sensMatch && sensMatch[1]) {
+        context.sensitiveFiles.push(sanitizeGitToken(sensMatch[1]));
+      }
+
+      return context;
+    }
+
+    function findMatchedTriggerLine(text, pattern) {
+      if (!text) return '';
+      const lines = text.split('\n');
+      for (const line of lines) {
+        if (pattern.test(line)) {
+          return line.trim();
+        }
+      }
+      return '';
     }
 
     function analyzeGitOutput(raw) {
       const text = normalizeTerminalInput(raw);
       if (!text.trim()) return null;
+      const context = extractGitContext(raw);
+
+      function injectTokens(codeStr) {
+        let res = codeStr;
+        const branchToken = context.branch || context.rejectedBranch;
+        if (branchToken) {
+          res = res.replace(/<branch-name>/g, branchToken);
+          res = res.replace(/<branch>/g, branchToken);
+        }
+        if (context.conflictedFiles.length > 0) {
+          res = res.replace(/<resolved-file>/g, context.conflictedFiles[0]);
+          res = res.replace(/<file>/g, context.conflictedFiles[0]);
+        }
+        if (context.modifiedFiles.length > 0) {
+          res = res.replace(/<clean-files>/g, context.modifiedFiles.join(' '));
+          res = res.replace(/<cleaned-files>/g, context.modifiedFiles.join(' '));
+        }
+        if (context.sensitiveFiles.length > 0) {
+          res = res.replace(/<sensitive-file>/g, context.sensitiveFiles[0]);
+        }
+        if (context.detachedSha) {
+          res = res.replace(/<hash>/g, context.detachedSha);
+          res = res.replace(/<commit-hash>/g, context.detachedSha);
+        }
+        return res;
+      }
 
       // Rule 1: GH013 / Secret Scan
       if (/GH013|repository rule violations|Push cannot contain secrets|Push rules: Secret detection/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /GH013|repository rule violations|Push cannot contain secrets|Push rules: Secret detection/i);
+        const code = injectTokens('# 1. Rewind the commit while keeping edits on disk:\ngit reset --soft HEAD~1\n\n# 2. Add sensitive file to .gitignore:\necho ".env" >> .gitignore\n\n# 3. Re-commit clean files and push:\ngit add .gitignore <clean-files>\ngit commit -m "fix: sanitize secrets"\ngit push origin <branch>');
         return {
           icon: '🛡️',
           title: 'Remote Push Rejected: Secret / API Key Detected',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 No! Your commits are safely stored locally. The cloud remote rejected the push to protect your secrets.',
           desc: 'GitHub or GitLab pre-receive secret scanning prevented private credentials from being pushed to public history.',
-          code: '# 1. Rewind the commit while keeping edits on disk:\ngit reset --soft HEAD~1\n\n# 2. Add sensitive file to .gitignore:\necho ".env" >> .gitignore\n\n# 3. Re-commit clean files and push:\ngit add .gitignore <clean-files>\ngit commit -m "fix: sanitize secrets"\ngit push origin <branch>',
+          code: code,
           effect: 'Removes the secret from Git commit objects before it reaches remote servers.',
           verify: 'Push completes without GH013 rejection.',
           warning: 'If the token was already exposed elsewhere, revoke and regenerate the API key immediately.',
@@ -3623,14 +4755,18 @@ nothing to commit, working tree clean`
 
       // Rule 2: Protected Branch Rejection
       if (/GH006|protected branch|hook declined|You are not allowed to push code to protected branches|cannot be updated directly/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /GH006|protected branch|hook declined|You are not allowed to push code to protected branches|cannot be updated directly/i);
+        const fixBranch = context.branch ? `feature/${context.branch}-fix` : 'feature/my-fix';
+        const code = injectTokens(`# 1. Move your commits onto a new feature branch:\ngit switch -c ${fixBranch}\n\n# 2. Push the branch to remote:\ngit push -u origin ${fixBranch}\n\n# 3. Align local main back to remote clean state:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main`);
         return {
           icon: '🚫',
           title: 'Remote Push Rejected: Protected Branch Rules',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 No! All your commits exist safely on your computer. Direct pushes to this branch are restricted by team policy.',
           desc: 'Your team or organization protects main/master to require peer code reviews before merging.',
-          code: '# 1. Move your commits onto a new feature branch:\ngit switch -c feature/my-fix\n\n# 2. Push the branch to remote:\ngit push -u origin feature/my-fix\n\n# 3. Align local main back to remote clean state:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main',
+          code: code,
           effect: 'Publishes your changes on a review branch and restores local main cleanly.',
           verify: 'Run git status on both branches to verify local main matches remote.',
           warning: 'Never attempt --force on a protected branch; it will be rejected and may violate organization policy.',
@@ -3641,10 +4777,12 @@ nothing to commit, working tree clean`
 
       // Rule 3: Auth Failure
       if (/Authentication failed|Permission .* denied|Permission denied \(publickey\)|Support for password authentication was removed|Invalid username or password/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /Authentication failed|Permission .* denied|Permission denied \(publickey\)|Support for password authentication was removed|Invalid username or password/i);
         return {
           icon: '🔑',
           title: 'Authentication / Credential Failure',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 No! Your local work is 100% intact. Only remote transmission failed.',
           desc: 'Remote rejected credentials: password authentication is deprecated on GitHub/Bitbucket; token or SSH key required.',
@@ -3659,14 +4797,18 @@ nothing to commit, working tree clean`
 
       // Rule 4: Merge Conflict
       if (/Unmerged paths|both modified|both added|both deleted|fix conflicts and run "git commit"|You have unmerged paths/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /Unmerged paths|both modified|both added|both deleted|fix conflicts and run "git commit"|You have unmerged paths/i);
+        const resolved = context.conflictedFiles[0] || '<resolved-file>';
+        const code = injectTokens(`# 1. List all files currently in conflict:\ngit diff --name-only --diff-filter=U\n\n# 2. Open each file, choose desired code, remove <<<<<<< markers\n\n# 3. Stage resolved files:\ngit add ${resolved}\n\n# 4. Finalize the merge commit:\ngit merge --continue`);
         return {
           icon: '⚠️',
           title: 'Merge Conflict in Progress',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 No! All conflicting files are preserved on disk with marker lines (<<<<<<< ======= >>>>>>>).',
           desc: 'Git stopped automated integration because both branches modified identical lines of code.',
-          code: '# 1. List all files currently in conflict:\ngit diff --name-only --diff-filter=U\n\n# 2. Open each file, choose desired code, remove <<<<<<< markers\n\n# 3. Stage resolved files:\ngit add <resolved-file>\n\n# 4. Finalize the merge commit:\ngit merge --continue',
+          code: code,
           effect: 'Completes the merge operation and seals the combined snapshot.',
           verify: 'Run git status — it will report "nothing to commit, working tree clean".',
           warning: 'Do NOT run git merge --abort unless you want to throw away the merge and restart from scratch.',
@@ -3677,14 +4819,18 @@ nothing to commit, working tree clean`
 
       // Rule 5: Rebase in Progress
       if (/rebase in progress|interactive rebase in progress|You are currently rebasing|rebase --continue/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /rebase in progress|interactive rebase in progress|You are currently rebasing|rebase --continue/i);
+        const resolved = context.conflictedFiles[0] || '<resolved-file>';
+        const code = injectTokens(`# Option A: Resolve conflict in files, stage, and proceed:\ngit add ${resolved}\ngit rebase --continue\n\n# Option B: Safely cancel and return to original pre-rebase state:\ngit rebase --abort`);
         return {
           icon: '⚡',
           title: 'Interactive Rebase Paused',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 No! Git paused execution so you can resolve the current commit patch.',
           desc: 'A rebase replay encountered a conflict or an "edit" action instruction.',
-          code: '# Option A: Resolve conflict in files, stage, and proceed:\ngit add <resolved-file>\ngit rebase --continue\n\n# Option B: Safely cancel and return to original pre-rebase state:\ngit rebase --abort',
+          code: code,
           effect: 'Replays remaining commits onto the target base.',
           verify: 'Run git status to verify rebase continuation.',
           warning: 'Remember that during rebase, "ours" and "theirs" are swapped relative to the replay target.',
@@ -3695,10 +4841,12 @@ nothing to commit, working tree clean`
 
       // Rule 6: Detached HEAD
       if (/HEAD detached at|HEAD detached from|HEAD detached/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /HEAD detached at|HEAD detached from|HEAD detached/i);
         return {
           icon: '📍',
           title: 'Detached HEAD State',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'danger',
           workLostText: '⚠️ Warning: HEAD is unattached! Any new commits made here will be orphaned if you switch branches without naming them.',
           desc: 'You checked out a raw commit hash or tag instead of a named branch pointer.',
@@ -3713,14 +4861,17 @@ nothing to commit, working tree clean`
 
       // Rule 7: Diverged Branches
       if (/have diverged.*and have \d+ and \d+ different commits|Your branch and '.*' have diverged/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /have diverged.*and have \d+ and \d+ different commits|Your branch and '.*' have diverged/i);
+        const code = injectTokens('# Recommended: Replay your commits linearly on top of remote work:\ngit pull --rebase origin <branch-name>\n\n# Alternative: Create an explicit 3-way merge commit:\ngit pull origin <branch-name>');
         return {
           icon: '🔀',
           title: 'Branch Divergence (Different Local & Remote Commits)',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 No! Both your local commits and incoming remote commits exist safely.',
           desc: 'Teammates pushed new work to the remote branch while you also made new commits locally.',
-          code: '# Recommended: Replay your commits linearly on top of remote work:\ngit pull --rebase origin <branch-name>\n\n# Alternative: Create an explicit 3-way merge commit:\ngit pull origin <branch-name>',
+          code: code,
           effect: 'Integrates remote updates with your local commits.',
           verify: 'Run git log --oneline -5 to verify linear history, then push.',
           warning: 'Avoid git push --force on shared branches. Use pull --rebase to integrate cleanly.',
@@ -3731,14 +4882,17 @@ nothing to commit, working tree clean`
 
       // Rule 8: Ahead of Remote
       if (/Your branch is ahead of '.*' by \d+ commit|\[ahead \d+\]/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /Your branch is ahead of '.*' by \d+ commit|\[ahead \d+\]/i);
+        const code = injectTokens('# Upload your commits to remote:\ngit push origin <branch-name>');
         return {
           icon: '📤',
           title: 'Unpushed Local Commits',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 No! Your changes are safely recorded in your local Git repository database.',
           desc: 'You have sealed commits on this computer that have not yet been published to your remote cloud host.',
-          code: '# Upload your commits to remote:\ngit push origin <branch-name>',
+          code: code,
           effect: 'Updates remote tracking branch to match local HEAD.',
           verify: 'Run git status — it will report up to date with origin.',
           warning: 'Ensure your test suite passes before pushing shared commits.',
@@ -3749,14 +4903,17 @@ nothing to commit, working tree clean`
 
       // Rule 9: Behind Remote
       if (/Your branch is behind '.*' by \d+ commit|\[behind \d+\]/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /Your branch is behind '.*' by \d+ commit|\[behind \d+\]/i);
+        const code = injectTokens('# Download and integrate linearly:\ngit pull --rebase origin <branch-name>');
         return {
           icon: '📥',
           title: 'Branch Behind Remote',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 No! You just need to download incoming commits created by teammates.',
           desc: 'Remote has commits that you do not yet have in your local working checkout.',
-          code: '# Download and integrate linearly:\ngit pull --rebase origin <branch-name>',
+          code: code,
           effect: 'Advances your local branch bookmark to include incoming remote changes.',
           verify: 'Run git log -1 to inspect the latest downloaded commit.',
           warning: 'Fetch first if you want to inspect incoming diffs without altering working files: git fetch origin',
@@ -3767,14 +4924,18 @@ nothing to commit, working tree clean`
 
       // Rule 10: Untracked Sensitive Files
       if (/(?:(?:Untracked files|\?\?)[\s\S]*?(?:^|\s)(?:\.env|id_rsa|id_ed25519|secrets\.json|\.pem|\.key)\b)/im.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /(?:\.env|id_rsa|id_ed25519|secrets\.json|\.pem|\.key)\b/i);
+        const targetSens = context.sensitiveFiles[0] || '.env';
+        const code = `# 1. Append sensitive files to .gitignore:\necho "${targetSens}" >> .gitignore\n\n# 2. Verify git status ignores them:\ngit status`;
         return {
           icon: '🔒',
           title: 'Sensitive Credential File in Untracked List',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 Safe on disk, but high risk of accidental commit!',
           desc: 'Git detected private configuration files (.env, keys) in your working folder that are not yet ignored.',
-          code: '# 1. Append sensitive files to .gitignore:\necho ".env" >> .gitignore\necho "*.pem" >> .gitignore\n\n# 2. Verify git status ignores them:\ngit status',
+          code: code,
           effect: 'Prevents sensitive credentials from accidentally being staged by git add .',
           verify: 'Run git status — sensitive files must not appear under Untracked files.',
           warning: 'Never commit API keys or private keys to version control.',
@@ -3785,10 +4946,12 @@ nothing to commit, working tree clean`
 
       // Rule 11: Not a Git Repo
       if (/fatal: not a git repository/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /fatal: not a git repository/i);
         return {
           icon: '📁',
           title: 'Not a Git Repository',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 No files were deleted. Your current folder is simply not configured with Git tracking.',
           desc: 'The current working directory does not contain a .git metadata folder.',
@@ -3803,14 +4966,17 @@ nothing to commit, working tree clean`
 
       // Rule 12: Clean Working Tree
       if (/nothing to commit, working tree clean/i.test(text)) {
+        const trigger = findMatchedTriggerLine(text, /nothing to commit, working tree clean/i);
+        const code = injectTokens('# 1. List all branches to see where you might have worked:\ngit branch -a\n\n# 2. View recent commit checkpoints:\ngit log -n 5 --oneline\n\n# 3. Check your local action ledger for recent switches:\ngit reflog -n 10');
         return {
           icon: '✨',
           title: 'Working Tree Clean (No Pending Edits)',
           confidence: 'High Confidence',
+          triggerLine: trigger,
           workLostStatus: 'safe',
           workLostText: '🟢 All files on disk match your latest commit checkpoint. If your work seems missing, you may be on the wrong branch!',
           desc: 'Git has recorded all modifications. There are no unstaged or uncommitted changes.',
-          code: '# 1. List all branches to see where you might have worked:\ngit branch -a\n\n# 2. View recent commit checkpoints:\ngit log -n 5 --oneline\n\n# 3. Check your local action ledger for recent switches:\ngit reflog -n 10',
+          code: code,
           effect: 'Inspects your full local history and branch bookmarks to locate misplaced commits.',
           verify: 'Locate your commit ID in reflog, then run git switch <branch-name>.',
           warning: 'Remember that git checkout and git switch alter which branch files are shown in your editor.',
@@ -3820,10 +4986,12 @@ nothing to commit, working tree clean`
       }
 
       // Default Generic Diagnosis
+      const trigger = findMatchedTriggerLine(text, /.*/);
       return {
         icon: '📋',
         title: 'Diagnostic Output Inspected',
         confidence: 'General Guidance',
+        triggerLine: trigger,
         workLostStatus: 'safe',
         workLostText: '🟢 General status output analyzed. Take a breath and inspect the state below.',
         desc: 'Git reported repository state information. Follow the verified safe sequence below:',
@@ -3857,6 +5025,10 @@ nothing to commit, working tree clean`
           <span class="analyzer-detected-badge">${res.icon} ${res.title}</span>
           <span class="analyzer-confidence-pill">${res.confidence}</span>
         </div>
+        ${res.triggerLine ? `
+        <div class="analyzer-trigger-badge">
+          🔍 <strong>Detected trigger:</strong> <code>${escapeHtml(res.triggerLine)}</code>
+        </div>` : ''}
         <div class="work-lost-callout work-lost-${res.workLostStatus}">
           <div class="work-lost-header">
             <span class="work-lost-title">❓ Is my work lost?</span>
@@ -3870,15 +5042,22 @@ nothing to commit, working tree clean`
             <span>Recommended Terminal Command</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code>${res.code}</code></pre>
+          <pre class="code-content"><code>${escapeHtml(res.code)}</code></pre>
         </div>
         <div class="card-effect"><strong>What this accomplishes:</strong> ${res.effect}</div>
         <div class="card-verify"><strong>Verify success:</strong> ${res.verify}</div>
-        ${res.warning ? `<div class="callout warning" style="margin-top:10px;">${res.warning}</div>` : ''}
         ${res.linkText ? `<div style="margin-top:12px;"><button class="btn-clear-analyzer" onclick="jumpToTarget('${res.linkId}')">${res.linkText} →</button></div>` : ''}
       `;
       analyzerResultPanel.style.display = 'block';
       announceState(`Terminal diagnosis: ${res.title}`);
+    }
+
+    if (statusInputText) {
+      statusInputText.addEventListener('input', () => {
+        if (analyzerResultPanel && analyzerResultPanel.style.display !== 'none') {
+          analyzerResultPanel.style.display = 'none';
+        }
+      });
     }
 
     if (analyzeStatusBtn) {

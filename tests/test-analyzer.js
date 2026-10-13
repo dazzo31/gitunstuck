@@ -37,10 +37,10 @@ const sandbox = {
 
 const fn = new Function('document', 'window', 'localStorage', 'setTimeout', 'navigator', `
   ${scriptMatch[1]}
-  return { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminalOutputs };
+  return { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminalOutputs, extractGitContext, sanitizeGitToken, stripBashComments, convertModernToLegacy };
 `);
 
-const { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminalOutputs } = fn(
+const { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminalOutputs, extractGitContext, sanitizeGitToken, stripBashComments, convertModernToLegacy } = fn(
   sandbox.document,
   sandbox.window,
   sandbox.localStorage,
@@ -152,8 +152,150 @@ console.log('\nSuite 4: Built-In Sample Output Fixtures');
   assert(analyzed && analyzed.confidence, `Sample output [${k}] successfully parses`);
 });
 
-console.log(`\n========================================`);
-console.log(`Total Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);
+// Suite 5: Context-Aware Token Extraction & Trigger Detection
+console.log('\nSuite 5: Context-Aware Token Extraction & Trigger Detection');
+
+// Test: Shell Metacharacter Sanitization
+const dirtyToken = 'feat/branch; rm -rf / && $(whoami) | `evil`';
+const cleanToken = sanitizeGitToken(dirtyToken);
+assert(!/[;&|`$(){}]/.test(cleanToken), 'Sanitizes shell injection metacharacters');
+assert(cleanToken === 'feat/branchrm-rf/whoamievil', 'Strips dangerous characters cleanly');
+
+// Test: Token Extraction from Status
+const sampleStatus = `On branch feat/auth-login
+Your branch and 'origin/feat/auth-login' have diverged,
+and have 2 and 1 different commits each, respectively.
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   src/auth.js
+	both modified:   config/keys.json
+modified:   README.md
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.env
+`;
+
+const ctx = extractGitContext(sampleStatus);
+assert(ctx.branch === 'feat/auth-login', 'Extracts active branch name from status');
+assert(ctx.conflictedFiles.includes('src/auth.js'), 'Extracts conflicted files list');
+assert(ctx.conflictedFiles.includes('config/keys.json'), 'Extracts all multiple conflicted files');
+assert(ctx.modifiedFiles.includes('README.md'), 'Extracts modified files');
+assert(ctx.sensitiveFiles.includes('.env'), 'Extracts sensitive untracked files');
+
+// Test: Detached HEAD token extraction
+const detachedStatus = 'HEAD detached at e5f6a7b\nnothing to commit, working tree clean';
+const detachedCtx = extractGitContext(detachedStatus);
+assert(detachedCtx.detachedSha === 'e5f6a7b', 'Extracts detached HEAD commit hash');
+
+// Test: Dynamic Command Replacement & Trigger Line Detection
+const conflictAnalysis = analyzeGitOutput(sampleStatus);
+assert(
+  conflictAnalysis && conflictAnalysis.code.includes('git add src/auth.js'),
+  'Dynamically injects extracted conflicted file name into recovery command'
+);
+assert(
+  conflictAnalysis && conflictAnalysis.triggerLine.includes('Unmerged paths'),
+  'Captures exact conflict trigger line from terminal input'
+);
+
+const divergedStatus = `On branch feat/auth-login
+Your branch and 'origin/feat/auth-login' have diverged,
+and have 2 and 1 different commits each, respectively.
+nothing to commit, working tree clean`;
+
+const divergedAnalysis = analyzeGitOutput(divergedStatus);
+assert(
+  divergedAnalysis && divergedAnalysis.code.includes('git pull --rebase origin feat/auth-login'),
+  'Dynamically injects extracted branch name into recovery command'
+);
+assert(
+  divergedAnalysis && divergedAnalysis.triggerLine.includes('have diverged'),
+  'Captures exact divergence trigger line from terminal input'
+);
+
+const authError = 'fatal: Authentication failed for \'https://github.com/org/repo.git\'';
+const authAnalysis = analyzeGitOutput(authError);
+assert(
+  authAnalysis && authAnalysis.triggerLine === authError,
+  'Captures exact authentication failure trigger line'
+);
+
+// Suite 6: Comment Stripping & Syntax Version Conversion (Phase 4)
+console.log('\nSuite 6: Comment Stripping & Syntax Version Conversion');
+const commentedSnippet = `# 1. Create and switch to branch:
+git switch -c feature/test
+
+# 2. Add files and commit:
+git add .
+git commit -m "test commit"`;
+
+const { clean: cleanSnippet, hadComments: hadCommentsTrue } = stripBashComments(commentedSnippet);
+assert(hadCommentsTrue === true, 'Reports hadComments=true when # comments exist');
+assert(!cleanSnippet.includes('# 1.'), 'Strips first comment line');
+assert(!cleanSnippet.includes('# 2.'), 'Strips second comment line');
+assert(cleanSnippet.includes('git switch -c feature/test'), 'Preserves first executable command');
+assert(cleanSnippet.includes('git commit -m "test commit"'), 'Preserves second executable command');
+
+const cleanInputSnippet = 'git status\ngit diff';
+const { clean: cleanResult, hadComments: hadCommentsFalse } = stripBashComments(cleanInputSnippet);
+assert(hadCommentsFalse === false, 'Reports hadComments=false when no comments exist');
+assert(cleanResult === cleanInputSnippet, 'Preserves clean snippet untouched');
+
+const modernText = 'git switch -c feat\ngit switch --detach 1234567\ngit switch main\ngit restore --staged app.js\ngit restore app.js';
+const legacyText = convertModernToLegacy(modernText);
+assert(legacyText.includes('git checkout -b feat'), 'Converts git switch -c to git checkout -b');
+assert(legacyText.includes('git checkout --detach 1234567'), 'Converts git switch --detach to git checkout --detach');
+assert(legacyText.includes('git checkout main'), 'Converts git switch main to git checkout main');
+assert(legacyText.includes('git reset HEAD app.js'), 'Converts git restore --staged to git reset HEAD');
+assert(legacyText.includes('git checkout -- app.js'), 'Converts git restore to git checkout --');
+
+// Suite 7: Mathematical Notation & CS Deep Dive Sanitization (Phase 5)
+console.log('\nSuite 7: Mathematical Notation & CS Deep Dive Sanitization');
+const rawLatexRegex = /\$(?:G|V|E|B_1|B_2|A|\\Delta_1|\\Delta_2|\\log_2|\text\{)[^$]*\$/;
+assert(!rawLatexRegex.test(indexHtml), 'Zero unrendered math LaTeX notation exists in index.html');
+assert(indexHtml.includes('<var>G</var> = (<var>V</var>, <var>E</var>)'), 'Semantic DAG math equation rendered in HTML');
+assert(indexHtml.includes('<code>Δ<sub>1</sub> = diff(<var>A</var>, <var>B</var><sub>1</sub>)</code>'), 'Semantic 3-way merge diff equation rendered in HTML');
+assert(indexHtml.includes('id="gitInternalsInspector"'), 'Live .git/ files inspector markup exists in DOM');
+
+// Suite 8: Deep-Linking & Accessibility Integrity (Phases 1-6)
+console.log('\nSuite 8: Deep-Linking & Accessibility Integrity');
+const recipeCardIds = [
+  'card-init', 'card-clone', 'card-stage', 'card-branch', 'card-undo',
+  'card-sync', 'card-forge-troubleshoot', 'card-pipeline', 'card-stash',
+  'card-conflict', 'card-rebase', 'card-detached', 'card-worktree',
+  'card-reflog', 'card-bisect', 'card-tag', 'card-force-lease', 'card-cherry-pick'
+];
+
+let allCardsPresent = true;
+let allCardLinksPresent = true;
+recipeCardIds.forEach(id => {
+  if (!indexHtml.includes(`id="${id}"`)) allCardsPresent = false;
+  if (!indexHtml.includes(`copyCardLink('${id}', this)`)) allCardLinksPresent = false;
+});
+assert(allCardsPresent, 'All 18 recipe cards have deterministic IDs');
+assert(allCardLinksPresent, 'All 18 recipe cards have direct link copy buttons');
+assert(indexHtml.includes('copyDecisionLink('), 'Decision tree solutions include direct link copy button');
+assert(indexHtml.includes('id="heroJumpToAnalyzer"'), 'Hero section includes quick-jump to terminal analyzer');
+assert(indexHtml.includes('git stash push -u -m "safety-backup" && git stash apply'), 'Golden Safety Rule includes full snapshot with stash apply');
+assert(indexHtml.includes('[data-theme="light"] .git-file-content'), 'Light mode high-contrast rule exists for Under the Hood file content');
+assert(/\.forge-host-btn,\s*\.pipeline-tab-btn/.test(indexHtml), 'Forge host selector and CI/CD pipeline buttons are standardized');
+assert(indexHtml.includes("statusInputText.addEventListener('input'"), 'Auto-clear diagnosis on new terminal input is wired');
+
+// Suite 9: Experience Mode Personas, Interlinking & Adaptive Annotations (v2.1 UX Upgrade)
+console.log('\nSuite 9: Experience Mode Personas, Interlinking & Adaptive Annotations');
+assert(indexHtml.includes('🌱 Plain English (Beginner)'), 'Header mode switcher includes Plain English (Beginner) button');
+assert(indexHtml.includes('⚡ Pro Developer Hub'), 'Header mode switcher includes Pro Developer Hub button');
+assert(indexHtml.includes('id="analogy-repo"') && indexHtml.includes("jumpToTarget('card-init')"), 'Analogy card for Repository links to card-init');
+assert(indexHtml.includes('id="analogy-commit"') && indexHtml.includes("jumpToTarget('card-stage')"), 'Analogy card for Commit links to card-stage');
+assert(indexHtml.includes('id="analogy-staging"') && indexHtml.includes("jumpToTarget('card-undo')"), 'Analogy card for Staging links to card-undo');
+assert(indexHtml.includes('id="analogy-remote"') && indexHtml.includes("jumpToTarget('card-sync')"), 'Analogy card for Remote links to card-sync');
+assert(indexHtml.includes('class="primer-cs-bridge"') && indexHtml.includes("jumpToTarget('jargonDeepDive')"), 'Primer includes cross-section bridge to CS Deep Dive');
+assert(/class="card[^"]*\bpro-only\b[^"]*"[^>]*id="card-rebase"|id="card-rebase"[^>]*class="card[^"]*\bpro-only\b[^"]*"/.test(indexHtml), 'Interactive rebase card is marked pro-only');
+assert(indexHtml.includes('[data-view="beginner"] .pro-only:not(.emergency-revealed)'), 'Emergency reveal CSS rule preserves beginner view');
+assert(indexHtml.includes('class="plain-english-note"'), 'Adaptive plain-english notes exist in markup');
+assert(indexHtml.includes('[data-view="pro"] .plain-english-note'), 'Plain-english notes are cleanly hidden in pro view');
+
+console.log(`\nTotal Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);
 console.log(`========================================\n`);
 
 if (failed > 0) {
