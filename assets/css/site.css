@@ -1003,3 +1003,9 @@ body.specific-reference #commandIndex, body.specific-reference #referenceTopicsH
 
 body.specific-guide #learnHeading, body.specific-guide #learnHeading + p, body.specific-help #fixHeading, body.specific-help #fixHeading + p, body.specific-reference #referenceHeading, body.specific-reference #referenceHeading + p, body.home-route .route-context { display:none; }
 .reading-panel .code-content { font-size: .9rem; line-height: 1.7; }
+
+.topic-example > summary { cursor:pointer; padding:12px 0; font-weight:650; font-size:.85rem; color:var(--git-orange); }
+.topic-example p { line-height:1.7; padding:12px 0; }
+@media print { .topic-example { display:block; } .topic-example > :not(summary) { display:block!important; } }
+
+.reading-panel > a, .related-links a, .card-related a { display:inline-flex; align-items:center; min-height:32px; padding:4px 0; }

@@ -513,7 +513,7 @@
 <div class="card-top"><h2 class="card-title">Start a Git repository</h2><span class="card-tag">Start here</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · remote-publish</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Track a project that is not already a repository.</div>
-<div class="card-effect">Git does not record every file save. Initializing creates repository metadata; staging selects a snapshot, and committing records it. Review files and secrets before the first commit. Publishing is a separate task.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Git does not record every file save. Initializing creates repository metadata; staging selects a snapshot, and committing records it. Review files and secrets before the first commit. Publishing is a separate task.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Choose the intended project folder. Check that it is not already inside another repository. Choose an initial branch name and configure your Git author name/email; Git 2.28+ supports init -b.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git init -b &lt;initial-branch&gt;
 git status
@@ -522,6 +522,7 @@ git add -- &lt;filename&gt;
 git diff --staged
 git commit -m &quot;Initial commit&quot;</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> git status should identify your chosen branch. git log -1 --stat should show the intended first commit and files. Unstaged or untracked files may still remain; a completely clean tree is not required for a successful selected-file commit.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If Git reports an existing repository, stop and inspect its top-level directory. If identity or hooks prevent the commit, inspect that specific error; do not reinitialize or bypass hooks.</p></details><div class="card-related"><a href="#learn/card-init">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 2: Clone an Existing Project -->
@@ -529,7 +530,7 @@ git commit -m &quot;Initial commit&quot;</code></pre></div>
 <div class="card-top"><h2 class="card-title">Clone an existing project</h2><span class="card-tag">Start here</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Get a local checkout from a verified repository URL.</div>
-<div class="card-effect">Cloning creates a local repository, downloads available history and checks out its default branch when one exists. The remote name is normally origin for a plain clone, but inspect the result rather than assuming later targets.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Cloning creates a local repository, downloads available history and checks out its default branch when one exists. The remote name is normally origin for a plain clone, but inspect the result rather than assuming later targets.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Copy the clone URL from the intended host and confirm you have read access. Choose a new destination folder. You do not need an existing local Git repository.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git clone &lt;repository-url&gt; &lt;new-folder&gt;
 cd &lt;new-folder&gt;
@@ -537,6 +538,7 @@ git status
 git remote -v
 git branch -a</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Check that the folder, configured remote URL and checked-out branch match the intended project. An empty remote can produce an unborn branch without a commit.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>A private repository can look missing when the account lacks access. Verify URL/account before retrying; do not paste credentials into a URL or overwrite an existing destination.</p></details><div class="card-related"><a href="#learn/card-clone">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 3: Precise Staging & Checkpoints -->
@@ -544,7 +546,7 @@ git branch -a</code></pre></div>
 <div class="card-top"><h2 class="card-title">Save your first commit</h2><span class="card-tag">Start here</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Choose the changes to record, then check the snapshot.</div>
-<div class="card-effect">Saving a file changes your working tree. git add copies its current contents into the staging area (index). git commit records the staged snapshot. If you edit again after adding, those later edits are not included until you stage them.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Saving a file changes your working tree. git add copies its current contents into the staging area (index). git commit records the staged snapshot. If you edit again after adding, those later edits are not included until you stage them.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Use an existing repository on the intended branch, with a file you have edited. If this is a new project, start with the repository guide. Set your Git author identity if needed.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git diff
@@ -554,6 +556,7 @@ git commit -m &quot;Describe the change&quot;
 git log -1 --stat
 git status</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Compare the staged diff before committing with git show --stat HEAD afterwards. Only the intended staged snapshot should be recorded. Other files or later edits can remain uncommitted. No push occurs.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If there is nothing staged, inspect status and stage the intended changes. If the snapshot is wrong before commit, unstage without discarding edits. If the commit fails, inspect the identity/editor/hook error before retrying.</p></details><div class="card-related"><a href="#learn/card-stage">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 4: Branches as Isolated Sandboxes -->
@@ -561,7 +564,7 @@ git status</code></pre></div>
 <div class="card-top"><h2 class="card-title">Create and switch branches</h2><span class="card-tag">Everyday Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Give a line of work a name and understand what switching changes.</div>
-<div class="card-effect">A branch is a movable reference to a commit, not an isolated copy of your files. Normal branches share one working directory. Uncommitted changes may carry across a switch or prevent it. A worktree provides a separate working directory.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">A branch is a movable reference to a commit, not an isolated copy of your files. Normal branches share one working directory. Uncommitted changes may carry across a switch or prevent it. A worktree provides a separate working directory.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Inspect status and preserve wanted work before switching. Choose an unused branch name and the correct starting commit.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git branch --show-current
@@ -570,6 +573,7 @@ git switch -c &lt;new-branch&gt;
 # Preserve remaining work before switching:
 git switch &lt;existing-branch&gt;</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> After creation, git branch --show-current should report the new name. After switching back, verify the expected branch and inspect status. Existing commits remain reachable through their refs.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If switching would overwrite changes, preserve those changes first. Do not add discard/force flags just to make a switch succeed.</p></details><div class="card-related"><a href="#learn/card-branch">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 5: Choose How to Undo a Change -->
@@ -577,7 +581,7 @@ git switch &lt;existing-branch&gt;</code></pre></div>
 <div class="card-top"><h2 class="card-title">Choose how to undo a change</h2><span class="card-tag">Everyday Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · history-rewrite · data-loss-potential</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Separate unstaging, discarding edits and undoing a commit.</div>
-<div class="card-effect">Unstaging changes the index and preserves working files. Discarding overwrites selected working edits. Amend rewrites a commit. Revert records an inverse commit and can conflict. These are different goals; do not run all alternatives.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Unstaging changes the index and preserves working files. Discarding overwrites selected working edits. Amend rewrites a commit. Revert records an inverse commit and can conflict. These are different goals; do not run all alternatives.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Identify whether the change is unstaged, staged or committed. Inspect both diffs, commit ownership and any operation already in progress.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code># Start by inspecting; choose an action in the linked help guides:
 git status
@@ -585,6 +589,7 @@ git diff
 git diff --staged
 git log -n 5 --oneline</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Define the intended outcome first: edits kept but unstaged, selected edits discarded, or an inverse commit recorded. Verify the corresponding index, working file or commit afterwards.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If the state is uncertain or an operation is in progress, gather fresh status. Git cannot guarantee recovery of discarded unstaged edits.</p></details><div class="card-related"><a href="#learn/card-undo">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 6: Working with Remotes & Team Sync (Multi-Host) -->
@@ -592,7 +597,7 @@ git log -n 5 --oneline</code></pre></div>
 <div class="card-top"><h2 class="card-title">Fetch, integrate and publish changes</h2><span class="card-tag">Everyday Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · history-rewrite · remote-publish</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Understand three different operations when working with a remote.</div>
-<div class="card-effect">Fetch updates local remote-tracking information without integrating it into your current branch. Integration is a separate merge or rebase decision. Push publishes to a chosen remote ref. The local Git operations are shared across hosts.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Fetch updates local remote-tracking information without integrating it into your current branch. Integration is a separate merge or rebase decision. Push publishes to a chosen remote ref. The local Git operations are shared across hosts.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Inspect the actual remote and tracking branch. Preserve local work. Check the team’s integration policy and whether your commits are shared.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git remote -v
@@ -602,6 +607,7 @@ git log --oneline --graph --decorate --all -n 20
 # Choose integration only after inspecting the fetched history.
 # Publish separately after testing and verifying the destination.</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Inspect the fetched tracking ref and graph. After deliberate integration, check the intended history/files and run project tests. Verify the destination separately after publishing.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>A rejected push can mean divergence, permissions or policy. Identify the cause; never select force-push from a rejection alone.</p></details><div class="card-related"><a href="#learn/card-sync">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 7: Pipelines & Automated CI/CD (Multi-Host) -->
@@ -642,7 +648,7 @@ jobs:
       - name: Run Tests
         run: npm test</code></pre>
         </div>
-        <div class="card-effect">
+        <details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">
           <strong>What happens:</strong> Without an explicit workflow file, cloud hosts act solely as code storage. Job creation depends on the provider configuration path and matching triggers. GitHub uses .github/workflows; GitLab and Bitbucket Cloud use their documented root files.
         </div>
         <div class="card-verify">
@@ -651,14 +657,15 @@ jobs:
         <div class="card-related">
           <strong>Related:</strong> <code>git push</code> · <code>.github/workflows</code> · <code>.gitlab-ci.yml</code> · <code>bitbucket-pipelines.yml</code>
         </div>
-      </article>
+      </details>
+</article>
 
       <!-- CARD 8: Stashing (The Pause Button) -->
       <article class="card" id="card-stash" data-category="essential" data-effects="local-change data-loss-potential" data-keywords="stash shelf pause temporary switch untracked files save for later pop restore WIP emergency">
 <div class="card-top"><h2 class="card-title">Temporarily set work aside</h2><span class="card-tag">Everyday Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · data-loss-potential</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Save local changes for later without confusing apply and drop.</div>
-<div class="card-effect">stash push -u includes untracked files but excludes ignored files. Applying a stash may conflict and retains the stash entry. pop also attempts to remove it after successful application. Review the result before dropping an entry.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">stash push -u includes untracked files but excludes ignored files. Applying a stash may conflict and retains the stash entry. pop also attempts to remove it after successful application. Review the result before dropping an entry.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Inspect tracked, staged, untracked and ignored work. Identify the original branch and intended stash. Preserve important work separately.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git stash push -u -m &quot;Work in progress&quot;
@@ -669,6 +676,7 @@ git switch &lt;original-branch&gt;
 git stash list
 git stash apply &lt;stash-reference&gt;</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Inspect restored file contents, git diff and git diff --staged. The intended stash should still be listed after apply. Do not assume status is clean or the staged arrangement was recreated.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If application conflicts, inspect status and resolve deliberately. There is no generic stash-apply abort. Do not drop the stash until you have verified and preserved the result.</p></details><div class="card-related"><a href="#learn/card-stash">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 9: Merge Conflict Resolution -->
@@ -676,7 +684,7 @@ git stash apply &lt;stash-reference&gt;</code></pre></div>
 <div class="card-top"><h2 class="card-title">Resolve an identified merge conflict</h2><span class="card-tag">Everyday Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · data-loss-potential</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Decide the final file contents, stage them and finish the merge.</div>
-<div class="card-effect">Conflict markers show competing content; deleting markers alone is not enough. Choose a correct final result, test it, then stage it. Modify/delete conflicts may have no text markers. Only continue after all unmerged paths are resolved.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Conflict markers show competing content; deleting markers alone is not enough. Choose a correct final result, test it, then stage it. Modify/delete conflicts may have no text markers. Only continue after all unmerged paths are resolved.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Read full git status to identify a merge. Rebase, cherry-pick and revert have their own continuation commands. Preserve wanted work and inspect every unmerged path.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git diff --name-only --diff-filter=U
@@ -688,6 +696,7 @@ git merge --continue</code></pre></div>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git diff --name-only --diff-filter=U</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> No unmerged paths should remain. Inspect the merge commit’s parents and tree, and test the intended combined changes. Re-paste fresh status if using guided checks.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>For an identified merge, git merge --abort may cancel it; recovery of pre-existing uncommitted work is not guaranteed. Do not use merge continuation for a different operation.</p></details><div class="card-related"><a href="#learn/card-conflict">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 10: Interactive Rebase (Pro Only) -->
@@ -695,7 +704,7 @@ git diff --name-only --diff-filter=U</code></pre></div>
 <div class="card-top"><h2 class="card-title">Rewrite unshared commits with interactive rebase</h2><span class="card-tag">Advanced Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · history-rewrite · data-loss-potential</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Reorder or combine a selected private commit sequence.</div>
-<div class="card-effect">Rebase replays changes onto a chosen base and may create new commit identities. Interactive actions can reorder, combine or remove commits. Replayed patches may conflict; linear history is a choice, not proof of correctness.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Rebase replays changes onto a chosen base and may create new commit identities. Interactive actions can reorder, combine or remove commits. Replayed patches may conflict; linear history is a choice, not proof of correctness.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Verify the selected commits have the needed ancestor and are unshared. Preserve work, inspect history and agree any collaboration policy before rewriting.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git log --oneline -n 6
@@ -704,6 +713,7 @@ git rebase -i HEAD~3
 # Resolve and stage conflicts before rebase --continue.
 # If cancellation is intended, inspect rebase --abort guidance.</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Inspect the resulting graph, intended file tree and project tests. Confirm the selected changes remain present in the intended order; do not publish rewritten history automatically.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If rebase stops, read status and inspect the current patch. During rebase, ours/theirs refers to the replay context. Use the confirmed operation’s continue/abort procedure.</p></details><div class="card-related"><a href="#learn/card-rebase">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 11: Detached HEAD Recovery (Pro Only) -->
@@ -711,7 +721,7 @@ git rebase -i HEAD~3
 <div class="card-top"><h2 class="card-title">Understand detached HEAD and keep your commits</h2><span class="card-tag">Advanced Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Inspect a commit directly, or give wanted committed work a branch name.</div>
-<div class="card-effect">Detached HEAD means HEAD points directly to a commit instead of through a branch. It is normal for inspecting history. A branch can retain a wanted commit; uncommitted edits need separate preservation.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Detached HEAD means HEAD points directly to a commit instead of through a branch. It is normal for inspecting history. A branch can retain a wanted commit; uncommitted edits need separate preservation.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Inspect HEAD and any uncommitted changes. If you created commits while detached, verify their IDs before switching elsewhere.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git log -1 --oneline
@@ -719,6 +729,7 @@ git branch --list
 # Use an unused name and verified commit ID:
 git branch &lt;rescue-name&gt; &lt;verified-commit-id&gt;</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> git log -1 &lt;rescue-name&gt; should identify the intended commit. Inspect its files. Branch creation alone does not switch working files or save uncommitted edits.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If you already switched away, inspect reflog for a retained commit. Do not assume the branch name is main or switch until wanted work is preserved.</p></details><div class="card-related"><a href="#learn/card-detached">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 12: Git Worktrees (Pro Only) -->
@@ -726,7 +737,7 @@ git branch &lt;rescue-name&gt; &lt;verified-commit-id&gt;</code></pre></div>
 <div class="card-top"><h2 class="card-title">Use separate working folders with worktrees</h2><span class="card-tag">Advanced Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Check out separate branches without another full clone.</div>
-<div class="card-effect">Worktrees share repository objects while having separate working directories and indexes. They are the appropriate comparison when you need parallel folders; normal branch switching does not create that isolation.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Worktrees share repository objects while having separate working directories and indexes. They are the appropriate comparison when you need parallel folders; normal branch switching does not create that isolation.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Inspect current worktrees and branch use. Choose a new folder and an existing branch not already checked out elsewhere.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git worktree list
 git worktree add &lt;new-folder&gt; &lt;available-branch&gt;
@@ -735,6 +746,7 @@ git worktree list
 # Remove only after confirming its work is no longer needed:
 git worktree remove &lt;new-folder&gt;</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Check the registered path and checked-out branch in worktree list, then inspect status inside that folder. Before removal verify its work is committed/preserved.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If Git refuses because a branch is already checked out or a worktree has changes, investigate that state. Do not force removal as a generic fix.</p></details><div class="card-related"><a href="#learn/card-worktree">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 13: Reflog Recovery (NEW PHASE 3 PRO) -->
@@ -742,13 +754,14 @@ git worktree remove &lt;new-folder&gt;</code></pre></div>
 <div class="card-top"><h2 class="card-title">Find a retained commit with reflog</h2><span class="card-tag">Advanced Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Locate committed work that lost a branch reference.</div>
-<div class="card-effect">Reflog records local reference movements, not every file edit. It can help find a retained commit after a branch deletion or reset. It cannot guarantee recovery of discarded unstaged changes.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Reflog records local reference movements, not every file edit. It can help find a retained commit after a branch deletion or reset. It cannot guarantee recovery of discarded unstaged changes.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>This is committed-work recovery. Confirm the object still exists locally and choose an unused rescue branch name. Reflogs are local and may expire.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git reflog -n 20
 git show &lt;verified-commit-id&gt;
 git branch &lt;unused-rescue-name&gt; &lt;verified-commit-id&gt;
 git log -1 &lt;unused-rescue-name&gt;</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Confirm the rescue branch points to the selected commit and inspect its tree for the wanted content. A new ref makes that retained commit reachable; it does not restore arbitrary disk edits.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If the commit is unavailable, stop rather than inventing a recovery guarantee. Look for backups or another clone where appropriate.</p></details><div class="card-related"><a href="#learn/card-reflog">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 14: Regression Hunting: bisect & blame (NEW PHASE 3 PRO) -->
@@ -756,7 +769,7 @@ git log -1 &lt;unused-rescue-name&gt;</code></pre></div>
 <div class="card-top"><h2 class="card-title">Find a regression with bisect; inspect attribution with blame</h2><span class="card-tag">Advanced Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Use distinct tools for a failing revision and line history.</div>
-<div class="card-effect">Bisect narrows a regression by classifying revisions. blame shows last-change attribution for lines; it is not proof of who caused a bug. Reliable test classifications matter more than speed.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Bisect narrows a regression by classifying revisions. blame shows last-change attribution for lines; it is not proof of who caused a bug. Reliable test classifications matter more than speed.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Preserve work and choose a reproducible test with known good/bad revisions. Bisect checks out intermediate commits; older revisions may need different build dependencies.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git bisect start
 git bisect bad &lt;known-bad-commit&gt;
@@ -770,6 +783,7 @@ git bisect reset
 # A separate attribution example:
 git blame -L 20,45 -- &lt;filename&gt;</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Inspect and reproduce the change identified by bisect; then verify the original checkout after reset. For blame, inspect the relevant commit and context rather than assigning fault.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If a revision cannot be tested, consider skip and report the resulting uncertainty. Incorrect good/bad labels can invalidate the search.</p></details><div class="card-related"><a href="#learn/card-bisect">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 15: Release Tags & Semantic Versioning (Phase 5) -->
@@ -777,7 +791,7 @@ git blame -L 20,45 -- &lt;filename&gt;</code></pre></div>
 <div class="card-top"><h2 class="card-title">Create and publish a release tag</h2><span class="card-tag">Working with a team</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change · remote-publish</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Name a verified commit and publish only the intended tag.</div>
-<div class="card-effect">An annotated tag is an object with a message and a reference to a target. Creating it locally and publishing it are separate actions. Shared tag names should not be rewritten casually.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">An annotated tag is an object with a message and a reference to a target. Creating it locally and publishing it are separate actions. Shared tag names should not be rewritten casually.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Verify the commit, unused tag name, release policy and actual remote. Semantic versioning is a project convention, not something Git enforces.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git log -1
@@ -787,6 +801,7 @@ git show &lt;new-tag&gt;
 git push &lt;remote&gt; refs/tags/&lt;new-tag&gt;
 git tag --sort=version:refname -n 1</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Inspect the tag target and annotation. After authorized publication, verify the exact tag ref on the chosen remote. describe reports a nearby reachable tag, not proof of a release or successful publication.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If a tag already exists, inspect its target and publication status. Prefer a new reviewed name to force-replacing a shared tag.</p></details><div class="card-related"><a href="#learn/card-tag">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 16: Safe Force-Push (--force-with-lease) (Phase 5 Pro) -->
@@ -794,7 +809,7 @@ git tag --sort=version:refname -n 1</code></pre></div>
 <div class="card-top"><h2 class="card-title">Understand an explicit force-push lease</h2><span class="card-tag">Advanced Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: history-rewrite · remote-publish · data-loss-potential</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Review a coordinated history rewrite without treating it as routine sync.</div>
-<div class="card-effect">An explicit lease checks whether the remote ref still equals the expected OID. That check does not prove ownership or that the replacement preserves wanted work. Shorthand leases can be affected by background fetches.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">An explicit lease checks whether the remote ref still equals the expected OID. That check does not prove ownership or that the replacement preserves wanted work. Shorthand leases can be affected by background fetches.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Only consider this for a deliberately coordinated rewrite with verified ownership, target and expected remote OID. Preserve wanted history and understand who relies on the branch.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code># Inspect first; no rewrite command is enabled here.
 git status
@@ -803,6 +818,7 @@ git remote -v
 # Advanced syntax, after deliberate verification and coordination:
 # git push --force-with-lease=refs/heads/&lt;remote-branch&gt;:&lt;expected-oid&gt; &lt;remote&gt; HEAD:refs/heads/&lt;remote-branch&gt;</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> After any authorized publication, inspect the actual remote ref and intended history. If a lease fails, stop and investigate the new remote state rather than refreshing the expectation and overwriting it.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>For a rejected ordinary push, start with diagnosis. A permission, policy or divergence error is not authorization to rewrite history.</p></details><div class="card-related"><a href="#learn/card-force-lease">Read this learning guide →</a></div>
+</details>
 </article>
 
       <!-- CARD 17: Port Isolated Commits (cherry-pick) (Phase 5 Pro) -->
@@ -810,7 +826,7 @@ git remote -v
 <div class="card-top"><h2 class="card-title">Apply a selected commit with cherry-pick</h2><span class="card-tag">Advanced Git</span></div>
 <div class="card-meta-bar"><span class="badge badge-scope">Effects: local-change</span></div>
 <div class="card-scenario"><strong>Goal:</strong> Bring a change onto another branch without merging all its history.</div>
-<div class="card-effect">Cherry-pick applies a selected commit’s changes in the target context and usually records a new commit. The result can conflict or become empty; it does not transfer the whole source branch.</div>
+<details class="topic-example"><summary>Read the example and checks</summary><div class="card-effect">Cherry-pick applies a selected commit’s changes in the target context and usually records a new commit. The result can conflict or become empty; it does not transfer the whole source branch.</div>
 <details class="task-deep-dive"><summary>Before you start</summary><p>Inspect the source commit and intended target branch, preserve work and start with no other operation in progress. Merge commits require additional mainline decisions not covered by this simple example.</p></details>
 <div class="snippet-block"><div class="snippet-header"><span>Worked example — check prerequisites</span></div><pre class="code-content" tabindex="0" aria-label="Code example"><code>git status
 git show &lt;ordinary-commit-id&gt;
@@ -820,6 +836,7 @@ git cherry-pick &lt;ordinary-commit-id&gt;
 # Only then: git cherry-pick --continue
 # To cancel the identified operation: git cherry-pick --abort</code></pre></div>
 <div class="card-verify"><strong>Check the result:</strong> Inspect the resulting commit’s patch and target branch files, and run tests. A new identity may differ from the source; verify content rather than expecting identical hashes.</div><details class="task-deep-dive"><summary>If the result differs</summary><p>If the pick stops or becomes empty, inspect status and the intended outcome. Do not continue or skip automatically without understanding what is already applied.</p></details><div class="card-related"><a href="#learn/card-cherry-pick">Read this learning guide →</a></div>
+</details>
 </article>
 
     </div>
