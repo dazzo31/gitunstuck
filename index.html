@@ -215,6 +215,14 @@
     <section id="view-fix" class="v2-view" aria-labelledby="fixHeading">
       <h2 id="fixHeading" tabindex="-1">What went wrong?</h2>
       <p>Choose the closest problem. Inspect the prerequisites and keep wanted changes before taking an action.</p>
+      <section class="v2-status-box" aria-labelledby="errorHeading">
+        <h3 id="errorHeading">Understand an error</h3>
+        <p>Paste a redacted Git error or describe the problem. This stays in this tab; nothing is executed or uploaded. Remove tokens, credentials and private URLs before pasting. Maximum 100 KiB.</p>
+        <label for="errorInput">Error text or problem description</label>
+        <textarea id="errorInput" rows="4" spellcheck="false" autocomplete="off" placeholder="fatal: not a git repository"></textarea>
+        <div class="v2-step-controls"><button type="button" id="diagnoseError">Find possible causes</button><button type="button" id="clearError">Clear error</button></div>
+        <section id="errorResults" aria-label="Possible error diagnoses" hidden></section>
+      </section>
       <section class="v2-status-box" aria-labelledby="statusHeading">
         <h3 id="statusHeading">Start with what Git reports</h3>
         <p>Run <code>git status --porcelain=v2 --branch</code> and paste its output below. A scoped <code>git status -sb</code> format also works. Input stays in this tab and is never executed or uploaded.</p>

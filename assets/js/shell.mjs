@@ -4,6 +4,7 @@ import { textElement as element } from './dom.mjs';
 import { formatSnippet } from './shell-format.mjs';
 import { parseRoute, viewNames } from './routing.mjs';
 import './status-ui.mjs';
+import './errors-ui.mjs';
 import './recovery-ui.mjs';
 
 const el = (tag, className, text) => element(document, tag, className, text);

@@ -75,6 +75,23 @@ const axe = require('axe-core');
         for (const route of ['fix', 'workflows', 'reference', 'playground', 'learn']) {
           await navigate(route);
           if (route === 'fix') {
+            await page.locator('#errorInput').fill('error: could not apply abc1234... change <img onerror=alert(1)>');
+            await page.locator('#diagnoseError').click();
+            assert.match(await page.locator('#errorResults').textContent(), /Diagnosis: ambiguous/);
+            assert.equal(await page.locator('#errorResults img').count(), 0);
+            assert.equal(await page.locator('#errorResults a[href^="#fix/"]').count(), 0);
+            assert.equal(await page.evaluate(() => Object.values(localStorage).some(value => value.includes('could not apply'))), false);
+            await page.locator('#errorInput').fill('fatal: not a git repository');
+            assert.equal(await page.locator('#errorResults').isVisible(), false);
+            await page.locator('#diagnoseError').click();
+            assert.match(await page.locator('#errorResults').textContent(), /Do not run git init/);
+            await page.locator('#clearError').click();
+            assert.equal(await page.locator('#errorInput').inputValue(), '');
+            await page.locator('#errorInput').fill('fatal: not a git repository');
+            await page.locator('#diagnoseError').click();
+            await page.locator('#errorResults').getByRole('button', { name: 'None of these match', exact: true }).click();
+            assert.equal(await page.locator('#statusInput').evaluate(e => e === document.activeElement), true);
+            await page.locator('#clearError').click();
             const H = 'a'.repeat(40);
             await page.locator('#statusInput').fill('# branch.oid ' + H + '\n# branch.head topic\n? <img src=x onerror=alert(1)>');
             await page.locator('#interpretStatus').click();

@@ -909,3 +909,7 @@
 .v2-blockers { color: var(--text-muted); padding-left: 22px; line-height: 1.6; font-size: .85rem; margin: 20px 0; }
 #recoveryPlan .callout { margin: 20px 0; }
 .copy-btn:disabled { opacity: .65; cursor: default; }
+
+.v2-error-match { padding: 1rem 0; border-bottom: 1px solid var(--border-color); }
+.v2-error-match h5 { font-size: 1rem; margin: 1rem 0 .5rem; }
+.v2-error-match a { display: inline-block; margin-right: 1rem; text-decoration: underline; }

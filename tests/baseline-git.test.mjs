@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync, writeFileSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { diagnoseError } from '../assets/js/errors.mjs';
 import { parseStatus } from '../assets/js/status.mjs';
 import { buildRecoveryPlan } from '../assets/js/recovery.mjs';
 
@@ -176,4 +177,16 @@ test('engine failure path: revert conflict blocks repeat and abort restores stat
   const blocked = buildRecoveryPlan('revert', parseStatus(r.ok('status', '--porcelain=v2', '--branch')), { ...confirmations, operation: 'revert' });
   assert.equal(blocked.ready, false); assert.deepEqual(blocked.actions, []); assert.ok(plan.fallback.includes('git revert --abort'));
   r.ok('revert', '--abort'); assert.equal(r.ok('rev-parse', 'HEAD'), before); assert.equal(readFileSync(r.file, 'utf8'), 'intervening\n');
+});
+
+test('real Git error catalogue: distinct failures preserve their diagnoses', t => {
+ const r=repo(t);r.commit('base\n');
+ const scenarios=[
+  [['push','unused-remote','missing-ref'],'invalid-refspec'],
+  [['remote','remove','missing-remote'],'remote-missing'],
+  [['show','missing-revision'],'bad-revision'],
+  [['tag','existing-tag'],'tag-exists']
+ ];
+ r.ok('tag','existing-tag');
+ for(const [args,id] of scenarios){const result=r.git(...args);assert.notEqual(result.status,0);const diagnosis=diagnoseError(result.stdout+'\n'+result.stderr);assert.ok(diagnosis.matches.some(x=>x.definition.id===id && x.score>=.85),id+': '+result.stderr);}
 });

@@ -101,3 +101,10 @@ GU-0606: eight real-Git engine journeys execute the model’s trusted command sy
 Local `npm test`: 133 passed, 0 failed; content/public build/diff checks exit 0. CI browser checks exercise blocked Prepare, verified unstage, no blind placeholder copying, share-link privacy and different-result reset; gate pending. Core web code still does not execute Git or upload diagnostics.
 
 Phase 6 gate PASS: https://github.com/dazzo31/gitunstuck/actions/runs/38317457103 at af4b7c0b45e0634c088fdbfee22b8f290e070bbf succeeded. All 133 source/Git tests, public build and browser route/accessibility scenarios passed. Phase 7 is next; v2.0 is not release complete.
+
+## Phase 7 — error catalogue; CI gate pending
+
+GU-0701: versioned 24-family catalogue with deterministic canonical/regex/alias/token ranking. Scores describe match strength, not calibrated cause probabilities. Host mismatch downgrades confidence; aliases and fuzzy tokens cannot choose repairs.
+GU-0702/0703: all requested error categories, separate HTTPS/SSH/write-access and local/remote ref errors, explicit cause alternatives, read-only allowlisted diagnostics, questions, safe next decisions and applicable gated recovery links. Official Git and GitHub documentation URLs opened successfully on 2026-10-13; per-entry review dates retained. Authentication is not tested against real accounts.
+GU-0704: ephemeral error input with UTF-8 limit/control-character boundaries, text-only rendering, clear/edit invalidation and none-match return to status. No uploads, persistence or user-text command interpolation. Ambiguous/weak matches expose no recovery choice link.
+GU-0705: canonical fixtures for every family, ambiguous could-not-apply/policy cases, provider mismatch, authentication distinctions, hostile text and real-Git failures. Browser suite now checks ambiguity, injection, no storage, edit invalidation and none-match focus. CI remains the phase gate.
