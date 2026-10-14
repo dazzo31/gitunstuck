@@ -341,6 +341,7 @@ assert(fundingYml.includes('buy_me_a_coffee: dazzo31'), 'FUNDING.yml configures 
 const readmeMd = fs.readFileSync(path.join(__dirname, '../README.md'), 'utf-8');
 assert(readmeMd.includes('https://github.com/sponsors/dazzo31'), 'README.md contains GitHub Sponsors badges and link');
 assert(readmeMd.includes('https://buymeacoffee.com/dazzo31'), 'README.md contains Buy Me a Coffee badges and link');
+assert(fs.existsSync(path.join(__dirname, '../LICENSE')), 'MIT LICENSE file deployed in repo root');
 
 console.log(`\nTotal Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);
 console.log(`========================================\n`);
