@@ -2,7 +2,7 @@
 
 > **Live Application:** [dazzo31.github.io/gitunstuck](https://dazzo31.github.io/gitunstuck/)  
 > **Guiding Principle:** *Don't Panic. Git almost never loses your committed work.*  
-> **Sponsor:** [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?style=flat&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31)
+> **Sponsor:** [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?style=flat&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31) [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-dazzo31-orange?style=flat&logo=buymeacoffee&logoColor=white)](https://buymeacoffee.com/dazzo31)
 
 **GitUnstuck** is an empathetic, interactive problem-solving guide and diagnostic cheatsheet designed to help developers recover from Git mistakes, navigate cloud platform rejections across **GitHub**, **GitLab**, and **Bitbucket**, and master Git's mental model without cognitive overload.
 
@@ -86,6 +86,7 @@ GitUnstuck was built to make Git mental models intuitive and save developers fro
 If this guide helped you master a workflow, rescued your branch, or saved your team time, consider sponsoring ongoing development:
 
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor%20on%20GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/dazzo31)
 
 ---
 

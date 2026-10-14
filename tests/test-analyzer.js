@@ -325,18 +325,22 @@ assert(fs.existsSync(path.join(__dirname, '../gitunstuck-wordmark-light.svg')), 
 assert(fs.existsSync(path.join(__dirname, '../gitunstuck-favicon-dark.svg')), 'Standalone gitunstuck-favicon-dark.svg deployed in repo root');
 assert(fs.existsSync(path.join(__dirname, '../gitunstuck-favicon-light.svg')), 'Standalone gitunstuck-favicon-light.svg deployed in repo root');
 
-// Suite 12: GitHub Sponsors Funding & Learning Resource Messaging
-console.log('\nSuite 12: GitHub Sponsors Funding & Learning Resource Messaging');
-assert(indexHtml.includes('https://github.com/sponsors/dazzo31'), 'Header and footer link to GitHub Sponsors URL');
+// Suite 12: GitHub Sponsors & Buy Me a Coffee Funding System
+console.log('\nSuite 12: GitHub Sponsors & Buy Me a Coffee Funding System');
+assert(indexHtml.includes('https://github.com/sponsors/dazzo31'), 'Footer links to GitHub Sponsors URL');
+assert(indexHtml.includes('https://buymeacoffee.com/dazzo31'), 'Header pill and footer link to Buy Me a Coffee URL');
 assert(indexHtml.includes('class="sponsor-pill-btn"') && indexHtml.includes('target="_blank"') && indexHtml.includes('Buy me a coffee'), 'Header controls group contains accessible sponsor pill button with Buy me a coffee wording');
 assert(indexHtml.includes('id="sponsorCard"') && indexHtml.includes('class="footer-sponsor-card"'), 'Footer contains dedicated sponsor card');
 assert(indexHtml.includes('Open Learning Resource &amp; Time Saver'), 'Sponsor messaging emphasizes learning resource and time saver angle');
 assert(indexHtml.includes('class="btn-sponsor"') && indexHtml.includes('Sponsor on GitHub'), 'Footer card includes Sponsor on GitHub button');
+assert(indexHtml.includes('btn-coffee') && indexHtml.includes('Buy Me a Coffee'), 'Footer card includes Buy Me a Coffee button');
 assert(fs.existsSync(path.join(__dirname, '../.github/FUNDING.yml')), '.github/FUNDING.yml file exists for native GitHub Sponsor button');
 const fundingYml = fs.readFileSync(path.join(__dirname, '../.github/FUNDING.yml'), 'utf-8');
 assert(fundingYml.includes('github: dazzo31'), 'FUNDING.yml configures github user dazzo31');
+assert(fundingYml.includes('buy_me_a_coffee: dazzo31'), 'FUNDING.yml configures buy_me_a_coffee user dazzo31');
 const readmeMd = fs.readFileSync(path.join(__dirname, '../README.md'), 'utf-8');
 assert(readmeMd.includes('https://github.com/sponsors/dazzo31'), 'README.md contains GitHub Sponsors badges and link');
+assert(readmeMd.includes('https://buymeacoffee.com/dazzo31'), 'README.md contains Buy Me a Coffee badges and link');
 
 console.log(`\nTotal Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);
 console.log(`========================================\n`);
