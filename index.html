@@ -1644,11 +1644,11 @@
 
       <!-- Mode Switcher -->
       <div class="mode-switcher" id="modeSwitcher" role="group" aria-label="Experience Mode">
-        <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Task-driven language, real-world analogies, hides advanced commands">
-          <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English (Beginner)
+        <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Curated safe workflows, intuitive mental models, focused guidance">
+          <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Guided Essentials
         </button>
         <button class="mode-btn" data-mode="pro" aria-pressed="false" title="Full developer matrix, rebase, DAG architecture, worktrees &amp; reflog">
-          <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Pro Developer Hub
+          <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Developer Hub
         </button>
       </div>
 
@@ -1806,14 +1806,14 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
       </div>
     </section>
 
-    <!-- Beginner Mental Model Primer (Shown in Plain English mode) -->
+    <!-- Guided Mental Model Primer (Shown in Guided Essentials mode) -->
     <section class="hero-primer" id="beginnerPrimer" aria-labelledby="primerHeading">
       <div class="primer-header">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
           <div>
-            <span class="primer-badge">Zero Experience? Start Here • Beginner Guide</span>
+            <span class="primer-badge">Guided Essentials • Mental Models</span>
             <h2 class="primer-title" id="primerHeading">The 60-Second Mental Model</h2>
-            <p class="primer-subtitle">If you have never touched a code repository or pipeline, here is how Git actually works in plain English.</p>
+            <p class="primer-subtitle">How Git actually works: intuitive conceptual models before diving into commands.</p>
             <div class="primer-collapsed-tagline"><svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/></svg> <strong>Quick Concept:</strong> Repo = Time Machine • Commit = Save Point • Staging = Cart • 5-Step Safe Routine <button type="button" class="tagline-expand-link" onclick="setPrimerCollapsed(false, true)" aria-label="Expand 60-Second Mental Model">[Expand Guide ↑]</button></div>
           </div>
           <button id="togglePrimerBtn" class="primer-toggle-btn" aria-expanded="true" aria-controls="primerBody">
@@ -2141,7 +2141,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
           <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Guided Concept</span>
           <span>Turns a regular folder into a tracked project with a time-machine ledger in <code>.git/</code>, then links it to GitHub.</span>
         </div>
         <div class="card-scenario">
@@ -2195,7 +2195,7 @@ git push -u origin main</code></pre>
           <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Guided Concept</span>
           <span>Downloads an exact duplicate of the project and its entire history from GitHub onto your computer.</span>
         </div>
         <div class="card-scenario">
@@ -2248,7 +2248,7 @@ git branch -a</code></pre>
           <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Guided Concept</span>
           <span><code>git add</code> puts files into your shopping cart; <code>git commit</code> pays at the register to seal a permanent save point.</span>
         </div>
         <div class="card-scenario">
@@ -2310,7 +2310,7 @@ git commit -m "feat: add user authentication"</code></pre>
           <span class="badge badge-risk-safe">Risk: Safe</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Guided Concept</span>
           <span>Creates an isolated sandbox where you can code and test safely without risking the working production code on <code>main</code>.</span>
         </div>
         <div class="card-scenario">
@@ -2383,7 +2383,7 @@ git switch main</code></pre>
           <span class="badge badge-risk-caution">Risk: Destructive / Reversible</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Guided Concept</span>
           <span><code>restore --staged</code> takes items out of your shopping cart safely; <code>restore</code> throws away changes on disk permanently.</span>
         </div>
         <div class="card-scenario">
@@ -2474,7 +2474,7 @@ git revert a1b2c3d</code></pre>
           <span class="badge badge-risk-rev">Risk: Reversible</span>
         </div>
         <div class="plain-english-note">
-          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Plain English</span>
+          <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Guided Concept</span>
           <span><code>git pull</code> downloads teammates' newest checkpoints; <code>git push</code> uploads your save points to the cloud host.</span>
         </div>
         <div class="card-scenario">
@@ -3777,7 +3777,7 @@ git cherry-pick 7a1b2c3
 
       syncPrimerCollapseState(mode);
       filterCards();
-      announceState(`Switched to ${mode === 'beginner' ? 'Plain English (Beginner)' : 'Pro Developer Hub'} mode`);
+      announceState(`Switched to ${mode === 'beginner' ? 'Guided Essentials' : 'Developer Hub'} mode`);
     }
 
     modeButtons.forEach(btn => {

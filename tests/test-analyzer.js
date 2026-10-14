@@ -283,8 +283,8 @@ assert(indexHtml.includes("statusInputText.addEventListener('input'"), 'Auto-cle
 
 // Suite 9: Experience Mode Personas, Interlinking & Adaptive Annotations (v2.1 UX Upgrade)
 console.log('\nSuite 9: Experience Mode Personas, Interlinking & Adaptive Annotations');
-assert(indexHtml.includes('Plain English (Beginner)') && indexHtml.includes('data-mode="beginner"'), 'Header mode switcher includes Plain English (Beginner) button');
-assert(indexHtml.includes('Pro Developer Hub') && indexHtml.includes('data-mode="pro"'), 'Header mode switcher includes Pro Developer Hub button');
+assert(indexHtml.includes('Guided Essentials') && indexHtml.includes('data-mode="beginner"'), 'Header mode switcher includes Guided Essentials button');
+assert(indexHtml.includes('Developer Hub') && indexHtml.includes('data-mode="pro"'), 'Header mode switcher includes Developer Hub button');
 assert(indexHtml.includes('id="analogy-repo"') && indexHtml.includes("jumpToTarget('card-init')"), 'Analogy card for Repository links to card-init');
 assert(indexHtml.includes('id="analogy-commit"') && indexHtml.includes("jumpToTarget('card-stage')"), 'Analogy card for Commit links to card-stage');
 assert(indexHtml.includes('id="analogy-staging"') && indexHtml.includes("jumpToTarget('card-undo')"), 'Analogy card for Staging links to card-undo');
@@ -295,6 +295,7 @@ assert(/class="card[^"]*\bpro-only\b[^"]*"[^>]*id="card-rebase"|id="card-rebase"
 assert(indexHtml.includes('[data-view="beginner"] .pro-only:not(.emergency-revealed)'), 'Emergency reveal CSS rule preserves beginner view');
 assert(indexHtml.includes('class="plain-english-note"'), 'Adaptive plain-english notes exist in markup');
 assert(indexHtml.includes('[data-view="pro"] .plain-english-note'), 'Plain-english notes are cleanly hidden in pro view');
+assert(indexHtml.includes('Guided Concept'), 'Card annotation pills use inclusive Guided Concept label');
 
 // Suite 10: Totakit-Inspired Thin Iconography System (1.5px stroke, geometric vector line style)
 console.log('\nSuite 10: Totakit Thin Vector Icon System');
