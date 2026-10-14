@@ -315,11 +315,15 @@ const faviconSvg = fs.readFileSync(path.join(__dirname, '../favicon.svg'), 'utf-
 const appIconSvg = fs.readFileSync(path.join(__dirname, '../app-icon.svg'), 'utf-8');
 assert(faviconSvg.includes('class="fav-glyph"') && faviconSvg.includes('prefers-color-scheme'), 'Favicon SVG contains vector glyph with responsive light/dark color scheme');
 assert(appIconSvg.includes('class="app-glyph"') && appIconSvg.includes('prefers-color-scheme'), 'App Icon SVG contains single calligraphic G glyph with responsive light/dark color scheme');
-assert(indexHtml.includes('--brand-git: #63b784;') && indexHtml.includes('--brand-unstuck: #d35b3a;'), 'CSS variables --brand-git and --brand-unstuck defined in dark theme');
-assert(indexHtml.includes('--brand-git: #3d7659;') && indexHtml.includes('--brand-unstuck: #ad491c;'), 'CSS variables --brand-git and --brand-unstuck defined in light theme');
+assert(indexHtml.includes('--brand-git: #55b786;') && indexHtml.includes('--brand-unstuck: #dc5c3f;'), 'CSS variables --brand-git and --brand-unstuck defined in dark theme');
+assert(indexHtml.includes('--brand-git: #34765a;') && indexHtml.includes('--brand-unstuck: #b44a23;'), 'CSS variables --brand-git and --brand-unstuck defined in light theme');
 assert(!indexHtml.includes('class="brand-logo"'), 'Main page header removes app icon squircle to streamline wordmark');
 assert(indexHtml.includes('class="brand-wordmark-svg"') && indexHtml.includes('class="brand-word-git"') && indexHtml.includes('class="brand-word-unstuck"'), 'Header title renders dual-color Wordmark vector');
 assert(indexHtml.includes('<span class="sr-only">GitUnstuck</span>'), 'Wordmark preserves screen reader accessibility with sr-only text');
+assert(fs.existsSync(path.join(__dirname, '../gitunstuck-wordmark-dark.svg')), 'Standalone gitunstuck-wordmark-dark.svg deployed in repo root');
+assert(fs.existsSync(path.join(__dirname, '../gitunstuck-wordmark-light.svg')), 'Standalone gitunstuck-wordmark-light.svg deployed in repo root');
+assert(fs.existsSync(path.join(__dirname, '../gitunstuck-favicon-dark.svg')), 'Standalone gitunstuck-favicon-dark.svg deployed in repo root');
+assert(fs.existsSync(path.join(__dirname, '../gitunstuck-favicon-light.svg')), 'Standalone gitunstuck-favicon-light.svg deployed in repo root');
 
 // Suite 12: GitHub Sponsors Funding & Learning Resource Messaging
 console.log('\nSuite 12: GitHub Sponsors Funding & Learning Resource Messaging');
