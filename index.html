@@ -270,12 +270,33 @@
     }
 
     .mode-btn {
-      background: transparent; border: none; color: var(--text-muted);
+      background: transparent; border: 1px solid transparent; color: var(--text-muted);
       padding: 6px 14px; border-radius: 9999px; font-size: 0.82rem; font-weight: 700;
       cursor: pointer; display: flex; align-items: center; gap: 6px; transition: var(--transition);
     }
-    .mode-btn.active {
-      background: var(--git-orange); color: #ffffff; box-shadow: 0 2px 8px rgba(240, 80, 50, 0.35);
+    .mode-btn[data-mode="beginner"] .tota-icon {
+      color: var(--accent-green);
+    }
+    .mode-btn[data-mode="pro"] .tota-icon {
+      color: var(--git-orange);
+    }
+    .mode-btn[data-mode="beginner"].active {
+      background: rgba(52, 211, 153, 0.18); color: var(--accent-green);
+      border-color: rgba(52, 211, 153, 0.45); box-shadow: 0 2px 8px rgba(52, 211, 153, 0.2);
+    }
+    [data-theme="light"] .mode-btn[data-mode="beginner"].active {
+      background: rgba(16, 185, 129, 0.15); color: #047857;
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    .mode-btn[data-mode="pro"].active {
+      background: var(--git-orange); color: #ffffff;
+      border-color: var(--git-orange); box-shadow: 0 2px 8px rgba(240, 80, 50, 0.35);
+    }
+    .mode-btn[data-mode="pro"].active .tota-icon {
+      color: #ffffff;
+    }
+    .mode-btn[data-mode="beginner"].active .tota-icon {
+      color: currentColor;
     }
 
     .search-wrapper {
@@ -379,7 +400,7 @@
       margin-bottom: 10px;
       display: inline-flex;
       align-items: center;
-      color: var(--accent-blue);
+      color: var(--accent-green);
     }
     .analogy-term { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
     .analogy-meta { font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; margin-bottom: 8px; }
