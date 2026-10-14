@@ -328,7 +328,7 @@ assert(fs.existsSync(path.join(__dirname, '../gitunstuck-favicon-light.svg')), '
 // Suite 12: GitHub Sponsors Funding & Learning Resource Messaging
 console.log('\nSuite 12: GitHub Sponsors Funding & Learning Resource Messaging');
 assert(indexHtml.includes('https://github.com/sponsors/dazzo31'), 'Header and footer link to GitHub Sponsors URL');
-assert(indexHtml.includes('class="sponsor-pill-btn"') && indexHtml.includes('target="_blank"'), 'Header controls group contains accessible sponsor pill button');
+assert(indexHtml.includes('class="sponsor-pill-btn"') && indexHtml.includes('target="_blank"') && indexHtml.includes('Buy me a coffee'), 'Header controls group contains accessible sponsor pill button with Buy me a coffee wording');
 assert(indexHtml.includes('id="sponsorCard"') && indexHtml.includes('class="footer-sponsor-card"'), 'Footer contains dedicated sponsor card');
 assert(indexHtml.includes('Open Learning Resource &amp; Time Saver'), 'Sponsor messaging emphasizes learning resource and time saver angle');
 assert(indexHtml.includes('class="btn-sponsor"') && indexHtml.includes('Sponsor on GitHub'), 'Footer card includes Sponsor on GitHub button');
