@@ -332,6 +332,11 @@ assert(indexHtml.includes('class="sponsor-pill-btn"') && indexHtml.includes('tar
 assert(indexHtml.includes('id="sponsorCard"') && indexHtml.includes('class="footer-sponsor-card"'), 'Footer contains dedicated sponsor card');
 assert(indexHtml.includes('Open Learning Resource &amp; Time Saver'), 'Sponsor messaging emphasizes learning resource and time saver angle');
 assert(indexHtml.includes('class="btn-sponsor"') && indexHtml.includes('Sponsor on GitHub'), 'Footer card includes Sponsor on GitHub button');
+assert(fs.existsSync(path.join(__dirname, '../.github/FUNDING.yml')), '.github/FUNDING.yml file exists for native GitHub Sponsor button');
+const fundingYml = fs.readFileSync(path.join(__dirname, '../.github/FUNDING.yml'), 'utf-8');
+assert(fundingYml.includes('github: dazzo31'), 'FUNDING.yml configures github user dazzo31');
+const readmeMd = fs.readFileSync(path.join(__dirname, '../README.md'), 'utf-8');
+assert(readmeMd.includes('https://github.com/sponsors/dazzo31'), 'README.md contains GitHub Sponsors badges and link');
 
 console.log(`\nTotal Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);
 console.log(`========================================\n`);

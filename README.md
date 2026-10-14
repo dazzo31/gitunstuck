@@ -1,7 +1,8 @@
 # GitUnstuck • Visual Problem-Solving & Cloud Forge Recovery Guide
 
 > **Live Application:** [dazzo31.github.io/gitunstuck](https://dazzo31.github.io/gitunstuck/)  
-> **Guiding Principle:** *Don't Panic. Git almost never loses your committed work.*
+> **Guiding Principle:** *Don't Panic. Git almost never loses your committed work.*  
+> **Sponsor:** [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?style=flat&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31)
 
 **GitUnstuck** is an empathetic, interactive problem-solving guide and diagnostic cheatsheet designed to help developers recover from Git mistakes, navigate cloud platform rejections across **GitHub**, **GitLab**, and **Bitbucket**, and master Git's mental model without cognitive overload.
 
@@ -75,6 +76,16 @@ node tests/test-analyzer.js
 - **Zero Build Step:** Deploys instantly to GitHub Pages directly from repository files.
 - **Zero Data Transmission:** Complete privacy guarantee — user repository paths, branch names, and code snippets stay strictly inside the client's browser tab.
 - **Accessible (WCAG AA):** High-contrast dark and light modes, full keyboard navigation (`/` and `Ctrl+K` search shortcuts), reduced-motion support, and screen reader announcements.
+
+---
+
+## 💖 Support GitUnstuck
+
+GitUnstuck was built to make Git mental models intuitive and save developers from hours of panic and lost work. It is 100% free, private, client-side, and ad-free.
+
+If this guide helped you master a workflow, rescued your branch, or saved your team time, consider sponsoring ongoing development:
+
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor%20on%20GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31)
 
 ---
 
