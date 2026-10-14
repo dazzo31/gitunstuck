@@ -314,10 +314,10 @@ console.log('\nSuite 11: Brand Identity & Vector Asset Architecture');
 const faviconSvg = fs.readFileSync(path.join(__dirname, '../favicon.svg'), 'utf-8');
 const appIconSvg = fs.readFileSync(path.join(__dirname, '../app-icon.svg'), 'utf-8');
 assert(faviconSvg.includes('class="fav-glyph"') && faviconSvg.includes('prefers-color-scheme'), 'Favicon SVG contains vector glyph with responsive light/dark color scheme');
-assert(appIconSvg.includes('class="app-g"') && appIconSvg.includes('class="app-k"'), 'App Icon SVG contains intertwined monogram with dual brand colors');
-assert(indexHtml.includes('--brand-git: #10b981;') && indexHtml.includes('--brand-unstuck: #f05032;'), 'CSS variables --brand-git and --brand-unstuck defined in dark theme');
-assert(indexHtml.includes('--brand-git: #047857;') && indexHtml.includes('--brand-unstuck: #c2410c;'), 'CSS variables --brand-git and --brand-unstuck defined in light theme');
-assert(indexHtml.includes('class="brand-app-icon"') && indexHtml.includes('var(--brand-git)') && indexHtml.includes('var(--brand-unstuck)'), 'Header brand logo renders dual-color App Icon vector');
+assert(appIconSvg.includes('class="app-glyph"') && appIconSvg.includes('prefers-color-scheme'), 'App Icon SVG contains single calligraphic G glyph with responsive light/dark color scheme');
+assert(indexHtml.includes('--brand-git: #63b784;') && indexHtml.includes('--brand-unstuck: #d35b3a;'), 'CSS variables --brand-git and --brand-unstuck defined in dark theme');
+assert(indexHtml.includes('--brand-git: #3d7659;') && indexHtml.includes('--brand-unstuck: #ad491c;'), 'CSS variables --brand-git and --brand-unstuck defined in light theme');
+assert(!indexHtml.includes('class="brand-logo"'), 'Main page header removes app icon squircle to streamline wordmark');
 assert(indexHtml.includes('class="brand-wordmark-svg"') && indexHtml.includes('class="brand-word-git"') && indexHtml.includes('class="brand-word-unstuck"'), 'Header title renders dual-color Wordmark vector');
 assert(indexHtml.includes('<span class="sr-only">GitUnstuck</span>'), 'Wordmark preserves screen reader accessibility with sr-only text');
 
