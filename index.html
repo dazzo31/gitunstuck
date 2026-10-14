@@ -171,6 +171,28 @@
       --shadow-card: 0 4px 15px -2px rgba(0, 0, 0, 0.08);
     }
 
+    /* Dynamic Persona Color Mapping (Matches Header Experience Toggle: Green for Guided, Orange for Pro) */
+    :root, [data-view="beginner"] {
+      --mode-color: var(--accent-green);
+      --mode-color-glow: rgba(52, 211, 153, 0.16);
+      --mode-color-border: rgba(52, 211, 153, 0.4);
+    }
+    [data-theme="light"], [data-theme="light"][data-view="beginner"] {
+      --mode-color: #047857;
+      --mode-color-glow: rgba(4, 120, 87, 0.12);
+      --mode-color-border: rgba(4, 120, 87, 0.35);
+    }
+    [data-view="pro"] {
+      --mode-color: var(--git-orange);
+      --mode-color-glow: var(--git-orange-glow);
+      --mode-color-border: rgba(240, 80, 50, 0.45);
+    }
+    [data-theme="light"][data-view="pro"] {
+      --mode-color: #c2410c;
+      --mode-color-glow: rgba(194, 65, 12, 0.12);
+      --mode-color-border: rgba(194, 65, 12, 0.4);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -209,7 +231,8 @@
       vertical-align: -0.16em;
       display: inline-block;
       flex-shrink: 0;
-      transition: transform 0.15s ease, stroke 0.15s ease;
+      color: var(--mode-color);
+      transition: transform 0.15s ease, stroke 0.15s ease, color 0.2s ease;
     }
     .tota-icon-sm {
       width: 14px;
@@ -231,6 +254,30 @@
       height: 28px;
       stroke-width: 1.5;
     }
+
+    /* Semantic & State Icon Preserves */
+    .emergency-badge .tota-icon,
+    .btn-analyze .tota-icon,
+    .skip-link .tota-icon {
+      color: #ffffff !important;
+    }
+    .card-link-btn.copied .tota-icon,
+    .copy-btn.copied .tota-icon {
+      color: var(--accent-green) !important;
+    }
+    .risk-pill-safe .tota-icon, .badge-risk-safe .tota-icon { color: var(--accent-green) !important; }
+    [data-theme="light"] .risk-pill-safe .tota-icon, [data-theme="light"] .badge-risk-safe .tota-icon { color: #047857 !important; }
+    .risk-pill-caution .tota-icon, .badge-risk-caution .tota-icon { color: var(--accent-amber) !important; }
+    [data-theme="light"] .risk-pill-caution .tota-icon, [data-theme="light"] .badge-risk-caution .tota-icon { color: #b45309 !important; }
+    .risk-pill-dest .tota-icon, .badge-risk-dest .tota-icon { color: var(--accent-red) !important; }
+    [data-theme="light"] .risk-pill-dest .tota-icon, [data-theme="light"] .badge-risk-dest .tota-icon { color: #b91c1c !important; }
+    .badge-risk-rev .tota-icon { color: var(--accent-blue) !important; }
+    .badge-risk-rewrite .tota-icon { color: var(--accent-amber) !important; }
+    .work-lost-safe .tota-icon { color: var(--accent-green) !important; }
+    .work-lost-danger .tota-icon { color: var(--accent-red) !important; }
+    .plain-english-pill .tota-icon { color: currentColor !important; }
+    .primer-badge .tota-icon { color: currentColor !important; }
+    .hero-analyzer-btn .tota-icon { color: currentColor !important; }
 
     body {
       font-family: var(--font-sans); background-color: var(--bg); color: var(--text);
@@ -306,7 +353,8 @@
 
     .search-label {
       position: absolute; left: 12px; display: flex; align-items: center;
-      color: var(--text-dim); pointer-events: none; z-index: 1;
+      color: var(--mode-color); pointer-events: none; z-index: 1;
+      transition: color 0.2s ease;
     }
 
     .search-input {
@@ -314,7 +362,7 @@
       border-radius: 9999px; padding: 8px 64px 8px 36px; font-size: 0.88rem;
       color: var(--text); outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .search-input:focus { border-color: var(--git-orange); box-shadow: 0 0 0 3px var(--git-orange-glow); }
+    .search-input:focus { border-color: var(--mode-color); box-shadow: 0 0 0 3px var(--mode-color-glow); }
 
     .search-kbd {
       position: absolute; right: 12px; display: flex; align-items: center; gap: 2px;
@@ -331,7 +379,8 @@
       width: 38px; height: 38px; border-radius: var(--radius-sm); display: inline-flex;
       align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease;
     }
-    .btn-icon:hover { color: var(--text); border-color: var(--git-orange); }
+    .btn-icon:hover { color: var(--mode-color); border-color: var(--mode-color); }
+    .btn-icon:hover .tota-icon, .btn-icon:hover svg { color: var(--mode-color); }
 
     /* Main Container */
     main.container {
@@ -349,6 +398,9 @@
     .task-nav-title {
       font-size: 1.1rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 8px;
     }
+    .task-nav-title .tota-icon {
+      color: var(--mode-color);
+    }
 
     .task-nav-subtitle {
       font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;
@@ -364,11 +416,14 @@
       cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
       transition: all 0.15s ease;
     }
+    .task-chip .tota-icon {
+      color: var(--mode-color);
+    }
     .task-chip:hover {
-      border-color: var(--git-orange); color: #ffffff; background: rgba(240, 80, 50, 0.15);
+      border-color: var(--mode-color); color: #ffffff; background: var(--mode-color-glow);
       transform: translateY(-1px);
     }
-    [data-theme="light"] .task-chip:hover { color: var(--git-orange); background: rgba(194, 65, 12, 0.08); }
+    [data-theme="light"] .task-chip:hover { color: var(--mode-color); background: var(--mode-color-glow); }
 
     /* Beginner Mental Model Primer */
     .hero-primer {
@@ -394,13 +449,13 @@
       background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
       padding: 16px; display: flex; flex-direction: column; transition: border-color 0.2s ease;
     }
-    .analogy-card:hover { border-color: var(--git-orange); }
+    .analogy-card:hover { border-color: var(--mode-color); }
 
     .analogy-icon {
       margin-bottom: 10px;
       display: inline-flex;
       align-items: center;
-      color: var(--accent-green);
+      color: var(--mode-color);
     }
     .analogy-term { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
     .analogy-meta { font-size: 0.75rem; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; margin-bottom: 8px; }
@@ -408,13 +463,16 @@
 
     /* Safe Daily Recipe Box */
     .daily-recipe {
-      background: var(--bg-card); border: 2px dashed rgba(240, 80, 50, 0.45); border-radius: var(--radius-md);
+      background: var(--bg-card); border: 2px dashed var(--mode-color-border); border-radius: var(--radius-md);
       padding: 20px; margin-top: 20px;
     }
 
     .recipe-title {
-      font-size: 1.1rem; font-weight: 800; color: var(--git-orange); margin-bottom: 12px;
+      font-size: 1.1rem; font-weight: 800; color: var(--mode-color); margin-bottom: 12px;
       display: flex; align-items: center; gap: 8px;
+    }
+    .recipe-title .tota-icon {
+      color: var(--mode-color);
     }
 
     .recipe-steps {
@@ -426,7 +484,7 @@
       padding: 12px; display: flex; flex-direction: column;
     }
     .recipe-num {
-      display: inline-block; width: 24px; height: 24px; background: var(--git-orange); color: #fff;
+      display: inline-block; width: 24px; height: 24px; background: var(--mode-color); color: #fff;
       font-size: 0.75rem; font-weight: 800; border-radius: 50%; text-align: center; line-height: 24px; margin-bottom: 8px;
     }
     .recipe-action { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
@@ -479,10 +537,11 @@
       gap: 3px; transition: all 0.15s ease; color: var(--text);
     }
     .emergency-chip:hover {
-      border-color: var(--git-orange); transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(240, 80, 50, 0.2);
+      border-color: var(--mode-color); transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--mode-color-glow);
     }
     .emergency-chip .chip-icon { font-size: 1.3rem; margin-bottom: 2px; }
+    .emergency-chip .chip-icon .tota-icon { color: var(--mode-color); }
     .emergency-chip .chip-title { font-size: 0.88rem; font-weight: 800; color: var(--text); }
     .emergency-chip .chip-desc { font-size: 0.75rem; color: var(--text-dim); line-height: 1.3; }
 
@@ -569,6 +628,9 @@
       font-size: 1.25rem; font-weight: 800; color: var(--text); display: flex; align-items: center;
       gap: 8px; margin-top: 4px;
     }
+    .troubleshoot-title .tota-icon {
+      color: var(--mode-color);
+    }
     .troubleshoot-subtitle { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; }
 
     .tree-selector-grid {
@@ -582,13 +644,14 @@
       gap: 3px; transition: all 0.15s ease; color: var(--text);
     }
     .tree-choice-btn:hover {
-      border-color: var(--git-orange); transform: translateY(-1px);
+      border-color: var(--mode-color); transform: translateY(-1px);
     }
     .tree-choice-btn.active {
-      border-color: var(--git-orange); background: rgba(240, 80, 50, 0.12);
-      box-shadow: 0 0 0 2px var(--git-orange-glow);
+      border-color: var(--mode-color); background: var(--mode-color-glow);
+      box-shadow: 0 0 0 2px var(--mode-color-glow);
     }
     .choice-icon { font-size: 1.2rem; margin-bottom: 2px; }
+    .choice-icon .tota-icon { color: var(--mode-color); }
     .choice-label { font-size: 0.85rem; font-weight: 700; color: var(--text); }
     .choice-sub { font-size: 0.72rem; color: var(--text-dim); line-height: 1.3; }
 
@@ -619,6 +682,7 @@
       display: flex; align-items: center; gap: 8px;
     }
     .analyzer-icon { font-size: 1.2rem; }
+    .analyzer-icon .tota-icon { color: var(--mode-color); }
     .analyzer-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
     .privacy-badge {
       font-size: 0.72rem; font-weight: 700; color: var(--accent-green);
@@ -639,8 +703,9 @@
       padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
       cursor: pointer; transition: all 0.15s ease;
     }
+    .sample-paste-btn .tota-icon { color: var(--mode-color); }
     .sample-paste-btn:hover {
-      border-color: var(--accent-blue); color: var(--text); background: rgba(56, 189, 248, 0.1);
+      border-color: var(--mode-color); color: var(--text); background: var(--mode-color-glow);
     }
     .analyzer-input-wrapper {
       display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;
@@ -652,25 +717,26 @@
       resize: vertical; min-height: 95px; outline: none; transition: border-color 0.2s ease;
     }
     .analyzer-textarea:focus {
-      border-color: var(--git-orange); box-shadow: 0 0 0 2px var(--git-orange-glow);
+      border-color: var(--mode-color); box-shadow: 0 0 0 2px var(--mode-color-glow);
     }
     .analyzer-actions {
       display: flex; align-items: center; gap: 8px;
     }
     .btn-analyze {
-      background: var(--git-orange); color: #ffffff; border: none; border-radius: var(--radius-sm);
+      background: var(--mode-color); color: #ffffff; border: none; border-radius: var(--radius-sm);
       padding: 8px 18px; font-size: 0.82rem; font-weight: 700; cursor: pointer;
       display: inline-flex; align-items: center; gap: 6px; transition: var(--transition);
     }
     .btn-analyze:hover {
-      background: #e04528; box-shadow: 0 2px 8px rgba(240, 80, 50, 0.4);
+      filter: brightness(1.1); box-shadow: 0 2px 8px var(--mode-color-glow);
     }
+    .btn-analyze .tota-icon { color: #ffffff !important; }
     .btn-clear-analyzer {
       background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted);
       border-radius: var(--radius-sm); padding: 8px 14px; font-size: 0.82rem; font-weight: 600;
       cursor: pointer; transition: all 0.15s ease;
     }
-    .btn-clear-analyzer:hover { color: var(--text); border-color: var(--border-subtle); }
+    .btn-clear-analyzer:hover { color: var(--mode-color); border-color: var(--mode-color-border); }
 
     .analyzer-result-panel {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -708,6 +774,7 @@
       font-size: 1.25rem; font-weight: 800; color: var(--text); display: flex; align-items: center;
       gap: 8px; margin-top: 4px;
     }
+    .graph-title .tota-icon { color: var(--mode-color); }
     .graph-subtitle { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; line-height: 1.45; }
 
     .graph-scenario-bar {
@@ -720,12 +787,13 @@
       padding: 8px 14px; border-radius: 9999px; font-size: 0.82rem; font-weight: 600;
       cursor: pointer; white-space: nowrap; transition: all 0.15s ease; display: inline-flex; align-items: center; gap: 6px;
     }
-    .graph-tab-btn:hover { border-color: var(--git-orange); color: var(--text); }
+    .graph-tab-btn .tota-icon { color: var(--mode-color); }
+    .graph-tab-btn:hover { border-color: var(--mode-color); color: var(--text); }
     .graph-tab-btn.active {
-      background: rgba(240, 80, 50, 0.15); border-color: var(--git-orange); color: #ffffff;
-      box-shadow: 0 0 0 2px var(--git-orange-glow);
+      background: var(--mode-color-glow); border-color: var(--mode-color); color: #ffffff;
+      box-shadow: 0 0 0 2px var(--mode-color-glow);
     }
-    [data-theme="light"] .graph-tab-btn.active { color: var(--git-orange); background: rgba(194, 65, 12, 0.1); }
+    [data-theme="light"] .graph-tab-btn.active { color: var(--mode-color); background: var(--mode-color-glow); }
 
     .graph-canvas-wrapper {
       background: #090d16; border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -795,6 +863,7 @@
     }
     .jargon-summary:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: -2px; }
     .jargon-summary-title { display: flex; align-items: center; gap: 8px; }
+    .jargon-summary-title .tota-icon { color: var(--mode-color); }
     .jargon-summary-badge {
       font-size: 0.72rem; font-weight: 700; color: var(--accent-blue);
       background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.25);
@@ -844,6 +913,7 @@
     .task-deep-dive-summary:hover { background: rgba(56, 189, 248, 0.06); }
     .task-deep-dive-summary:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: -2px; }
     .task-deep-dive-title { display: flex; align-items: center; gap: 6px; }
+    .task-deep-dive-title .tota-icon { color: var(--mode-color); }
     .task-deep-dive-badge {
       font-size: 0.68rem; font-weight: 700; color: var(--accent-blue);
       background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.25);
@@ -907,14 +977,15 @@
       padding: 5px 12px; border-radius: 9999px; font-size: 0.76rem; font-weight: 600;
       cursor: pointer; white-space: nowrap; transition: all 0.15s ease; display: inline-flex; align-items: center; gap: 5px;
     }
-    .forge-incident-btn:hover { color: var(--text); border-color: var(--git-orange); }
+    .forge-incident-btn .tota-icon { color: var(--mode-color); }
+    .forge-incident-btn:hover { color: var(--text); border-color: var(--mode-color); }
     .forge-incident-btn.active {
-      background: rgba(240, 80, 50, 0.15); color: var(--text); border-color: var(--git-orange);
-      box-shadow: 0 0 0 2px var(--git-orange-glow);
+      background: var(--mode-color-glow); color: var(--text); border-color: var(--mode-color);
+      box-shadow: 0 0 0 2px var(--mode-color-glow);
     }
     [data-theme="light"] .forge-incident-btn.active {
-      background: rgba(194, 65, 12, 0.12); color: var(--git-orange);
-      box-shadow: 0 0 0 2px rgba(194, 65, 12, 0.2);
+      background: var(--mode-color-glow); color: var(--mode-color);
+      box-shadow: 0 0 0 2px var(--mode-color-glow);
     }
     .forge-display-panel {
       background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -952,7 +1023,7 @@
       cursor: pointer; white-space: nowrap; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
     .filter-pill:hover, .filter-pill.active {
-      background: var(--git-orange); color: #ffffff; border-color: var(--git-orange);
+      background: var(--mode-color); color: #ffffff; border-color: var(--mode-color);
     }
 
     .risk-filter-bar {
@@ -985,10 +1056,10 @@
       padding: 20px; box-shadow: var(--shadow-card); display: flex; flex-direction: column;
       position: relative; transition: border-color 0.2s ease, box-shadow 0.2s ease; min-width: 0;
     }
-    .card:hover { border-color: rgba(240, 80, 50, 0.45); }
+    .card:hover { border-color: var(--mode-color-border); }
     .card.highlighted {
-      border-color: var(--git-orange) !important;
-      box-shadow: 0 0 0 3px var(--git-orange-glow), var(--shadow-card) !important;
+      border-color: var(--mode-color) !important;
+      box-shadow: 0 0 0 3px var(--mode-color-glow), var(--shadow-card) !important;
     }
 
     [data-view="beginner"] .pro-only:not(.emergency-revealed) { display: none !important; }
@@ -1019,7 +1090,7 @@
       cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s ease;
       white-space: nowrap; flex-shrink: 0;
     }
-    .primer-toggle-btn:hover { border-color: var(--git-orange); color: var(--text); }
+    .primer-toggle-btn:hover { border-color: var(--mode-color); color: var(--text); }
     .hero-primer {
       transition: padding 0.2s ease;
     }
@@ -1129,12 +1200,15 @@
       font-size: 0.75rem;
     }
     .var-customizer-label {
-      color: var(--accent-blue);
+      color: var(--mode-color);
       font-weight: 700;
       display: inline-flex;
       align-items: center;
       gap: 4px;
       white-space: nowrap;
+    }
+    .var-customizer-label .tota-icon {
+      color: var(--mode-color);
     }
     .var-input-group {
       display: inline-flex;
@@ -1159,8 +1233,8 @@
       min-width: 130px;
     }
     .var-input:focus {
-      border-color: var(--git-orange);
-      box-shadow: 0 0 0 2px var(--git-orange-glow);
+      border-color: var(--mode-color);
+      box-shadow: 0 0 0 2px var(--mode-color-glow);
     }
 
     /* Syntax Version Pill Toggle */
@@ -1214,15 +1288,21 @@
       gap: 4px;
       transition: all 0.15s ease;
     }
+    .card-link-btn .tota-icon {
+      color: var(--mode-color);
+    }
     .card-link-btn:hover {
-      border-color: var(--git-orange);
-      color: var(--git-orange);
-      background: rgba(240, 80, 50, 0.08);
+      border-color: var(--mode-color);
+      color: var(--mode-color);
+      background: var(--mode-color-glow);
     }
     .card-link-btn.copied {
       border-color: var(--accent-green);
       color: var(--accent-green);
       background: rgba(52, 211, 153, 0.12);
+    }
+    .card-link-btn.copied .tota-icon {
+      color: var(--accent-green) !important;
     }
 
     /* Live .git/ Files Internals Inspector (Phase 5) */
@@ -1248,6 +1328,9 @@
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+    .git-internals-title .tota-icon {
+      color: var(--mode-color);
     }
     .git-internals-badge {
       font-size: 0.72rem;
@@ -1285,6 +1368,12 @@
       font-size: 0.78rem;
       font-weight: 700;
       color: var(--accent-blue);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .git-file-path .tota-icon {
+      color: var(--mode-color);
     }
     .git-file-content {
       background: var(--bg-code);
@@ -1337,8 +1426,8 @@
       border-color: #cbd5e1;
     }
     [data-theme="light"] .analyzer-textarea:focus {
-      border-color: var(--git-orange);
-      box-shadow: 0 0 0 2px var(--git-orange-glow);
+      border-color: var(--mode-color);
+      box-shadow: 0 0 0 2px var(--mode-color-glow);
     }
 
     .card-top {
@@ -1460,7 +1549,7 @@
     }
     .no-results p { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 12px; }
     .reset-btn {
-      background: var(--git-orange); color: #ffffff; border: none; padding: 8px 16px;
+      background: var(--mode-color); color: #ffffff; border: none; padding: 8px 16px;
       border-radius: var(--radius-sm); font-weight: 700; font-size: 0.85rem; cursor: pointer;
     }
 
@@ -1481,7 +1570,7 @@
       transition: var(--transition);
     }
     .clear-search-btn:hover {
-      background: var(--git-orange); color: #ffffff; border-color: var(--git-orange);
+      background: var(--mode-color); color: #ffffff; border-color: var(--mode-color);
     }
     body.is-searching #beginnerPrimer,
     body.is-searching #taskNav,
@@ -1655,7 +1744,7 @@
       <!-- Quick Search -->
       <div class="search-wrapper">
         <label for="searchInput" class="search-label" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
@@ -1667,7 +1756,7 @@
       <!-- Utilities -->
       <div class="controls-group">
         <button id="themeToggle" class="btn-icon" aria-label="Toggle light or dark theme" title="Toggle Light/Dark Theme">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -1680,7 +1769,7 @@
           </svg>
         </button>
         <button onclick="window.print()" class="btn-icon" aria-label="Print reference poster or export PDF" title="Print Poster / Export PDF">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true">
             <polyline points="6 9 6 2 18 2 18 9"></polyline>
             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
             <rect x="6" y="14" width="12" height="8"></rect>
@@ -3165,7 +3254,7 @@ git cherry-pick 7a1b2c3
     const graphExplanationPanel = document.getElementById('graphExplanationPanel');
 
     // 1. Theme Management
-    const sunIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    const sunIcon = `<svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
       <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -3177,7 +3266,7 @@ git cherry-pick 7a1b2c3
       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
     </svg>`;
 
-    const moonIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    const moonIcon = `<svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
     </svg>`;
 

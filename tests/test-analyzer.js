@@ -303,6 +303,9 @@ assert(indexHtml.includes('.tota-icon'), 'CSS rules for Totakit thin iconography
 assert(indexHtml.includes('stroke-width: 1.5;'), 'Totakit icons enforce uniform 1.5px stroke width');
 assert(indexHtml.includes('class="tota-icon tota-icon-xl"'), 'Analogy cards render large Totakit vector SVGs');
 assert(indexHtml.includes('class="tota-icon tota-icon-sm"'), 'Card controls and forge selector render compact Totakit SVGs');
+assert(indexHtml.includes('--mode-color: var(--accent-green)'), 'Dynamic CSS variable --mode-color mapped to green for Guided Essentials');
+assert(indexHtml.includes('--mode-color: var(--git-orange)'), 'Dynamic CSS variable --mode-color mapped to orange for Developer Hub');
+assert(indexHtml.includes('.task-chip .tota-icon') && indexHtml.includes('color: var(--mode-color)'), 'UI iconography matches dynamic toggle mode color');
 
 console.log(`\nTotal Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);
 console.log(`========================================\n`);
