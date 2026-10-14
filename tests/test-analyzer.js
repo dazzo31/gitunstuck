@@ -278,6 +278,8 @@ assert(indexHtml.includes('copyDecisionLink('), 'Decision tree solutions include
 assert(indexHtml.includes('id="heroJumpToAnalyzer"'), 'Hero section includes quick-jump to terminal analyzer');
 assert(indexHtml.includes('git stash push -u -m "safety-backup" && git stash apply'), 'Golden Safety Rule includes full snapshot with stash apply');
 assert(indexHtml.includes('[data-theme="light"] .git-file-content'), 'Light mode high-contrast rule exists for Under the Hood file content');
+assert(indexHtml.includes('[data-theme="light"] .snippet-block') && indexHtml.includes('[data-theme="light"] pre.code-content'), 'Light mode code boxes use soft light backgrounds with high-contrast text');
+assert(/--bg-code:\s*#f8fafc;/.test(indexHtml), 'Light mode defines light --bg-code token');
 assert(/\.forge-host-btn,\s*\.pipeline-tab-btn/.test(indexHtml), 'Forge host selector and CI/CD pipeline buttons are standardized');
 assert(indexHtml.includes("statusInputText.addEventListener('input'"), 'Auto-clear diagnosis on new terminal input is wired');
 

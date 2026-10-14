@@ -155,7 +155,7 @@
       --bg-surface: #ffffff;
       --bg-card: #ffffff;
       --bg-card-hover: #f1f5f9;
-      --bg-code: #0f172a;
+      --bg-code: #f8fafc;
       --border: #cbd5e1;
       --border-subtle: #e2e8f0;
       
@@ -1226,6 +1226,10 @@
       flex-wrap: wrap;
       font-size: 0.75rem;
     }
+    [data-theme="light"] .var-customizer-bar {
+      background: #f1f5f9;
+      border-bottom: 1px solid #e2e8f0;
+    }
     .var-customizer-label {
       color: var(--mode-color);
       font-weight: 700;
@@ -1495,11 +1499,21 @@
       background: var(--bg-code); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
       margin-bottom: 12px; overflow: hidden; min-width: 0;
     }
+    [data-theme="light"] .snippet-block {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
 
     .snippet-header {
       display: flex; align-items: center; justify-content: space-between; padding: 6px 12px;
       background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       font-size: 0.75rem; color: var(--text-dim);
+    }
+    [data-theme="light"] .snippet-header {
+      background: #f1f5f9;
+      border-bottom: 1px solid #e2e8f0;
+      color: #334155;
     }
 
     .copy-btn {
@@ -1509,6 +1523,16 @@
     }
     .copy-btn:hover {
       color: var(--accent-blue); background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.25);
+    }
+    [data-theme="light"] .copy-btn {
+      color: #475569;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+    }
+    [data-theme="light"] .copy-btn:hover {
+      color: var(--mode-color);
+      border-color: var(--mode-color);
+      background: rgba(4, 120, 87, 0.06);
     }
     .copy-btn.copied {
       color: var(--accent-green) !important; background: rgba(52, 211, 153, 0.12) !important; border-color: var(--accent-green) !important;
@@ -1522,7 +1546,13 @@
       overflow-x: auto; line-height: 1.45; white-space: pre;
     }
     pre.code-content code { font-family: inherit; color: inherit; background: transparent; }
-    [data-theme="light"] pre.code-content { color: #0284c7; }
+    [data-theme="light"] pre.code-content {
+      color: #0f172a;
+      background: #f8fafc;
+    }
+    [data-theme="light"] pre.code-content code {
+      color: #0f172a;
+    }
 
     .card-effect, .card-verify, .card-related {
       font-size: 0.8rem; line-height: 1.4; margin-bottom: 8px; color: var(--text-muted);
