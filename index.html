@@ -390,6 +390,49 @@
     .btn-icon:hover { color: var(--mode-color); border-color: var(--mode-color); }
     .btn-icon:hover .tota-icon, .btn-icon:hover svg { color: var(--mode-color); }
 
+    .sponsor-pill-btn {
+      background: rgba(244, 63, 94, 0.08);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      color: #f43f5e;
+      height: 38px;
+      padding: 0 14px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sponsor-pill-btn .tota-icon {
+      color: #f43f5e;
+      transition: transform 0.2s ease;
+    }
+    .sponsor-pill-btn:hover {
+      background: rgba(244, 63, 94, 0.18);
+      border-color: #f43f5e;
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(244, 63, 94, 0.25);
+    }
+    .sponsor-pill-btn:hover .tota-icon {
+      transform: scale(1.18);
+    }
+    [data-theme="light"] .sponsor-pill-btn {
+      background: rgba(244, 63, 94, 0.06);
+      border-color: rgba(225, 29, 72, 0.35);
+      color: #e11d48;
+    }
+    [data-theme="light"] .sponsor-pill-btn .tota-icon {
+      color: #e11d48;
+    }
+    [data-theme="light"] .sponsor-pill-btn:hover {
+      background: rgba(244, 63, 94, 0.14);
+      border-color: #e11d48;
+      color: #be123c;
+    }
+
     /* Main Container */
     main.container {
       max-width: 1440px; width: 100%; margin: 20px auto 40px; padding: 0 20px; flex: 1;
@@ -1592,8 +1635,100 @@
     }
 
     footer {
-      border-top: 1px solid var(--border); padding: 24px 20px; text-align: center;
+      border-top: 1px solid var(--border); padding: 36px 20px 28px; text-align: center;
       font-size: 0.85rem; color: var(--text-dim); background: var(--bg-surface); margin-top: auto;
+    }
+
+    .footer-sponsor-card {
+      max-width: 820px;
+      margin: 0 auto 32px;
+      padding: 26px 30px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+    .footer-sponsor-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand-git), var(--brand-unstuck));
+    }
+    .sponsor-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #f43f5e;
+      margin-bottom: 8px;
+    }
+    [data-theme="light"] .sponsor-kicker {
+      color: #e11d48;
+    }
+    .sponsor-kicker .tota-icon {
+      color: inherit;
+    }
+    .sponsor-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .sponsor-desc {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .sponsor-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .btn-sponsor {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: #ffffff !important;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(244, 63, 94, 0.3);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-sponsor:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(244, 63, 94, 0.45);
+      color: #ffffff !important;
+    }
+    .btn-sponsor .tota-icon {
+      color: #ffffff !important;
+    }
+    .sponsor-pill-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      color: var(--text-dim);
+    }
+    .footer-meta {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-top: 4px;
     }
 
     .search-feedback-bar {
@@ -1646,7 +1781,8 @@
       .search-feedback-bar,
       .pipeline-provider-bar,
       .decision-tree-controls,
-      .graph-tabs-bar {
+      .graph-tabs-bar,
+      .footer-sponsor-card {
         display: none !important;
       }
 
@@ -1794,6 +1930,12 @@
 
       <!-- Utilities -->
       <div class="controls-group">
+        <a href="https://github.com/sponsors/dazzo31" target="_blank" rel="noopener noreferrer" class="sponsor-pill-btn" aria-label="Sponsor GitUnstuck on GitHub Sponsors" title="Sponsor GitUnstuck on GitHub">
+          <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span>Sponsor</span>
+        </a>
         <button id="themeToggle" class="btn-icon" aria-label="Toggle light or dark theme" title="Toggle Light/Dark Theme">
           <svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="5"></circle>
@@ -3239,7 +3381,33 @@ git cherry-pick 7a1b2c3
 
   <!-- Footer -->
   <footer>
-    <p>GitUnstuck • Built for safe, modern software engineering • Includes Git 2.23+ switch &amp; restore syntax</p>
+    <div class="footer-sponsor-card" id="sponsorCard">
+      <div class="sponsor-card-content">
+        <div class="sponsor-kicker">
+          <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span>Open Learning Resource &amp; Time Saver</span>
+        </div>
+        <h3 class="sponsor-title">Support GitUnstuck</h3>
+        <p class="sponsor-desc">
+          GitUnstuck was built to make Git mental models intuitive and save developers from hours of panic and lost work. It is 100% free, private, client-side, and ad-free. If this guide helped you master a workflow or saved your team time, consider supporting ongoing development on GitHub Sponsors.
+        </p>
+        <div class="sponsor-actions">
+          <a href="https://github.com/sponsors/dazzo31" target="_blank" rel="noopener noreferrer" class="btn-sponsor" aria-label="Sponsor GitUnstuck on GitHub Sponsors">
+            <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            Sponsor on GitHub
+          </a>
+          <span class="sponsor-pill-tag">Zero Tracking</span>
+          <span class="sponsor-pill-tag">100% Client-Side</span>
+          <span class="sponsor-pill-tag">MIT Open Source</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer-meta">GitUnstuck • Built for safe, modern software engineering • Includes Git 2.23+ switch &amp; restore syntax</p>
   </footer>
 
   <script>

@@ -321,6 +321,14 @@ assert(!indexHtml.includes('class="brand-logo"'), 'Main page header removes app 
 assert(indexHtml.includes('class="brand-wordmark-svg"') && indexHtml.includes('class="brand-word-git"') && indexHtml.includes('class="brand-word-unstuck"'), 'Header title renders dual-color Wordmark vector');
 assert(indexHtml.includes('<span class="sr-only">GitUnstuck</span>'), 'Wordmark preserves screen reader accessibility with sr-only text');
 
+// Suite 12: GitHub Sponsors Funding & Learning Resource Messaging
+console.log('\nSuite 12: GitHub Sponsors Funding & Learning Resource Messaging');
+assert(indexHtml.includes('https://github.com/sponsors/dazzo31'), 'Header and footer link to GitHub Sponsors URL');
+assert(indexHtml.includes('class="sponsor-pill-btn"') && indexHtml.includes('target="_blank"'), 'Header controls group contains accessible sponsor pill button');
+assert(indexHtml.includes('id="sponsorCard"') && indexHtml.includes('class="footer-sponsor-card"'), 'Footer contains dedicated sponsor card');
+assert(indexHtml.includes('Open Learning Resource &amp; Time Saver'), 'Sponsor messaging emphasizes learning resource and time saver angle');
+assert(indexHtml.includes('class="btn-sponsor"') && indexHtml.includes('Sponsor on GitHub'), 'Footer card includes Sponsor on GitHub button');
+
 console.log(`\nTotal Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);
 console.log(`========================================\n`);
 
