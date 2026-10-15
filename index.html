@@ -541,6 +541,248 @@
     .recipe-action { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .recipe-desc { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 8px; line-height: 1.35; }
 
+    /* 4-Zone Architecture & Visual Data Flow Widget */
+    .four-zone-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-card);
+      position: relative;
+    }
+    .four-zone-header { margin-bottom: 16px; }
+    .four-zone-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .four-zone-title .tota-icon {
+      color: var(--mode-color);
+    }
+    .four-zone-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+    .four-zone-flow-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 16px 0 20px 0;
+      padding: 10px 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .flow-bar-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-right: 4px;
+    }
+    .zone-step-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .zone-step-btn:hover {
+      border-color: var(--mode-color);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+    .zone-step-btn.active {
+      border-color: var(--mode-color);
+      background: var(--mode-color-glow);
+      color: var(--text);
+      box-shadow: 0 0 0 1px var(--mode-color-border);
+    }
+    .zone-step-btn .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      background: var(--mode-color);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      border-radius: 50%;
+    }
+    .zone-step-btn.btn-reverse {
+      margin-left: auto;
+      border-color: rgba(56, 189, 248, 0.4);
+      color: var(--accent-blue);
+    }
+    .zone-step-btn.btn-reverse.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35);
+    }
+
+    .four-zone-diagram {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .zone-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      position: relative;
+    }
+    .zone-card:hover {
+      border-color: var(--mode-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+    .zone-card.active {
+      border-color: var(--mode-color);
+      background: var(--mode-color-glow);
+      box-shadow: 0 0 0 2px var(--mode-color-border), 0 4px 14px rgba(0, 0, 0, 0.15);
+    }
+    .zone-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .zone-pill {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .zone-pill-work { background: rgba(248, 113, 113, 0.15); color: var(--accent-red); border: 1px solid rgba(248, 113, 113, 0.35); }
+    .zone-pill-stage { background: rgba(251, 191, 36, 0.15); color: var(--accent-yellow); border: 1px solid rgba(251, 191, 36, 0.35); }
+    .zone-pill-local { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); border: 1px solid rgba(52, 211, 153, 0.35); }
+    .zone-pill-remote { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); border: 1px solid rgba(56, 189, 248, 0.35); }
+    .zone-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .zone-metaphor {
+      font-size: 0.77rem;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+    .zone-metaphor code {
+      font-style: normal;
+      font-size: 0.72rem;
+      background: var(--bg-card);
+      padding: 1px 4px;
+      border-radius: 3px;
+      border: 1px solid var(--border-subtle);
+    }
+    .zone-badge-status {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      width: fit-content;
+    }
+    .status-modified { background: rgba(248, 113, 113, 0.12); color: var(--accent-red); }
+    .status-staged { background: rgba(251, 191, 36, 0.12); color: var(--accent-yellow); }
+    .status-committed { background: rgba(52, 211, 153, 0.12); color: var(--accent-green); }
+    .status-remote { background: rgba(56, 189, 248, 0.12); color: var(--accent-blue); }
+    .zone-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin: 0;
+    }
+    .zone-flow-connector {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-subtle);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--mode-color);
+      text-align: right;
+    }
+
+    .zone-detail-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-top: 8px;
+      animation: fadeIn 0.2s ease;
+    }
+    .zone-detail-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .zone-detail-concept {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+    .zone-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .zone-sub-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .zone-sub-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .zone-sub-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.35;
+    }
+
     /* Emergency Triage Hero */
     .emergency-hero {
       background: linear-gradient(135deg, rgba(240, 80, 50, 0.12) 0%, rgba(30, 41, 59, 0.85) 100%);
@@ -2085,6 +2327,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
         <button class="task-chip pro-only" data-target="card-rebase"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg> Clean up commits before PR</button>
         <button class="task-chip pro-only" data-target="card-reflog"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg> Rescue lost commits with reflog</button>
         <button class="task-chip" data-target="commitGraphExplorer"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Visual Timeline &amp; Branch Map</button>
+        <button class="task-chip" data-target="fourZoneModel"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> 4-Zone Model &amp; Data Flow</button>
         <button class="task-chip" data-target="card-tag"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Tag a production release</button>
       </div>
     </section>
@@ -2187,6 +2430,101 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- 4-ZONE INTERACTIVE ARCHITECTURE & DATA FLOW WIDGET -->
+    <section class="four-zone-section" id="fourZoneModel" aria-labelledby="fourZoneHeading" role="region">
+      <div class="four-zone-header">
+        <span class="primer-badge"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Core Architecture • Data Flow</span>
+        <h2 class="four-zone-title" id="fourZoneHeading">
+          <svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          The 4 Git Zones &amp; Data Flow Lifecycle
+        </h2>
+        <p class="four-zone-subtitle">
+          Git separates files across 4 distinct physical zones. Click any zone card or simulation step to trace how code advances forward, what <code>git status</code> reports at each checkpoint, and how to safely reverse without data loss:
+        </p>
+      </div>
+
+      <!-- Simulation Control Toolbar -->
+      <div class="four-zone-flow-bar" role="toolbar" aria-label="Simulate file journey through the 4 zones">
+        <span class="flow-bar-label">Trace Lifecycle:</span>
+        <button type="button" class="zone-step-btn active" data-step="working" aria-pressed="true">
+          <span class="step-num">1</span> Edit on Disk
+        </button>
+        <button type="button" class="zone-step-btn" data-step="staging" aria-pressed="false">
+          <span class="step-num">2</span> <code>git add</code> (Stage)
+        </button>
+        <button type="button" class="zone-step-btn" data-step="local" aria-pressed="false">
+          <span class="step-num">3</span> <code>git commit</code> (Seal)
+        </button>
+        <button type="button" class="zone-step-btn" data-step="remote" aria-pressed="false">
+          <span class="step-num">4</span> <code>git push</code> (Publish)
+        </button>
+        <button type="button" class="zone-step-btn btn-reverse" data-step="reverse" aria-pressed="false">
+          <span>↺</span> Two-Way Highway (Safe Rollbacks)
+        </button>
+      </div>
+
+      <!-- The 4 Connected Visual Zones -->
+      <div class="four-zone-diagram" role="tablist" aria-label="The 4 Git Zones">
+        <!-- Zone 1: Working Directory -->
+        <div class="zone-card active" id="zoneCardWorking" data-zone="working" role="tab" aria-selected="true" tabindex="0">
+          <div class="zone-card-header">
+            <span class="zone-pill zone-pill-work">Zone 1</span>
+            <span class="zone-name">Working Directory</span>
+          </div>
+          <div class="zone-metaphor">The Worktable (Disk Files)</div>
+          <div class="zone-badge-status status-modified">Untracked / Modified</div>
+          <p class="zone-desc">Your real files in your project directory. Changes are editable in your IDE, but NOT yet snapshot-protected by Git.</p>
+          <div class="zone-flow-connector" aria-hidden="true">
+            <span class="flow-cmd">git add &rarr;</span>
+          </div>
+        </div>
+
+        <!-- Zone 2: Staging Area -->
+        <div class="zone-card" id="zoneCardStaging" data-zone="staging" role="tab" aria-selected="false" tabindex="0">
+          <div class="zone-card-header">
+            <span class="zone-pill zone-pill-stage">Zone 2</span>
+            <span class="zone-name">Staging Area (Index)</span>
+          </div>
+          <div class="zone-metaphor">The Shopping Cart (<code>.git/index</code>)</div>
+          <div class="zone-badge-status status-staged">Changes to be committed</div>
+          <p class="zone-desc">The staging index. A curated staging cart where you gather only the files ready to be photographed in your next save point.</p>
+          <div class="zone-flow-connector" aria-hidden="true">
+            <span class="flow-cmd">git commit &rarr;</span>
+          </div>
+        </div>
+
+        <!-- Zone 3: Local Repository -->
+        <div class="zone-card" id="zoneCardLocal" data-zone="local" role="tab" aria-selected="false" tabindex="0">
+          <div class="zone-card-header">
+            <span class="zone-pill zone-pill-local">Zone 3</span>
+            <span class="zone-name">Local Repository</span>
+          </div>
+          <div class="zone-metaphor">The Vault / Save Points (<code>HEAD</code>)</div>
+          <div class="zone-badge-status status-committed">Sealed Commit Objects</div>
+          <p class="zone-desc">Your immutable cryptographic ledger in <code>.git/objects</code>. Permanent checkpoints sealed locally on this machine.</p>
+          <div class="zone-flow-connector" aria-hidden="true">
+            <span class="flow-cmd">git push &rarr;</span>
+          </div>
+        </div>
+
+        <!-- Zone 4: Remote Cloud -->
+        <div class="zone-card" id="zoneCardRemote" data-zone="remote" role="tab" aria-selected="false" tabindex="0">
+          <div class="zone-card-header">
+            <span class="zone-pill zone-pill-remote">Zone 4</span>
+            <span class="zone-name">Remote Cloud Host</span>
+          </div>
+          <div class="zone-metaphor">Central Forge (GitHub • GitLab • Bitbucket)</div>
+          <div class="zone-badge-status status-remote">Published Team History</div>
+          <p class="zone-desc">The remote upstream repository. Where teammates pull your commits, review Pull Requests, and automated CI pipelines run.</p>
+        </div>
+      </div>
+
+      <!-- Interactive Inspector Panel for Active Zone / Step -->
+      <div class="zone-detail-panel" id="zoneDetailPanel" aria-live="polite">
+        <!-- Rendered dynamically by JavaScript -->
       </div>
     </section>
 
@@ -4911,6 +5249,13 @@ git cherry-pick 7a1b2c3
           const elem = document.getElementById('card-forge-troubleshoot');
           if (elem) elem.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+      } else if (hash.startsWith('#zone-')) {
+        const zoneKey = hash.replace('#zone-', '');
+        if (typeof selectFourZone === 'function') {
+          selectFourZone(zoneKey);
+        }
+        const elem = document.getElementById('fourZoneModel');
+        if (elem) elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else if (hash.startsWith('#')) {
         const id = hash.replace('#', '');
         jumpToTarget(id);
@@ -5424,6 +5769,220 @@ nothing to commit, working tree clean`
         }
       });
     });
+
+    // 14. Interactive 4-Zone Architecture & Visual Data Flow Widget
+    const fourZoneData = {
+      working: {
+        zonePill: 'Zone 1: Working Directory',
+        title: 'Zone 1: Working Directory (Files on Disk)',
+        icon: '💻',
+        concept: 'Your actual files on disk inside your project directory. You modify, create, and delete files here in your code editor. Git tracks differences on disk, but nothing here is permanently recorded or protected by snapshots until staged.',
+        statusTitle: 'What git status reports:',
+        statusSnippet: '# Changes not staged for commit:\n#   (use "git add <file>..." to update what will be committed)\n#   (use "git restore <file>..." to discard changes in working directory)\n#       modified:   src/app.js\n#\n# Untracked files:\n#       new-file.txt',
+        forwardLabel: 'Advance to Staging Area (Cart):',
+        forwardCmd: 'git add src/app.js\n# Or add all changes in current folder:\ngit add .',
+        forwardEffect: 'Takes a point-in-time snapshot of the file and copies it into Zone 2 (Staging index).',
+        rollbackLabel: 'Discard Uncommitted Disk Edits:',
+        rollbackCmd: 'git restore src/app.js\n# Or discard all uncommitted edits in directory:\ngit restore .',
+        rollbackEffect: 'Overwrites your working file with the clean version from HEAD.',
+        isWorkLostStatus: 'danger',
+        isWorkLostText: '⚠️ Permanent loss risk: Changes on disk that were never staged or committed cannot be recovered once discarded with git restore.',
+        relatedCardId: 'card-stage'
+      },
+      staging: {
+        zonePill: 'Zone 2: Staging Area',
+        title: 'Zone 2: Staging Area (Index / Shopping Cart)',
+        icon: '🛒',
+        concept: 'A binary staging buffer stored at .git/index. Think of staging as a shopping cart: you inspect items, choose which files and lines belong together in this logical checkpoint, and keep unrelated edits out.',
+        statusTitle: 'What git status reports:',
+        statusSnippet: '# Changes to be committed:\n#   (use "git restore --staged <file>..." to unstage)\n#       new file:   src/auth.js\n#       modified:   src/app.js',
+        forwardLabel: 'Seal Checkpoint into Local Repository:',
+        forwardCmd: 'git commit -m "feat: implement user authentication"',
+        forwardEffect: 'Packs all staged files into an immutable commit object, advances the current branch pointer, and records the commit in HEAD.',
+        rollbackLabel: 'Unstage Files (Remove from Cart) Without Losing Edits:',
+        rollbackCmd: 'git restore --staged src/app.js\n# Or unstage everything:\ngit restore --staged .',
+        rollbackEffect: 'Removes the file from the staging index. Your code edits on disk remain 100% untouched and preserved.',
+        isWorkLostStatus: 'safe',
+        isWorkLostText: '🟢 Work is 100% Safe! git restore --staged only unloads the cart. Zero lines of your code on disk are touched or deleted.',
+        relatedCardId: 'card-undo'
+      },
+      local: {
+        zonePill: 'Zone 3: Local Repository',
+        title: 'Zone 3: Local Repository (Immutable Vault & HEAD)',
+        icon: '📦',
+        concept: 'Your permanent local database stored in .git/objects and branch bookmarks in .git/refs/heads/. Every commit is an immutable cryptographic snapshot identified by a SHA hash. Commits here exist safely on your computer even when offline.',
+        statusTitle: 'What git status reports:',
+        statusSnippet: '# On branch main\n# Your branch is ahead of \'origin/main\' by 1 commit.\n#   (use "git push" to publish your local commits)\n#\nnothing to commit, working tree clean',
+        forwardLabel: 'Publish Commits to Remote Cloud Host:',
+        forwardCmd: 'git push origin main',
+        forwardEffect: 'Transfers commit objects and trees over HTTPS/SSH and updates the remote tracking branch (origin/main) to match local HEAD.',
+        rollbackLabel: 'Rewind Commit While Keeping Edits in Staging Cart:',
+        rollbackCmd: 'git reset --soft HEAD~1\n\n# Or create a safety bookmark before experimenting:\ngit switch -c rescue-branch',
+        rollbackEffect: 'Moves your branch bookmark back one commit, leaving all your code changes staged and ready to edit or re-commit.',
+        isWorkLostStatus: 'safe',
+        isWorkLostText: '🟢 Work is Safe! Local commits are safely recorded. Even orphaned commits are retained in git reflog for 30–90 days.',
+        relatedCardId: 'card-sync'
+      },
+      remote: {
+        zonePill: 'Zone 4: Remote Cloud Host',
+        title: 'Zone 4: Remote Cloud Host (GitHub • GitLab • Bitbucket)',
+        icon: '☁️',
+        concept: 'The centralized cloud host hosting shared team branches (origin/*), Pull/Merge Requests, issue trackers, and automated CI/CD test runners. Pushing publishes your local commits to teammates worldwide.',
+        statusTitle: 'What git status reports:',
+        statusSnippet: '# On branch main\n# Your branch is up to date with \'origin/main\'.\n#\nnothing to commit, working tree clean',
+        forwardLabel: 'Propose Code Review (Pull Request):',
+        forwardCmd: 'gh pr create --title "feat: login" --body "Ready for review"\n# Or push feature branch to create PR:\ngit push -u origin feature/login',
+        forwardEffect: 'Creates a Pull Request / Merge Request on GitHub, GitLab, or Bitbucket for peer code review and CI verification.',
+        rollbackLabel: 'Safely Undo a Public Shared Commit:',
+        rollbackCmd: '# Create safe inverse commit without breaking teammates\' branches:\ngit revert <commit-id>\ngit push origin main',
+        rollbackEffect: 'Records a brand new commit that undoes the exact diff of the target commit, preserving forward-only public history.',
+        isWorkLostStatus: 'safe',
+        isWorkLostText: '🟢 Safe Team History! git revert preserves history and never rewrites public commits, preventing branch divergence for teammates.',
+        relatedCardId: 'card-forge-troubleshoot'
+      },
+      reverse: {
+        zonePill: 'Two-Way Highway',
+        title: 'The Two-Way Highway: Forward Flow vs. Safe Reversal',
+        icon: '🔄',
+        concept: 'Git is designed as a symmetric, two-way highway. For every forward operation, an exact safe reversal command exists to move files backward across zones without data loss.',
+        statusTitle: 'Complete Zone Reversal Highway:',
+        statusSnippet: '# Forward:   Working ──[ git add ]──> Staging ──[ git commit ]──> Local Repo ──[ git push ]──> Remote Cloud\n# Rollback:  Working <─[ git restore --staged ]─ Staging <─[ git reset --soft ]─ Local Repo <─[ git revert ]─ Remote Cloud',
+        forwardLabel: 'Safe Forward Daily Flow:',
+        forwardCmd: 'git status                 # 1. Inspect\ngit add <file>             # 2. Stage into Cart\ngit commit -m "message"    # 3. Seal Checkpoint\ngit push origin <branch>   # 4. Publish',
+        forwardEffect: 'Moves code steadily from your editor to shared team cloud repository.',
+        rollbackLabel: 'The Complete Safe Undo Cheat-Sheet:',
+        rollbackCmd: '# Discard unstaged file edits (Destructive):       git restore <file>\n# Unstage file without losing code edits (Safe):      git restore --staged <file>\n# Rewind local unpushed commit to cart (Safe):        git reset --soft HEAD~1\n# Undo public shared commit on GitHub (Team Safe):    git revert <commit-id>\n# Download remote changes safely:                     git pull --rebase origin <branch>',
+        rollbackEffect: 'Navigates backward across all 4 zones safely without losing committed or staged code.',
+        isWorkLostStatus: 'safe',
+        isWorkLostText: '🟢 The Golden Rule: Only git restore on uncommitted files can lose work. Commits and staged files are always protected!',
+        relatedCardId: 'troubleshootConsole'
+      }
+    };
+
+    let activeZoneKey = 'working';
+
+    function renderZoneDetail(zoneKey) {
+      const panel = document.getElementById('zoneDetailPanel');
+      if (!panel) return;
+      const data = fourZoneData[zoneKey] || fourZoneData.working;
+
+      panel.innerHTML = `
+        <div class="zone-detail-title">
+          <span style="font-size:1.4rem;" aria-hidden="true">${data.icon}</span>
+          <span>${data.title}</span>
+          <span class="zone-pill ${zoneKey === 'working' ? 'zone-pill-work' : zoneKey === 'staging' ? 'zone-pill-stage' : zoneKey === 'local' ? 'zone-pill-local' : zoneKey === 'remote' ? 'zone-pill-remote' : 'zone-pill-stage'}" style="margin-left:auto;">${data.zonePill}</span>
+        </div>
+        <div class="zone-detail-concept">${data.concept}</div>
+
+        <div class="work-lost-callout work-lost-${data.isWorkLostStatus}">
+          <div class="work-lost-header">
+            <span class="work-lost-title">❓ Is my work safe in this zone?</span>
+            <span class="work-lost-pill ${data.isWorkLostStatus}">${data.isWorkLostStatus === 'safe' ? 'Work is Safe' : 'Permanent Loss Risk'}</span>
+          </div>
+          <div class="work-lost-msg">${data.isWorkLostText}</div>
+        </div>
+
+        <div class="zone-detail-grid">
+          <!-- Terminal Status Box -->
+          <div class="zone-sub-box">
+            <div class="zone-sub-title">
+              <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              ${data.statusTitle}
+            </div>
+            <div class="snippet-block" style="margin:0;">
+              <pre class="code-content"><code>${data.statusSnippet}</code></pre>
+            </div>
+          </div>
+
+          <!-- Forward Operation Box -->
+          <div class="zone-sub-box">
+            <div class="zone-sub-title">
+              <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+              ${data.forwardLabel}
+            </div>
+            <div class="snippet-block" style="margin:0;">
+              <div class="snippet-header">
+                <span>Forward Command</span>
+                <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy forward command">Copy</button>
+              </div>
+              <pre class="code-content"><code>${data.forwardCmd}</code></pre>
+            </div>
+            <div class="zone-sub-desc"><strong>What happens:</strong> ${data.forwardEffect}</div>
+          </div>
+        </div>
+
+        <!-- Rollback Operation Box -->
+        <div class="zone-sub-box" style="margin-bottom:12px;">
+          <div class="zone-sub-title" style="color:${data.isWorkLostStatus === 'danger' ? 'var(--accent-red)' : 'var(--accent-blue)'};">
+            <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            ${data.rollbackLabel}
+          </div>
+          <div class="snippet-block" style="margin:0;">
+            <div class="snippet-header">
+              <span>Rollback Command</span>
+              <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy rollback command">Copy</button>
+            </div>
+            <pre class="code-content"><code>${data.rollbackCmd}</code></pre>
+          </div>
+          <div class="zone-sub-desc"><strong>Safety mechanism:</strong> ${data.rollbackEffect}</div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="btn-clear-analyzer" onclick="jumpToTarget('${data.relatedCardId}')">View Detailed ${data.zonePill} Recipe →</button>
+          <button type="button" class="card-link-btn" onclick="copyDecisionLink('zone-${zoneKey}', this)" aria-label="Copy direct link to this zone" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
+        </div>
+      `;
+    }
+
+    function selectFourZone(zoneKey) {
+      if (!fourZoneData[zoneKey]) zoneKey = 'working';
+      activeZoneKey = zoneKey;
+
+      const zoneCards = document.querySelectorAll('.zone-card');
+      zoneCards.forEach(card => {
+        const isSelected = card.getAttribute('data-zone') === zoneKey;
+        card.classList.toggle('active', isSelected);
+        card.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+      });
+
+      const stepBtns = document.querySelectorAll('.zone-step-btn');
+      stepBtns.forEach(btn => {
+        const isPressed = btn.getAttribute('data-step') === zoneKey;
+        btn.classList.toggle('active', isPressed);
+        btn.setAttribute('aria-pressed', isPressed ? 'true' : 'false');
+      });
+
+      renderZoneDetail(zoneKey);
+      announceState(`Selected ${fourZoneData[zoneKey].title}`);
+    }
+
+    window.selectFourZone = selectFourZone;
+    window.fourZoneData = fourZoneData;
+
+    const zoneCards = document.querySelectorAll('.zone-card');
+    zoneCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.getAttribute('data-zone');
+        selectFourZone(key);
+      });
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const key = card.getAttribute('data-zone');
+          selectFourZone(key);
+        }
+      });
+    });
+
+    const zoneStepBtns = document.querySelectorAll('.zone-step-btn');
+    zoneStepBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const step = btn.getAttribute('data-step');
+        selectFourZone(step);
+      });
+    });
+
+    renderZoneDetail('working');
 
     // Initialize Mode with Validated Storage Value
     const initialMode = safeStorageGet('mode', 'beginner', ['beginner', 'pro']);

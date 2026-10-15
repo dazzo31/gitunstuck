@@ -37,10 +37,10 @@ const sandbox = {
 
 const fn = new Function('document', 'window', 'localStorage', 'setTimeout', 'navigator', `
   ${scriptMatch[1]}
-  return { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminalOutputs, extractGitContext, sanitizeGitToken, stripBashComments, convertModernToLegacy };
+  return { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminalOutputs, extractGitContext, sanitizeGitToken, stripBashComments, convertModernToLegacy, fourZoneData };
 `);
 
-const { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminalOutputs, extractGitContext, sanitizeGitToken, stripBashComments, convertModernToLegacy } = fn(
+const { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminalOutputs, extractGitContext, sanitizeGitToken, stripBashComments, convertModernToLegacy, fourZoneData } = fn(
   sandbox.document,
   sandbox.window,
   sandbox.localStorage,
@@ -342,6 +342,30 @@ const readmeMd = fs.readFileSync(path.join(__dirname, '../README.md'), 'utf-8');
 assert(readmeMd.includes('https://github.com/sponsors/dazzo31'), 'README.md contains GitHub Sponsors badges and link');
 assert(readmeMd.includes('https://buymeacoffee.com/dazzo31'), 'README.md contains Buy Me a Coffee badges and link');
 assert(fs.existsSync(path.join(__dirname, '../LICENSE')), 'MIT LICENSE file deployed in repo root');
+
+// Suite 13: Interactive 4-Zone Architecture & Visual Data Flow Widget
+console.log('\nSuite 13: Interactive 4-Zone Architecture & Visual Data Flow Widget');
+assert(indexHtml.includes('id="fourZoneModel"'), 'fourZoneModel section element exists in DOM');
+assert(indexHtml.includes('class="four-zone-section"'), 'fourZoneModel section has four-zone-section class');
+assert(indexHtml.includes('data-zone="working"'), 'Interactive zone card exists for [working]');
+assert(indexHtml.includes('data-zone="staging"'), 'Interactive zone card exists for [staging]');
+assert(indexHtml.includes('data-zone="local"'), 'Interactive zone card exists for [local]');
+assert(indexHtml.includes('data-zone="remote"'), 'Interactive zone card exists for [remote]');
+assert(indexHtml.includes('class="four-zone-flow-bar"'), 'four-zone-flow-bar simulation toolbar exists');
+assert(indexHtml.includes('data-step="working"') && indexHtml.includes('data-step="staging"') && indexHtml.includes('data-step="local"') && indexHtml.includes('data-step="remote"') && indexHtml.includes('data-step="reverse"'), 'All 5 simulation step buttons exist');
+assert(indexHtml.includes('id="zoneDetailPanel"'), 'zoneDetailPanel inspector element exists');
+assert(indexHtml.includes('data-target="fourZoneModel"'), 'Task-Navigator includes direct quick-jump chip for 4-Zone Model');
+assert(indexHtml.includes("hash.startsWith('#zone-')"), 'Hash router handles direct #zone- deep linking');
+assert(typeof fourZoneData === 'object' && fourZoneData !== null, 'fourZoneData data dictionary is defined');
+assert(fourZoneData.working && fourZoneData.working.forwardCmd.includes('git add'), 'Zone 1 [working] defines forward command git add');
+assert(fourZoneData.working && fourZoneData.working.rollbackCmd.includes('git restore'), 'Zone 1 [working] defines rollback command git restore');
+assert(fourZoneData.staging && fourZoneData.staging.forwardCmd.includes('git commit'), 'Zone 2 [staging] defines forward command git commit');
+assert(fourZoneData.staging && fourZoneData.staging.rollbackCmd.includes('git restore --staged'), 'Zone 2 [staging] defines safe rollback command git restore --staged');
+assert(fourZoneData.staging && fourZoneData.staging.isWorkLostStatus === 'safe', 'Zone 2 [staging] guarantees 100% safe rollback status');
+assert(fourZoneData.local && fourZoneData.local.forwardCmd.includes('git push'), 'Zone 3 [local] defines forward command git push');
+assert(fourZoneData.local && fourZoneData.local.rollbackCmd.includes('git reset --soft'), 'Zone 3 [local] defines rollback command git reset --soft');
+assert(fourZoneData.remote && fourZoneData.remote.rollbackCmd.includes('git revert'), 'Zone 4 [remote] defines safe team rollback command git revert');
+assert(fourZoneData.reverse && fourZoneData.reverse.statusSnippet.includes('Working ──[ git add ]──> Staging'), 'Two-way highway defines complete forward and rollback ASCII lifecycle');
 
 console.log(`\nTotal Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);
 console.log(`========================================\n`);

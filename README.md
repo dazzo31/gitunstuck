@@ -27,8 +27,11 @@
 ### 5. 👁️ High-Contrast Light Mode Invariant
 - Modernized light mode code blocks with dedicated soft slate backgrounds (`--bg-code`) and high-contrast dark text, eliminating all low-contrast artifacts in terminal textareas and `.git/` files inspectors.
 
-### 6. 🧪 Hardened 134-Test Diagnostic Suite
-- Test automation expanded to **134 passing unit assertions across 12 suites**, verifying input normalization, token injection, multi-host forge rules, brand identity tokens, and experience mode toggles.
+### 6. 🔄 Interactive 4-Zone Architecture & Visual Data Flow Widget
+- Interactive architectural simulation tracing file lifecycles across **Working Directory (Disk)** → **Staging Area (Index)** → **Local Repository (HEAD)** → **Remote Cloud (Forge)**. Features click-to-inspect cards, terminal output previews, copyable forward/rollback commands, and the complete two-way highway.
+
+### 7. 🧪 Hardened 155-Test Diagnostic Suite
+- Test automation expanded to **155 passing unit assertions across 13 suites**, verifying input normalization, token injection, multi-host forge rules, brand identity tokens, experience mode toggles, and the 4-Zone data flow engine.
 
 ---
 
@@ -88,7 +91,7 @@ Every major resolution and workflow supports direct URL hash deep-linking for ea
 GitUnstuck includes an automated diagnostic test suite verifying input normalization, rule matching, and forge coverage:
 
 ```bash
-# Run the automated test runner (134 passing unit tests across 12 suites)
+# Run the automated test runner (155 passing unit tests across 13 suites)
 node tests/test-analyzer.js
 ```
 
