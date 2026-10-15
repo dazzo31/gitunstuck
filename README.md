@@ -8,7 +8,31 @@
 
 ---
 
-## 🌟 What's New in v2.1
+## 🌟 What's New in v2.2
+
+### 1. 🎭 Dual Experience Modes: Guided Essentials vs. Developer Hub
+- **Guided Essentials Mode:** Focused, approachable view emphasizing plain-English analogies, daily routines, and zero-jargon recovery steps. Complex mathematical graph theory is automatically hidden from the beginner primer.
+- **Developer Hub Mode:** Expands the complete Git engineering reference, including interactive rebasing, branch divergence surgery, `git worktree` isolation, `git reflog` resurrection, and live `.git/` filesystem inspectors.
+- **Dynamic Mode Theming:** Active mode seamlessly shifts UI iconography, borders, and active tokens to organic emerald green (Guided Essentials) or energized amber orange (Developer Hub).
+
+### 2. ✒️ Totakit Thin Vector Icon System
+- Integrated custom, lightweight 1.5px stroke vector SVG icons across all analogy cards, recipe controls, and forge selectors for consistent visual elegance without external font or asset overhead.
+
+### 3. 🎨 Official Vector Brand Architecture
+- Deployed bespoke standalone responsive SVG Wordmark (`gitunstuck-wordmark-dark.svg`, `gitunstuck-wordmark-light.svg`), single calligraphic 'G' app icon, and multi-theme adaptive favicons with full screen-reader accessibility (`sr-only` titles).
+
+### 4. ☕ Funding & Community Support Integrations
+- Integrated native GitHub Sponsors (`.github/FUNDING.yml`), a dedicated header Buy Me a Coffee pill button, and footer learning resource support cards.
+
+### 5. 👁️ High-Contrast Light Mode Invariant
+- Modernized light mode code blocks with dedicated soft slate backgrounds (`--bg-code`) and high-contrast dark text, eliminating all low-contrast artifacts in terminal textareas and `.git/` files inspectors.
+
+### 6. 🧪 Hardened 134-Test Diagnostic Suite
+- Test automation expanded to **134 passing unit assertions across 12 suites**, verifying input normalization, token injection, multi-host forge rules, brand identity tokens, and experience mode toggles.
+
+---
+
+## 🚀 What's New in v2.1
 
 ### 1. 🚨 "Don't Panic" Emergency Triage Hero
 When something breaks, beginners often panic fearing total code loss. The top of GitUnstuck now features:
@@ -64,7 +88,7 @@ Every major resolution and workflow supports direct URL hash deep-linking for ea
 GitUnstuck includes an automated diagnostic test suite verifying input normalization, rule matching, and forge coverage:
 
 ```bash
-# Run the automated test runner (51 passing unit tests)
+# Run the automated test runner (134 passing unit tests across 12 suites)
 node tests/test-analyzer.js
 ```
 

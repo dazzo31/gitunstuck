@@ -48,7 +48,7 @@ const { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminal
   sandbox.navigator
 );
 
-console.log('--- GitUnstuck v2.1 Diagnostic Engine Test Suite ---\n');
+console.log('--- GitUnstuck v2.2 Diagnostic Engine Test Suite ---\n');
 
 let passed = 0;
 let failed = 0;
