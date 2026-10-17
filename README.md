@@ -1,122 +1,124 @@
-# GitUnstuck • Visual Problem-Solving & Cloud Forge Recovery Guide
+# GitUnstuck
 
-> **Live Application:** [dazzo31.github.io/gitunstuck](https://dazzo31.github.io/gitunstuck/)  
-> **Guiding Principle:** *Don't Panic. Git almost never loses your committed work.*  
-> **Sponsor:** [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?style=flat&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31) [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-dazzo31-orange?style=flat&logo=buymeacoffee&logoColor=white)](https://buymeacoffee.com/dazzo31)
+## Fix Git problems without guessing
 
-**GitUnstuck** is an empathetic, interactive problem-solving guide and diagnostic cheatsheet designed to help developers recover from Git mistakes, navigate cloud platform rejections across **GitHub**, **GitLab**, and **Bitbucket**, and master Git's mental model without cognitive overload.
+GitUnstuck turns confusing Git output into clear, risk-aware recovery steps. Paste a status or error, choose what went wrong, and get commands you can understand before you run them.
 
----
+[![Open GitUnstuck](https://img.shields.io/badge/Open_GitUnstuck-Fix_my_Git_problem-16a34a?style=for-the-badge)](https://dazzo31.github.io/gitunstuck/)
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-GitHub_Sponsors-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-dazzo31-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/dazzo31)
 
-## 🌟 What's New in v2.2
-
-### 1. 🎭 Dual Experience Modes: Guided Essentials vs. Developer Hub
-- **Guided Essentials Mode:** Focused, approachable view emphasizing plain-English analogies, daily routines, and zero-jargon recovery steps. Complex mathematical graph theory is automatically hidden from the beginner primer.
-- **Developer Hub Mode:** Expands the complete Git engineering reference, including interactive rebasing, branch divergence surgery, `git worktree` isolation, `git reflog` resurrection, and live `.git/` filesystem inspectors.
-- **Dynamic Mode Theming:** Active mode seamlessly shifts UI iconography, borders, and active tokens to organic emerald green (Guided Essentials) or energized amber orange (Developer Hub).
-
-### 2. ✒️ Totakit Thin Vector Icon System
-- Integrated custom, lightweight 1.5px stroke vector SVG icons across all analogy cards, recipe controls, and forge selectors for consistent visual elegance without external font or asset overhead.
-
-### 3. 🎨 Official Vector Brand Architecture
-- Deployed bespoke standalone responsive SVG Wordmark (`gitunstuck-wordmark-dark.svg`, `gitunstuck-wordmark-light.svg`), single calligraphic 'G' app icon, and multi-theme adaptive favicons with full screen-reader accessibility (`sr-only` titles).
-
-### 4. ☕ Funding & Community Support Integrations
-- Integrated native GitHub Sponsors (`.github/FUNDING.yml`), a dedicated header Buy Me a Coffee pill button, and footer learning resource support cards.
-
-### 5. 👁️ High-Contrast Light Mode Invariant
-- Modernized light mode code blocks with dedicated soft slate backgrounds (`--bg-code`) and high-contrast dark text, eliminating all low-contrast artifacts in terminal textareas and `.git/` files inspectors.
-
-### 6. 🔄 Interactive 4-Zone Architecture & Visual Data Flow Widget
-- Interactive architectural simulation tracing file lifecycles across **Working Directory (Disk)** → **Staging Area (Index)** → **Local Repository (HEAD)** → **Remote Cloud (Forge)**. Features click-to-inspect cards, terminal output previews, copyable forward/rollback commands, and the complete two-way highway.
-
-### 7. 🧪 Hardened 155-Test Diagnostic Suite
-- Test automation expanded to **155 passing unit assertions across 13 suites**, verifying input normalization, token injection, multi-host forge rules, brand identity tokens, experience mode toggles, and the 4-Zone data flow engine.
+**No installation. No account. No terminal data leaves your browser.**
 
 ---
 
-## 🚀 What's New in v2.1
+## Get unstuck fast
 
-### 1. 🚨 "Don't Panic" Emergency Triage Hero
-When something breaks, beginners often panic fearing total code loss. The top of GitUnstuck now features:
-- **Instant Intent Chips:** One-click shortcuts for the top 6 panic scenarios (`Undo a mistake`, `Push was rejected`, `Merge conflict`, `Detached HEAD`, `Auth failed`, `Lost work / commit`).
-- **The Golden Safety Bookmark:** A prominent 1-second safety recipe (`git branch backup-before-fix`) guaranteeing you can always return to your current state before attempting any rewrite.
+GitUnstuck helps answer the questions that matter when a repository goes wrong:
 
-### 2. 📟 Live In-Browser Terminal Analyzer
-- **Privacy-First (100% Client-Side):** Paste output from `git status`, `git status -sb`, or raw terminal error messages. Input is never transmitted over the network or uploaded anywhere.
-- **Input Sanitizer:** Automatically strips ANSI color escapes and normalizes Windows CRLF line endings.
-- **12-State Rule Engine:** Automatically diagnoses Detached HEAD, Merge Conflicts, Paused Rebases, Branch Divergence, Untracked Sensitive Files (`.env`, `id_rsa`), GH013 Secret Scan blocks, Protected Branch rejections, and Authentication failures.
-- **"Is My Work Lost?" Indicators:** Every diagnosis explicitly answers the #1 anxiety question upfront (`🟢 Work is Safe` vs `⚠️ Permanent Loss Risk`).
-- **1-Click Test Samples:** Built-in sample buttons (`Detached HEAD`, `Merge Conflict`, `Diverged Branch`, `Secret Scan`, `Clean Status`) allow users to test the diagnostic engine instantly.
+- **Is my work safe?** Every diagnosis shows the risk before suggesting a command.
+- **What happened?** Plain-English explanations replace cryptic Git terminology.
+- **What should I run?** Copyable steps take you forward, back out safely, or create a rescue point.
+- **Does my hosting provider change the fix?** Dedicated guidance covers GitHub, GitLab, and Bitbucket.
 
-### 3. ☁️ Multi-Host Cloud Forge Overlays (GitHub • GitLab • Bitbucket)
-Platform-specific troubleshooting tabs covering the real-world divergence points between cloud providers:
-- **Protected Branch Rejections:** GH006 protected branch updates, GitLab protected branches, and Bitbucket branch permissions — with verified feature-branch + PR/MR creation workflows.
-- **Authentication & Credential Caching:** GitHub Personal Access Tokens (and the fine-grained `workflow` scope caveat), GitLab PATs and firewall port 443 fallback (`altssh.gitlab.com:443`), and Bitbucket Cloud's critical requirement to use the **Atlassian Account Email** with App Passwords.
-- **Push Protection Secret Scanning:** Handling GitHub GH013 and GitLab secret blocks via soft-resets and `.gitignore` sanitization.
-- **Fork Synchronization:** Syncing upstream remotes via web shortcuts and terminal commands.
+[**Launch GitUnstuck →**](https://dazzo31.github.io/gitunstuck/)
 
-### 4. 🚑 Interactive Undo & Recovery Decision Tree
-Select where your unwanted changes currently live:
-- **Unstaged in File:** `git restore <file>` (Destructive risk warning)
-- **Staged in Cart:** `git restore --staged <file>` (100% safe, preserves disk edits)
-- **Committed Locally:** `git reset --soft HEAD~1` (Safe, rewinds checkpoint while keeping work in cart)
-- **Pushed to Remote:** `git revert <commit-id>` (Team-safe inverse commit)
-- **Lost Commit / Deleted Branch:** `git reflog -n 15` + `git switch -c rescue-branch` (Local ledger resurrection)
+## Features
 
-### 5. 🗺️ Visual Timeline & Branch Map
-Interactive SVG visualization demonstrating how commits, branch labels, HEAD (your camera lens), and merge operations interact in real time.
+### Diagnose terminal output in your browser
 
-### 6. 🎓 Progressive Disclosure Architecture
-- **Surface Level:** Real-world analogies (Shopping Cart, Video Game Save Point, Breadcrumbs) and zero-jargon daily workflows.
-- **Deep Level:** Formal Computer Science Directed Acyclic Graph ($G=(V, E)$), SHA cryptographic object stores, and LCA 3-way merge matrix theories neatly organized in accessible `<details><summary>` drawers.
+Paste output from `git status`, `git status -sb`, or a Git error. The analyzer recognizes common failure states, strips terminal formatting, handles Windows line endings, and immediately explains what it found.
 
----
+It can identify:
 
-## 🔗 Deep-Linking & Team Sharing
+- Detached HEAD and branch divergence
+- Merge conflicts and paused rebases
+- Authentication and protected-branch failures
+- GitHub GH013 and other secret-scan blocks
+- Untracked sensitive files such as `.env` and `id_rsa`
+- Clean repositories where no recovery is needed
 
-Every major resolution and workflow supports direct URL hash deep-linking for easy sharing in team chat:
-- `#emergencyHero` — Jump to emergency triage hero
-- `#troubleshootConsole` — Jump to the Undo Decision Tree
-- `#terminalAnalyzer` — Jump to the live terminal paste analyzer
-- `#card-forge-troubleshoot` — Jump to Cloud Forge Troubleshooter
-- `#forge-github`, `#forge-gitlab`, `#forge-bitbucket` — Pre-select specific cloud hosts
-- `#undo-unstaged`, `#undo-staged`, `#undo-local-commit`, `#undo-pushed-commit`, `#undo-lost-reflog` — Direct decision tree solutions
-- `#card-init`, `#card-clone`, `#card-stage`, `#card-branch`, `#card-sync`, `#card-conflict`, `#card-rebase`, `#card-detached`, `#card-reflog` — Direct workflow cards
+Everything runs locally in the current browser tab. Repository paths, branch names, errors, and pasted text are never uploaded.
 
----
+### Recover with a guided decision tree
 
-## 🧪 Automated Regression Testing
+Tell GitUnstuck where the unwanted change lives and receive the appropriate recovery path:
 
-GitUnstuck includes an automated diagnostic test suite verifying input normalization, rule matching, and forge coverage:
+| Situation | Guided approach |
+| --- | --- |
+| Changed but not staged | Restore or preserve the file with a clear data-loss warning |
+| Staged by mistake | Unstage it while keeping the edits |
+| Committed locally | Rewind the commit while preserving the work |
+| Already pushed | Create a team-safe revert |
+| Commit or branch appears lost | Recover it from the reflog |
+| Unsure what to do | Create a backup branch before changing history |
+
+### Solve cloud-hosting problems
+
+Switch between **GitHub**, **GitLab**, and **Bitbucket** for provider-specific fixes covering:
+
+- Rejected pushes and protected branches
+- Tokens, app passwords, and cached credentials
+- Secret-scanning and push-protection blocks
+- Fork synchronization and upstream remotes
+- Feature-branch and pull/merge-request workflows
+
+### See how Git actually works
+
+Interactive diagrams turn Git’s internal model into something you can inspect:
+
+- Follow a file through the **working directory**, **staging area**, **local repository**, and **remote forge**
+- Explore commits, branches, HEAD, and merges on a visual timeline
+- Inspect command effects before choosing a recovery step
+- Open deeper explanations of object storage, commit graphs, and three-way merges when you want the theory
+
+### Choose the level of detail you need
+
+- **Guided Essentials** uses plain language, practical analogies, and focused daily workflows.
+- **Developer Hub** opens the complete engineering reference for rebase, reflog, worktree, bisect, tags, cherry-pick, force-with-lease, branch surgery, and `.git/` internals.
+
+Both modes include dark and light themes, keyboard navigation, reduced-motion support, and screen-reader announcements.
+
+## Common problems
+
+Jump directly to the right tool:
+
+- [Undo a Git mistake](https://dazzo31.github.io/gitunstuck/#troubleshootConsole)
+- [Analyze terminal output](https://dazzo31.github.io/gitunstuck/#terminalAnalyzer)
+- [Recover a lost commit with reflog](https://dazzo31.github.io/gitunstuck/#undo-lost-reflog)
+- [Fix GitHub problems](https://dazzo31.github.io/gitunstuck/#forge-github)
+- [Fix GitLab problems](https://dazzo31.github.io/gitunstuck/#forge-gitlab)
+- [Fix Bitbucket problems](https://dazzo31.github.io/gitunstuck/#forge-bitbucket)
+- [Understand merge conflicts](https://dazzo31.github.io/gitunstuck/#card-conflict)
+- [Understand detached HEAD](https://dazzo31.github.io/gitunstuck/#card-detached)
+
+These links can be shared in team chat, documentation, and support replies.
+
+## Built for privacy and speed
+
+GitUnstuck is a dependency-free, client-side application built with vanilla HTML, CSS, and JavaScript. It has no build step and sends no pasted terminal content to a server. The interface is designed for WCAG AA contrast and supports keyboard and screen-reader use.
+
+## Run locally
+
+Clone the repository and open `index.html` in a modern browser. No package installation or build command is required.
+
+Run the automated regression suite with:
 
 ```bash
-# Run the automated test runner (155 passing unit tests across 13 suites)
 node tests/test-analyzer.js
 ```
 
----
+The suite contains 155 assertions across 13 test groups covering diagnostics, normalization, forge guidance, navigation, accessibility, branding, experience modes, and the visual data-flow tools.
 
-## 🛠️ Tech Stack & Philosophy
+See [CHANGELOG.md](CHANGELOG.md) for release history and detailed change notes.
 
-- **Zero Dependencies:** Pure vanilla HTML5, CSS3, and modern JavaScript.
-- **Zero Build Step:** Deploys instantly to GitHub Pages directly from repository files.
-- **Zero Data Transmission:** Complete privacy guarantee — user repository paths, branch names, and code snippets stay strictly inside the client's browser tab.
-- **Accessible (WCAG AA):** High-contrast dark and light modes, full keyboard navigation (`/` and `Ctrl+K` search shortcuts), reduced-motion support, and screen reader announcements.
+## Support GitUnstuck
 
----
+GitUnstuck is free, private, client-side, and ad-free. If it rescued a branch, clarified a workflow, or saved your team time, you can support its continued development:
 
-## 💖 Support GitUnstuck
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor_on_GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/dazzo31)
 
-GitUnstuck was built to make Git mental models intuitive and save developers from hours of panic and lost work. It is 100% free, private, client-side, and ad-free.
-
-If this guide helped you master a workflow, rescued your branch, or saved your team time, consider sponsoring ongoing development:
-
-[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor%20on%20GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31)
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/dazzo31)
-
----
-
-## 📄 License
+## License
 
 MIT License. Free for developers, students, and teams worldwide.
