@@ -2159,7 +2159,7 @@
 
       <!-- Mode Switcher -->
       <div class="mode-switcher" id="modeSwitcher" role="group" aria-label="Experience Mode">
-        <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Curated safe workflows, intuitive mental models, focused guidance">
+        <button class="mode-btn active" data-mode="beginner" aria-pressed="true" title="Safe workflows, plain mental models, and step-by-step guidance">
           <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Guided Essentials
         </button>
         <button class="mode-btn" data-mode="pro" aria-pressed="false" title="Full developer matrix, rebase, DAG architecture, worktrees &amp; reflog">
@@ -2220,7 +2220,7 @@
     <!-- Printable Header Banner (Visible only when printed) -->
     <div class="print-banner" aria-hidden="true">
       <div class="print-banner-title">GitUnstuck • The Visual Problem-Solving &amp; Recovery Guide</div>
-      <div class="print-banner-url">https://dazzo31.github.io/gitunstuck/ — Reference &amp; Verified Recipes</div>
+      <div class="print-banner-url">https://dazzo31.github.io/gitunstuck/ — Reference &amp; Tested Recipes</div>
     </div>
 
     <!-- EMERGENCY TRIAGE HERO -->
@@ -2232,7 +2232,7 @@
         </button>
       </div>
       <h2 class="emergency-title" id="emergencyHeading">Git almost never loses your committed work.</h2>
-      <p class="emergency-subtitle">Take a breath. Click what just happened below to jump directly to a verified, safe resolution:</p>
+      <p class="emergency-subtitle">Take a breath. Click what just happened below to jump directly to a safe, tested resolution:</p>
       <div class="emergency-chips" role="group" aria-label="Emergency problem selector">
         <button class="emergency-chip" data-intent="undo" title="Discard uncommitted files, unstage, or undo local commits">
           <span class="chip-icon"><svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><polyline points="3 3 3 8 8 8"/></svg></span>
@@ -2313,7 +2313,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
     <section class="task-navigator" aria-labelledby="taskNavHeading">
       <div class="task-nav-header">
         <h2 class="task-nav-title" id="taskNavHeading"><svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> What are you trying to do?</h2>
-        <p class="task-nav-subtitle">Click a goal to jump directly to its complete, verified workflow:</p>
+        <p class="task-nav-subtitle">Click a goal to jump directly to its complete, tested workflow:</p>
       </div>
       <div class="task-chips">
         <button class="task-chip" data-target="card-init"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> Start a new project</button>
@@ -2672,7 +2672,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
         </summary>
         <div class="jargon-content">
           <p class="jargon-intro">
-            While real-world analogies (save points, breadcrumbs, bookmarks, camera lens) provide an intuitive daily mental model, under the hood Git is an elegant, mathematically rigorous <strong>Directed Acyclic Graph (DAG)</strong> built atop an immutable content-addressable object store. Here is the formal technical architecture:
+            While real-world analogies (save points, breadcrumbs, bookmarks, camera lens) provide an intuitive daily mental model, under the hood Git is a <strong>Directed Acyclic Graph (DAG)</strong> built atop an immutable content-addressable object store. Here is the formal technical architecture:
           </p>
           <div class="jargon-grid">
             <div class="jargon-card">
@@ -3057,7 +3057,7 @@ git revert a1b2c3d</code></pre>
             <span class="task-deep-dive-badge">CS Theory</span>
           </summary>
           <div class="task-deep-dive-content">
-            <p>Git does not just track files; it coordinates <strong>Three Trees</strong> of repository state:</p>
+            <p>Git coordinates <strong>Three Trees</strong> of repository state:</p>
             <ul>
               <li><strong>HEAD:</strong> The commit snapshot checked out in your repository database.</li>
               <li><strong>Index / Staging (<code>.git/index</code>):</strong> A binary cache recording file paths, stat caches, and blob SHA hashes for the next commit.</li>
@@ -3872,7 +3872,7 @@ git cherry-pick 7a1b2c3
         desc: 'You edited a tracked file on disk, but have NOT added it to staging. You want to wipe those edits and return to the last commit.',
         code: '# Discard unstaged edits in a specific file:\ngit restore <filename>\n\n# Or discard all unstaged edits in current directory:\ngit restore .',
         effect: 'Permanently overwrites your working file on disk with the version recorded in HEAD/index.',
-        verify: 'Run git status — the file will no longer be listed under "Changes not staged for commit".',
+        verify: 'Run git status. The file will no longer be listed under "Changes not staged for commit".',
         warning: 'PERMANENT LOSS WARNING: Uncommitted working-tree edits cannot be recovered once discarded by Git.'
       },
       'staged': {
@@ -3884,7 +3884,7 @@ git cherry-pick 7a1b2c3
         desc: 'You ran git add, but you are not ready to commit this file yet. You want to preserve your code edits in the file.',
         code: '# Unstage a specific file:\ngit restore --staged <filename>\n\n# Or unstage everything:\ngit restore --staged .',
         effect: 'Removes the file snapshot from the staging index. Your working code edits on disk remain 100% untouched.',
-        verify: 'Run git status — the file moves from green (Changes to be committed) to red (Changes not staged).',
+        verify: 'Run git status. The file moves from green (Changes to be committed) to red (Changes not staged).',
         warning: 'Safe operation: Does NOT delete your code.'
       },
       'local-commit': {
@@ -4024,7 +4024,7 @@ git cherry-pick 7a1b2c3
           '<strong>HEAD is your camera lens:</strong> <code>HEAD</code> just means "what you are currently looking at". Right now, you are looking at your main branch.',
           '<strong>Why arrows point backwards:</strong> Like breadcrumbs in a trail, each save point links back to where you came from.'
         ],
-        rule: 'Branches are not giant duplicate folders on your hard drive — they are just tiny sticky notes pointing to your latest save point.'
+        rule: 'A branch is a tiny sticky note pointing to your latest save point.'
       },
       'branch': {
         name: 'Branch (Safe Sandbox to Try Ideas)',
@@ -4911,7 +4911,7 @@ git cherry-pick 7a1b2c3
           desc: 'Bitbucket repository branch permissions restrict direct commits to main.',
           code: '# 1. Branch your work into a feature branch:\ngit switch -c feature/my-fix\n\n# 2. Push to Bitbucket:\ngit push -u origin feature/my-fix\n\n# 3. Open Pull Request:\n# Navigate to your Bitbucket repository -> "Pull requests" -> "Create pull request"\n\n# 4. Clean local main:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main',
           effect: 'Stores your commits safely on a named branch and prepares a peer review Pull Request.',
-          verify: 'Run git status — local main is clean and up to date with origin/main.',
+          verify: 'Run git status. Local main is clean and up to date with origin/main.',
           gotcha: '<strong>Jira Integration:</strong> Include your Jira issue key in the branch name (e.g. <code>feature/PROJ-123-login</code>) to automatically link PR status into Jira!'
         },
         'auth': {
@@ -4956,7 +4956,7 @@ git cherry-pick 7a1b2c3
         <div class="forge-panel-desc">${data.desc}</div>
         <div class="snippet-block">
           <div class="snippet-header">
-            <span>Verified Fix (${activeForge.toUpperCase()})</span>
+            <span>Tested Fix (${activeForge.toUpperCase()})</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
           <pre class="code-content"><code>${data.code}</code></pre>
@@ -5475,7 +5475,7 @@ nothing to commit, working tree clean`
           desc: 'Remote rejected credentials: password authentication is deprecated on GitHub/Bitbucket; token or SSH key required.',
           code: '# Clear cached credentials in Git Credential Manager:\ngit credential reject\n\n# Or test SSH key connection directly:\nssh -T git@github.com',
           effect: 'Clears stale cached credentials and verifies cryptographic key access.',
-          verify: 'Remote returns verified welcome message.',
+          verify: 'Remote returns a welcome message.',
           warning: 'Bitbucket Cloud users: You must use your full Atlassian account email address as username with App Passwords.',
           linkText: 'Open Authentication Troubleshooter',
           linkId: 'card-forge-troubleshoot'
@@ -5497,7 +5497,7 @@ nothing to commit, working tree clean`
           desc: 'Git stopped automated integration because both branches modified identical lines of code.',
           code: code,
           effect: 'Completes the merge operation and seals the combined snapshot.',
-          verify: 'Run git status — it will report "nothing to commit, working tree clean".',
+          verify: 'Run git status. It will report "nothing to commit, working tree clean".',
           warning: 'Do NOT run git merge --abort unless you want to throw away the merge and restart from scratch.',
           linkText: 'View Full Merge Conflict Card',
           linkId: 'card-conflict'
@@ -5581,7 +5581,7 @@ nothing to commit, working tree clean`
           desc: 'You have sealed commits on this computer that have not yet been published to your remote cloud host.',
           code: code,
           effect: 'Updates remote tracking branch to match local HEAD.',
-          verify: 'Run git status — it will report up to date with origin.',
+          verify: 'Run git status. It will report up to date with origin.',
           warning: 'Ensure your test suite passes before pushing shared commits.',
           linkText: 'View Cloud Push Guide',
           linkId: 'card-sync'
@@ -5624,7 +5624,7 @@ nothing to commit, working tree clean`
           desc: 'Git detected private configuration files (.env, keys) in your working folder that are not yet ignored.',
           code: code,
           effect: 'Prevents sensitive credentials from accidentally being staged by git add .',
-          verify: 'Run git status — sensitive files must not appear under Untracked files.',
+          verify: 'Run git status. Sensitive files must not appear under Untracked files.',
           warning: 'Never commit API keys or private keys to version control.',
           linkText: 'View Staging Guide',
           linkId: 'card-stage'
@@ -5644,7 +5644,7 @@ nothing to commit, working tree clean`
           desc: 'The current working directory does not contain a .git metadata folder.',
           code: '# Option A: Initialize Git in this project folder:\ngit init -b main\n\n# Option B: Or navigate to your existing project repository:\ncd path/to/your/actual/project\ngit status',
           effect: 'Creates a new .git/ ledger or navigates to the correct repository checkout.',
-          verify: 'Run git status — it will display branch information instead of a fatal error.',
+          verify: 'Run git status. It will display branch information instead of a fatal error.',
           warning: 'Check if you are inside a child or parent directory before running git init.',
           linkText: 'View Repository Init Guide',
           linkId: 'card-init'
@@ -5681,7 +5681,7 @@ nothing to commit, working tree clean`
         triggerLine: trigger,
         workLostStatus: 'safe',
         workLostText: '🟢 General status output analyzed. Take a breath and inspect the state below.',
-        desc: 'Git reported repository state information. Follow the verified safe sequence below:',
+        desc: 'Git reported repository state information. Follow the tested safe sequence below:',
         code: '# 1. Check detailed status without altering files:\ngit status\n\n# 2. Inspect unstaged and staged diffs:\ngit diff\ngit diff --staged\n\n# 3. View recent commit history:\ngit log -n 5 --oneline',
         effect: 'Gathers clean diagnostics without altering your files.',
         verify: 'Review the output to decide on next action.',
@@ -5820,7 +5820,7 @@ nothing to commit, working tree clean`
         rollbackCmd: 'git reset --soft HEAD~1\n\n# Or create a safety bookmark before experimenting:\ngit switch -c rescue-branch',
         rollbackEffect: 'Moves your branch bookmark back one commit, leaving all your code changes staged and ready to edit or re-commit.',
         isWorkLostStatus: 'safe',
-        isWorkLostText: '🟢 Work is Safe! Local commits are safely recorded. Even orphaned commits are retained in git reflog for 30–90 days.',
+        isWorkLostText: '🟢 Your local commits are recorded. Even orphaned commits stay in git reflog for 30 to 90 days.',
         relatedCardId: 'card-sync'
       },
       remote: {
