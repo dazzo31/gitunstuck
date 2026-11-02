@@ -803,6 +803,18 @@
       color: #ffffff; background: var(--git-orange); padding: 4px 12px; border-radius: 9999px;
       text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0;
     }
+    /* Developer Hub emergency access badge (a <button>, reusing .emergency-badge look). */
+    .emergency-pro-badge {
+      border: none; cursor: pointer; font-family: inherit; line-height: 1.4;
+      margin-bottom: 14px; transition: filter 0.15s ease, transform 0.15s ease;
+    }
+    /* The .emergency-badge `display:inline-flex` overrides the `hidden` attribute's
+       `display:none`; re-assert it so the badge is truly hidden outside Developer Hub. */
+    .emergency-pro-badge[hidden] { display: none !important; }
+    .emergency-pro-badge:hover {
+      filter: brightness(1.1); transform: translateY(-1px);
+      box-shadow: 0 2px 10px rgba(240, 80, 50, 0.35);
+    }
     .hero-analyzer-btn {
       background: rgba(56, 189, 248, 0.14); border: 1px solid var(--accent-blue);
       color: var(--accent-blue); font-size: 0.84rem; font-weight: 700;
@@ -1401,6 +1413,30 @@
 
     /* In Pro / Developer mode, completely hide all beginner primer information */
     [data-view="pro"] #beginnerPrimer {
+      display: none !important;
+    }
+
+    /* In Pro / Developer mode, hide teaching + visual layers — Developer Hub is a
+       command/procedure reference, not a learning aid. Keep the recipe cards, the
+       undo decision tree, the terminal analyzer, forge troubleshooting, and filters.
+       The emergency hero is hidden by default but can be revealed on demand via the
+       header "Emergency" button (see .emergency-reveal). */
+    [data-view="pro"] #emergencyHero,
+    [data-view="pro"] #fourZoneModel,
+    [data-view="pro"] #commitGraphExplorer {
+      display: none !important;
+    }
+    [data-view="pro"] #emergencyHero.emergency-reveal {
+      display: block !important;
+    }
+    /* When the hero is revealed via the Developer Hub badge, hide the hero's own
+       internal "Git Emergency? Don't Panic" badge to avoid showing it twice. */
+    [data-view="pro"] #emergencyHero.emergency-reveal .emergency-badge {
+      display: none !important;
+    }
+    /* Also hide the task-navigator chips that point at the hidden visual sections. */
+    [data-view="pro"] .task-chip[data-target="commitGraphExplorer"],
+    [data-view="pro"] .task-chip[data-target="fourZoneModel"] {
       display: none !important;
     }
 
@@ -2261,6 +2297,12 @@
   </header>
 
   <main class="container" id="mainContent">
+
+    <!-- Developer Hub emergency access: compact orange badge shown only in pro mode.
+         Clicking reveals the full emergency hero (hidden by default in pro mode). -->
+    <button id="emergencyToggle" class="emergency-badge emergency-pro-badge" aria-label="Show emergency triage" title="Show emergency triage" aria-expanded="false" hidden>
+      <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Git Emergency? Don't Panic
+    </button>
 
     <!-- Printable Header Banner (Visible only when printed) -->
     <div class="print-banner" aria-hidden="true">
@@ -4511,8 +4553,39 @@ git cherry-pick 7a1b2c3
       }
 
       syncPrimerCollapseState(mode);
+      syncEmergencyToggle(mode);
       filterCards();
       announceState(`Switched to ${mode === 'beginner' ? 'Guided Essentials' : 'Developer Hub'} mode`);
+    }
+
+    // Emergency triage toggle: shown only in Developer Hub; reveals the emergency
+    // hero (intent chips + safety bookmark) on demand.
+    const emergencyToggleBtn = document.getElementById('emergencyToggle');
+    const emergencyHeroElem = document.getElementById('emergencyHero');
+
+    function syncEmergencyToggle(mode) {
+      if (!emergencyToggleBtn || !emergencyHeroElem) return;
+      const isPro = mode === 'pro';
+      emergencyToggleBtn.hidden = !isPro;
+      if (!isPro) {
+        // Reset any reveal state when leaving pro mode.
+        emergencyHeroElem.classList.remove('emergency-reveal');
+        emergencyToggleBtn.classList.remove('active');
+        emergencyToggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    if (emergencyToggleBtn) {
+      emergencyToggleBtn.addEventListener('click', () => {
+        if (!emergencyHeroElem) return;
+        const willShow = !emergencyHeroElem.classList.contains('emergency-reveal');
+        emergencyHeroElem.classList.toggle('emergency-reveal', willShow);
+        emergencyToggleBtn.classList.toggle('active', willShow);
+        emergencyToggleBtn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+        // Do not scrollIntoView: keep the badge in place and let the hero appear
+        // directly below it without jarring page navigation.
+        announceState(willShow ? 'Emergency triage shown' : 'Emergency triage hidden');
+      });
     }
 
     modeButtons.forEach(btn => {
