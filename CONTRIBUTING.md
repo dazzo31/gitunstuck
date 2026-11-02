@@ -2,7 +2,7 @@
 
 Thanks for your interest in contributing. GitUnstuck is a dependency-free,
 client-side application: a single `index.html` plus an automated test suite.
-Contributions that keep it small, private, and easy to run are the most welcome.
+We welcome contributions that keep it small, private, and easy to run.
 
 ## How to contribute
 
@@ -53,5 +53,4 @@ All participants are expected to follow the
 
 ## Questions
 
-Open a [GitHub discussion or issue](https://github.com/dazzo31/gitunstuck/issues)
-and ask.
+Open a [GitHub issue](https://github.com/dazzo31/gitunstuck/issues) and ask.
