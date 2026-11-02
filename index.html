@@ -1083,9 +1083,8 @@
     .graph-subtitle { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; line-height: 1.45; }
 
     .graph-scenario-bar {
-      display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 6px; margin: 14px 0 16px;
+      display: flex; gap: 8px; flex-wrap: wrap; padding-bottom: 6px; margin: 14px 0 16px;
     }
-    .graph-scenario-bar::-webkit-scrollbar { display: none; }
 
     .graph-tab-btn {
       background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
@@ -1274,9 +1273,8 @@
       box-shadow: 0 0 0 2px rgba(3, 105, 161, 0.2);
     }
     .forge-incident-selector {
-      display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 6px; margin-bottom: 14px;
+      display: flex; gap: 6px; flex-wrap: wrap; padding-bottom: 6px; margin-bottom: 14px;
     }
-    .forge-incident-selector::-webkit-scrollbar { display: none; }
     .forge-incident-btn {
       background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-dim);
       padding: 5px 12px; border-radius: 9999px; font-size: 0.76rem; font-weight: 600;
@@ -1318,9 +1316,8 @@
       letter-spacing: 0.05em; display: inline-flex; align-items: center; padding-right: 4px; white-space: nowrap;
     }
     .filter-bar {
-      display: flex; align-items: center; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-bottom: 4px;
     }
-    .filter-bar::-webkit-scrollbar { display: none; }
 
     .filter-pill {
       background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
@@ -1352,7 +1349,7 @@
 
     /* Cards Grid */
     .cards-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 20px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 560px), 1fr)); gap: 20px;
     }
 
     /* Standardized Card Styling */
@@ -1748,7 +1745,7 @@
       color: #0f172a;
     }
     [data-theme="light"] .git-file-path {
-      color: #0284c7;
+      color: #075985;
     }
     [data-theme="light"] .git-file-note {
       color: #475569;
@@ -1848,6 +1845,9 @@
       line-height: 1.45; white-space: pre-wrap; overflow-wrap: break-word;
     }
     pre.code-content code { font-family: inherit; color: inherit; background: transparent; }
+    pre.code-content code .code-comment {
+      color: var(--text-dim); font-style: italic; font-weight: 400;
+    }
     [data-theme="light"] pre.code-content {
       color: #0f172a;
       background: #f8fafc;
@@ -1878,8 +1878,7 @@
       font-size: 0.72rem; color: var(--text-muted); margin-top: 6px; padding-top: 6px;
       border-top: 1px solid var(--border);
     }
-    .card-source a { color: var(--accent-blue); text-decoration: none; }
-    .card-source a:hover { text-decoration: underline; }
+    .card-source a { color: var(--accent-blue); text-decoration: underline; text-underline-offset: 2px; }
 
     .card-check {
       font-size: 0.8rem; line-height: 1.4; margin-bottom: 8px; color: var(--text-muted);
@@ -2021,7 +2020,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      background: linear-gradient(135deg, #e11d48, #be123c);
       color: #ffffff !important;
       padding: 9px 18px;
       border-radius: var(--radius-sm);
@@ -2040,7 +2039,7 @@
       color: #ffffff !important;
     }
     .btn-coffee {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
+      background: linear-gradient(135deg, #b45309, #92400e);
       box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
     }
     .btn-coffee:hover {
@@ -2430,7 +2429,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
             <div class="primer-collapsed-tagline"><svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/></svg> <strong>Quick Concept:</strong> Repo = Time Machine • Commit = Save Point • Staging = Cart • 5-Step Safe Routine <button type="button" class="tagline-expand-link" onclick="setPrimerCollapsed(false, true)" aria-label="Expand 60-Second Mental Model">[Expand Guide ↑]</button></div>
           </div>
           <button id="togglePrimerBtn" class="primer-toggle-btn" aria-expanded="true" aria-controls="primerBody">
-            <span class="primer-toggle-icon">▲</span> Collapse Guide
+            <span class="primer-toggle-icon" aria-hidden="true">▲</span> Collapse Guide
           </button>
         </div>
       </div>
@@ -2443,7 +2442,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
             <div class="analogy-term">The Repository ("Repo")</div>
             <div class="analogy-meta">Project Folder + Time Machine</div>
             <p class="analogy-text">A repository is your project folder paired with an automatic ledger. It tracks your files and records a permanent, rewound history of every saved change.</p>
-            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-init')" aria-label="Jump to Start a Repository recipe">
+            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-init')">
               <span>View Recipe: Start a Repo</span> →
             </button>
           </div>
@@ -2453,7 +2452,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
             <div class="analogy-term">The Commit</div>
             <div class="analogy-meta">A Game Save Point</div>
             <p class="analogy-text">A commit is a permanent snapshot of your project at one moment. If something breaks tomorrow, you can safely reload your codebase back to this exact checkpoint.</p>
-            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-stage')" aria-label="Jump to Stage and Commit recipe">
+            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-stage')">
               <span>View Recipe: Save Checkpoint</span> →
             </button>
           </div>
@@ -2463,7 +2462,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
             <div class="analogy-term">The Staging Area (git add)</div>
             <div class="analogy-meta">Your Shopping Cart</div>
             <p class="analogy-text">Before you buy items, you place them into a cart. <code>git add</code> picks which edited files enter the cart. <code>git commit</code> pays at the register to seal the checkpoint.</p>
-            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-undo')" aria-label="Jump to Undo and Staging recipe">
+            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-undo')">
               <span>View Recipe: Unstage &amp; Undo</span> →
             </button>
           </div>
@@ -2473,7 +2472,7 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
             <div class="analogy-term">Remote &amp; Pipelines</div>
             <div class="analogy-meta">Cloud Storage &amp; Configured Robot</div>
             <p class="analogy-text"><strong>GitHub</strong> is a cloud host for your repo. A <strong>Pipeline</strong> is a robot that runs automated tests and deploys, <em>if your repository has a workflow file configured</em>.</p>
-            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-sync')" aria-label="Jump to Sync with GitHub recipe">
+            <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-sync')">
               <span>View Recipe: Cloud Sync</span> →
             </button>
           </div>
@@ -3890,13 +3889,13 @@ git cherry-pick 7a1b2c3
           GitUnstuck was built to make Git mental models intuitive and save developers from hours of panic and lost work. It is 100% free, private, client-side, and ad-free. If this guide helped you master a workflow or saved your team time, consider supporting ongoing development on GitHub Sponsors or Buy Me a Coffee.
         </p>
         <div class="sponsor-actions">
-          <a href="https://github.com/sponsors/dazzo31" target="_blank" rel="noopener noreferrer" class="btn-sponsor" aria-label="Sponsor GitUnstuck on GitHub Sponsors">
+          <a href="https://github.com/sponsors/dazzo31" target="_blank" rel="noopener noreferrer" class="btn-sponsor">
             <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
             Sponsor on GitHub
           </a>
-          <a href="https://buymeacoffee.com/dazzo31" target="_blank" rel="noopener noreferrer" class="btn-sponsor btn-coffee" aria-label="Buy me a coffee on Buy Me A Coffee">
+          <a href="https://buymeacoffee.com/dazzo31" target="_blank" rel="noopener noreferrer" class="btn-sponsor btn-coffee">
             <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
               <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
@@ -4096,7 +4095,7 @@ git cherry-pick 7a1b2c3
             <span>Recommended Command</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code>${data.code /* static code; contains <placeholder> tokens */}</code></pre>
+          <pre class="code-content"><code>${highlightCodeText(data.code)}</code></pre>
         </div>
         <div class="card-effect"><strong>What happens:</strong> ${h(data.effect)}</div>
         <div class="card-verify"><strong>Verify result:</strong> ${h(data.verify)}</div>
@@ -4507,9 +4506,8 @@ git cherry-pick 7a1b2c3
       if (togglePrimerBtn) {
         togglePrimerBtn.setAttribute('aria-expanded', (!collapsed).toString());
         togglePrimerBtn.innerHTML = collapsed 
-          ? '<span class="primer-toggle-icon">▼</span> Expand Guide' 
-          : '<span class="primer-toggle-icon">▲</span> Collapse Guide';
-        togglePrimerBtn.setAttribute('aria-label', collapsed ? 'Expand 60-Second Mental Model' : 'Collapse 60-Second Mental Model');
+          ? '<span class="primer-toggle-icon" aria-hidden="true">▼</span> Expand Guide' 
+          : '<span class="primer-toggle-icon" aria-hidden="true">▲</span> Collapse Guide';
       }
     }
 
@@ -4913,7 +4911,7 @@ git cherry-pick 7a1b2c3
           updatedText = updatedText.split(ph).join(val);
         }
       });
-      codeElem.textContent = updatedText;
+      codeElem.innerHTML = highlightCodeText(updatedText);
     }
 
     function initCustomizersAndSyntax() {
@@ -4976,6 +4974,7 @@ git cherry-pick 7a1b2c3
 
     initCustomizersAndSyntax();
     window.addEventListener('DOMContentLoaded', initCustomizersAndSyntax);
+    window.addEventListener('DOMContentLoaded', () => highlightStaticCodeBlocks());
 
     // 8. CI/CD Multi-Host Provider Switcher in card-pipeline
     const pipelineConfigs = {
@@ -5362,7 +5361,7 @@ git cherry-pick 7a1b2c3
             <span>Tested Fix (${activeForge.toUpperCase()})</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code>${data.code /* static code; contains <placeholder> tokens */}</code></pre>
+          <pre class="code-content"><code>${highlightCodeText(data.code)}</code></pre>
         </div>
         <div class="card-effect"><strong>What this accomplishes:</strong> ${h(data.effect)}</div>
         <div class="card-verify"><strong>Verify success:</strong> ${h(data.verify)}</div>
@@ -5717,6 +5716,32 @@ nothing to commit, working tree clean`
     // Declared as a function (not `const`) so it hoists above the render functions
     // that run during initial script evaluation.
     function h(str) { return escapeHtml(str); }
+
+    // Highlight comment lines inside a code block. Escapes the whole line (so
+    // <placeholder> tokens render as text, not HTML) and wraps comments in a
+    // .code-comment span. Handles both full-line '# ...' comments and inline
+    // 'command   # note' comments (split on the first '#' preceded by space).
+    function highlightCodeText(text) {
+      if (!text || typeof text !== 'string') return '';
+      return text.split('\n').map(line => {
+        if (line.trim().startsWith('#')) {
+          return `<span class="code-comment">${escapeHtml(line)}</span>`;
+        }
+        const hashIdx = line.search(/\s#/);
+        if (hashIdx === -1) return escapeHtml(line);
+        const codePart = escapeHtml(line.slice(0, hashIdx + 1));
+        const commentPart = escapeHtml(line.slice(hashIdx + 1));
+        return `${codePart}<span class="code-comment">${commentPart}</span>`;
+      }).join('\n');
+    }
+
+    // Apply comment highlighting to every static code block. Reads textContent
+    // (decoded) so existing &lt; escapes are handled, then rewrites innerHTML.
+    function highlightStaticCodeBlocks(scope) {
+      (scope || document).querySelectorAll('pre.code-content code').forEach(el => {
+        el.innerHTML = highlightCodeText(el.textContent);
+      });
+    }
 
     function sanitizeGitToken(val) {
       if (!val || typeof val !== 'string') return '';
@@ -6143,7 +6168,7 @@ nothing to commit, working tree clean`
             <span>Recommended Terminal Command</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code>${escapeHtml(res.code)}</code></pre>
+          <pre class="code-content"><code>${highlightCodeText(res.code)}</code></pre>
         </div>
         <div class="card-effect"><strong>What this accomplishes:</strong> ${res.effect}</div>
         <div class="card-verify"><strong>Verify success:</strong> ${res.verify}</div>
@@ -6306,7 +6331,7 @@ nothing to commit, working tree clean`
               ${h(data.statusTitle)}
             </div>
             <div class="snippet-block" style="margin:0;">
-              <pre class="code-content"><code>${data.statusSnippet /* static code */}</code></pre>
+              <pre class="code-content"><code>${highlightCodeText(data.statusSnippet)}</code></pre>
             </div>
           </div>
 
@@ -6321,7 +6346,7 @@ nothing to commit, working tree clean`
                 <span>Forward Command</span>
                 <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy forward command">Copy</button>
               </div>
-              <pre class="code-content"><code>${data.forwardCmd /* static code; contains <placeholder> tokens */}</code></pre>
+              <pre class="code-content"><code>${highlightCodeText(data.forwardCmd)}</code></pre>
             </div>
             <div class="zone-sub-desc"><strong>What happens:</strong> ${h(data.forwardEffect)}</div>
           </div>
@@ -6338,7 +6363,7 @@ nothing to commit, working tree clean`
               <span>Rollback Command</span>
               <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy rollback command">Copy</button>
             </div>
-            <pre class="code-content"><code>${data.rollbackCmd /* static code; contains <placeholder> tokens */}</code></pre>
+            <pre class="code-content"><code>${highlightCodeText(data.rollbackCmd)}</code></pre>
           </div>
           <div class="zone-sub-desc"><strong>Safety mechanism:</strong> ${h(data.rollbackEffect)}</div>
         </div>
