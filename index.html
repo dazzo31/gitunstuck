@@ -3137,8 +3137,22 @@ git revert a1b2c3d</code></pre>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git status</code> to confirm file state.
         </div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Go Back Further &amp; Quick Amend</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code># Restore one file to how it looked at an older commit:
+git restore --source &lt;commit-hash&gt; -- path/to/file
+# Legacy form:
+git checkout &lt;commit-hash&gt; -- path/to/file
+
+# Add a forgotten file to the last commit without editing the message:
+git add &lt;forgotten-file&gt;
+git commit --amend --no-edit</code></pre>
+        </div>
         <div class="card-stop">
-          <strong>When to stop:</strong> Stop before <code>git restore &lt;filename&gt;</code> on a file whose uncommitted edits you still need. <code>restore</code> permanently overwrites the working file with the committed version, and those unstaged edits are not saved anywhere in Git.
+          <strong>When to stop:</strong> Stop before <code>git restore &lt;filename&gt;</code> on a file whose uncommitted edits you still need. <code>restore</code> permanently overwrites the working file with the committed version, and those unstaged edits are not saved anywhere in Git. Never <code>--amend</code> a commit already pushed to a shared branch.
         </div>
         <div class="callout warning">
           <strong>Permanent Loss Warning:</strong> <code>git restore &lt;filename&gt;</code> permanently overwrites uncommitted working edits. Those unstaged edits are not saved anywhere in Git.
@@ -3394,6 +3408,21 @@ git switch hotfix
 # 3. Return to branch and pop your shelved work:
 git stash pop</code></pre>
         </div>
+        <div class="snippet-block">
+          <div class="snippet-header">
+            <span>Recovery &amp; Shortcuts</span>
+            <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
+          </div>
+          <pre class="code-content"><code># Pull while you have local changes (stash, pull, pop in one step):
+git pull --autostash
+
+# Turn a stash into its own branch when it no longer applies cleanly:
+git stash branch rescue-wip stash@{0}
+
+# Recover a stash you dropped or cleared (before git gc prunes it):
+git fsck --no-reflog | grep "dangling commit"
+git stash apply &lt;commit-id&gt;</code></pre>
+        </div>
         <div class="card-effect">
           <strong>What happens:</strong> Saves modified and untracked files into the stash stack and reverts your working tree to <code>HEAD</code>.
         </div>
@@ -3401,7 +3430,7 @@ git stash pop</code></pre>
           <strong>Verify result:</strong> Run <code>git stash list</code> to inspect saved stashes.
         </div>
         <div class="card-stop">
-          <strong>When to stop:</strong> Stop before <code>git stash pop</code> if you are unsure which stash holds your work or the working tree is not clean. Check <code>git stash list</code> first; popping the wrong stash applies unrelated changes.
+          <strong>When to stop:</strong> Stop before <code>git stash pop</code> if you are unsure which stash holds your work or the working tree is not clean. Check <code>git stash list</code> first; popping the wrong stash applies unrelated changes. Recover dropped stashes before <code>git gc</code> prunes them, and do not <code>git stash clear</code> until you have reviewed the list.
         </div>
         <div class="callout warning">
           <strong>Untracked Files Caveat:</strong> Default <code>git stash</code> ignores new untracked files. Always pass <code>-u</code> if you created new files.
@@ -5011,6 +5040,8 @@ git cherry-pick 7a1b2c3
       gitBisect: 'https://git-scm.com/docs/git-bisect',
       gitTag: 'https://git-scm.com/docs/git-tag',
       gitCherryPick: 'https://git-scm.com/docs/git-cherry-pick',
+      gitCheckout: 'https://git-scm.com/docs/git-checkout',
+      gitFsck: 'https://git-scm.com/docs/git-fsck',
       // GitHub
       githubProtectedBranches: 'https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches',
       githubPAT: 'https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens',
@@ -5113,11 +5144,11 @@ git cherry-pick 7a1b2c3
       'card-clone': ['Confirm the remote URL and that you have read access to the repository.'],
       'card-stage': ['Run <code>git status</code> to see exactly which files are modified or untracked before staging.'],
       'card-branch': ['Run <code>git status</code> to confirm a clean working tree before creating a branch.'],
-      'card-undo': ['Run <code>git status</code> and identify whether your change is unstaged, staged, or committed before choosing a command.'],
+      'card-undo': ['Run <code>git status</code> and identify whether your change is unstaged, staged, or committed before choosing a command.', 'Run <code>git log --oneline -1</code> to confirm a commit is local-only before amending it.'],
       'card-sync': ['Run <code>git status -sb</code> to see whether your branch is ahead, behind, or diverged from <code>origin</code>.'],
       'card-forge-troubleshoot': ['Read the exact rejection message (GH006/GH013, protected branch, or auth error) to identify the host and cause.'],
       'card-pipeline': ['Confirm a workflow file exists in the repository and matches the host you are using.'],
-      'card-stash': ['Run <code>git stash list</code> to see existing stashes before stashing or popping.'],
+      'card-stash': ['Run <code>git stash list</code> to see existing stashes before stashing, popping, dropping, or clearing.'],
       'card-conflict': ['Run <code>git status</code> to list which files have conflict markers (<code>UU</code>).'],
       'card-rebase': ['Run <code>git log --oneline</code> and confirm the target commits are local and not pushed to a shared branch.'],
       'card-detached': ['Run <code>git status</code> to confirm you are detached and note any commits made while detached.'],
