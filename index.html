@@ -1830,6 +1830,51 @@
     }
     [data-theme="light"] .card-verify { background: rgba(3, 105, 161, 0.06); }
 
+    .card-stop {
+      background: rgba(248, 113, 113, 0.06); padding: 6px 10px; border-radius: var(--radius-sm);
+      border-left: 2px solid var(--accent-red); font-size: 0.8rem; line-height: 1.4;
+      margin-bottom: 8px; color: var(--text-muted);
+    }
+    .card-stop strong { color: var(--text); }
+    [data-theme="light"] .card-stop { background: rgba(185, 28, 28, 0.06); }
+
+    .card-source {
+      font-size: 0.72rem; color: var(--text-muted); margin-top: 6px; padding-top: 6px;
+      border-top: 1px solid var(--border);
+    }
+    .card-source a { color: var(--accent-blue); text-decoration: none; }
+    .card-source a:hover { text-decoration: underline; }
+
+    .card-check {
+      font-size: 0.8rem; line-height: 1.4; margin-bottom: 8px; color: var(--text-muted);
+      background: rgba(251, 191, 36, 0.05); padding: 6px 10px; border-radius: var(--radius-sm);
+      border-left: 2px solid var(--accent-amber);
+    }
+    .card-check strong { color: var(--text); }
+    .card-check ol { margin: 4px 0 0 18px; padding: 0; }
+    .card-check li { margin-bottom: 2px; }
+    [data-theme="light"] .card-check { background: rgba(180, 83, 9, 0.05); }
+
+    .self-check {
+      margin-top: 16px; padding: 12px 14px; border-radius: var(--radius-md);
+      background: rgba(56, 189, 248, 0.05); border: 1px solid var(--border);
+    }
+    .self-check-title { font-weight: 600; margin-bottom: 8px; color: var(--text); }
+    .self-check-question { margin-bottom: 8px; color: var(--text-muted); }
+    .self-check-options { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+    .self-check-option {
+      display: flex; align-items: flex-start; gap: 8px; text-align: left;
+      font-size: 0.82rem; line-height: 1.4; color: var(--text-muted);
+      background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 7px 10px; cursor: pointer; width: 100%;
+    }
+    .self-check-option:hover { border-color: var(--accent-blue); }
+    .self-check-option.correct { border-color: var(--accent-green); background: rgba(52, 211, 153, 0.08); color: var(--text); }
+    .self-check-option.incorrect { border-color: var(--accent-red); background: rgba(248, 113, 113, 0.08); color: var(--text); }
+    .self-check-feedback { font-size: 0.82rem; line-height: 1.4; color: var(--text-muted); }
+    .self-check-feedback.correct { color: var(--accent-green); }
+    .self-check-feedback.incorrect { color: var(--accent-red); }
+
     .card-related code {
       font-family: var(--font-mono); font-size: 0.78rem; background: var(--bg-surface);
       padding: 1px 4px; border-radius: 3px; border: 1px solid var(--border);
@@ -2429,6 +2474,11 @@ git stash push -u -m "safety-backup" && git stash apply</code></pre>
               <div class="snippet-block"><pre class="code-content"><code>git push</code></pre></div>
             </div>
           </div>
+        </div>
+
+        <!-- Self-Check Exercise (Phase 4) -->
+        <div class="self-check" id="selfCheck" aria-live="polite">
+          <!-- Rendered dynamically by JavaScript -->
         </div>
       </div>
     </section>
@@ -3045,6 +3095,9 @@ git revert a1b2c3d</code></pre>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git status</code> to confirm file state.
         </div>
+        <div class="card-stop">
+          <strong>When to stop:</strong> Stop before <code>git restore &lt;filename&gt;</code> on a file whose uncommitted edits you still need. <code>restore</code> permanently overwrites the working file with the committed version, and those unstaged edits are not saved anywhere in Git.
+        </div>
         <div class="callout warning">
           <strong>Permanent Loss Warning:</strong> <code>git restore &lt;filename&gt;</code> permanently overwrites uncommitted working edits. Those unstaged edits are not saved anywhere in Git.
         </div>
@@ -3132,6 +3185,9 @@ git remote add origin https://bitbucket.org/user/repo.git  # Bitbucket</code></p
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git status</code> to confirm your branch is up to date with <code>origin/main</code>.
+        </div>
+        <div class="card-stop">
+          <strong>When to stop:</strong> Stop before <code>git push --force</code> if the remote rejected a normal push. Force-pushing rewrites shared history and can drop teammates' commits. Rebase or merge instead, then push normally.
         </div>
         <div class="callout tip">
           <strong>Fetch vs. Pull:</strong> <code>git fetch</code> downloads remote objects and updates <code>origin/&lt;branch&gt;</code> tracking references without touching your local working files.
@@ -3302,6 +3358,9 @@ git stash pop</code></pre>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git stash list</code> to inspect saved stashes.
         </div>
+        <div class="card-stop">
+          <strong>When to stop:</strong> Stop before <code>git stash pop</code> if you are unsure which stash holds your work or the working tree is not clean. Check <code>git stash list</code> first; popping the wrong stash applies unrelated changes.
+        </div>
         <div class="callout warning">
           <strong>Untracked Files Caveat:</strong> Default <code>git stash</code> ignores new untracked files. Always pass <code>-u</code> if you created new files.
         </div>
@@ -3352,6 +3411,9 @@ git merge --continue   # Or 'git merge --abort'</code></pre>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git status</code> to confirm all merge conflicts are cleared.
         </div>
+        <div class="card-stop">
+          <strong>When to stop:</strong> Stop before running <code>git merge --abort</code> if you have already resolved and staged some files. Aborting throws away the entire merge and returns to the pre-merge state; redo any resolutions you want to keep.
+        </div>
       </article>
 
       <!-- CARD 10: Interactive Rebase (Pro Only) -->
@@ -3391,6 +3453,9 @@ git rebase --abort   # Safe escape hatch</code></pre>
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git log --oneline -n 5</code> to inspect the newly squashed history.
+        </div>
+        <div class="card-stop">
+          <strong>When to stop:</strong> Stop before rebasing commits already pushed to a shared branch. Rewriting public history breaks teammates' local branches and forces a <code>--force</code> push to reconcile.
         </div>
         <div class="callout warning">
           <strong>Golden Rule:</strong> Never rebase commits that have already been pushed to a shared public branch. Rewriting shared history breaks teammates' local branches.
@@ -3459,6 +3524,9 @@ git switch -c recovery-branch</code></pre>
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git branch --show-current</code> to verify you are back on a named branch.
+        </div>
+        <div class="card-stop">
+          <strong>When to stop:</strong> Stop before running <code>git switch</code> if you made commits while detached. Create a rescue branch first, or those commits become unreferenced and can only be recovered from <code>git reflog</code>.
         </div>
       </article>
 
@@ -3673,6 +3741,9 @@ git push --force-with-lease origin feature/auth
         <div class="card-verify">
           <strong>Verify result:</strong> Git responds with <code>[forced update]</code> only if your local ref was synchronized with remote.
         </div>
+        <div class="card-stop">
+          <strong>When to stop:</strong> Stop if the remote branch has commits from teammates you have not fetched. A plain <code>git push --force</code> on a shared branch can silently overwrite their work. Use <code>--force-with-lease</code> only on your own pull-request branch.
+        </div>
         <div class="card-related">
           <strong>Related:</strong> <code>git rebase -i</code> · <code>git fetch origin</code>
         </div>
@@ -3715,6 +3786,9 @@ git cherry-pick 7a1b2c3
         </div>
         <div class="card-verify">
           <strong>Verify result:</strong> Run <code>git log -1 --stat</code> to confirm the bugfix commit was applied.
+        </div>
+        <div class="card-stop">
+          <strong>When to stop:</strong> Stop if a cherry-pick conflicts. Use <code>git cherry-pick --abort</code> to cancel cleanly, or resolve and <code>git cherry-pick --continue</code>. Do not chain multiple cherry-picks while one is stuck in a conflicted state.
         </div>
         <div class="card-related">
           <strong>Related:</strong> <code>git switch</code> · <code>git merge</code> · <code>git log --oneline</code>
@@ -3931,10 +4005,10 @@ git cherry-pick 7a1b2c3
 
       treeSolutionPanel.innerHTML = `
         <div class="solution-top">
-          <div class="solution-title">${data.title}</div>
+          <div class="solution-title">${h(data.title)}</div>
           <div style="display:flex; align-items:center; gap:8px;">
-            <span class="badge badge-scope">Scope: ${data.scope}</span>
-            ${data.riskBadge}
+            <span class="badge badge-scope">Scope: ${h(data.scope)}</span>
+            ${data.riskBadge /* trusted static markup */}
             <button type="button" class="card-link-btn" onclick="copyDecisionLink('${locationKey}', this)" aria-label="Copy direct link to this solution" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
@@ -3943,20 +4017,21 @@ git cherry-pick 7a1b2c3
             <span class="work-lost-title">❓ Is my work lost?</span>
             <span class="work-lost-pill ${data.workLostStatus}">${data.workLostStatus === 'safe' ? 'Work is Safe' : 'Permanent Loss Risk'}</span>
           </div>
-          <div class="work-lost-msg">${data.workLostText}</div>
+          <div class="work-lost-msg">${h(data.workLostText)}</div>
         </div>
-        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">${data.desc}</p>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">${h(data.desc)}</p>
         <div class="snippet-block">
           <div class="snippet-header">
             <span>Recommended Command</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code>${data.code}</code></pre>
+          <pre class="code-content"><code>${data.code /* static code; contains <placeholder> tokens */}</code></pre>
         </div>
-        <div class="card-effect"><strong>What happens:</strong> ${data.effect}</div>
-        <div class="card-verify"><strong>Verify result:</strong> ${data.verify}</div>
+        <div class="card-effect"><strong>What happens:</strong> ${h(data.effect)}</div>
+        <div class="card-verify"><strong>Verify result:</strong> ${h(data.verify)}</div>
+        <div class="card-source">${sourceFooter(UNDO_SOURCE_MAP[locationKey])}</div>
         <div class="callout ${locationKey === 'unstaged' ? 'warning' : 'tip'}" style="margin-top:10px;">
-          ${data.warning}
+          ${h(data.warning)}
         </div>
       `;
     }
@@ -3975,8 +4050,11 @@ git cherry-pick 7a1b2c3
       });
     });
 
-    // Render initial decision tree solution
-    renderUndoSolution('unstaged');
+    // Render initial decision tree solution.
+    // Deferred so it runs after the source-citation constants (UNDO_SOURCE_MAP,
+    // REVIEWED_DATE) declared later in this script are initialized, avoiding a
+    // temporal-dead-zone error during synchronous evaluation.
+    setTimeout(() => renderUndoSolution('unstaged'), 0);
 
     // 2b. Visual Commit Timeline & Branch Map Logic
     const graphScenarios = {
@@ -4239,17 +4317,17 @@ git cherry-pick 7a1b2c3
       const data = graphScenarios[key];
       if (!data || !graphSvgContainer || !graphExplanationPanel) return;
 
-      graphSvgContainer.innerHTML = data.svg;
+      graphSvgContainer.innerHTML = data.svg; // trusted static markup
       graphExplanationPanel.innerHTML = `
         <div class="graph-explanation-header">
-          <span class="graph-scenario-name">${data.name}</span>
-          <code class="graph-command-chip">${data.command}</code>
+          <span class="graph-scenario-name">${h(data.name)}</span>
+          <code class="graph-command-chip">${data.command /* static code; contains <hash-c2> placeholder */}</code>
         </div>
         <ul class="graph-details-list">
-          ${data.bullets.map(b => `<li>${b}</li>`).join('')}
+          ${data.bullets.map(b => `<li>${b}</li>`).join('') /* trusted static markup */}
         </ul>
         <div class="callout tip" style="margin-top:12px;">
-          <strong>Architectural Takeaway:</strong> ${data.rule}
+          <strong>Architectural Takeaway:</strong> ${h(data.rule)}
         </div>
       `;
 
@@ -4835,6 +4913,226 @@ git cherry-pick 7a1b2c3
       });
     });
 
+    // 8b. Authoritative source citations (Phase 2: source + review date on every claim)
+    const REVIEWED_DATE = '2026-11-01';
+    const SOURCES = {
+      // git-scm command reference
+      gitInit: 'https://git-scm.com/docs/git-init',
+      gitClone: 'https://git-scm.com/docs/git-clone',
+      gitAdd: 'https://git-scm.com/docs/git-add',
+      gitCommit: 'https://git-scm.com/docs/git-commit',
+      gitStatus: 'https://git-scm.com/docs/git-status',
+      gitBranch: 'https://git-scm.com/docs/git-branch',
+      gitSwitch: 'https://git-scm.com/docs/git-switch',
+      gitRestore: 'https://git-scm.com/docs/git-restore',
+      gitReset: 'https://git-scm.com/docs/git-reset',
+      gitRevert: 'https://git-scm.com/docs/git-revert',
+      gitReflog: 'https://git-scm.com/docs/git-reflog',
+      gitPush: 'https://git-scm.com/docs/git-push',
+      gitPull: 'https://git-scm.com/docs/git-pull',
+      gitFetch: 'https://git-scm.com/docs/git-fetch',
+      gitStash: 'https://git-scm.com/docs/git-stash',
+      gitMerge: 'https://git-scm.com/docs/git-merge',
+      gitRebase: 'https://git-scm.com/docs/git-rebase',
+      gitWorktree: 'https://git-scm.com/docs/git-worktree',
+      gitBisect: 'https://git-scm.com/docs/git-bisect',
+      gitTag: 'https://git-scm.com/docs/git-tag',
+      gitCherryPick: 'https://git-scm.com/docs/git-cherry-pick',
+      // GitHub
+      githubProtectedBranches: 'https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches',
+      githubPAT: 'https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens',
+      githubSecretScanning: 'https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning',
+      githubForkSync: 'https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork',
+      // GitLab
+      gitlabProtectedBranches: 'https://docs.gitlab.com/user/project/repository/branches/protected/',
+      gitlabPAT: 'https://docs.gitlab.com/user/profile/personal_access_tokens/',
+      gitlabPushRules: 'https://docs.gitlab.com/user/project/repository/push_rules/',
+      gitlabFork: 'https://docs.gitlab.com/user/project/repository/forking_workflow/',
+      // Bitbucket Cloud
+      bitbucketBranchPermissions: 'https://support.atlassian.com/bitbucket-cloud/docs/branch-permissions/',
+      bitbucketAppPasswords: 'https://support.atlassian.com/bitbucket-cloud/docs/app-passwords/',
+      bitbucketFork: 'https://support.atlassian.com/bitbucket-cloud/docs/fork-a-repository/'
+    };
+
+    // Per-incident source for the forge troubleshooting matrix (keyed by host + incident).
+    const FORGE_SOURCE_MAP = {
+      github: {
+        'protected-branch': SOURCES.githubProtectedBranches,
+        auth: SOURCES.githubPAT,
+        secret: SOURCES.githubSecretScanning,
+        fork: SOURCES.githubForkSync
+      },
+      gitlab: {
+        'protected-branch': SOURCES.gitlabProtectedBranches,
+        auth: SOURCES.gitlabPAT,
+        secret: SOURCES.gitlabPushRules,
+        fork: SOURCES.gitlabFork
+      },
+      bitbucket: {
+        'protected-branch': SOURCES.bitbucketBranchPermissions,
+        auth: SOURCES.bitbucketAppPasswords,
+        secret: SOURCES.bitbucketBranchPermissions,
+        fork: SOURCES.bitbucketFork
+      }
+    };
+
+    // Per-location source for the undo decision tree.
+    const UNDO_SOURCE_MAP = {
+      unstaged: SOURCES.gitRestore,
+      staged: SOURCES.gitRestore,
+      'local-commit': SOURCES.gitReset,
+      'pushed-commit': SOURCES.gitRevert,
+      'lost-reflog': SOURCES.gitReflog
+    };
+
+    // Per-card source for the static recipe cards (id -> git-scm/host doc).
+    const CARD_SOURCES = {
+      'card-init': SOURCES.gitInit,
+      'card-clone': SOURCES.gitClone,
+      'card-stage': SOURCES.gitAdd,
+      'card-branch': SOURCES.gitBranch,
+      'card-undo': SOURCES.gitRestore,
+      'card-sync': SOURCES.gitPush,
+      'card-forge-troubleshoot': SOURCES.githubProtectedBranches,
+      'card-pipeline': SOURCES.gitPush,
+      'card-stash': SOURCES.gitStash,
+      'card-conflict': SOURCES.gitMerge,
+      'card-rebase': SOURCES.gitRebase,
+      'card-detached': SOURCES.gitSwitch,
+      'card-worktree': SOURCES.gitWorktree,
+      'card-reflog': SOURCES.gitReflog,
+      'card-bisect': SOURCES.gitBisect,
+      'card-tag': SOURCES.gitTag,
+      'card-force-lease': SOURCES.gitPush,
+      'card-cherry-pick': SOURCES.gitCherryPick
+    };
+
+    // Shared source footer (URL is a trusted constant from SOURCES above).
+    function sourceFooter(url) {
+      if (!url) return '';
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer">Source</a> · Reviewed ${REVIEWED_DATE}`;
+    }
+
+    // Inject a "Source · Reviewed" footer into each static recipe card (DRY: one
+    // edit here instead of editing every card's markup).
+    function injectSourceFooters() {
+      document.querySelectorAll('article.card').forEach(card => {
+        const source = CARD_SOURCES[card.id];
+        if (!source || card.querySelector('.card-source')) return;
+        const footer = document.createElement('div');
+        footer.className = 'card-source';
+        const link = document.createElement('a');
+        link.href = source;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = 'Source';
+        footer.appendChild(link);
+        footer.appendChild(document.createTextNode(` · Reviewed ${REVIEWED_DATE}`));
+        card.appendChild(footer);
+      });
+    }
+    injectSourceFooters();
+
+    // 8c. Read-only "Check first" checklists (Phase 3: diagnose before you change).
+    // Ordered list of read-only diagnostics, distinct from the mutating command snippet.
+    const CHECKS = {
+      'card-init': ['Confirm you are in the intended new directory, not inside an existing repository.'],
+      'card-clone': ['Confirm the remote URL and that you have read access to the repository.'],
+      'card-stage': ['Run <code>git status</code> to see exactly which files are modified or untracked before staging.'],
+      'card-branch': ['Run <code>git status</code> to confirm a clean working tree before creating a branch.'],
+      'card-undo': ['Run <code>git status</code> and identify whether your change is unstaged, staged, or committed before choosing a command.'],
+      'card-sync': ['Run <code>git status -sb</code> to see whether your branch is ahead, behind, or diverged from <code>origin</code>.'],
+      'card-forge-troubleshoot': ['Read the exact rejection message (GH006/GH013, protected branch, or auth error) to identify the host and cause.'],
+      'card-pipeline': ['Confirm a workflow file exists in the repository and matches the host you are using.'],
+      'card-stash': ['Run <code>git stash list</code> to see existing stashes before stashing or popping.'],
+      'card-conflict': ['Run <code>git status</code> to list which files have conflict markers (<code>UU</code>).'],
+      'card-rebase': ['Run <code>git log --oneline</code> and confirm the target commits are local and not pushed to a shared branch.'],
+      'card-detached': ['Run <code>git status</code> to confirm you are detached and note any commits made while detached.'],
+      'card-worktree': ['Run <code>git worktree list</code> to see existing worktrees and avoid path collisions.'],
+      'card-reflog': ['Run <code>git reflog -n 15</code> to locate the commit hash before the mistake.'],
+      'card-bisect': ['Run <code>git log --oneline</code> to confirm a known-good and known-bad boundary exists.'],
+      'card-tag': ['Run <code>git log --oneline -1</code> to confirm you are tagging the intended commit.'],
+      'card-force-lease': ['Run <code>git fetch</code> and <code>git status -sb</code> to check whether teammates pushed commits you have not seen.'],
+      'card-cherry-pick': ['Run <code>git log --oneline</code> to confirm the exact commit hash to apply.']
+    };
+
+    // Per-incident read-only checks for the forge troubleshooting matrix.
+    const FORGE_CHECKS = {
+      'protected-branch': ['Confirm the branch you are pushing to is protected and that you are on the wrong branch.'],
+      auth: ['Identify whether the failure is password, token, or SSH key by re-reading the exact error text.'],
+      secret: ['Locate the secret in your working files or commit history before rewriting anything.'],
+      fork: ['Run <code>git remote -v</code> to confirm whether an <code>upstream</code> remote already exists.']
+    };
+
+    // Inject a "Check first" ordered list before each card's command snippet (DRY).
+    function injectCheckFirst() {
+      document.querySelectorAll('article.card').forEach(card => {
+        const checks = CHECKS[card.id];
+        if (!checks || card.querySelector('.card-check')) return;
+        const box = document.createElement('div');
+        box.className = 'card-check';
+        const strong = document.createElement('strong');
+        strong.textContent = 'Check first:';
+        box.appendChild(strong);
+        const ol = document.createElement('ol');
+        checks.forEach(text => {
+          const li = document.createElement('li');
+          li.innerHTML = text; // static, authored content only (no user input)
+          ol.appendChild(li);
+        });
+        box.appendChild(ol);
+        // Insert between "When to use" (scenario) and the command snippet.
+        const snippet = card.querySelector('.snippet-block');
+        if (snippet) {
+          card.insertBefore(box, snippet);
+        }
+      });
+    }
+    injectCheckFirst();
+
+    // 8d. Self-check exercise (Phase 4): a single knowledge-check on the primer's
+    // mental model, matching the analogy cards and daily routine above.
+    const SELF_CHECK = {
+      question: 'You edited a file on disk but have not run git add yet. Where do your changes live?',
+      options: [
+        { text: 'In the staging area (cart), ready to be committed', correct: false },
+        { text: 'Only in your working directory, not yet tracked by a commit', correct: true },
+        { text: 'Already recorded in your local commit history', correct: false },
+        { text: 'On the remote (GitHub), visible to teammates', correct: false }
+      ],
+      explanation: 'Edits live in the working directory until you stage them with git add. Staging moves them to the cart; committing seals a checkpoint; pushing publishes to the remote.'
+    };
+
+    function renderSelfCheck() {
+      const box = document.getElementById('selfCheck');
+      if (!box) return;
+      box.innerHTML = `
+        <div class="self-check-title">Check your understanding</div>
+        <p class="self-check-question">${h(SELF_CHECK.question)}</p>
+        <div class="self-check-options">
+          ${SELF_CHECK.options.map((o, i) => `<button type="button" class="self-check-option" data-opt="${i}">${h(o.text)}</button>`).join('')}
+        </div>
+        <div class="self-check-feedback" id="selfCheckFeedback" hidden></div>
+      `;
+      box.querySelectorAll('.self-check-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-opt'));
+          const opt = SELF_CHECK.options[idx];
+          box.querySelectorAll('.self-check-option').forEach((b, i) => {
+            b.classList.remove('correct', 'incorrect');
+            if (SELF_CHECK.options[i].correct) b.classList.add('correct');
+            else if (i === idx) b.classList.add('incorrect');
+          });
+          const fb = document.getElementById('selfCheckFeedback');
+          fb.hidden = false;
+          fb.textContent = (opt.correct ? 'Correct. ' : 'Not quite. ') + SELF_CHECK.explanation;
+          fb.className = 'self-check-feedback ' + (opt.correct ? 'correct' : 'incorrect');
+          announceState(opt.correct ? 'Self-check: correct' : 'Self-check: incorrect');
+        });
+      });
+    }
+    renderSelfCheck();
+
     // 9. Cloud Forge Troubleshooting Matrix & Overlays
     const forgeScenarios = {
       github: {
@@ -4952,18 +5250,20 @@ git cherry-pick 7a1b2c3
       if (!data) return;
 
       panel.innerHTML = `
-        <div class="forge-panel-title">${data.title}</div>
-        <div class="forge-panel-desc">${data.desc}</div>
+        <div class="forge-panel-title">${h(data.title)}</div>
+        <div class="forge-panel-desc">${h(data.desc)}</div>
+        ${FORGE_CHECKS[activeIncident] ? `<div class="card-check"><strong>Check first:</strong><ol>${FORGE_CHECKS[activeIncident].map(c => `<li>${c}</li>`).join('')}</ol></div>` : ''}
         <div class="snippet-block">
           <div class="snippet-header">
             <span>Tested Fix (${activeForge.toUpperCase()})</span>
             <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy snippet to clipboard">Copy</button>
           </div>
-          <pre class="code-content"><code>${data.code}</code></pre>
+          <pre class="code-content"><code>${data.code /* static code; contains <placeholder> tokens */}</code></pre>
         </div>
-        <div class="card-effect"><strong>What this accomplishes:</strong> ${data.effect}</div>
-        <div class="card-verify"><strong>Verify success:</strong> ${data.verify}</div>
-        <div class="forge-highlight-box">${data.gotcha}</div>
+        <div class="card-effect"><strong>What this accomplishes:</strong> ${h(data.effect)}</div>
+        <div class="card-verify"><strong>Verify success:</strong> ${h(data.verify)}</div>
+        <div class="forge-highlight-box">${data.gotcha /* trusted static markup */}</div>
+        <div class="card-source">${sourceFooter(FORGE_SOURCE_MAP[activeForge]?.[activeIncident])}</div>
       `;
     }
 
@@ -5303,6 +5603,16 @@ nothing to commit, working tree clean`
       if (!str || typeof str !== 'string') return '';
       return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
+
+    // Escaping convention for innerHTML templates:
+    //   - Plain-text fields MUST be wrapped in escapeHtml().
+    //   - Fields marked `_html` / `svg` carry trusted static markup and stay raw.
+    //   - `code` fields carry intentional <placeholder> tokens; they are static here.
+    //     Never interpolate user input into `code` without injectTokens() + escapeHtml
+    //     first (see renderTerminalAnalysis).
+    // Declared as a function (not `const`) so it hoists above the render functions
+    // that run during initial script evaluation.
+    function h(str) { return escapeHtml(str); }
 
     function sanitizeGitToken(val) {
       if (!val || typeof val !== 'string') return '';
@@ -5733,6 +6043,8 @@ nothing to commit, working tree clean`
         </div>
         <div class="card-effect"><strong>What this accomplishes:</strong> ${res.effect}</div>
         <div class="card-verify"><strong>Verify success:</strong> ${res.verify}</div>
+        ${res.warning ? `<div class="card-stop"><strong>When to stop:</strong> ${res.warning}</div>` : ''}
+        <div class="card-source">${sourceFooter(CARD_SOURCES[res.linkId])}</div>
         ${res.linkText ? `<div style="margin-top:12px;"><button class="btn-clear-analyzer" onclick="jumpToTarget('${res.linkId}')">${res.linkText} →</button></div>` : ''}
       `;
       analyzerResultPanel.style.display = 'block';
@@ -5869,17 +6181,17 @@ nothing to commit, working tree clean`
       panel.innerHTML = `
         <div class="zone-detail-title">
           <span style="font-size:1.4rem;" aria-hidden="true">${data.icon}</span>
-          <span>${data.title}</span>
-          <span class="zone-pill ${zoneKey === 'working' ? 'zone-pill-work' : zoneKey === 'staging' ? 'zone-pill-stage' : zoneKey === 'local' ? 'zone-pill-local' : zoneKey === 'remote' ? 'zone-pill-remote' : 'zone-pill-stage'}" style="margin-left:auto;">${data.zonePill}</span>
+          <span>${h(data.title)}</span>
+          <span class="zone-pill ${zoneKey === 'working' ? 'zone-pill-work' : zoneKey === 'staging' ? 'zone-pill-stage' : zoneKey === 'local' ? 'zone-pill-local' : zoneKey === 'remote' ? 'zone-pill-remote' : 'zone-pill-stage'}" style="margin-left:auto;">${h(data.zonePill)}</span>
         </div>
-        <div class="zone-detail-concept">${data.concept}</div>
+        <div class="zone-detail-concept">${h(data.concept)}</div>
 
         <div class="work-lost-callout work-lost-${data.isWorkLostStatus}">
           <div class="work-lost-header">
             <span class="work-lost-title">❓ Is my work safe in this zone?</span>
             <span class="work-lost-pill ${data.isWorkLostStatus}">${data.isWorkLostStatus === 'safe' ? 'Work is Safe' : 'Permanent Loss Risk'}</span>
           </div>
-          <div class="work-lost-msg">${data.isWorkLostText}</div>
+          <div class="work-lost-msg">${h(data.isWorkLostText)}</div>
         </div>
 
         <div class="zone-detail-grid">
@@ -5887,10 +6199,10 @@ nothing to commit, working tree clean`
           <div class="zone-sub-box">
             <div class="zone-sub-title">
               <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-              ${data.statusTitle}
+              ${h(data.statusTitle)}
             </div>
             <div class="snippet-block" style="margin:0;">
-              <pre class="code-content"><code>${data.statusSnippet}</code></pre>
+              <pre class="code-content"><code>${data.statusSnippet /* static code */}</code></pre>
             </div>
           </div>
 
@@ -5898,16 +6210,16 @@ nothing to commit, working tree clean`
           <div class="zone-sub-box">
             <div class="zone-sub-title">
               <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-              ${data.forwardLabel}
+              ${h(data.forwardLabel)}
             </div>
             <div class="snippet-block" style="margin:0;">
               <div class="snippet-header">
                 <span>Forward Command</span>
                 <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy forward command">Copy</button>
               </div>
-              <pre class="code-content"><code>${data.forwardCmd}</code></pre>
+              <pre class="code-content"><code>${data.forwardCmd /* static code; contains <placeholder> tokens */}</code></pre>
             </div>
-            <div class="zone-sub-desc"><strong>What happens:</strong> ${data.forwardEffect}</div>
+            <div class="zone-sub-desc"><strong>What happens:</strong> ${h(data.forwardEffect)}</div>
           </div>
         </div>
 
@@ -5915,20 +6227,20 @@ nothing to commit, working tree clean`
         <div class="zone-sub-box" style="margin-bottom:12px;">
           <div class="zone-sub-title" style="color:${data.isWorkLostStatus === 'danger' ? 'var(--accent-red)' : 'var(--accent-blue)'};">
             <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-            ${data.rollbackLabel}
+            ${h(data.rollbackLabel)}
           </div>
           <div class="snippet-block" style="margin:0;">
             <div class="snippet-header">
               <span>Rollback Command</span>
               <button class="copy-btn" onclick="copySnippet(this)" aria-label="Copy rollback command">Copy</button>
             </div>
-            <pre class="code-content"><code>${data.rollbackCmd}</code></pre>
+            <pre class="code-content"><code>${data.rollbackCmd /* static code; contains <placeholder> tokens */}</code></pre>
           </div>
-          <div class="zone-sub-desc"><strong>Safety mechanism:</strong> ${data.rollbackEffect}</div>
+          <div class="zone-sub-desc"><strong>Safety mechanism:</strong> ${h(data.rollbackEffect)}</div>
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-          <button type="button" class="btn-clear-analyzer" onclick="jumpToTarget('${data.relatedCardId}')">View Detailed ${data.zonePill} Recipe →</button>
+          <button type="button" class="btn-clear-analyzer" onclick="jumpToTarget('${data.relatedCardId}')">View Detailed ${h(data.zonePill)} Recipe →</button>
           <button type="button" class="card-link-btn" onclick="copyDecisionLink('zone-${zoneKey}', this)" aria-label="Copy direct link to this zone" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
         </div>
       `;
