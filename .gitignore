@@ -15,10 +15,7 @@ build/
 *.tmp
 *.zip
 
-# Node tooling (axe-core accessibility scan is a local-only devDependency;
-# the site itself is zero-dependency and must not ship node_modules)
+# Node build dependencies are tracked; installed modules and local scan tooling are not.
 node_modules/
-package.json
-package-lock.json
 scan-a11y.mjs
 

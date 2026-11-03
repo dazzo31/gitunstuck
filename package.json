@@ -1,0 +1,14 @@
+{
+  "name": "gitunstuck",
+  "version": "3.1.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:check": "node scripts/build.mjs --check",
+    "test": "node tests/test-analyzer.js"
+  },
+  "devDependencies": {
+    "lightningcss": "^1.33.0",
+    "terser": "^5.51.2"
+  }
+}

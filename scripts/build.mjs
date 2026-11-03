@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 /**
- * Zero-dependency build for GitUnstuck.
+ * Production build for GitUnstuck.
  *
  * The repository keeps index.html readable, self-contained and
  * dependency-free. This script emits a minified copy into dist/ for GitHub
  * Pages to serve, so visitors download less while the source stays
  * maintainable.
  *
- * Uses only Node built-ins - no packages, no lockfile, nothing to install.
+ * Build-only minifiers are pinned in package-lock.json. The deployed app has
+ * no runtime dependencies.
  *
  *   node scripts/build.mjs           build dist/
  *   node scripts/build.mjs --check   report sizes, write nothing
@@ -20,6 +21,8 @@ import {
 import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gzipSync, brotliCompressSync, constants } from 'node:zlib';
+import { transform as transformCss } from 'lightningcss';
+import { minify as minifyJavaScript } from 'terser';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = join(ROOT, 'index.html');
@@ -30,201 +33,27 @@ const CHECK_ONLY = process.argv.includes('--check');
  * CSS
  * ------------------------------------------------------------------ */
 
-const DELIMS = '{};:,>';
-
-/**
- * Conservative CSS minifier. Tracks strings and url() so it never touches
- * literal content, collapses whitespace runs, strips comments (except
- * /*! ... *\/) and drops the final semicolon before a closing brace.
- *
- * Deliberately does NOT strip whitespace around arithmetic operators, which
- * keeps calc(100% - 20px) valid.
- */
 function minifyCss(css) {
-  let out = '';
-  let i = 0;
-  const n = css.length;
-  let quote = null;
-
-  while (i < n) {
-    const c = css[i];
-
-    if (quote) {
-      out += c;
-      i++;
-      if (c === '\\') { out += css[i] ?? ''; i++; continue; }
-      if (c === quote) quote = null;
-      continue;
-    }
-
-    if (c === '/' && css[i + 1] === '*') {
-      const end = css.indexOf('*/', i + 2);
-      const stop = end === -1 ? n : end + 2;
-      if (css.startsWith('/*!', i)) out += css.slice(i, stop);
-      i = stop;
-      continue;
-    }
-
-    if (c === '"' || c === "'") { quote = c; out += c; i++; continue; }
-
-    if ((c === 'u' || c === 'U') && /^url\(/i.test(css.slice(i, i + 4))) {
-      const close = css.indexOf(')', i);
-      const stop = close === -1 ? n : close + 1;
-      out += css.slice(i, stop);
-      i = stop;
-      continue;
-    }
-
-    if (c === ' ' || c === '\t' || c === '\n' || c === '\r') {
-      let j = i;
-      while (j < n && ' \t\n\r'.includes(css[j])) j++;
-      const prev = out[out.length - 1] ?? '';
-      const next = css[j] ?? '';
-      if (!DELIMS.includes(prev) && !DELIMS.includes(next)) out += ' ';
-      i = j;
-      continue;
-    }
-
-    if (c === ';') {
-      let j = i + 1;
-      while (j < n && ' \t\n\r'.includes(css[j])) j++;
-      if (css[j] === '}') { i = j; continue; }
-    }
-
-    out += c;
-    i++;
-  }
-
-  return out.trim();
+  return transformCss({
+    filename: SRC,
+    code: Buffer.from(css),
+    minify: true,
+  }).code.toString();
 }
 
 /* ------------------------------------------------------------------ *
  * JavaScript
  * ------------------------------------------------------------------ */
 
-// After these, a '/' starts a regex literal rather than a division.
-const REGEX_AFTER = new Set([
-  '', '(', ',', '=', ':', '[', '!', '&', '|', '?', '{', '}', ';',
-  '+', '-', '*', '%', '<', '>', '~', '^',
-  'return', 'typeof', 'instanceof', 'case', 'in', 'of', 'new',
-  'delete', 'void', 'do', 'else', 'yield', 'await', 'throw',
-]);
-
-const IDENT = /[A-Za-z0-9_$]/;
-
-/**
- * Conservative JS minifier: removes comments and line indentation, keeps
- * every newline so automatic semicolon insertion semantics are unchanged.
- *
- * String, template-literal and regex literals are copied verbatim, so
- * content such as '# .github/workflows/ci.yml' inside a template is safe.
- */
-function minifyJs(js) {
-  let out = '';
-  let i = 0;
-  const n = js.length;
-  let prev = '';
-
-  while (i < n) {
-    const c = js[i];
-
-    // Line comment
-    if (c === '/' && js[i + 1] === '/') {
-      i += 2;
-      while (i < n && js[i] !== '\n') i++;
-      continue;
-    }
-
-    // Block comment - preserve its newlines so line-based ASI is unaffected
-    if (c === '/' && js[i + 1] === '*') {
-      const end = js.indexOf('*/', i + 2);
-      const stop = end === -1 ? n : end + 2;
-      const body = js.slice(i, stop);
-      if (body.startsWith('/*!')) { out += body; }
-      else {
-        const breaks = (body.match(/\n/g) || []).length;
-        if (breaks) out += '\n'.repeat(breaks);
-        else if (IDENT.test(out[out.length - 1] ?? '') && IDENT.test(js[stop] ?? '')) out += ' ';
-      }
-      i = stop;
-      continue;
-    }
-
-    // Single / double quoted string
-    if (c === '"' || c === "'") {
-      let j = i + 1;
-      while (j < n) {
-        if (js[j] === '\\') { j += 2; continue; }
-        if (js[j] === c) { j++; break; }
-        j++;
-      }
-      out += js.slice(i, j);
-      prev = 'x';
-      i = j;
-      continue;
-    }
-
-    // Template literal (with ${...} nesting)
-    if (c === '`') {
-      let j = i + 1, depth = 0;
-      while (j < n) {
-        const d = js[j];
-        if (d === '\\') { j += 2; continue; }
-        if (d === '`' && depth === 0) { j++; break; }
-        if (d === '$' && js[j + 1] === '{') { depth++; j += 2; continue; }
-        if (d === '}' && depth > 0) { depth--; j++; continue; }
-        j++;
-      }
-      out += js.slice(i, j);
-      prev = 'x';
-      i = j;
-      continue;
-    }
-
-    // Regex literal
-    if (c === '/' && REGEX_AFTER.has(prev)) {
-      let j = i + 1, inClass = false, ok = false;
-      while (j < n) {
-        const d = js[j];
-        if (d === '\\') { j += 2; continue; }
-        if (d === '\n') break;
-        if (d === '[') { inClass = true; j++; continue; }
-        if (d === ']') { inClass = false; j++; continue; }
-        if (d === '/' && !inClass) { j++; ok = true; break; }
-        j++;
-      }
-      if (ok) {
-        while (j < n && /[a-z]/i.test(js[j])) j++;
-        out += js.slice(i, j);
-        prev = 'x';
-        i = j;
-        continue;
-      }
-      // Not a regex after all - fall through and emit as division
-    }
-
-    // Identifier / number run - lets us detect keywords like `return`
-    if (IDENT.test(c)) {
-      let j = i;
-      while (j < n && IDENT.test(js[j])) j++;
-      const word = js.slice(i, j);
-      out += word;
-      prev = REGEX_AFTER.has(word) ? word : 'x';
-      i = j;
-      continue;
-    }
-
-    out += c;
-    if (c !== ' ' && c !== '\t' && c !== '\n' && c !== '\r') prev = c;
-    i++;
-  }
-
-  // Strip indentation and blank lines; newlines are preserved for ASI.
-  return out
-    .split('\n')
-    .map(l => l.replace(/^[ \t]+/, '').replace(/[ \t]+$/, ''))
-    .filter(l => l.length > 0)
-    .join('\n');
+async function minifyJs(js) {
+  const result = await minifyJavaScript(js, {
+    compress: { passes: 2 },
+    mangle: { toplevel: false },
+    toplevel: false,
+    format: { comments: false },
+  });
+  if (!result.code) throw new Error('Terser returned empty JavaScript output');
+  return result.code;
 }
 
 /* ------------------------------------------------------------------ *
@@ -234,7 +63,7 @@ function minifyJs(js) {
 const MASK = [];
 const mask = s => `\u0000${MASK.push(s) - 1}\u0000`;
 
-function minifyHtml(html) {
+async function minifyHtml(html) {
   MASK.length = 0;
 
   // 1. Inline stylesheet
@@ -245,9 +74,13 @@ function minifyHtml(html) {
   html = html.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g,
     (_, a, body, b) => a + mask(JSON.stringify(JSON.parse(body))) + b);
 
-  // 3. Inline script
-  html = html.replace(/(<script>)([\s\S]*?)(<\/script>)/g, (_, a, body, b) =>
-    a + mask(minifyJs(body)) + b);
+  // 3. Inline scripts. Process from the end so earlier offsets remain valid.
+  const scriptBlocks = [...html.matchAll(/(<script>)([\s\S]*?)(<\/script>)/g)];
+  for (const match of scriptBlocks.reverse()) {
+    const minifiedScript = await minifyJs(match[2]);
+    html = html.slice(0, match.index) + match[1] + mask(minifiedScript) + match[3] +
+      html.slice(match.index + match[0].length);
+  }
 
   // 4. Verbatim regions - whitespace here is content
   html = html.replace(/<pre[\s\S]*?<\/pre>/gi, m => mask(m));
@@ -284,7 +117,7 @@ const gz = s => gzipSync(enc(s), { level: 9 }).length;
 const br = s => brotliCompressSync(enc(s), { params: { [constants.BROTLI_PARAM_QUALITY]: 11 } }).length;
 
 const source = readFileSync(SRC, 'utf8');
-const minified = minifyHtml(source);
+const minified = await minifyHtml(source);
 
 console.log('GitUnstuck build');
 console.log('  source    ' + kb(enc(source).length).padStart(10) +
