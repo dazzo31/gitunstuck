@@ -50,8 +50,10 @@ fs.mkdirSync(output,{recursive:true});
       await page.mouse.move(0,0);
       const lessonLink=page.locator('.learning-path a').first();
       const linkStyle=await lessonLink.evaluate(element=>({color:getComputedStyle(element).color,decoration:getComputedStyle(element).textDecorationLine}));
-      assert.equal(linkStyle.decoration,'underline');
-      assert.equal(linkStyle.color,'rgb(3, 105, 161)','Learning links use the light-theme link colour rather than the browser default');
+      assert.equal(linkStyle.decoration,'none');
+      assert.equal(linkStyle.color,'rgb(4, 120, 87)','Learning links use the green theme colour rather than the browser default');
+      const lessonTreatment=await lessonLink.evaluate(element=>({display:getComputedStyle(element).display,arrow:getComputedStyle(element,'::after').content,radius:getComputedStyle(element).borderRadius}));
+      assert.equal(lessonTreatment.display,'flex');assert.equal(lessonTreatment.radius,'6px');assert.ok(lessonTreatment.arrow.includes('\u2192'));
       await page.locator('.learning-path a[href="#analogy-staging"]').click();await page.waitForFunction(()=>location.hash==='#analogy-staging');
       assert.equal(await page.locator('#analogy-staging').isVisible(),true);
       await page.locator('.destination-link[data-destination="reference"]').click();await page.locator('#reference').waitFor({state:'visible'});
@@ -67,7 +69,7 @@ fs.mkdirSync(output,{recursive:true});
       // Keyboard entry and focus: the skip link and destination links are reachable.
       await page.goto(target);await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.className),'skip-link');await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>document.activeElement.id),'mainContent');
       const widths={};for(const dest of ['fix','learn','reference']) {await page.locator(`.destination-link[data-destination="${dest}"]`).click();widths[dest]=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));assert.ok(widths[dest].scroll<=widths[dest].client,`${label} ${dest} must not overflow`);}
-      await page.goto(target.split('#')[0].split('?')[0]+'#undo-staged');await page.locator('.tree-choice-btn[data-location="staged"]').waitFor({state:'visible'});await page.locator('.tree-choice-btn[data-location="staged"]').focus();await page.keyboard.press('ArrowRight');assert.equal(await page.evaluate(()=>document.activeElement.dataset.location),'local-commit');assert.equal(await page.locator('#treeSolutionPanel [data-recipe="rewind"]').isVisible(),true);
+      await page.goto(target.split('#')[0].split('?')[0]+'#undo-staged');await page.waitForFunction(()=>document.activeElement.id==='troubleshootConsole'&&document.querySelector('#treeSolutionPanel [data-recipe="unstage"]'));await page.locator('.tree-choice-btn[data-location="staged"]').focus();await page.keyboard.press('ArrowRight');assert.equal(await page.evaluate(()=>document.activeElement.dataset.location),'local-commit');assert.equal(await page.locator('#treeSolutionPanel [data-recipe="rewind"]').isVisible(),true);
       const focus=await page.evaluate(()=>getComputedStyle(document.activeElement).outlineStyle);assert.notEqual(focus,'none');
       assert.equal(await page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches),true);
       await page.goto(target.split('#')[0].split('?')[0]+'#forge-bitbucket/secret');await page.locator('#forgeDisplayPanel [data-recipe="secret"]').waitFor({state:'visible'});await page.locator('#card-forge-troubleshoot .card-link-btn').first().click();assert.ok((await page.evaluate(()=>window.testClipboard.at(-1))).endsWith('#forge-bitbucket/secret'));
@@ -76,12 +78,14 @@ fs.mkdirSync(output,{recursive:true});
         const headings=await recipe.locator(':scope > h4').allTextContents();assert.deepEqual(headings,['What this means','Check before continuing','Steps','What changes','Confirm it worked','If it didn’t work']);
         const commands=await recipe.locator(':scope > .recovery-steps > li pre code').allTextContents();assert.deepEqual(commands,require('../recovery.js').recipes[key].steps.map(s=>s.code));
         const documentation=recipe.locator(':scope > .card-source a');assert.equal(await documentation.count(),1);assert.equal((await documentation.textContent()).trim(),'Official documentation');
+        const treatment=await documentation.evaluate(element=>({display:getComputedStyle(element).display,decoration:getComputedStyle(element).textDecorationLine,radius:getComputedStyle(element).borderRadius}));assert.equal(treatment.display,'inline-flex');assert.equal(treatment.decoration,'none');assert.equal(treatment.radius,'6px');
       }
       assert.equal(await page.locator('article:has([data-recovery-slot]) > .card-source, #card-forge-troubleshoot > .card-source').count(),0,'Recipe cards must not receive a duplicate fallback source footer');
       for(const destination of ['fix','learn','reference']) {
         await page.goto(target.split('#')[0].split('?')[0]+'#'+destination);
         await page.waitForFunction(d=>document.documentElement.dataset.destination===d,destination);
         const heading=await page.locator('#'+destination+' h2').first().boundingBox();assert.ok(heading.y>=0,'Destination heading must not be hidden above the viewport');
+        assert.equal(await page.locator('#'+destination).evaluate(element=>getComputedStyle(element).outlineStyle),'none','Focusing a destination must not outline the entire panel');
         await page.screenshot({path:path.join(output,`${label}-${destination}.png`),fullPage:false});
       }
       results.push({label,width,height,errors,widths,contrast,focus});assert.deepEqual(errors,[]);

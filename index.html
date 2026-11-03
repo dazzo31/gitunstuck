@@ -146,7 +146,6 @@
     }
     .skip-link:focus { top: 16px; outline: 3px solid #ffffff; outline-offset: 2px; }
 
-    *:focus-visible { outline: 2px solid var(--git-orange); outline-offset: 2px; }
 
     /* Totakit-Inspired Thin Iconography System (1.5px stroke, geometric vector line style) */
     .tota-icon {
@@ -1801,7 +1800,14 @@
       font-size: 0.72rem; color: var(--text-muted); margin-top: 6px; padding-top: 6px;
       border-top: 1px solid var(--border);
     }
-    .card-source a { color: var(--accent-blue); text-decoration: underline; text-underline-offset: 2px; }
+    .card-source a {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--bg-card-hover); color: var(--accent-green);
+      font-size: 0.78rem; font-weight: 600; text-decoration: none;
+    }
+    .card-source a::after { content: "\2197"; font-size: 1em; }
+    .card-source a:hover { border-color: var(--accent-green); color: var(--text); }
 
     .card-check {
       font-size: 0.8rem; line-height: 1.4; margin-bottom: 8px; color: var(--text-muted);
@@ -2169,13 +2175,25 @@
     .btn-analyze { min-height: 36px; border-radius: 6px; }
     [data-theme="dark"] .btn-analyze { color: #062518; }
     a {
-      color: var(--accent-blue);
-      text-decoration: underline;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 3px;
+      color: var(--accent-green);
+      font-weight: 600;
+      text-decoration: none;
     }
-    a:hover { color: var(--text); text-decoration-thickness: 2px; }
-    :focus-visible { outline: 3px solid var(--accent-blue); outline-offset: 3px; }
+    a:hover { color: var(--text); }
+    main p a { text-decoration: underline dotted; text-underline-offset: 4px; }
+    main p a:hover { text-decoration-style: solid; }
+    .learning-path li { padding: 4px 0; }
+    .learning-path a {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      max-width: 440px; padding: 8px 12px; border: 1px solid var(--border);
+      border-radius: 6px; background: var(--bg-card); font-size: 0.9rem; line-height: 1.5;
+    }
+    .learning-path a::after { content: "\2192"; flex-shrink: 0; }
+    .learning-path a:hover { background: var(--bg-card-hover); border-color: var(--accent-green); }
+    :is(a, button, input, textarea, select, summary, [tabindex="0"]):focus-visible {
+      outline: 2px solid var(--accent-green); outline-offset: 3px;
+    }
+    [tabindex="-1"]:not(:is(a, button, input, textarea, select, summary)):focus { outline: none; }
     [data-recipe="discard"] .recipe-risk, [data-recipe="forceLease"] .recipe-risk,
     [data-recipe="secret"] .recipe-risk, [data-recipe="secretFile"] .recipe-risk,
     [data-recipe="secretSource"] .recipe-risk { border-color: var(--accent-red); }
@@ -4771,9 +4789,6 @@ jobs:
     window.handleHashRoute = handleHashRoute;
     window.addEventListener('hashchange', handleHashRoute);
     window.addEventListener('popstate', handleHashRoute);
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(handleHashRoute, 120);
-    });
 
     // 13. Live Terminal Status & Error Diagnosis Engine
     const sampleTerminalOutputs = {
