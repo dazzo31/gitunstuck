@@ -30,7 +30,7 @@ With Node.js 22 or later and Git installed:
 npm test
 ```
 
-This runs parser/source checks and disposable-repository integration tests. On the implementation machine, 193 parser/data/source assertions and 29 recovery scenarios passed. Source-string assertions only establish markup/data properties; the integration tests establish repository outcomes.
+This runs parser/source checks and disposable-repository integration tests. On the implementation machine, 193 parser/data/source assertions and 29 recovery scenarios passed. Ubuntu CI on Node 22 also passed 193 assertions and 28 scenarios (Bash only). Source-string assertions only establish markup/data properties; the integration tests establish repository outcomes.
 
 The recovery tests use temporary repositories and local bare remotes. They inspect actual file contents, index snapshots, untracked files, commit reachability and remote history. Coverage includes latest and earlier secrets, dirty protected-branch recovery, main/master/custom branches, custom remotes, paths with spaces, existing backup names, real merge and rebase conflicts, reflog, snapshots, discard, unstage, rewind, revert, clone, commit, worktree, tags, cherry-pick, lease rejection and deterministic bisect. The snapshot commands were also executed in actual Windows PowerShell and Git Bash.
 
@@ -54,7 +54,7 @@ node tests/test-browser.cjs
 
 Set `GITUNSTUCK_TEST_URL` to test an HTTP deployment or the built `dist/index.html` file URL. Results and screenshots are written to ignored `artifacts/`.
 
-Desktop (1440×1000) and mobile (390×844) Chromium checks cover recovery, staging lessons, command search, reload/Back, retained deep links, copy output, keyboard entry/arrow navigation, focus visibility, reduced motion, sampled recovery-text contrast in both themes, and horizontal overflow. Screenshots were visually inspected. This is not a complete accessibility certification or cross-browser test.
+Desktop (1440×1000) and mobile (390×844) Chromium checks cover recovery, staging lessons, command search, reload/Back, retained deep links, copy output, keyboard entry/arrow navigation, focus visibility, reduced motion, sampled recovery-text contrast in both themes, and horizontal overflow. Screenshots were visually inspected. The same journeys passed against the deployed HTTPS site; see [release evidence](docs/recovery-audit/release.md). This is not a complete accessibility certification or cross-browser test.
 
 ## Limits and evidence
 

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — recovery audit (2026-11-03)
+## Released — recovery audit (2026-11-03)
 
 - Require explicit secret-scanning evidence; separate latest-tip file/source cleanup from unsupported earlier history.
 - Publish review branches without destructive local branch realignment; require checked remote and branch names.

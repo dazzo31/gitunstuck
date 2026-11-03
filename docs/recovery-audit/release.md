@@ -1,4 +1,4 @@
-# Local release evidence
+# Release evidence
 
 Application commit: 3875716dcf090e07a878ad8a40b786ff0978550d on fix/recovery-evidence. A following documentation-only commit records this report.
 
@@ -9,14 +9,22 @@ Application commit: 3875716dcf090e07a878ad8a40b786ff0978550d on fix/recovery-evi
 - Production build passed; dist/index.html is approximately 292.2 KB uncompressed and 63.6 KB Brotli. The shared recovery module is inlined and revision metadata identifies the source commit.
 - Desktop 1440x1000 and mobile 390x844 browser journeys passed against the minified artifact, including recipe-data equality, unknown/secret diagnosis, staging learning, command lookup, reload/Back, old links, copy, input escaping, skip-link/arrow/focus behavior, reduced-motion preference, sampled recovery contrast and zero document overflow.
 - Screenshots for all three destinations were inspected locally in artifacts/. Machine-readable final results are in final-browser.json.
-- Environment: Windows PowerShell, Git 2.56.0.windows.3, Node 26.12.1, existing Chromium/Playwright installation. Node 22 is configured in CI; CI has not run on this branch yet.
+- Environment: Windows PowerShell, Git 2.56.0.windows.3, Node 26.12.1, existing Chromium/Playwright installation. Ubuntu CI on Node 22 also passed 193 assertions and 28 executable scenarios (Bash only; the extra local scenario tests PowerShell).
 
 ## Unverified or excluded
 
 Provider policy engines, actual credential rotation, login services, web review requests, arbitrary history cleanup, interactive editor variations, other browsers and a full accessibility audit were not established locally. See support.md for per-recipe prerequisites and limitations.
 
-## Publication state
+## Publication and deployed verification
 
-Automatic approval review rejected git push -u origin fix/recovery-evidence because it would export repository contents to GitHub without explicit authorization for that export. The preceding dry-run changed no remote refs. No remote branch, pull request, CI run or production deployment was created. No alternative publication path was attempted after the rejection.
+The user explicitly approved publishing to dazzo31/gitunstuck and deploying through GitHub Pages on 2026-11-03. The earlier automatic-approval rejection was resolved by that authorization; it remains historical context, not a current blocker.
 
-User approval is required to publish the reviewed changes to dazzo31/gitunstuck and release via its existing GitHub Pages workflow. Production and deployed desktop/mobile journeys remain a release gate; local artifact checks are not described as production verification.
+- Review: https://github.com/dazzo31/gitunstuck/pull/1 (merged).
+- Ubuntu CI: https://github.com/dazzo31/gitunstuck/actions/runs/41616725489 (success; 193 assertions and 28 Bash-compatible recovery scenarios).
+- Application merge revision: c986394f7f9b93d7a8d6e0e07c3a44abf860bcd0.
+- Pages deployment: https://github.com/dazzo31/gitunstuck/actions/runs/41616825875 (success). Its Build site step ran the recovery tests before producing the artifact.
+- Live URL: https://dazzo31.github.io/gitunstuck/
+- At 2026-11-03 10:10 UTC, the live page returned HTTP 200 and its gitunstuck-revision marker matched the application merge revision.
+- The existing browser suite passed against the live HTTPS site at 1440x1000 and 390x844, covering recovery, learning, reference, search/reload/Back, old and copied links, command copying, keyboard/focus behavior, reduced motion, input escaping, recipe-data equality, sampled light/dark recovery-text contrast, and zero document overflow. Production screenshots were visually inspected. Machine-readable results are in deployed-browser.json.
+
+Application code is unchanged by the following documentation-only publication of this evidence. The build revision marker advances with each documentation commit; the application verification above identifies the first verified release revision. Full accessibility certification, other browsers, real provider policy engines and real credential exposure/rotation remain outside these checks.
