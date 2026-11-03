@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased — recovery audit (2026-11-03)
+
+- Require explicit secret-scanning evidence; separate latest-tip file/source cleanup from unsupported earlier history.
+- Publish review branches without destructive local branch realignment; require checked remote and branch names.
+- Use uncertainty for unknown/ambiguous output and distinguish confirmed merge and rebase continuation.
+- Share recovery definitions between the UI, diagnostics and executable repository tests.
+- Organize the existing content into Fix a problem, Learn Git and Find a command, preserving legacy links and history restoration.
+- Correct preservation/retention claims, mobile overflow, keyboard choice navigation and dark-mode button contrast.
+- Gate Pages builds on recovery tests. See docs/recovery-task-tracker.md for verification and release state.
+
+
 All notable changes to GitUnstuck are recorded here.
 
 ## v2.2

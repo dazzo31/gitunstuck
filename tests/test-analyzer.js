@@ -35,7 +35,7 @@ const sandbox = {
   navigator: {}
 };
 
-const fn = new Function('document', 'window', 'localStorage', 'setTimeout', 'navigator', `
+const fn = new Function('document', 'window', 'localStorage', 'setTimeout', 'navigator', 'GitRecovery', `
   ${scriptMatch[1]}
   return { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminalOutputs, extractGitContext, sanitizeGitToken, stripBashComments, convertModernToLegacy, fourZoneData };
 `);
@@ -45,7 +45,8 @@ const { normalizeTerminalInput, analyzeGitOutput, forgeScenarios, sampleTerminal
   sandbox.window,
   sandbox.localStorage,
   sandbox.setTimeout,
-  sandbox.navigator
+  sandbox.navigator,
+  require('../recovery.js')
 );
 
 console.log('--- GitUnstuck v2.2 Diagnostic Engine Test Suite ---\n');
@@ -77,57 +78,38 @@ assert(normalizeTerminalInput(hugeInput).length <= 102400, 'Guards against ReDoS
 // Suite 2: Multi-State Diagnostic Rule Engine Tests
 console.log('\nSuite 2: Multi-State Diagnostic Rule Engine');
 
-// Test: Detached HEAD
-const detachedRes = analyzeGitOutput('HEAD detached at 7a2b3c4\nnothing to commit, working tree clean');
-assert(detachedRes && detachedRes.title.includes('Detached HEAD'), 'Identifies detached HEAD state');
-assert(detachedRes && detachedRes.workLostStatus === 'danger', 'Warns about orphan commit risk in detached HEAD');
-assert(detachedRes && detachedRes.code.includes('git switch -c rescue-branch'), 'Recommends named rescue branch');
-
-// Test: Merge Conflict
-const conflictRes = analyzeGitOutput('both modified: src/app.js\nUnmerged paths:\n  (use "git add <file>..." to mark resolution)');
-assert(conflictRes && conflictRes.title.includes('Merge Conflict'), 'Identifies in-progress merge conflict');
-assert(conflictRes && conflictRes.workLostStatus === 'safe', 'Reassures user that conflicting files exist on disk');
-assert(conflictRes && conflictRes.code.includes('git merge --continue'), 'Recommends git merge --continue');
-
-// Test: Rebase in Progress
-const rebaseRes = analyzeGitOutput('rebase in progress; onto 1a2b3c\nYou are currently rebasing branch');
-assert(rebaseRes && rebaseRes.title.includes('Interactive Rebase'), 'Identifies paused interactive rebase');
-assert(rebaseRes && rebaseRes.code.includes('git rebase --continue'), 'Recommends git rebase --continue');
-
-// Test: Secret Scan Push Rejection (GH013)
-const secretRes = analyzeGitOutput('remote: error: GH013: Repository rule violations found for refs/heads/main.\nPush cannot contain secrets');
-assert(secretRes && secretRes.title.includes('Secret / API Key'), 'Identifies GH013 Secret Scan rejection');
-assert(secretRes && secretRes.code.includes('git reset --soft HEAD~1'), 'Recommends soft reset to sanitize secret without losing edits');
-
-// Test: Protected Branch Rejection (GH006 / GitLab / Bitbucket)
-const protectedRes = analyzeGitOutput('remote: error: GH006: Protected branch update failed for refs/heads/main.');
-assert(protectedRes && protectedRes.title.includes('Protected Branch'), 'Identifies protected branch rejection');
-assert(protectedRes && protectedRes.code.includes('git switch -c feature/my-fix'), 'Recommends branching commits instead of force-pushing');
-
-// Test: Authentication Failure
-const authRes = analyzeGitOutput('fatal: Authentication failed for https://github.com/user/repo.git');
-assert(authRes && authRes.title.includes('Authentication'), 'Identifies authentication failure');
-assert(authRes && authRes.code.includes('git credential reject'), 'Recommends resetting stale credential cache');
-
-// Test: Diverged Branches
-const divergedRes = analyzeGitOutput('Your branch and origin/main have diverged, and have 3 and 1 different commits');
-assert(divergedRes && divergedRes.title.includes('Branch Divergence'), 'Identifies local and remote divergence');
-assert(divergedRes && divergedRes.code.includes('git pull --rebase'), 'Recommends clean linear pull --rebase integration');
-
-// Test: Untracked Sensitive Files
-const sensitiveRes = analyzeGitOutput('Untracked files:\n  (use "git add <file>..." to include in what will be committed)\n\t.env\n\tsrc/app.js');
-assert(sensitiveRes && sensitiveRes.title.includes('Sensitive Credential File'), 'Identifies untracked .env file');
-assert(sensitiveRes && sensitiveRes.code.includes('.gitignore'), 'Instructs appending sensitive file to .gitignore');
-
-// Test: Not a Git Repo
-const notRepoRes = analyzeGitOutput('fatal: not a git repository (or any of the parent directories): .git');
-assert(notRepoRes && notRepoRes.title.includes('Not a Git Repository'), 'Identifies non-repository directory');
-assert(notRepoRes && notRepoRes.code.includes('git init -b main'), 'Provides git init or folder navigation command');
-
-// Test: Clean Working Tree
-const cleanRes = analyzeGitOutput('nothing to commit, working tree clean');
-assert(cleanRes && cleanRes.title.includes('Working Tree Clean'), 'Identifies clean working tree');
-assert(cleanRes && cleanRes.code.includes('git reflog'), 'Provides reflog inspection for misplaced commits');
+const { recipes } = require('../recovery.js');
+const cases = [
+  ['HEAD detached at 7a2b3c4', 'detached'],
+  ['You are still merging.\nUnmerged paths:\nboth modified: file with spaces.js', 'merge'],
+  ['rebase in progress; onto 1a2b3c\nUnmerged paths:\nboth modified: file with spaces.js', 'rebase'],
+  ['GH013: Repository rule violations found\nPush cannot contain secrets', 'secret'],
+  ['remote: error: GH006: Protected branch update failed', 'protected'],
+  ['fatal: Authentication failed', 'auth'],
+  ["Your branch and 'team/custom' have diverged", 'diverged'],
+  ['GH013: Repository rule violations found', 'inspect'],
+  ['pre-receive hook declined', 'inspect'],
+  ['Unmerged paths:\nboth modified: file.js', 'inspect'],
+  ['rebase in progress\nYou are still merging.', 'inspect'],
+  ['You are currently cherry-picking commit abc1234.\nUnmerged paths:', 'inspect'],
+  ['HEAD detached at abc1234\nYou are currently bisecting, started from main', 'inspect'],
+  ['Untracked files:\n  .env', 'sensitive'],
+  ['Authentication failed\nPush cannot contain secrets', 'inspect'],
+  ['On branch main', 'inspect'],
+  ['unrecognized output', 'inspect']
+];
+for (const [input, key] of cases) {
+  const res = analyzeGitOutput(input);
+  assert(res.recipeKey === key, `Selects ${key} for ${JSON.stringify(input)}`);
+  assert(res.workLostStatus === 'unknown', 'Diagnosis never establishes a blanket work-preservation verdict');
+}
+assert(analyzeGitOutput('unknown').title === 'Not enough information.', 'Unknown input requests more evidence');
+assert(analyzeGitOutput('nothing to commit, working tree clean').title === 'Working tree reported clean', 'Clean output is a narrow observation');
+assert(!analyzeGitOutput('GH006').code.includes('reset --hard'), 'Protected branch workflow does not reset files');
+assert(!analyzeGitOutput('Push cannot contain secrets').code.includes('reset --soft'), 'Secret diagnostic inspects history before selecting cleanup');
+for (const [key, r] of Object.entries(recipes)) {
+  assert(['title','risk','means','checks','steps','effect','verify','failure','source'].every(k => r[k]), `Recipe ${key} states prerequisites, consequences and verification`);
+}
 
 // Suite 3: Multi-Host Forge Scenarios Coverage
 console.log('\nSuite 3: Multi-Host Forge Scenarios Coverage');
@@ -139,7 +121,7 @@ forges.forEach(f => {
   incidents.forEach(inc => {
     assert(
       forgeScenarios[f] && forgeScenarios[f][inc] && forgeScenarios[f][inc].code,
-      `Forge [${f}] covers incident [${inc}] with verified command`
+      `Forge [${f}] covers incident [${inc}] with authored command data`
     );
   });
 });
@@ -190,12 +172,12 @@ assert(detachedCtx.detachedSha === 'e5f6a7b', 'Extracts detached HEAD commit has
 // Test: Dynamic Command Replacement & Trigger Line Detection
 const conflictAnalysis = analyzeGitOutput(sampleStatus);
 assert(
-  conflictAnalysis && conflictAnalysis.code.includes('git add src/auth.js'),
-  'Dynamically injects extracted conflicted file name into recovery command'
+  conflictAnalysis && conflictAnalysis.recipeKey === 'inspect',
+  'Generic conflict output asks which operation is active'
 );
 assert(
-  conflictAnalysis && conflictAnalysis.triggerLine.includes('Unmerged paths'),
-  'Captures exact conflict trigger line from terminal input'
+  conflictAnalysis && sampleStatus.includes(conflictAnalysis.triggerLine),
+  'Evidence is an actual input line'
 );
 
 const divergedStatus = `On branch feat/auth-login
@@ -205,12 +187,12 @@ nothing to commit, working tree clean`;
 
 const divergedAnalysis = analyzeGitOutput(divergedStatus);
 assert(
-  divergedAnalysis && divergedAnalysis.code.includes('git pull --rebase origin feat/auth-login'),
-  'Dynamically injects extracted branch name into recovery command'
+  divergedAnalysis && divergedAnalysis.code.includes('UPSTREAM_REF'),
+  'Divergence requires a checked upstream instead of guessing a pull'
 );
 assert(
-  divergedAnalysis && divergedAnalysis.triggerLine.includes('have diverged'),
-  'Captures exact divergence trigger line from terminal input'
+  divergedAnalysis && divergedStatus.includes(divergedAnalysis.triggerLine),
+  'Divergence evidence is an actual input line'
 );
 
 const authError = 'fatal: Authentication failed for \'https://github.com/org/repo.git\'';
@@ -276,28 +258,21 @@ assert(allCardsPresent, 'All 18 recipe cards have deterministic IDs');
 assert(allCardLinksPresent, 'All 18 recipe cards have direct link copy buttons');
 assert(indexHtml.includes('copyDecisionLink('), 'Decision tree solutions include direct link copy button');
 assert(indexHtml.includes('id="heroJumpToAnalyzer"'), 'Hero section includes quick-jump to terminal analyzer');
-assert(indexHtml.includes('git stash push -u -m "safety-backup" && git stash apply'), 'Golden Safety Rule includes full snapshot with stash apply');
+assert(recipes.snapshot.steps.some(step => step.code.includes('git stash apply --index')), 'Snapshot explicitly attempts index restoration and retains the stash');
 assert(indexHtml.includes('[data-theme="light"] .git-file-content'), 'Light mode high-contrast rule exists for Under the Hood file content');
 assert(indexHtml.includes('[data-theme="light"] .snippet-block') && indexHtml.includes('[data-theme="light"] pre.code-content'), 'Light mode code boxes use soft light backgrounds with high-contrast text');
 assert(/--bg-code:\s*#f8fafc;/.test(indexHtml), 'Light mode defines light --bg-code token');
 assert(/\.forge-host-btn,\s*\.pipeline-tab-btn/.test(indexHtml), 'Forge host selector and CI/CD pipeline buttons are standardized');
 assert(indexHtml.includes("statusInputText.addEventListener('input'"), 'Auto-clear diagnosis on new terminal input is wired');
 
-// Suite 9: Experience Mode Personas, Interlinking & Adaptive Annotations (v2.1 UX Upgrade)
-console.log('\nSuite 9: Experience Mode Personas, Interlinking & Adaptive Annotations');
-assert(indexHtml.includes('Guided Essentials') && indexHtml.includes('data-mode="beginner"'), 'Header mode switcher includes Guided Essentials button');
-assert(indexHtml.includes('Developer Hub') && indexHtml.includes('data-mode="pro"'), 'Header mode switcher includes Developer Hub button');
-assert(indexHtml.includes('id="analogy-repo"') && indexHtml.includes("jumpToTarget('card-init')"), 'Analogy card for Repository links to card-init');
-assert(indexHtml.includes('id="analogy-commit"') && indexHtml.includes("jumpToTarget('card-stage')"), 'Analogy card for Commit links to card-stage');
-assert(indexHtml.includes('id="analogy-staging"') && indexHtml.includes("jumpToTarget('card-undo')"), 'Analogy card for Staging links to card-undo');
-assert(indexHtml.includes('id="analogy-remote"') && indexHtml.includes("jumpToTarget('card-sync')"), 'Analogy card for Remote links to card-sync');
-assert(indexHtml.includes('[data-view="pro"] #beginnerPrimer'), 'CSS rule exists to target beginnerPrimer in pro view');
-assert(!indexHtml.includes('class="primer-cs-bridge"'), 'Math theory bridge removed from 60-second beginner primer');
-assert(/class="card[^"]*\bpro-only\b[^"]*"[^>]*id="card-rebase"|id="card-rebase"[^>]*class="card[^"]*\bpro-only\b[^"]*"/.test(indexHtml), 'Interactive rebase card is marked pro-only');
-assert(indexHtml.includes('[data-view="beginner"] .pro-only:not(.emergency-revealed)'), 'Emergency reveal CSS rule preserves beginner view');
-assert(indexHtml.includes('class="plain-english-note"'), 'Adaptive plain-english notes exist in markup');
-assert(indexHtml.includes('[data-view="pro"] .plain-english-note'), 'Plain-english notes are cleanly hidden in pro view');
-assert(indexHtml.includes('Guided Concept'), 'Card annotation pills use inclusive Guided Concept label');
+// Suite 9: Destination markup. Browser behavior is verified separately.
+console.log('\nSuite 9: Destination markup (source checks only)');
+for (const destination of ['fix','learn','reference']) {
+  assert(indexHtml.includes(`data-destination-panel="${destination}"`), `${destination} destination exists`);
+  assert(indexHtml.includes(`data-destination="${destination}" href="#${destination}"`), `${destination} navigation link exists`);
+}
+assert(indexHtml.includes('id="analogy-staging"'), 'Existing staging lesson ID retained');
+assert(indexHtml.includes("window.addEventListener('popstate', handleHashRoute)"), 'History restoration handler is registered');
 
 // Suite 10: Totakit-Inspired Thin Iconography System (1.5px stroke, geometric vector line style)
 console.log('\nSuite 10: Totakit Thin Vector Icon System');
@@ -354,17 +329,17 @@ assert(indexHtml.includes('data-zone="remote"'), 'Interactive zone card exists f
 assert(indexHtml.includes('class="four-zone-flow-bar"'), 'four-zone-flow-bar simulation toolbar exists');
 assert(indexHtml.includes('data-step="working"') && indexHtml.includes('data-step="staging"') && indexHtml.includes('data-step="local"') && indexHtml.includes('data-step="remote"') && indexHtml.includes('data-step="reverse"'), 'All 5 simulation step buttons exist');
 assert(indexHtml.includes('id="zoneDetailPanel"'), 'zoneDetailPanel inspector element exists');
-assert(indexHtml.includes('data-target="fourZoneModel"'), 'Task-Navigator includes direct quick-jump chip for 4-Zone Model');
+assert(indexHtml.includes('data-target="fourZoneModel"'), 'Reference includes a link to the existing zone lesson');
 assert(indexHtml.includes("hash.startsWith('#zone-')"), 'Hash router handles direct #zone- deep linking');
 assert(typeof fourZoneData === 'object' && fourZoneData !== null, 'fourZoneData data dictionary is defined');
-assert(fourZoneData.working && fourZoneData.working.forwardCmd.includes('git add'), 'Zone 1 [working] defines forward command git add');
-assert(fourZoneData.working && fourZoneData.working.rollbackCmd.includes('git restore'), 'Zone 1 [working] defines rollback command git restore');
-assert(fourZoneData.staging && fourZoneData.staging.forwardCmd.includes('git commit'), 'Zone 2 [staging] defines forward command git commit');
-assert(fourZoneData.staging && fourZoneData.staging.rollbackCmd.includes('git restore --staged'), 'Zone 2 [staging] defines safe rollback command git restore --staged');
-assert(fourZoneData.staging && fourZoneData.staging.isWorkLostStatus === 'safe', 'Zone 2 [staging] guarantees 100% safe rollback status');
-assert(fourZoneData.local && fourZoneData.local.forwardCmd.includes('git push'), 'Zone 3 [local] defines forward command git push');
-assert(fourZoneData.local && fourZoneData.local.rollbackCmd.includes('git reset --soft'), 'Zone 3 [local] defines rollback command git reset --soft');
-assert(fourZoneData.remote && fourZoneData.remote.rollbackCmd.includes('git revert'), 'Zone 4 [remote] defines safe team rollback command git revert');
+assert(fourZoneData.working && fourZoneData.working.relatedCardId === 'card-stage', 'Working zone links to staging guidance');
+assert(recipes.discard.effect.includes('index'), 'Discard recipe describes the index as its source');
+assert(fourZoneData.staging && fourZoneData.staging.forwardCmd.includes('git commit'), 'Staging zone illustrates a commit');
+assert(recipes.unstage.steps[0].code.includes('git restore --staged'), 'Unstage recipe uses restore --staged');
+assert(fourZoneData.staging && fourZoneData.staging.isWorkLostStatus === 'unknown', 'Zone does not promise preservation based only on location');
+assert(fourZoneData.local && fourZoneData.local.relatedCardId === 'card-sync', 'Local zone links to remote inspection');
+assert(recipes.rewind.checks.includes('unpublished'), 'Rewind requires an unpublished commit');
+assert(recipes.revert.failure.includes('Merge commits'), 'Revert excludes unsupported merge commits');
 assert(fourZoneData.reverse && fourZoneData.reverse.statusSnippet.includes('Working ──[ git add ]──> Staging'), 'Two-way highway defines complete forward and rollback ASCII lifecycle');
 
 console.log(`\nTotal Tests: ${passed + failed} | Passed: ${passed} | Failed: ${failed}`);

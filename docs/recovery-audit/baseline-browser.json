@@ -1,0 +1,56 @@
+[
+  {
+    "label": "desktop",
+    "width": 1440,
+    "errors": [],
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "heading": "\n          GitUnstuck\n          \n            \n              \n              \n            \n          \n        ",
+    "visibleButtons": [
+      "Guided Essentials",
+      "Developer Hub",
+      "",
+      "",
+      "Paste Terminal Error / Status →",
+      "Undo a mistake\nDiscard edits, unstage, or undo a commit",
+      "Push was rejected\nProtected branch or diverged history",
+      "Merge conflict\nFix conflicts without losing code",
+      "Detached HEAD\nSave commits made without a branch",
+      "Auth failed\nTokens, SSH keys & credential cache",
+      "Lost work / commit\nRescue deleted branch or commit with reflog",
+      "Copy",
+      "Copy",
+      "Start a new project",
+      "Clone an existing project",
+      "Save daily work safely",
+      "Create a feature branch",
+      "Sync updates with GitHub",
+      "Undo a mistake or recovery tree",
+      "Pause work & switch branches",
+      "Resolve a merge conflict",
+      "Visual Timeline & Branch Map",
+      "4-Zone Model & Data Flow",
+      "Tag a production release",
+      "▲\nCollapse Guide"
+    ]
+  },
+  {
+    "label": "mobile",
+    "width": 390,
+    "errors": [],
+    "scrollWidth": 406,
+    "clientWidth": 390,
+    "heading": "\n          GitUnstuck\n          \n            \n              \n              \n            \n          \n        ",
+    "visibleButtons": [
+      "Guided Essentials",
+      "Developer Hub",
+      "",
+      "",
+      "Paste Terminal Error / Status →",
+      "Undo a mistake\nDiscard edits, unstage, or undo a commit",
+      "Push was rejected\nProtected branch or diverged history",
+      "Merge conflict\nFix conflicts without losing code",
+      "Detached HEAD\nSave commits made without a branch"
+    ]
+  }
+]

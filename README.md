@@ -1,124 +1,73 @@
 # GitUnstuck
 
-## Fix Git problems without guessing
+[Open GitUnstuck](https://dazzo31.github.io/gitunstuck/)
 
-GitUnstuck turns confusing Git output into clear, risk-aware recovery steps. Paste a status or error, choose what went wrong, and get commands you can understand before you run them.
+GitUnstuck is a browser guide with three destinations:
 
-[![Open GitUnstuck](https://img.shields.io/badge/Open_GitUnstuck-Fix_my_Git_problem-16a34a?style=for-the-badge)](https://dazzo31.github.io/gitunstuck/)
-[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-GitHub_Sponsors-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-dazzo31-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/dazzo31)
+- **Fix a problem:** paste Git output or choose a specific recovery path. Read the prerequisites, run one step at a time, and verify the result.
+- **Learn Git:** follow the existing lessons on repositories, staging, commits, branches and remotes.
+- **Find a command:** search the command reference for syntax, effects and examples.
 
-**No installation. No account. No terminal data leaves your browser.**
+Pasted terminal content is processed in the current tab. The app does not upload or save that content. Theme and display preferences use local storage. No account or runtime package installation is required.
 
----
+## What the analyzer can establish
 
-## Get unstuck fast
+The analyzer handles English Git output and recognizes explicit protected-branch, secret-scanning, authentication, detached HEAD, merge, rebase and divergence evidence. Potentially sensitive untracked filenames are labeled as filename observations, not proof of a secret. Its diagnosis and the consequences of the proposed commands are separate. It cannot inspect your repository, establish backups, verify credential exposure, or know whether output is current.
 
-GitUnstuck helps answer the questions that matter when a repository goes wrong:
+Unknown, incomplete, generic hook and ambiguous output produces **“Not enough information.”** GH013 alone is a repository-rule code; it does not establish a secret. A clean status is reported as a limited observation, including its ignored-file and remote-state limits.
 
-- **Is my work safe?** Every diagnosis shows the risk before suggesting a command.
-- **What happened?** Plain-English explanations replace cryptic Git terminology.
-- **What should I run?** Copyable steps take you forward, back out safely, or create a rescue point.
-- **Does my hosting provider change the fix?** Dedicated guidance covers GitHub, GitLab, and Bitbucket.
+Secret cleanup is limited to two manually selected paths: an accidentally tracked file, or a credential inside legitimate source, confined to the latest unpublished non-merge commit. Both require a clean initial index/working tree and inspection of all outgoing ancestry. Earlier, shared or uncertain history is routed to official cleanup instructions. Removing a secret from the new tip does not erase old local objects or reflogs. Rotate credentials when exposure occurred or cannot be excluded.
 
-[**Launch GitUnstuck →**](https://dazzo31.github.io/gitunstuck/)
+Protected-branch guidance creates and publishes a new review branch. It does not reset the original branch or uncommitted files. Branch and remote names must be checked locally; the recipes do not assume `main` or `origin`.
 
-## Features
+## Run and check locally
 
-### Diagnose terminal output in your browser
+Open `index.html` alongside `recovery.js` and the SVG assets in a modern browser. Source checkout use needs no build. Commands in the guide use Git 2.23+ syntax and ordinary double-quoted paths. Replace uppercase placeholders before running a command; paths containing shell expansion characters or quotes need shell-specific quoting. Do not paste credentials into the guide.
 
-Paste output from `git status`, `git status -sb`, or a Git error. The analyzer recognizes common failure states, strips terminal formatting, handles Windows line endings, and immediately explains what it found.
+With Node.js 22 or later and Git installed:
 
-It can identify:
-
-- Detached HEAD and branch divergence
-- Merge conflicts and paused rebases
-- Authentication and protected-branch failures
-- GitHub GH013 and other secret-scan blocks
-- Untracked sensitive files such as `.env` and `id_rsa`
-- Clean repositories where no recovery is needed
-
-Everything runs locally in the current browser tab. Repository paths, branch names, errors, and pasted text are never uploaded.
-
-### Recover with a guided decision tree
-
-Tell GitUnstuck where the unwanted change lives and receive the appropriate recovery path:
-
-| Situation | Guided approach |
-| --- | --- |
-| Changed but not staged | Restore or preserve the file with a clear data-loss warning |
-| Staged by mistake | Unstage it while keeping the edits |
-| Committed locally | Rewind the commit while preserving the work |
-| Already pushed | Create a team-safe revert |
-| Commit or branch appears lost | Recover it from the reflog |
-| Unsure what to do | Create a backup branch before changing history |
-
-### Solve cloud-hosting problems
-
-Switch between **GitHub**, **GitLab**, and **Bitbucket** for provider-specific fixes covering:
-
-- Rejected pushes and protected branches
-- Tokens, app passwords, and cached credentials
-- Secret-scanning and push-protection blocks
-- Fork synchronization and upstream remotes
-- Feature-branch and pull/merge-request workflows
-
-### See how Git actually works
-
-Interactive diagrams turn Git’s internal model into something you can inspect:
-
-- Follow a file through the **working directory**, **staging area**, **local repository**, and **remote forge**
-- Explore commits, branches, HEAD, and merges on a visual timeline
-- Inspect command effects before choosing a recovery step
-- Open deeper explanations of object storage, commit graphs, and three-way merges when you want the theory
-
-### Choose the level of detail you need
-
-- **Guided Essentials** uses plain language, practical analogies, and focused daily workflows.
-- **Developer Hub** opens the complete engineering reference for rebase, reflog, worktree, bisect, tags, cherry-pick, force-with-lease, branch surgery, and `.git/` internals.
-
-Both modes include dark and light themes, keyboard navigation, reduced-motion support, and screen-reader announcements.
-
-## Common problems
-
-Jump directly to the right tool:
-
-- [Undo a Git mistake](https://dazzo31.github.io/gitunstuck/#troubleshootConsole)
-- [Analyze terminal output](https://dazzo31.github.io/gitunstuck/#terminalAnalyzer)
-- [Recover a lost commit with reflog](https://dazzo31.github.io/gitunstuck/#undo-lost-reflog)
-- [Fix GitHub problems](https://dazzo31.github.io/gitunstuck/#forge-github)
-- [Fix GitLab problems](https://dazzo31.github.io/gitunstuck/#forge-gitlab)
-- [Fix Bitbucket problems](https://dazzo31.github.io/gitunstuck/#forge-bitbucket)
-- [Understand merge conflicts](https://dazzo31.github.io/gitunstuck/#card-conflict)
-- [Understand detached HEAD](https://dazzo31.github.io/gitunstuck/#card-detached)
-
-These links can be shared in team chat, documentation, and support replies.
-
-## Built for privacy and speed
-
-GitUnstuck is a dependency-free, client-side application built with vanilla HTML, CSS, and JavaScript. It sends no pasted terminal content to a server. The repository keeps a readable, self-contained `index.html`; GitHub Pages uses build-only CSS and JavaScript minifiers to optimize the deployed copy. The interface is designed for WCAG AA contrast and supports keyboard and screen-reader use.
-
-## Run locally
-
-Clone the repository and open `index.html` in a modern browser. No package installation or build command is required for local use. To generate the minified deployment artifact, run `npm ci` followed by `npm run build`; the app itself has no runtime dependencies.
-
-Run the automated regression suite with:
-
-```bash
-node tests/test-analyzer.js
+```text
+npm test
 ```
 
-The suite contains 155 assertions across 13 test groups covering diagnostics, normalization, forge guidance, navigation, accessibility, branding, experience modes, and the visual data-flow tools.
+This runs parser/source checks and disposable-repository integration tests. On the implementation machine, 193 parser/data/source assertions and 29 recovery scenarios passed. Source-string assertions only establish markup/data properties; the integration tests establish repository outcomes.
 
-See [CHANGELOG.md](CHANGELOG.md) for release history and detailed change notes.
+The recovery tests use temporary repositories and local bare remotes. They inspect actual file contents, index snapshots, untracked files, commit reachability and remote history. Coverage includes latest and earlier secrets, dirty protected-branch recovery, main/master/custom branches, custom remotes, paths with spaces, existing backup names, real merge and rebase conflicts, reflog, snapshots, discard, unstage, rewind, revert, clone, commit, worktree, tags, cherry-pick, lease rejection and deterministic bisect. The snapshot commands were also executed in actual Windows PowerShell and Git Bash.
 
-## Support GitUnstuck
+For the minified, self-contained GitHub Pages artifact:
 
-GitUnstuck is free, private, client-side, and ad-free. If it rescued a branch, clarified a workflow, or saved your team time, you can support its continued development:
+```text
+npm ci
+npm run build:check
+npm run build
+```
 
-[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor_on_GitHub-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/dazzo31)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/dazzo31)
+Build-only minifiers are locked in `package-lock.json`; they are not browser dependencies. The build embeds the same `recovery.js` consumed by the interface and tests into `dist/index.html`. The Pages workflow runs `npm test` before building and deploying.
 
-## License
+## Browser verification
 
-MIT License. Free for developers, students, and teams worldwide.
+Optional browser QA uses an existing Playwright installation and Chromium; it adds no project dependency. Set `PLAYWRIGHT_MODULE` to its installed module path and, if needed, `CHROMIUM_PATH` to the browser executable, then run:
+
+```text
+node tests/test-browser.cjs
+```
+
+Set `GITUNSTUCK_TEST_URL` to test an HTTP deployment or the built `dist/index.html` file URL. Results and screenshots are written to ignored `artifacts/`.
+
+Desktop (1440×1000) and mobile (390×844) Chromium checks cover recovery, staging lessons, command search, reload/Back, retained deep links, copy output, keyboard entry/arrow navigation, focus visibility, reduced motion, sampled recovery-text contrast in both themes, and horizontal overflow. Screenshots were visually inspected. This is not a complete accessibility certification or cross-browser test.
+
+## Limits and evidence
+
+Local bare remotes do not reproduce GitHub/GitLab/Bitbucket rule engines, secret scanners, login services, token permissions, credential rotation or web review requests. Provider behavior is documented separately from local Git outcomes. The interactive-rebase integration case keeps the default todo list; arbitrary human edits and editor integrations are not covered.
+
+Ignored files, submodule work and external files require separate preservation. A branch only references commits; a stash is not an external backup. Reflog availability is local and configurable. Revert retains the original history and cannot remove a secret from it. Every recovery path requires the user to confirm its prerequisites.
+
+See the [task tracker](docs/recovery-task-tracker.md), [original baseline inventory](docs/recovery-audit/baseline.md), and [support boundaries](docs/recovery-audit/support.md). The baseline records original defective advice for auditing; it is not current recovery guidance.
+
+Existing links such as `#terminalAnalyzer`, `#troubleshootConsole`, `#undo-lost-reflog`, `#card-detached`, `#forge-github` and `#zone-staging` remain supported. Provider/incident links use forms such as `#forge-gitlab/secret`; reference search terms and filters can be shared in the URL. Terminal input is never included in those links.
+
+## Support and license
+
+[GitHub Sponsors](https://github.com/sponsors/dazzo31) · [Buy Me a Coffee](https://buymeacoffee.com/dazzo31)
+
+[MIT](LICENSE).

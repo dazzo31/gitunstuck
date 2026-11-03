@@ -35,7 +35,8 @@ jobs:
         run: npm ci
 
       - name: Build site
-        run: node scripts/build.mjs
+        # Recovery assertions must pass before a production artifact is produced.
+        run: npm test && node scripts/build.mjs
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

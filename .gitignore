@@ -12,6 +12,7 @@ desktop.ini
 # Temporary & Build Output
 dist/
 build/
+artifacts/
 *.tmp
 *.zip
 
