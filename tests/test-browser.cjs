@@ -32,7 +32,7 @@ fs.mkdirSync(output,{recursive:true});
           const rgba = color => (color.match(/[\d.]+/g)||[]).map(Number);
           const luminance = rgb => rgb.slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
           const failures=[];
-          for(const element of document.querySelectorAll('#fix p, #fix h2, #fix h3, #fix h4, #fix pre code, .destination-link, .btn-analyze, #fix .copy-btn')) {
+          for(const element of document.querySelectorAll('#fix p, #fix h2, #fix h3, #fix h4, #fix pre code, #fix .card-source a, .destination-link, .btn-analyze, #fix .copy-btn')) {
             if(!element.checkVisibility())continue;
             const style=getComputedStyle(element),ancestors=[];for(let p=element;p;p=p.parentElement)ancestors.push(p);
             let background=[255,255,255];for(const parent of ancestors.reverse()){const color=rgba(getComputedStyle(parent).backgroundColor),alpha=color[3]??1;if(color.length>=3)background=background.map((v,i)=>color[i]*alpha+v*(1-alpha));}
@@ -47,6 +47,11 @@ fs.mkdirSync(output,{recursive:true});
       await page.evaluate(()=>document.documentElement.setAttribute('data-theme','light'));
       // Real user journeys: navigation, learning staging, command lookup and Back.
       await page.locator('.destination-link[data-destination="learn"]').click();await page.locator('#learn').waitFor({state:'visible'});
+      await page.mouse.move(0,0);
+      const lessonLink=page.locator('.learning-path a').first();
+      const linkStyle=await lessonLink.evaluate(element=>({color:getComputedStyle(element).color,decoration:getComputedStyle(element).textDecorationLine}));
+      assert.equal(linkStyle.decoration,'underline');
+      assert.equal(linkStyle.color,'rgb(3, 105, 161)','Learning links use the light-theme link colour rather than the browser default');
       await page.locator('.learning-path a[href="#analogy-staging"]').click();await page.waitForFunction(()=>location.hash==='#analogy-staging');
       assert.equal(await page.locator('#analogy-staging').isVisible(),true);
       await page.locator('.destination-link[data-destination="reference"]').click();await page.locator('#reference').waitFor({state:'visible'});
@@ -70,7 +75,9 @@ fs.mkdirSync(output,{recursive:true});
         const key=await recipe.getAttribute('data-recipe');
         const headings=await recipe.locator(':scope > h4').allTextContents();assert.deepEqual(headings,['What this means','Check before continuing','Steps','What changes','Confirm it worked','If it didn’t work']);
         const commands=await recipe.locator(':scope > .recovery-steps > li pre code').allTextContents();assert.deepEqual(commands,require('../recovery.js').recipes[key].steps.map(s=>s.code));
+        const documentation=recipe.locator(':scope > .card-source a');assert.equal(await documentation.count(),1);assert.equal((await documentation.textContent()).trim(),'Official documentation');
       }
+      assert.equal(await page.locator('article:has([data-recovery-slot]) > .card-source, #card-forge-troubleshoot > .card-source').count(),0,'Recipe cards must not receive a duplicate fallback source footer');
       for(const destination of ['fix','learn','reference']) {
         await page.goto(target.split('#')[0].split('?')[0]+'#'+destination);
         await page.waitForFunction(d=>document.documentElement.dataset.destination===d,destination);

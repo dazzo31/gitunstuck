@@ -17,6 +17,8 @@ Baseline: main at `ac3901f369ed162f7793ccdef3846fb1adb88481`; initial worktree c
 
 ## Evidence interpretation
 
+Link presentation follow-up: shared link colour, underline, hover and focus styling added; shared recipes own their single "Official documentation" footer, with fallback footers limited to standalone cards. 193 parser assertions and source/minified desktop/mobile browser journeys passed, including link colour, documentation-link contrast and single-footer checks.
+
 Parser/data/source assertions verify recognition and markup properties. Disposable repositories verify file contents, the index, commit reachability and resulting remote history. Browser checks verify interaction and sampled presentation. Provider policies, login services, real credential exposure and rotation are not established by any local test.
 
 The original inventory deliberately records defective commands as baseline evidence. It is not endorsed recovery guidance. Current recipes are in recovery.js, shared by the UI, executable tests and production build.
