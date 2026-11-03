@@ -1,5 +1,15 @@
 # Changelog
 
+## Consistency follow-up (2026-11-03)
+
+- Removed contradictory static risk badges and derived consequence filtering from the active recipe.
+- Made commit creation distinct from editor saves and replaced elaborate remaining labels.
+- Separated everyday remote updates from divergence inspection; tested both against disposable remotes.
+- Removed repeated reference titles, legacy checklists, repeated execution instructions and duplicate secret documentation links; steps expand on request.
+- Added full staged diffs and fetched outgoing-history patches before the decisions that require them.
+- Removed the redundant jump button above the analyzer input.
+
+
 ## Released — recovery audit (2026-11-03)
 
 - Require explicit secret-scanning evidence; separate latest-tip file/source cleanup from unsupported earlier history.

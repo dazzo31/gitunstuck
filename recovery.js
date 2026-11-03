@@ -47,14 +47,22 @@
       "title": "Secret scanning explicitly blocked this push",
       "risk": "Credential exposure; history inspection required",
       "means": "The output explicitly mentions secret scanning or a push containing secrets. A rule code by itself does not establish this.",
-      "checks": "Revoke or rotate the credential if exposure occurred or cannot be excluded. Read every reported commit and path. Determine whether the secret is confined to the latest unpublished, non-merge commit, and whether it is an entire accidentally tracked file or a value inside legitimate source. A rejected push does not prove the credential was never exposed.",
+      "checks": "Revoke or rotate the credential if exposure occurred or cannot be excluded. Read every reported commit and path. Determine whether the secret is confined to the latest unpublished, non-merge commit, and whether it is an entire accidentally tracked file or a value inside legitimate source. A rejected push does not prove the credential was never exposed. Check the destination remote and whether the destination branch already exists before choosing the outgoing range. Patches containing credentials must stay local.",
       "steps": [
         {
-          "text": "Inspect the current commit and all outgoing history after fetching the checked remote. OUTGOING_RANGE is a reviewed revision range such as remote/branch..HEAD; for a new branch inspect its entire ancestry.",
-          "code": "git status\ngit remote -v\ngit log --oneline --all\ngit show --stat HEAD"
+          "text": "Inspect the current state and configured remote. Check REMOTE before fetching. These commands can display credentials from local history; inspect them locally and do not share unredacted output.",
+          "code": "git status\ngit remote -v\ngit show --stat HEAD"
+        },
+        {
+          "text": "Fetch the selected remote so its tracking references reflect the current remote history. No commits are published.",
+          "code": "git fetch \"REMOTE\""
+        },
+        {
+          "text": "Choose OUTGOING_RANGE from the fetched destination branch to HEAD (for example team/release..HEAD). For a new remote branch, use HEAD to inspect all ancestors. Read every listed commit and its patch, including scanner-reported paths. Merges or unclear ancestry require separate history-cleanup guidance.",
+          "code": "git log --oneline \"OUTGOING_RANGE\"\ngit log --format=fuller --patch \"OUTGOING_RANGE\""
         }
       ],
-      "effect": "Inspection only. Ignoring a file or adding a later deletion does not remove it from earlier commits.",
+      "effect": "Fetch updates the selected remote-tracking references; the history commands inspect the chosen outgoing range. Local files, the index and HEAD are unchanged. No cleanup is attempted. Ignoring a file or adding a later deletion does not remove it from earlier commits.",
       "verify": "For latest-commit cleanup, use exactly one of the two recipes below only after all prerequisites hold. Review every commit that will be pushed. Absence of a rejection alone does not verify cleanup.",
       "failure": "Earlier commits, published history, merge commits, uncertain ancestry, or a dirty index/working tree require a separate cleanup plan. Follow the linked authoritative history-cleanup instructions; this app does not claim to clean those cases.",
       "source": "https://docs.github.com/en/code-security/how-tos/secure-your-secrets/work-with-leak-prevention/push-protection-on-the-command-line"
@@ -103,7 +111,7 @@
         },
         {
           "text": "Review locally that only the intended credential removal is staged. Do not share this diff if it contains the old credential.",
-          "code": "git diff --cached --stat"
+          "code": "git diff --cached"
         },
         {
           "text": "Replace the unpublished tip. Review the final commit after hooks run; run project checks separately.",
@@ -131,7 +139,7 @@
         },
         {
           "text": "After resolving RESOLVED_FILE, stage that exact path. Repeat for every resolved path, then review the staged result locally.",
-          "code": "git add -- \"RESOLVED_FILE\"\ngit diff --cached --stat"
+          "code": "git add -- \"RESOLVED_FILE\"\ngit diff --cached"
         },
         {
           "text": "Continue only after no unresolved paths remain and project checks pass.",
@@ -231,7 +239,7 @@
       "steps": [
         {
           "text": "Search the local reflog and inspect a candidate full hash.",
-          "code": "git reflog -n 30\ngit show --stat \"COMMIT_ID\""
+          "code": "git reflog -n 30\ngit show \"COMMIT_ID\""
         },
         {
           "text": "After checking the content, add a branch without switching your working tree.",
@@ -331,7 +339,7 @@
       "steps": [
         {
           "text": "Inspect the selected commit, then create its inverse.",
-          "code": "git show --stat \"COMMIT_ID\"\ngit revert \"COMMIT_ID\""
+          "code": "git show \"COMMIT_ID\"\ngit revert \"COMMIT_ID\""
         }
       ],
       "effect": "Adds a new commit, or pauses on conflicts. The original remains reachable. This does not remove secrets from history.",
@@ -354,8 +362,12 @@
           "code": "git status\ngit add -- \"FILE\""
         },
         {
-          "text": "Inspect the staged changes locally; commit only after the review passes.",
-          "code": "git diff --cached --stat\ngit commit -m \"Initial commit\""
+          "text": "Read the full staged diff locally. Check the actual contents and every staged path, including credentials and ignore rules. Continue only after the review passes.",
+          "code": "git diff --cached"
+        },
+        {
+          "text": "Create the first commit from the reviewed index.",
+          "code": "git commit -m \"Initial commit\""
         }
       ],
       "effect": "Creates a local repository and records selected files. Nothing is published.",
@@ -535,7 +547,7 @@
       "steps": [
         {
           "text": "Inspect the target and source commit.",
-          "code": "git status\ngit branch --show-current\ngit show --stat \"COMMIT_ID\""
+          "code": "git status\ngit branch --show-current\ngit show \"COMMIT_ID\""
         },
         {
           "text": "Apply just the reviewed commit.",
@@ -566,6 +578,46 @@
       "verify": "The intended file remains on disk, git ls-files prints no path, and git check-ignore identifies the intended rule. Review all matching paths before staging .gitignore.",
       "failure": "If the file is already tracked or exists in secret-bearing history, ignoring it is insufficient. Follow the separate secret-history guidance when scanning evidence or local inspection establishes a credential.",
       "source": "https://git-scm.com/docs/gitignore"
+    },
+    "sync": {
+      "title": "Update a branch from its remote",
+      "risk": "Fetches remote history; may advance the branch and publish reviewed commits",
+      "means": "For everyday updates, fetch the selected remote, inspect the relationship to its tracking branch, then accept only a fast-forward. This workflow does not reconcile diverged histories.",
+      "checks": "Require the intended named branch, a clean index and working tree, and no active operation. Check REMOTE, BRANCH and its fetched UPSTREAM_REF; do not assume origin or main. If both sides have unique commits, stop and use the separate divergence guidance below. Inspect every outgoing commit for credentials and run project checks before publishing.",
+      "steps": [
+        {
+          "text": "Confirm the current branch, work and remote configuration.",
+          "code": "git status\ngit branch --show-current\ngit branch -vv\ngit remote -v"
+        },
+        {
+          "text": "Fetch the checked remote without integrating changes.",
+          "code": "git fetch \"REMOTE\""
+        },
+        {
+          "text": "Inspect both sides. A < marks a local-only commit and > marks an upstream-only commit. If both appear, use the divergence guidance instead of continuing.",
+          "code": "git log --left-right --graph --oneline \"HEAD...UPSTREAM_REF\""
+        },
+        {
+          "text": "Bring in upstream commits only if this can fast-forward. If it fails, stop; do not replace it with a reset or an automatic rebase.",
+          "code": "git merge --ff-only \"UPSTREAM_REF\""
+        },
+        {
+          "text": "Review all outgoing commits and their full patches locally. Do not share output containing credentials. Continue only after content review and project checks pass.",
+          "code": "git log --format=fuller --patch \"UPSTREAM_REF..HEAD\""
+        },
+        {
+          "text": "If you have reviewed local commits to publish, push only to the checked destination branch. If nothing is outgoing, this step is unnecessary.",
+          "code": "git push \"REMOTE\" \"HEAD:refs/heads/BRANCH\""
+        },
+        {
+          "text": "Compare the remote destination hash with HEAD and inspect the final work state.",
+          "code": "git ls-remote --heads \"REMOTE\" \"BRANCH\"\ngit rev-parse HEAD\ngit status"
+        }
+      ],
+      "effect": "Fetch refreshes remote-tracking references. The fast-forward step advances the current branch only when histories permit it; existing local commits are retained. The optional push publishes the reviewed commits. No merge commit, rebase or force update is chosen automatically.",
+      "verify": "The checked remote branch hash must match the intended HEAD after any push. Inspect the resulting files and history and confirm the index and working tree remain clean.",
+      "failure": "If histories have diverged, stop and inspect the separate divergence recipe. If permissions, policy, credentials or a concurrent update reject the push, use the exact rejection to choose the next step; do not force-push.",
+      "source": "https://git-scm.com/docs/git-merge"
     }
   };
   const normalize = raw => String(raw || '').slice(0,102400).replace(/\x1b\[[0-9;]*[a-zA-Z]/g,'').replace(/\r\n?/g,'\n');

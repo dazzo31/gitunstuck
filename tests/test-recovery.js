@@ -22,16 +22,18 @@ function init(name='main') {
 }
 function snapshot(repo){return {head:git(repo,'rev-parse','HEAD'),status:git(repo,'status','--porcelain'),index:git(repo,'diff','--cached','--binary'),working:git(repo,'diff','--binary'),untracked:git(repo,'ls-files','--others','--exclude-standard')};}
 function command(recipe,step,vars={}) {
-  return recipes[recipe].steps[step].code.replace(/\b(?:REVIEW_BRANCH|REMOTE_BRANCH|LOCAL_BRANCH|RESCUE_BRANCH|BACKUP_BRANCH|EXPECTED_REMOTE_SHA|SECRET_FILE|SOURCE_FILE|RESOLVED_FILE|OUTGOING_RANGE|UPSTREAM_REF|WORKTREE_PATH|TARGET_BRANCH|BASE_COMMIT|GOOD_COMMIT|BAD_COMMIT|RELEASE_TAG|COMMIT_ID|REPOSITORY_URL|CLONE_DIRECTORY|INITIAL_BRANCH|NEW_BRANCH|REMOTE|FILE)\b/g, k=>{assert.ok(k in vars,`Missing ${k} in ${recipe}`);assert.ok(!/["\r\n`$;&|]/.test(vars[k]),'Fixture value must be shell-neutral');return vars[k];});
+  return recipes[recipe].steps[step].code.replace(/\b(?:REVIEW_BRANCH|REMOTE_BRANCH|LOCAL_BRANCH|RESCUE_BRANCH|BACKUP_BRANCH|EXPECTED_REMOTE_SHA|SECRET_FILE|SOURCE_FILE|RESOLVED_FILE|OUTGOING_RANGE|UPSTREAM_REF|WORKTREE_PATH|TARGET_BRANCH|BASE_COMMIT|GOOD_COMMIT|BAD_COMMIT|RELEASE_TAG|COMMIT_ID|REPOSITORY_URL|CLONE_DIRECTORY|INITIAL_BRANCH|NEW_BRANCH|BRANCH|REMOTE|FILE)\b/g, k=>{assert.ok(k in vars,`Missing ${k} in ${recipe}`);assert.ok(!/["\r\n`$;&|]/.test(vars[k]),'Fixture value must be shell-neutral');return vars[k];});
 }
 function step(repo,recipe,i,vars={}) {
   // The recipes use only Git commands with double-quoted arguments. Execute
   // their exact argv without an intermediate shell; separate shell checks
   // below verify the identical authored text in PowerShell and Bash.
+  const output=[];
   for(const line of command(recipe,i,vars).split('\n')) {
     const args=[...line.matchAll(/"([^"]*)"|([^\s"]+)/g)].map(m=>m[1]??m[2]);
-    assert.equal(args.shift(),'git');git(repo,...args);
+    assert.equal(args.shift(),'git');output.push(git(repo,...args));
   }
+  return output.join('\n');
 }
 function test(name,fn){fn();passed++;console.log(`PASS ${name}`);}
 function bare(){const d=fs.mkdtempSync(path.join(root,'remote with spaces-'));git(d,'init','--bare');return d;}
@@ -63,8 +65,9 @@ try {
     noCredential(r,'HEAD',credential);assert.equal(git(r,'ls-files','--','source file.js'),'source file.js');assert.equal(read(r,'source file.js'),'module.exports = process.env.EXISTING_TOKEN;\n');assert.equal(git(r,'status','--porcelain'),'');
   });
   test('earlier secret: inspection never claims history is cleaned',()=>{
-    const r=init();const credential='TEST-CREDENTIAL-earlier-382649';write(r,'source.js',credential);git(r,'add','.');git(r,'commit','-m','earlier leak');write(r,'tracked file.txt','later\n');git(r,'commit','-am','later');
-    const before=snapshot(r);for(let i=0;i<recipes.secret.steps.length;i++)step(r,'secret',i);
+    const r=init(),remote=bare();git(r,'remote','add','team',remote);git(r,'push','team','HEAD:main');const base=git(r,'rev-parse','HEAD');const credential='TEST-CREDENTIAL-earlier-382649';write(r,'source.js',credential);git(r,'add','.');git(r,'commit','-m','earlier leak');write(r,'tracked file.txt','later\n');git(r,'commit','-am','later');
+    const before=snapshot(r);let inspection='';for(let i=0;i<recipes.secret.steps.length;i++)inspection+=step(r,'secret',i,{REMOTE:'team',OUTGOING_RANGE:`${base}..HEAD`});
+    assert.ok(inspection.includes(credential),'The authored outgoing-history inspection must show the earlier secret in the full patch');assert.equal(git(r,'rev-parse','team/main'),base);
     assert.deepEqual(snapshot(r),before);assert.ok(git(r,'show','HEAD:source.js').includes(credential));assert.match(recipes.secret.failure,/Earlier commits/);
     // Demonstrate why unsupported tip-only cleanup cannot erase an ancestor.
     write(r,'source.js','removed at tip\n');git(r,'add','source.js');git(r,'commit','--amend','--no-edit');assert.ok(git(r,'show','HEAD~1:source.js').includes(credential));
@@ -132,8 +135,19 @@ try {
       for(let i=0;i<recipes.diverged.steps.length;i++)step(r,'diverged',i,{REMOTE:'team',UPSTREAM_REF:'team/custom'});
       assert.deepEqual(snapshot(r),before);assert.equal(git(r,'rev-list','--left-right','--count','HEAD...team/custom'),'1\t1');assert.equal(fs.existsSync(path.join(r,'other.txt')),false);
     });
+    for(const state of ['equal','ahead','behind','diverged'])test(`everyday remote update handles ${state} history without rewriting commits`,()=>{
+      const r=init('custom'),remote=bare();git(r,'remote','add','team',remote);git(r,'push','-u','team','custom');
+      if(['behind','diverged'].includes(state)){const other=fs.mkdtempSync(path.join(root,'sync clone-'));git(root,'clone','-b','custom',remote,other);git(other,'config','user.name','Other');git(other,'config','user.email','other@example.invalid');write(other,'remote.txt','remote work\n');git(other,'add','.');git(other,'commit','-m','remote update');git(other,'push','origin','custom');}
+      if(['ahead','diverged'].includes(state)){write(r,'local.txt','local work\n');git(r,'add','.');git(r,'commit','-m','local update');}
+      const before=snapshot(r),remoteBefore=git(remote,'rev-parse','refs/heads/custom');const vars={REMOTE:'team',UPSTREAM_REF:'team/custom',BRANCH:'custom'};
+      for(let i=0;i<3;i++)step(r,'sync',i,vars);
+      if(state==='diverged'){assert.throws(()=>step(r,'sync',3,vars),/Not possible to fast-forward|Diverging branches/);assert.deepEqual(snapshot(r),before);assert.equal(git(remote,'rev-parse','refs/heads/custom'),remoteBefore);return;}
+      for(let i=3;i<recipes.sync.steps.length;i++)step(r,'sync',i,vars);
+      git(r,'merge-base','--is-ancestor',before.head,'HEAD');assert.equal(git(remote,'rev-parse','refs/heads/custom'),git(r,'rev-parse','HEAD'));assert.equal(git(r,'status','--porcelain'),'');assert.equal(read(r,'tracked file.txt'),'base\n');
+      if(state==='behind')assert.equal(read(r,'remote.txt'),'remote work\n');if(state==='ahead')assert.equal(read(r,'local.txt'),'local work\n');
+    });
     test('new repository, stage and branch use the same authored commands',()=>{
-      const r=fs.mkdtempSync(path.join(root,'new project-'));write(r,'first file.txt','first\n');step(r,'init',0,{INITIAL_BRANCH:'custom'});git(r,'config','user.name','Test');git(r,'config','user.email','test@example.invalid');step(r,'init',1,{FILE:'first file.txt'});step(r,'init',2);assert.equal(git(r,'show','HEAD:first file.txt'),'first');
+      const r=fs.mkdtempSync(path.join(root,'new project-'));write(r,'first file.txt','first\n');step(r,'init',0,{INITIAL_BRANCH:'custom'});git(r,'config','user.name','Test');git(r,'config','user.email','test@example.invalid');step(r,'init',1,{FILE:'first file.txt'});assert.match(step(r,'init',2),/^\+first$/m,'The pre-commit review must display the actual staged content');step(r,'init',3);assert.equal(git(r,'show','HEAD:first file.txt'),'first');
       write(r,'first file.txt','second\n');for(let i=0;i<recipes.stage.steps.length;i++)step(r,'stage',i,{FILE:'first file.txt'});assert.equal(git(r,'show','HEAD:first file.txt'),'second');const before=snapshot(r);for(let i=0;i<recipes.branch.steps.length;i++)step(r,'branch',i,{NEW_BRANCH:'feature/work'});assert.deepEqual(snapshot(r),before);assert.equal(git(r,'branch','--show-current'),'feature/work');
     });
     test('clone writes the selected directory and leaves source untouched',()=>{

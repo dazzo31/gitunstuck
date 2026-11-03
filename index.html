@@ -2206,6 +2206,11 @@
     #reference .search-label { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); }
     #reference .search-kbd { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
     .reference-browse { margin: 16px 0; }
+    .reference-instructions { margin: 12px 0; color: var(--text-muted); font-size: .85rem; line-height: 1.6; max-width: 85ch; }
+    .recipe-details { margin-top: 14px; }
+    .recipe-details > summary { color: var(--accent-green); font-weight: 600; }
+    .recipe-compact h4 { margin-top: 12px; }
+    .recipe-compact .recipe-risk { margin-top: 4px; }
     @media (max-width: 640px) {
       header.topbar { position: static; }
       .topbar-content { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 12px 16px; }
@@ -2305,12 +2310,6 @@
   <main class="container" id="mainContent">
     <section id="fix" data-destination-panel="fix" aria-label="Fix a problem">
 <section class="emergency-hero" id="emergencyHero" aria-labelledby="emergencyHeading">
-      <div class="hero-top-row">
-
-        <button id="heroJumpToAnalyzer" class="hero-analyzer-btn" title="Jump directly to terminal error &amp; status analyzer">
-          <svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Paste Terminal Error / Status →
-        </button>
-      </div>
       <h2 class="emergency-title" id="emergencyHeading">Fix a problem</h2>
       <p class="emergency-subtitle">Start with the output. Check the prerequisites before running a recovery command.</p>
       <!-- LIVE TERMINAL STATUS & ERROR ANALYZER -->
@@ -2484,7 +2483,7 @@
             <div class="analogy-meta">Cloud Storage &amp; Configured Robot</div>
             <p class="analogy-text"><strong>GitHub</strong> is a cloud host for your repo. A <strong>Pipeline</strong> is a robot that runs automated tests and deploys, <em>if your repository has a workflow file configured</em>.</p>
             <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-sync')">
-              <span>View Recipe: Cloud Sync</span> →
+              <span>View remote update commands</span> →
             </button>
           </div>
         </div>
@@ -2535,10 +2534,10 @@
       </div>
     </section><section class="four-zone-section" id="fourZoneModel" aria-labelledby="fourZoneHeading" role="region">
       <div class="four-zone-header">
-        <span class="primer-badge"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Core Architecture • Data Flow</span>
+        <span class="primer-badge"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Git concepts</span>
         <h2 class="four-zone-title" id="fourZoneHeading">
           <svg class="tota-icon tota-icon-lg" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          The 4 Git Zones &amp; Data Flow Lifecycle
+          Working files, staging and commits
         </h2>
         <p class="four-zone-subtitle">
           These four locations describe different Git states; they are not four separate copies of every file. Click any zone card or simulation step to trace how code advances forward, what <code>git status</code> reports at each checkpoint, and which prerequisites each undo operation needs:
@@ -2561,7 +2560,7 @@
           <span class="step-num">4</span> <code>git push</code> (Publish)
         </button>
         <button type="button" class="zone-step-btn btn-reverse" data-step="reverse" aria-pressed="false">
-          <span>↺</span> Two-Way Highway (Safe Rollbacks)
+          <span>↺</span> Undo operations
         </button>
       </div>
 
@@ -2629,13 +2628,13 @@
       <div class="graph-header">
         <span class="primer-badge">Interactive Visual Map</span>
         <h2 class="graph-title" id="graphHeading">🗺️ Branches, commits and HEAD</h2>
-        <p class="graph-subtitle">Think of Git as an automatic scrapbook of save points. Each time you save, Git leaves a breadcrumb trail back to where you started. Click any button below to watch how save points, bookmarks (branches), and your current view (HEAD) move in real time:</p>
+        <p class="graph-subtitle">Each time you create a commit, Git records the staged snapshot and links it to its parent commits. Saving a file in your editor changes the working file only. Choose an example to see how commits, branches and HEAD relate:</p>
       </div>
 
       <!-- Graph Scenario Tabs -->
       <div class="graph-scenario-bar" role="radiogroup" aria-label="Commit timeline scenarios">
         <button class="graph-tab-btn active" data-scenario="linear" role="radio" aria-checked="true">
-          <span>🌱</span> Normal Daily Saves
+          <span>🌱</span> Create commits
         </button>
         <button class="graph-tab-btn" data-scenario="branch" role="radio" aria-checked="false">
           <span>🌿</span> Branch (Separate commit reference)
@@ -2738,7 +2737,7 @@
       </details>
     </section></section>
     <section id="reference" data-destination-panel="reference" aria-label="Find a command" hidden>
-      <h2>Find a command</h2><p>Search by command or task. Each recovery recipe explains its prerequisites, effects and verification.</p>      <!-- Quick Search -->
+      <h2>Find a command</h2><p>Search by command or task. Read the prerequisites and consequences, then open the steps when you need them.</p><p id="referenceInstructions" class="reference-instructions"></p>      <!-- Quick Search -->
       <div class="search-wrapper">
         <label for="searchInput" class="search-label" aria-hidden="true">
           <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
@@ -2768,7 +2767,7 @@
         <button class="task-chip pro-only" data-target="card-rebase"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg> Clean up commits before PR</button>
         <button class="task-chip pro-only" data-target="card-reflog"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg> Rescue lost commits with reflog</button>
         <button class="task-chip" data-target="commitGraphExplorer"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Visual Timeline &amp; Branch Map</button>
-        <button class="task-chip" data-target="fourZoneModel"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> 4-Zone Model &amp; Data Flow</button>
+        <button class="task-chip" data-target="fourZoneModel"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Working files, staging and commits</button>
         <button class="task-chip" data-target="card-tag"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Tag a production release</button>
       </div>
     </section></details>    <!-- Category & Risk Filter Controls -->
@@ -2784,11 +2783,11 @@
       </nav>
 
       <nav class="filter-bar risk-filter-bar" id="riskFilter" aria-label="Risk level filter">
-        <span class="filter-group-label" aria-hidden="true">Risk Level:</span>
+        <span class="filter-group-label" aria-hidden="true">Consequences:</span>
         <button class="risk-pill active" data-risk-filter="all" aria-pressed="true">All Risks</button>
-        <button class="risk-pill risk-pill-safe" data-risk-filter="safe" aria-pressed="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg> Read-only explanations</button>
+        <button class="risk-pill risk-pill-safe" data-risk-filter="safe" aria-pressed="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg> Inspect state</button>
         <button class="risk-pill risk-pill-caution" data-risk-filter="caution" aria-pressed="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg> Changes files or history</button>
-        <button class="risk-pill risk-pill-dest" data-risk-filter="destructive" aria-pressed="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg> Destructive / Rewriting</button>
+        <button class="risk-pill risk-pill-dest" data-risk-filter="destructive" aria-pressed="false"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg> Rewrites or discards</button>
       </nav>
     </div>
 
@@ -2851,7 +2850,6 @@
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Working Tree &amp; Index</span>
-          <span class="badge badge-risk-caution">Risk: Destructive / Reversible</span>
         </div>
         <div class="plain-english-note">
           <span class="plain-english-pill"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-9"/><path d="M12 13a5 5 0 0 0-5-5H3a9 9 0 0 0 9 9"/><path d="M12 13a5 5 0 0 1 5-5h4a9 9 0 0 1-9 9"/></svg> Guided Concept</span>
@@ -2894,14 +2892,14 @@
       <!-- CARD 6: Working with Remotes & Team Sync (Multi-Host) -->
       <article class="card" id="card-sync" data-category="cloud" data-risk="caution" data-keywords="github gitlab bitbucket cloud upload download sync push pull fetch remote rejected non-fast-forward upstream team updates">
         <div class="card-top">
-          <h2 class="card-title">Inspect remote updates</h2>
+          <h2 class="card-title">Update a branch from its remote</h2>
           <div class="card-top-actions">
             <button type="button" class="card-link-btn" onclick="copyCardLink('card-sync', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
-<div data-recovery-slot="diverged"></div>        <details class="task-deep-dive" id="deepDiveCloudRosetta">
+<div data-recovery-slot="sync"></div><details id="sync-diverged" class="divergence-guidance"><summary>Branches have diverged: inspect before integrating</summary><div data-recovery-slot="diverged"></div></details>        <details class="task-deep-dive" id="deepDiveCloudRosetta">
           <summary class="task-deep-dive-summary">
-            <span class="task-deep-dive-title">🌐 The Cloud Host Rosetta Stone (GitHub vs. GitLab vs. Bitbucket)</span>
+            <span class="task-deep-dive-title">🌐 Hosting differences</span>
             <span class="task-deep-dive-badge">Multi-Host</span>
           </summary>
           <div class="task-deep-dive-content">
@@ -2928,14 +2926,13 @@
       <!-- CARD 6b: Cloud Forge Troubleshooting & Remote Overlays -->
       <article class="card forge-overlay-card" id="card-forge-troubleshoot" data-category="cloud" data-risk="safe" data-keywords="github gitlab bitbucket auth authentication token pat password ssh protected branch rejected hook declined secret scanning gh013 credential manager push failure fork upstream sync">
         <div class="card-top">
-          <h2 class="card-title">Cloud Forge Troubleshooting (GitHub, GitLab, Bitbucket)</h2>
+          <h2 class="card-title">Hosting troubleshooting</h2>
           <div class="card-top-actions">
             <button type="button" class="card-link-btn" onclick="copyCardLink('card-forge-troubleshoot', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote Authentication &amp; Rules</span>
-          <span class="badge badge-risk-safe">Risk: Reversible / Safe</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> You ran into a remote platform rejection on GitHub, GitLab, or Bitbucket: a protected branch push rejection, invalid authentication or credentials, automated secret detection blocks, or fork divergence.
@@ -2986,7 +2983,6 @@
         </div>
         <div class="card-meta-bar">
           <span class="badge badge-scope">Scope: Remote Cloud</span>
-          <span class="badge badge-risk-safe">Risk: Read-Only</span>
         </div>
         <div class="card-scenario">
           <strong>When to use:</strong> Understanding how pushing code triggers cloud robots that test code, build assets, and deploy applications automatically across GitHub, GitLab, or Bitbucket.
@@ -3035,7 +3031,7 @@ jobs:
             <button type="button" class="card-link-btn" onclick="copyCardLink('card-stash', this)" aria-label="Copy direct link to this recipe" title="Copy direct link"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link</button>
           </div>
         </div>
-<div data-recovery-slot="snapshot"></div><details><summary>Dropped stashes and other stash operations</summary><p>Recovery depends on which objects still exist locally. This guide does not promise recovery of dropped or cleared stashes. Inspect the <a href="https://git-scm.com/docs/git-stash">official stash instructions</a> before choosing stash branch, autostash or object recovery.</p></details></article>
+<div data-recovery-slot="snapshot"></div><details><summary>Dropped stashes and other stash operations</summary><p>Recovery depends on which objects still exist locally. This guide does not promise recovery of dropped or cleared stashes. Inspect the Official documentation link above before choosing stash branch, autostash or object recovery.</p></details></article>
 
       <!-- CARD 9: Merge Conflict Resolution -->
       <article class="card" id="card-conflict" data-category="branch" data-risk="caution" data-keywords="conflict merge clash team overlapping markers resolve failed merge abort clash git merge --continue">
@@ -3292,19 +3288,19 @@ jobs:
     const undoRecipeKeys = { unstaged: 'discard', staged: 'unstage', 'local-commit': 'rewind', 'pushed-commit': 'revert', 'lost-reflog': 'reflog' };
     const undoSolutions = Object.fromEntries(Object.entries(undoRecipeKeys).map(([key, recipeKey]) => [key, GitRecovery.recipes[recipeKey]]));
 
-    function renderRecoveryRecipe(key, showTitle = true) {
+    function renderRecoveryRecipe(key, showTitle = true, { compact = false, common = true, source = true } = {}) {
       const r = GitRecovery.recipes[key];
       if (!r) return '';
-      return `<div class="recovery-recipe" data-recipe="${key}">
+      const steps = `<h4>Steps</h4><ol class="recovery-steps">${r.steps.map(step => `<li><p>${h(step.text)}</p><div class="snippet-block"><div class="snippet-header"><span>Commands for this step</span><button type="button" class="copy-btn" onclick="copySnippet(this)" aria-label="Copy commands for this step">Copy</button></div><pre class="code-content"><code>${highlightCodeText(step.code)}</code></pre></div></li>`).join('')}</ol>`;
+      const changes = `<h4>What changes</h4><p>${h(r.effect)}</p>`;
+      const verification = `<h4>Confirm it worked</h4><p>${h(r.verify)}</p><h4>If it didn’t work</h4><p>${h(r.failure)}</p>`;
+      return `<div class="recovery-recipe${compact ? ' recipe-compact' : ''}" data-recipe="${key}">
         ${showTitle ? `<h3>${h(r.title)}</h3>` : ''}
         <p class="recipe-risk"><strong>Command consequences:</strong> ${h(r.risk)}</p>
         <h4>What this means</h4><p>${h(r.means)}</p>
-        <h4>Check before continuing</h4><p>${h(r.checks)}</p><p>${h(GitRecovery.stop)}</p>
-        <h4>Steps</h4><ol class="recovery-steps">${r.steps.map(step => `<li><p>${h(step.text)}</p><div class="snippet-block"><div class="snippet-header"><span>Commands for this step</span><button type="button" class="copy-btn" onclick="copySnippet(this)" aria-label="Copy commands for this step">Copy</button></div><pre class="code-content"><code>${highlightCodeText(step.code)}</code></pre></div></li>`).join('')}</ol>
-        <h4>What changes</h4><p>${h(r.effect)}</p>
-        <h4>Confirm it worked</h4><p>${h(r.verify)}</p>
-        <h4>If it didn’t work</h4><p>${h(r.failure)}</p>
-        <div class="card-source"><a href="${r.source}" target="_blank" rel="noopener noreferrer">Official documentation</a></div>
+        <h4>Check before continuing</h4><p>${h(r.checks)}</p>${common ? `<p class="execution-instructions">${h(GitRecovery.stop)}</p>` : ''}
+        ${compact ? `${changes}<details class="recipe-details"><summary>Show steps and verification</summary>${steps}${verification}</details>` : `${steps}${changes}${verification}`}
+        ${source ? `<div class="card-source"><a href="${r.source}" target="_blank" rel="noopener noreferrer">Official documentation</a></div>` : ''}
       </div>`;
     }
 
@@ -3339,14 +3335,14 @@ jobs:
     // 2b. Visual Commit Timeline & Branch Map Logic
     const graphScenarios = {
       'linear': {
-        name: 'Daily Save Points (git commit)',
+        name: 'Create commits (git commit)',
         command: 'git commit -m "feat: login button"',
         headFile: 'ref: refs/heads/main',
         headNote: 'HEAD is symbolic: points to your active "main" branch ref file',
         branchPath: '📄 .git/refs/heads/main',
         branchFile: '3a7f82b49e10d54c82b90198273645102938475a',
         branchNote: '40-char SHA-1 hash of latest checkpoint c3',
-        svg: `<svg viewBox="0 0 760 190" class="graph-svg" aria-label="Daily Save Points Visual Timeline" xmlns="http://www.w3.org/2000/svg">
+        svg: `<svg viewBox="0 0 760 190" class="graph-svg" aria-label="Commit timeline" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b"/>
@@ -3739,24 +3735,6 @@ jobs:
         const isCurrentlyCollapsed = beginnerPrimerElem?.classList.contains('is-collapsed');
         setPrimerCollapsed(!isCurrentlyCollapsed, true);
         announceState(!isCurrentlyCollapsed ? 'Beginner guide collapsed' : 'Beginner guide expanded');
-      });
-    }
-
-    // Hero quick-jump to Terminal Analyzer
-    const heroJumpToAnalyzerBtn = document.getElementById('heroJumpToAnalyzer');
-    if (heroJumpToAnalyzerBtn) {
-      heroJumpToAnalyzerBtn.addEventListener('click', () => {
-        const analyzerElem = document.getElementById('terminalAnalyzer');
-        const statusInput = document.getElementById('statusInputText');
-        if (analyzerElem) {
-          analyzerElem.scrollIntoView({ behavior: scrollBehavior(), block: 'center' });
-          analyzerElem.classList.add('highlighted');
-          setTimeout(() => analyzerElem.classList.remove('highlighted'), 2200);
-        }
-        if (statusInput) {
-          setTimeout(() => statusInput.focus(), 350);
-        }
-        announceState('Jumped to Live Terminal Analyzer');
       });
     }
 
@@ -4345,7 +4323,7 @@ jobs:
     function injectCheckFirst() {
       document.querySelectorAll('article.card').forEach(card => {
         const checks = CHECKS[card.id];
-        if (!checks || card.querySelector('.card-check')) return;
+        if (!checks || card.querySelector('.card-check, [data-recovery-slot]') || card.id === 'card-forge-troubleshoot') return;
         const box = document.createElement('div');
         box.className = 'card-check';
         const strong = document.createElement('strong');
@@ -4423,18 +4401,26 @@ jobs:
     let activeForge = 'github';
     let activeIncident = 'protected-branch';
 
+    function recipeRiskCategory(key) {
+      if (['inspect', 'auth', 'diverged'].includes(key)) return 'safe';
+      if (['discard', 'rewind', 'rebasePlan', 'forceLease'].includes(key)) return 'destructive';
+      return 'caution';
+    }
+
     function renderForgeScenario() {
       const panel = document.getElementById('forgeDisplayPanel');
       if (!panel) return;
       const hostData = forgeScenarios[activeForge];
       const data = hostData ? hostData[activeIncident] : null;
       if (!data) return;
+      const card = document.getElementById('card-forge-troubleshoot');
+      if (card) card.dataset.risk = recipeRiskCategory(data.recipeKey);
 
-      panel.innerHTML = `<h3>${h(forgeNames[activeForge])}: ${h(data.title.split(': ').slice(1).join(': '))}</h3>` + renderRecoveryRecipe(data.recipeKey);
+      panel.innerHTML = `<h3>${h(forgeNames[activeForge])}: ${h(data.title.split(': ').slice(1).join(': '))}</h3>` + renderRecoveryRecipe(data.recipeKey, false, { common: false });
       if (activeIncident === 'secret') {
         panel.innerHTML += `<p><strong>Earlier or uncertain history:</strong> stop here and follow the official cleanup instructions above. The following paths apply only to a secret confined to the latest unpublished non-merge commit.</p>
-          <details><summary>Entire accidentally tracked file, latest commit only</summary>${renderRecoveryRecipe('secretFile')}</details>
-          <details><summary>Secret inside legitimate source, latest commit only</summary>${renderRecoveryRecipe('secretSource')}</details>`;
+          <details><summary>Entire accidentally tracked file, latest commit only</summary>${renderRecoveryRecipe('secretFile', true, { common: false, source: false })}</details>
+          <details><summary>Secret inside legitimate source, latest commit only</summary>${renderRecoveryRecipe('secretSource', true, { common: false, source: false })}</details>`;
       }
       if (activeIncident === 'auth') {
         panel.innerHTML += `<p>Follow the selected host’s <a href="${FORGE_SOURCE_MAP[activeForge].auth}" target="_blank" rel="noopener noreferrer">official authentication instructions</a>. Use the actual host for self-managed installations. GitHub tokens need appropriate repository and workflow permissions. Bitbucket Cloud uses API tokens or SSH; follow its current username and scope instructions.</p>`;
@@ -4472,9 +4458,12 @@ jobs:
     forgeIncidentBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         activeIncident = btn.getAttribute('data-incident') || 'protected-branch';
+        activeRiskFilter = 'all';
+        riskPills.forEach(pill => { const selected = pill.dataset.riskFilter === 'all'; pill.classList.toggle('active', selected); pill.setAttribute('aria-pressed', String(selected)); });
         navigateHash('#forge-' + activeForge + '/' + activeIncident);
         syncForgeButtons();
         renderForgeScenario();
+        filterCards();
         announceState(`Switched incident to ${btn.innerText.trim()}`);
       });
     });
@@ -4621,6 +4610,8 @@ jobs:
           target.classList.add('emergency-revealed');
         }
         if (target.classList.contains('card')) {
+          const steps = target.querySelector('.recipe-details');
+          if (steps) steps.open = true;
           if (searchInput && searchInput.value) {
             searchInput.value = '';
           }
@@ -5113,7 +5104,14 @@ nothing to commit, working tree clean`
       });
     });
 
-    document.querySelectorAll('[data-recovery-slot]').forEach(slot => { slot.innerHTML = renderRecoveryRecipe(slot.dataset.recoverySlot); });
+    document.querySelectorAll('[data-recovery-slot]').forEach(slot => {
+      const inReference = Boolean(slot.closest('#reference'));
+      const card = slot.closest('article.card');
+      if (card && !slot.closest('.divergence-guidance')) card.dataset.risk = recipeRiskCategory(slot.dataset.recoverySlot);
+      slot.innerHTML = renderRecoveryRecipe(slot.dataset.recoverySlot, !inReference, { compact: inReference, common: !inReference });
+    });
+    const referenceInstructions = document.getElementById('referenceInstructions');
+    if (referenceInstructions) referenceInstructions.textContent = GitRecovery.stop;
     renderZoneDetail('working');
 
     function bindChoiceKeys(selector) {

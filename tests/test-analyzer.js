@@ -257,7 +257,7 @@ recipeCardIds.forEach(id => {
 assert(allCardsPresent, 'All 18 recipe cards have deterministic IDs');
 assert(allCardLinksPresent, 'All 18 recipe cards have direct link copy buttons');
 assert(indexHtml.includes('copyDecisionLink('), 'Decision tree solutions include direct link copy button');
-assert(indexHtml.includes('id="heroJumpToAnalyzer"'), 'Hero section includes quick-jump to terminal analyzer');
+assert(!indexHtml.includes('id="heroJumpToAnalyzer"') && indexHtml.includes('id="statusInputText"'), 'Hero presents the analyzer input without a redundant jump button');
 assert(recipes.snapshot.steps.some(step => step.code.includes('git stash apply --index')), 'Snapshot explicitly attempts index restoration and retains the stash');
 assert(indexHtml.includes('[data-theme="light"] .git-file-content'), 'Light mode high-contrast rule exists for Under the Hood file content');
 assert(indexHtml.includes('[data-theme="light"] .snippet-block') && indexHtml.includes('[data-theme="light"] pre.code-content'), 'Light mode code boxes use soft light backgrounds with high-contrast text');

@@ -30,9 +30,9 @@ With Node.js 22 or later and Git installed:
 npm test
 ```
 
-This runs parser/source checks and disposable-repository integration tests. On the implementation machine, 193 parser/data/source assertions and 29 recovery scenarios passed. Ubuntu CI on Node 22 also passed 193 assertions and 28 scenarios (Bash only). Source-string assertions only establish markup/data properties; the integration tests establish repository outcomes.
+This runs parser/source checks and disposable-repository integration tests. On the implementation machine, 194 parser/data/source assertions and 33 recovery scenarios passed. The Ubuntu CI suite exercises Bash; Windows additionally runs the PowerShell scenario. Source-string assertions only establish markup/data properties; the integration tests establish repository outcomes.
 
-The recovery tests use temporary repositories and local bare remotes. They inspect actual file contents, index snapshots, untracked files, commit reachability and remote history. Coverage includes latest and earlier secrets, dirty protected-branch recovery, main/master/custom branches, custom remotes, paths with spaces, existing backup names, real merge and rebase conflicts, reflog, snapshots, discard, unstage, rewind, revert, clone, commit, worktree, tags, cherry-pick, lease rejection and deterministic bisect. The snapshot commands were also executed in actual Windows PowerShell and Git Bash.
+The recovery tests use temporary repositories and local bare remotes. They inspect actual file contents, index snapshots, untracked files, commit reachability and remote history. Coverage includes full staged-diff review, fetched outgoing-secret history, everyday remote updates in equal/ahead/behind/diverged states, latest and earlier secrets, dirty protected-branch recovery, main/master/custom branches, custom remotes, paths with spaces, existing backup names, real merge and rebase conflicts, reflog, snapshots, discard, unstage, rewind, revert, clone, commit, worktree, tags, cherry-pick, lease rejection and deterministic bisect. The snapshot commands were also executed in actual Windows PowerShell and Git Bash.
 
 For the minified, self-contained GitHub Pages artifact:
 
@@ -63,6 +63,8 @@ Local bare remotes do not reproduce GitHub/GitLab/Bitbucket rule engines, secret
 Ignored files, submodule work and external files require separate preservation. A branch only references commits; a stash is not an external backup. Reflog availability is local and configurable. Revert retains the original history and cannot remove a secret from it. Every recovery path requires the user to confirm its prerequisites.
 
 See the [task tracker](docs/recovery-task-tracker.md), [original baseline inventory](docs/recovery-audit/baseline.md), and [support boundaries](docs/recovery-audit/support.md). The baseline records original defective advice for auditing; it is not current recovery guidance.
+
+Reference cards keep prerequisites and consequences visible while steps and verification expand on request. Common execution instructions appear once above the reference; shared secret-cleanup variants use their parent documentation link. Everyday remote updates use a checked fast-forward workflow, with separate divergence guidance.
 
 Existing links such as `#terminalAnalyzer`, `#troubleshootConsole`, `#undo-lost-reflog`, `#card-detached`, `#forge-github` and `#zone-staging` remain supported. Provider/incident links use forms such as `#forge-gitlab/secret`; reference search terms and filters can be shared in the URL. Terminal input is never included in those links.
 

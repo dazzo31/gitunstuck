@@ -24,3 +24,18 @@ Parser/data/source assertions verify recognition and markup properties. Disposab
 The original inventory deliberately records defective commands as baseline evidence. It is not endorsed recovery guidance. Current recipes are in recovery.js, shared by the UI, executable tests and production build.
 
 Link appearance correction: reproduced the unwanted blue outline on focused destination panels. Focus indicators now apply to interactive controls; route targets have no outline. Lesson links use green navigation rows with arrows, documentation links use compact outlined controls, and inline references use green dotted underlines. Source and minified desktop/mobile checks pass for these treatments, single references, contrast, keyboard controls and absence of panel outlines. Removed duplicate initial routing to avoid repeated focus changes.
+
+## Focused consistency pass
+
+All six requested corrections are implemented and verified locally; release uses the existing Pages workflow. No framework, provider, learning topic or visual redesign was added.
+
+| Task | Status | Changed files | Verification evidence | Limits |
+| --- | --- | --- | --- | --- |
+| C1 risk labels | Complete locally | index.html | Static umbrella risk badges removed; consequence filters derive from recipe keys. Browser selects secret guidance, checks credential-exposure text and confirms no safe badge | Pasted output does not establish live repository safety |
+| C2 learning model | Complete locally | index.html | Timeline and its commit examples explicitly distinguish creating a commit from editor saves; desktop/mobile learning journey passes | Diagrams remain illustrative |
+| C3 destination alignment | Complete locally | index.html, recovery.js, tests/test-recovery.js | Remote lesson leads to Update a branch from its remote. Separate divergence explanation remains available. Executed equal/ahead/behind/diverged histories with custom branch and remote; fast-forward rejection preserves work and history | Real host permissions and policies are external |
+| C4 repetition | Complete locally | index.html, tests/test-browser.cjs | Reference cards have one title, one common execution paragraph, visible prerequisites/consequences and closed step disclosures. Browser verifies no legacy checklist/footer injection and one shared secret documentation link | Distinct recipes can still cite different relevant documents |
+| C5 useful inspection | Complete locally | recovery.js, tests/test-recovery.js | Initial commit review prints actual staged lines before a separate commit step. Secret inspection executes fetch and full outgoing patches; earlier-secret fixture confirms the credential appears in that inspection while HEAD/index/files remain unchanged | Secret-bearing output must remain local; merges and uncertain ancestry still require separate cleanup |
+| C6 plain wording | Complete locally | index.html | Replaced highway/Rosetta/lifecycle labels and removed redundant analyzer jump button; browser and source checks pass | Existing deep-link IDs retained |
+
+Validation: 194 parser/data/source assertions, 33 Windows executable recovery scenarios, and source/minified desktop/mobile Chromium journeys pass. Screenshots inspected for all three destinations. Provider engines and complete accessibility certification remain outside these checks.
