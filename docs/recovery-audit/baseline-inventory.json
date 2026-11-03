@@ -1,0 +1,748 @@
+{
+  "branch": "main",
+  "commit": "ac3901f369ed162f7793ccdef3846fb1adb88481",
+  "undoSolutions": {
+    "unstaged": {
+      "title": "Discard Uncommitted Edits in Working Tree",
+      "scope": "Working Tree",
+      "riskBadge": "<span class=\"badge badge-risk-caution\">Risk: Destructive</span>",
+      "workLostStatus": "danger",
+      "workLostText": "⚠️ Yes, if you run git restore on uncommitted files. Any edits on your disk that were never staged or committed will be permanently overwritten.",
+      "desc": "You edited a tracked file on disk, but have NOT added it to staging. You want to wipe those edits and return to the last commit.",
+      "code": "# Discard unstaged edits in a specific file:\ngit restore <filename>\n\n# Or discard all unstaged edits in current directory:\ngit restore .",
+      "effect": "Permanently overwrites your working file on disk with the version recorded in HEAD/index.",
+      "verify": "Run git status. The file will no longer be listed under \"Changes not staged for commit\".",
+      "warning": "PERMANENT LOSS WARNING: Uncommitted working-tree edits cannot be recovered once discarded by Git."
+    },
+    "staged": {
+      "title": "Unstage Files (Remove from Cart) Without Losing Edits",
+      "scope": "Staging Area (Index)",
+      "riskBadge": "<span class=\"badge badge-risk-safe\">Risk: Safe / Reversible</span>",
+      "workLostStatus": "safe",
+      "workLostText": "🟢 No! git restore --staged only removes files from the staging index (cart). Your file edits on disk remain 100% intact and untouched.",
+      "desc": "You ran git add, but you are not ready to commit this file yet. You want to preserve your code edits in the file.",
+      "code": "# Unstage a specific file:\ngit restore --staged <filename>\n\n# Or unstage everything:\ngit restore --staged .",
+      "effect": "Removes the file snapshot from the staging index. Your working code edits on disk remain 100% untouched.",
+      "verify": "Run git status. The file moves from green (Changes to be committed) to red (Changes not staged).",
+      "warning": "Safe operation: Does NOT delete your code."
+    },
+    "local-commit": {
+      "title": "Rewind or Amend a Local Commit (Not Pushed)",
+      "scope": "Local History",
+      "riskBadge": "<span class=\"badge badge-risk-rev\">Risk: Reversible</span>",
+      "workLostStatus": "safe",
+      "workLostText": "🟢 No! git reset --soft moves your local branch bookmark backwards but keeps all of your code changes staged and ready in the cart.",
+      "desc": "You committed too early or forgot a file, but you have NOT pushed to GitHub yet.",
+      "code": "# Option A: Rewind 1 commit and keep changes staged in cart:\ngit reset --soft HEAD~1\n\n# Option B: Add a forgotten file to the previous commit:\ngit add <forgotten-file>\ngit commit --amend --no-edit",
+      "effect": "Moves HEAD back one commit while keeping your staged code ready to edit and re-commit.",
+      "verify": "Run git status and git log -1 to inspect the adjusted commit history.",
+      "warning": "Safe for local-only commits. Never rewrite commits already pushed to shared team branches."
+    },
+    "pushed-commit": {
+      "title": "Undo a Public Commit on GitHub (Safe Inverse Commit)",
+      "scope": "Remote / Shared History",
+      "riskBadge": "<span class=\"badge badge-risk-safe\">Risk: Safe (No Conflicts)</span>",
+      "workLostStatus": "safe",
+      "workLostText": "🟢 No! git revert creates a brand-new opposite commit without erasing or rewriting any history. Both the mistake and the fix are preserved.",
+      "desc": "The faulty commit has already been pushed to GitHub. Rewriting history with reset would break teammates' branches.",
+      "code": "# 1. Find the commit hash to undo:\ngit log -n 5 --oneline\n\n# 2. Create a safe inverse commit:\ngit revert <commit-id>\n\n# 3. Push the revert to GitHub:\ngit push origin main",
+      "effect": "Creates a NEW commit that applies the exact opposite changes. History remains forward-moving and clean.",
+      "verify": "Run git log -1 to see the new revert commit, then push to upstream.",
+      "warning": "Team Standard: git revert is the approved way to fix public bugs without causing merge conflicts."
+    },
+    "lost-reflog": {
+      "title": "Resurrect a Lost Commit or Deleted Branch via Reflog",
+      "scope": "Local Reflog Ledger",
+      "riskBadge": "<span class=\"badge badge-risk-safe\">Risk: Reversible</span>",
+      "workLostStatus": "safe",
+      "workLostText": "🟢 No! Git never immediately erases orphaned commits. They remain safely stored in your local reflog ledger for 30 to 90 days.",
+      "desc": "You accidentally ran reset --hard, deleted a branch with unmerged work, or lost a detached commit.",
+      "code": "# 1. View your chronological local action ledger:\ngit reflog -n 15\n\n# 2. Locate the commit hash before the mistake (e.g. HEAD@{2})\n# 3. Create a rescue branch attached to that commit:\ngit switch -c rescue-branch HEAD@{2}",
+      "effect": "Recovers unreachable commits before Git's automatic garbage collection prunes them (retained locally for 30-90 days).",
+      "verify": "Run git log -1 rescue-branch to verify your recovered work is intact.",
+      "warning": "Local Ledger: The reflog tracks where HEAD has pointed on this computer."
+    }
+  },
+  "forgeScenarios": {
+    "github": {
+      "protected-branch": {
+        "title": "GitHub: Protected Branch Update Failed (GH006 / Rule Violation)",
+        "desc": "GitHub branch protection rules prevent direct pushes to main/master without an approved Pull Request.",
+        "code": "# 1. Package your commits into a new feature branch:\ngit switch -c feature/my-fix\n\n# 2. Push the new branch to GitHub:\ngit push -u origin feature/my-fix\n\n# 3. Open Pull Request on GitHub:\n# Use the URL printed in terminal, or run GitHub CLI:\ngh pr create --fill\n\n# 4. Safely sync your local main back to remote clean state:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main",
+        "effect": "Moves your committed changes safely onto a branch and prepares a Pull Request for team review.",
+        "verify": "Run git status on both branches to verify main is clean and feature/my-fix is published.",
+        "gotcha": "<strong>GitHub Rule:</strong> Never force-push (<code>--force</code>) to a protected branch. The proper team path is always branch → Pull Request → merge."
+      },
+      "auth": {
+        "title": "GitHub: Personal Access Tokens (PAT), SSH & Credential Caching",
+        "desc": "GitHub removed account password authentication in 2021. Pushing requires a Personal Access Token or SSH key.",
+        "code": "# Option A: Authenticate cleanly via GitHub CLI (recommended):\ngh auth login\n\n# Option B: Clear cached stale credentials in Git Credential Manager:\ngit credential reject\n# (Enter: protocol=https, host=github.com, then press enter on empty line)\n\n# Option C: Test your SSH key connection:\nssh -T git@github.com",
+        "effect": "Resets invalid cached passwords in Windows Credential Manager / macOS Keychain and verifies access.",
+        "verify": "If SSH is working, GitHub prints: \"Hi username! You've successfully authenticated, but GitHub does not provide shell access.\"",
+        "gotcha": "<strong>Fine-Grained PAT Caveat:</strong> Fine-grained tokens cannot push changes to <code>.github/workflows/*.yml</code> files. If editing workflows, use a Classic PAT with the <code>workflow</code> scope."
+      },
+      "secret": {
+        "title": "GitHub: Push Protection Blocked Secret (GH013)",
+        "desc": "GitHub Secret Scanning detected a private key, API token, or credential embedded inside your commit history.",
+        "code": "# 1. Rewind the commit while keeping file edits on disk:\ngit reset --soft HEAD~1\n\n# 2. Move sensitive secrets into a .env file and add to .gitignore:\necho \".env\" >> .gitignore\n\n# 3. Re-commit clean files and push:\ngit add .gitignore <cleaned-files>\ngit commit -m \"fix: remove sensitive secret\"\ngit push origin <branch>",
+        "effect": "Strips the secret from Git commit objects before they ever touch GitHub servers.",
+        "verify": "Push succeeds without GH013 pre-receive hook rejection.",
+        "gotcha": "<strong>False Positive?</strong> If the secret is a dummy test token, GitHub prints an unblock URL in the terminal output. Visit that URL in your browser to grant a one-time push bypass."
+      },
+      "fork": {
+        "title": "GitHub: Sync Fork with Upstream Original Project",
+        "desc": "Your fork is behind the original repository and you need to incorporate incoming upstream changes.",
+        "code": "# 1. Check your remotes (make sure upstream exists):\ngit remote -v\n\n# 2. Add the original repository as \"upstream\" if missing:\ngit remote add upstream https://github.com/original-owner/repo.git\n\n# 3. Fetch latest upstream commits and merge linearly:\ngit fetch upstream\ngit switch main\ngit merge upstream/main\n\n# 4. Push updated main to your personal fork:\ngit push origin main",
+        "effect": "Brings your fork up to date with the parent repository without creating merge divergence.",
+        "verify": "Run git log -1 to verify your local main matches upstream/main.",
+        "gotcha": "<strong>Web Shortcut:</strong> You can also click the \"Sync fork\" button on your GitHub repository page, then run <code>git pull</code> locally."
+      }
+    },
+    "gitlab": {
+      "protected-branch": {
+        "title": "GitLab: You are not allowed to push code to protected branches",
+        "desc": "GitLab project settings restrict direct pushes to protected branches (usually main or develop).",
+        "code": "# 1. Create a feature branch with your commits:\ngit switch -c feature/my-fix\n\n# 2. Push with GitLab push option to automatically open a Merge Request:\ngit push -u -o merge_request.create origin feature/my-fix\n\n# 3. Re-align local main with remote:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main",
+        "effect": "Publishes your work to GitLab and auto-generates a Merge Request in one command.",
+        "verify": "Check GitLab project web UI or follow the MR URL printed in terminal.",
+        "gotcha": "<strong>GitLab Push Options:</strong> The <code>-o merge_request.create</code> flag is a native GitLab feature that creates the MR directly from your terminal!"
+      },
+      "auth": {
+        "title": "GitLab: Personal Access Tokens & SSH Alternative Port 443",
+        "desc": "Authenticating with GitLab over HTTPS requires a PAT with proper scopes, or SSH key.",
+        "code": "# Option A: Authenticate using official GitLab CLI:\nglab auth login\n\n# Option B: Verify SSH key connection over default port 22:\nssh -T git@gitlab.com\n\n# Option C: If corporate firewall blocks port 22, use alternative port 443:\nssh -T -p 443 git@altssh.gitlab.com",
+        "effect": "Bypasses firewall restrictions and establishes authenticated SSH or token sessions.",
+        "verify": "GitLab returns: \"Welcome to GitLab, @username!\"",
+        "gotcha": "<strong>Token Scope:</strong> When creating a GitLab PAT, make sure to check <code>write_repository</code>. Deploy tokens without write scope will fail silently with 403 Forbidden."
+      },
+      "secret": {
+        "title": "GitLab: Push Rules Secret Detection Blocked",
+        "desc": "GitLab Push Rules blocked your commit because it contains forbidden filenames or potential credentials.",
+        "code": "# 1. Soft-reset to preserve code edits:\ngit reset --soft HEAD~1\n\n# 2. Remove the secret and add config to .gitignore:\ngit rm --cached <sensitive-file>\ngit commit -m \"fix: sanitize configuration\"\ngit push origin <branch>",
+        "effect": "Removes the forbidden credentials from Git index and history.",
+        "verify": "Push completes successfully without pre-receive rejection.",
+        "gotcha": "<strong>Enterprise GitLab:</strong> Self-hosted GitLab instances often enforce custom pre-receive regex checks for author email or issue reference IDs."
+      },
+      "fork": {
+        "title": "GitLab: Sync Fork with Upstream Project",
+        "desc": "Keep your GitLab subgroup or user fork synchronized with the upstream group project.",
+        "code": "# 1. Add upstream group remote:\ngit remote add upstream https://gitlab.com/upstream-group/repo.git\n\n# 2. Fetch and merge:\ngit fetch upstream\ngit switch main\ngit merge upstream/main\n\n# 3. Publish to your fork:\ngit push origin main",
+        "effect": "Incorporates upstream MRs and commits into your local and remote fork repository.",
+        "verify": "GitLab project overview shows \"This branch is up to date with upstream/main\".",
+        "gotcha": "<strong>GitLab Mirroring:</strong> GitLab Premium/Ultimate supports automated pull mirroring in Settings → Repository → Mirroring."
+      }
+    },
+    "bitbucket": {
+      "protected-branch": {
+        "title": "Bitbucket: Branch cannot be updated directly (Branch Permissions)",
+        "desc": "Bitbucket repository branch permissions restrict direct commits to main.",
+        "code": "# 1. Branch your work into a feature branch:\ngit switch -c feature/my-fix\n\n# 2. Push to Bitbucket:\ngit push -u origin feature/my-fix\n\n# 3. Open Pull Request:\n# Navigate to your Bitbucket repository -> \"Pull requests\" -> \"Create pull request\"\n\n# 4. Clean local main:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main",
+        "effect": "Stores your commits safely on a named branch and prepares a peer review Pull Request.",
+        "verify": "Run git status. Local main is clean and up to date with origin/main.",
+        "gotcha": "<strong>Jira Integration:</strong> Include your Jira issue key in the branch name (e.g. <code>feature/PROJ-123-login</code>) to automatically link PR status into Jira!"
+      },
+      "auth": {
+        "title": "Bitbucket: App Passwords & Atlassian Account Email Gotcha",
+        "desc": "Bitbucket Cloud deprecated account passwords for Git operations. You must use an App Password.",
+        "code": "# 1. Generate an App Password in Bitbucket Personal Settings with \"Repositories: Write\"\n# 2. When Git prompts for username and password:\n#    Username: YOUR ATLASSIAN ACCOUNT EMAIL (e.g. name@example.com)\n#    Password: YOUR 20-CHARACTER APP PASSWORD\n\n# Or test SSH key connection:\nssh -T git@bitbucket.org",
+        "effect": "Authenticates with Bitbucket Cloud using modern token credentials.",
+        "verify": "Bitbucket responds to SSH: \"authenticated via ssh key. You can use git to connect to Bitbucket.\"",
+        "gotcha": "<strong>#1 Bitbucket Failure Mode:</strong> When prompted for username, entering your Bitbucket display handle fails! You MUST enter your full Atlassian account email address."
+      },
+      "secret": {
+        "title": "Bitbucket: Commit Checker Hook Rejection",
+        "desc": "A Bitbucket repository hook rejected the commit due to file size, sensitive files, or commit message policy.",
+        "code": "# 1. Rewind the commit:\ngit reset --soft HEAD~1\n\n# 2. Remove sensitive file or adjust commit message:\ngit commit -m \"PROJ-123: valid commit message according to project policy\"\ngit push origin <branch>",
+        "effect": "Adjusts the commit snapshot or message to comply with Bitbucket hooks.",
+        "verify": "Push completes with hook approval.",
+        "gotcha": "<strong>Bitbucket Server vs Cloud:</strong> Bitbucket Server / Data Center often requires a valid Jira issue key prefix (e.g. <code>PROJ-123:</code>) in every commit message."
+      },
+      "fork": {
+        "title": "Bitbucket: Sync Fork with Original Upstream",
+        "desc": "Synchronize a personal or workspace fork with the main repository.",
+        "code": "# 1. Add upstream repository:\ngit remote add upstream https://bitbucket.org/parent-workspace/repo.git\n\n# 2. Fetch and merge updates:\ngit fetch upstream\ngit switch main\ngit merge upstream/main\n\n# 3. Push to your fork:\ngit push origin main",
+        "effect": "Keeps your fork aligned with the central team repository.",
+        "verify": "Run git log -1 to verify your branch head matches upstream/main.",
+        "gotcha": "<strong>Bitbucket Cloud:</strong> Bitbucket offers a \"Sync\" banner at the top of the repository page if your fork has fallen behind."
+      }
+    }
+  },
+  "sampleTerminalOutputs": {
+    "detached": "HEAD detached at 7a2b3c4\nnothing to commit, working tree clean",
+    "conflict": "On branch main\nYou have unmerged paths.\n  (fix conflicts and run \"git commit\")\n  (use \"git merge --abort\" to abort the merge)\n\nUnmerged paths:\n  (use \"git add <file>...\" to mark resolution)\n\tboth modified:   src/app.js\n\nno changes added to commit (use \"git add\" and/or \"git commit -a\")",
+    "diverged": "On branch main\nYour branch and 'origin/main' have diverged,\nand have 2 and 1 different commits each, respectively.\n  (use \"git pull\" if you want to integrate the remote branch with yours)\n\nnothing to commit, working tree clean",
+    "secret": "remote: error: GH013: Repository rule violations found for refs/heads/main.\nremote: Review all 1 check failure at https://github.com/user/repo/rules\nremote: - Push cannot contain secrets: OpenAI API Key found in src/config.js\nTo https://github.com/user/repo.git\n ! [remote rejected] main -> main (push declined due to repository rule violations)\nerror: failed to push some refs to 'https://github.com/user/repo.git'",
+    "clean": "On branch feature/login\nnothing to commit, working tree clean"
+  },
+  "fourZoneData": {
+    "working": {
+      "zonePill": "Zone 1: Working Directory",
+      "title": "Zone 1: Working Directory (Files on Disk)",
+      "icon": "💻",
+      "concept": "Your actual files on disk inside your project directory. You modify, create, and delete files here in your code editor. Git tracks differences on disk, but nothing here is permanently recorded or protected by snapshots until staged.",
+      "statusTitle": "What git status reports:",
+      "statusSnippet": "# Changes not staged for commit:\n#   (use \"git add <file>...\" to update what will be committed)\n#   (use \"git restore <file>...\" to discard changes in working directory)\n#       modified:   src/app.js\n#\n# Untracked files:\n#       new-file.txt",
+      "forwardLabel": "Advance to Staging Area (Cart):",
+      "forwardCmd": "git add src/app.js\n# Or add all changes in current folder:\ngit add .",
+      "forwardEffect": "Takes a point-in-time snapshot of the file and copies it into Zone 2 (Staging index).",
+      "rollbackLabel": "Discard Uncommitted Disk Edits:",
+      "rollbackCmd": "git restore src/app.js\n# Or discard all uncommitted edits in directory:\ngit restore .",
+      "rollbackEffect": "Overwrites your working file with the clean version from HEAD.",
+      "isWorkLostStatus": "danger",
+      "isWorkLostText": "⚠️ Permanent loss risk: Changes on disk that were never staged or committed cannot be recovered once discarded with git restore.",
+      "relatedCardId": "card-stage"
+    },
+    "staging": {
+      "zonePill": "Zone 2: Staging Area",
+      "title": "Zone 2: Staging Area (Index / Shopping Cart)",
+      "icon": "🛒",
+      "concept": "A binary staging buffer stored at .git/index. Think of staging as a shopping cart: you inspect items, choose which files and lines belong together in this logical checkpoint, and keep unrelated edits out.",
+      "statusTitle": "What git status reports:",
+      "statusSnippet": "# Changes to be committed:\n#   (use \"git restore --staged <file>...\" to unstage)\n#       new file:   src/auth.js\n#       modified:   src/app.js",
+      "forwardLabel": "Seal Checkpoint into Local Repository:",
+      "forwardCmd": "git commit -m \"feat: implement user authentication\"",
+      "forwardEffect": "Packs all staged files into an immutable commit object, advances the current branch pointer, and records the commit in HEAD.",
+      "rollbackLabel": "Unstage Files (Remove from Cart) Without Losing Edits:",
+      "rollbackCmd": "git restore --staged src/app.js\n# Or unstage everything:\ngit restore --staged .",
+      "rollbackEffect": "Removes the file from the staging index. Your code edits on disk remain 100% untouched and preserved.",
+      "isWorkLostStatus": "safe",
+      "isWorkLostText": "🟢 Work is 100% Safe! git restore --staged only unloads the cart. Zero lines of your code on disk are touched or deleted.",
+      "relatedCardId": "card-undo"
+    },
+    "local": {
+      "zonePill": "Zone 3: Local Repository",
+      "title": "Zone 3: Local Repository (Immutable Vault & HEAD)",
+      "icon": "📦",
+      "concept": "Your permanent local database stored in .git/objects and branch bookmarks in .git/refs/heads/. Every commit is an immutable cryptographic snapshot identified by a SHA hash. Commits here exist safely on your computer even when offline.",
+      "statusTitle": "What git status reports:",
+      "statusSnippet": "# On branch main\n# Your branch is ahead of 'origin/main' by 1 commit.\n#   (use \"git push\" to publish your local commits)\n#\nnothing to commit, working tree clean",
+      "forwardLabel": "Publish Commits to Remote Cloud Host:",
+      "forwardCmd": "git push origin main",
+      "forwardEffect": "Transfers commit objects and trees over HTTPS/SSH and updates the remote tracking branch (origin/main) to match local HEAD.",
+      "rollbackLabel": "Rewind Commit While Keeping Edits in Staging Cart:",
+      "rollbackCmd": "git reset --soft HEAD~1\n\n# Or create a safety bookmark before experimenting:\ngit switch -c rescue-branch",
+      "rollbackEffect": "Moves your branch bookmark back one commit, leaving all your code changes staged and ready to edit or re-commit.",
+      "isWorkLostStatus": "safe",
+      "isWorkLostText": "🟢 Your local commits are recorded. Even orphaned commits stay in git reflog for 30 to 90 days.",
+      "relatedCardId": "card-sync"
+    },
+    "remote": {
+      "zonePill": "Zone 4: Remote Cloud Host",
+      "title": "Zone 4: Remote Cloud Host (GitHub • GitLab • Bitbucket)",
+      "icon": "☁️",
+      "concept": "The centralized cloud host hosting shared team branches (origin/*), Pull/Merge Requests, issue trackers, and automated CI/CD test runners. Pushing publishes your local commits to teammates worldwide.",
+      "statusTitle": "What git status reports:",
+      "statusSnippet": "# On branch main\n# Your branch is up to date with 'origin/main'.\n#\nnothing to commit, working tree clean",
+      "forwardLabel": "Propose Code Review (Pull Request):",
+      "forwardCmd": "gh pr create --title \"feat: login\" --body \"Ready for review\"\n# Or push feature branch to create PR:\ngit push -u origin feature/login",
+      "forwardEffect": "Creates a Pull Request / Merge Request on GitHub, GitLab, or Bitbucket for peer code review and CI verification.",
+      "rollbackLabel": "Safely Undo a Public Shared Commit:",
+      "rollbackCmd": "# Create safe inverse commit without breaking teammates' branches:\ngit revert <commit-id>\ngit push origin main",
+      "rollbackEffect": "Records a brand new commit that undoes the exact diff of the target commit, preserving forward-only public history.",
+      "isWorkLostStatus": "safe",
+      "isWorkLostText": "🟢 Safe Team History! git revert preserves history and never rewrites public commits, preventing branch divergence for teammates.",
+      "relatedCardId": "card-forge-troubleshoot"
+    },
+    "reverse": {
+      "zonePill": "Two-Way Highway",
+      "title": "The Two-Way Highway: Forward Flow vs. Safe Reversal",
+      "icon": "🔄",
+      "concept": "Git is designed as a symmetric, two-way highway. For every forward operation, an exact safe reversal command exists to move files backward across zones without data loss.",
+      "statusTitle": "Complete Zone Reversal Highway:",
+      "statusSnippet": "# Forward:   Working ──[ git add ]──> Staging ──[ git commit ]──> Local Repo ──[ git push ]──> Remote Cloud\n# Rollback:  Working <─[ git restore --staged ]─ Staging <─[ git reset --soft ]─ Local Repo <─[ git revert ]─ Remote Cloud",
+      "forwardLabel": "Safe Forward Daily Flow:",
+      "forwardCmd": "git status                 # 1. Inspect\ngit add <file>             # 2. Stage into Cart\ngit commit -m \"message\"    # 3. Seal Checkpoint\ngit push origin <branch>   # 4. Publish",
+      "forwardEffect": "Moves code steadily from your editor to shared team cloud repository.",
+      "rollbackLabel": "The Complete Safe Undo Cheat-Sheet:",
+      "rollbackCmd": "# Discard unstaged file edits (Destructive):       git restore <file>\n# Unstage file without losing code edits (Safe):      git restore --staged <file>\n# Rewind local unpushed commit to cart (Safe):        git reset --soft HEAD~1\n# Undo public shared commit on GitHub (Team Safe):    git revert <commit-id>\n# Download remote changes safely:                     git pull --rebase origin <branch>",
+      "rollbackEffect": "Navigates backward across all 4 zones safely without losing committed or staged code.",
+      "isWorkLostStatus": "safe",
+      "isWorkLostText": "🟢 The Golden Rule: Only git restore on uncommitted files can lose work. Commits and staged files are always protected!",
+      "relatedCardId": "troubleshootConsole"
+    }
+  },
+  "graphScenarios": {
+    "linear": {
+      "name": "Daily Save Points (git commit)",
+      "command": "git commit -m \"feat: login button\"",
+      "headFile": "ref: refs/heads/main",
+      "headNote": "HEAD is symbolic: points to your active \"main\" branch ref file",
+      "branchPath": "📄 .git/refs/heads/main",
+      "branchFile": "3a7f82b49e10d54c82b90198273645102938475a",
+      "branchNote": "40-char SHA-1 hash of latest checkpoint c3",
+      "svg": "<svg viewBox=\"0 0 760 190\" class=\"graph-svg\" aria-label=\"Daily Save Points Visual Timeline\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"#64748b\"/>\n            </marker>\n            <marker id=\"arrow-green\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-green)\"/>\n            </marker>\n            <marker id=\"arrow-orange\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--git-orange)\"/>\n            </marker>\n          </defs>\n          <text x=\"380\" y=\"24\" text-anchor=\"middle\" class=\"graph-hint-text\">← Breadcrumb trail: each save point remembers the checkpoint that came before it ←</text>\n          <line x1=\"300\" y1=\"95\" x2=\"170\" y2=\"95\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <line x1=\"490\" y1=\"95\" x2=\"360\" y2=\"95\" stroke=\"var(--accent-green)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-green)\"/>\n          <circle cx=\"140\" cy=\"95\" r=\"24\" class=\"node-circle-base\"/>\n          <text x=\"140\" y=\"100\" text-anchor=\"middle\" class=\"node-text-title\">c1</text>\n          <text x=\"140\" y=\"136\" text-anchor=\"middle\" class=\"node-text-desc\">Started project</text>\n          <circle cx=\"330\" cy=\"95\" r=\"24\" class=\"node-circle-base\"/>\n          <text x=\"330\" y=\"100\" text-anchor=\"middle\" class=\"node-text-title\">c2</text>\n          <text x=\"330\" y=\"136\" text-anchor=\"middle\" class=\"node-text-desc\">Added page layout</text>\n          <circle cx=\"520\" cy=\"95\" r=\"24\" class=\"node-circle-base\" stroke=\"var(--accent-green)\" stroke-width=\"3.5\"/>\n          <text x=\"520\" y=\"100\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-green)\">c3</text>\n          <text x=\"520\" y=\"136\" text-anchor=\"middle\" class=\"node-text-desc\" font-weight=\"bold\" fill=\"var(--accent-green)\">feat: login button</text>\n          <rect x=\"475\" y=\"44\" width=\"90\" height=\"22\" rx=\"4\" fill=\"rgba(52, 211, 153, 0.18)\" stroke=\"var(--accent-green)\" stroke-width=\"1.5\"/>\n          <text x=\"520\" y=\"59\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-green)\">main branch</text>\n          <rect x=\"585\" y=\"44\" width=\"75\" height=\"22\" rx=\"4\" fill=\"var(--git-orange)\"/>\n          <text x=\"622\" y=\"59\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#ffffff\">HEAD (You)</text>\n          <line x1=\"585\" y1=\"55\" x2=\"568\" y2=\"55\" stroke=\"var(--git-orange)\" stroke-width=\"2\" marker-end=\"url(#arrow-orange)\"/>\n        </svg>",
+      "bullets": [
+        "<strong>Created checkpoint c3:</strong> Git saved a snapshot of your files and linked it to c2.",
+        "<strong>Your main bookmark slid forward:</strong> Git automatically moved the <code>main</code> label to c3 so you never lose your spot.",
+        "<strong>HEAD is your camera lens:</strong> <code>HEAD</code> just means \"what you are currently looking at\". Right now, you are looking at your main branch.",
+        "<strong>Why arrows point backwards:</strong> Like breadcrumbs in a trail, each save point links back to where you came from."
+      ],
+      "rule": "A branch is a tiny sticky note pointing to your latest save point."
+    },
+    "branch": {
+      "name": "Branch (Safe Sandbox to Try Ideas)",
+      "command": "git switch -c feature/login && git commit -m \"add password reset\"",
+      "headFile": "ref: refs/heads/feature/login",
+      "headNote": "HEAD shifted to track the new branch ref file",
+      "branchPath": "📄 .git/refs/heads/feature/login",
+      "branchFile": "7b2e109ac483f982146910837465019283746501f",
+      "branchNote": "40-char SHA hash of feature checkpoint c4 (main remains at c2)",
+      "svg": "<svg viewBox=\"0 0 760 210\" class=\"graph-svg\" aria-label=\"Branch Sandbox Visual Timeline\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"#64748b\"/>\n            </marker>\n            <marker id=\"arrow-green\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-green)\"/>\n            </marker>\n            <marker id=\"arrow-purple\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-purple)\"/>\n            </marker>\n            <marker id=\"arrow-orange\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--git-orange)\"/>\n            </marker>\n          </defs>\n          <text x=\"380\" y=\"22\" text-anchor=\"middle\" class=\"graph-hint-text\">← Safe sandbox: experiment on your branch without touching the working main branch ←</text>\n          <line x1=\"250\" y1=\"125\" x2=\"150\" y2=\"125\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <line x1=\"430\" y1=\"125\" x2=\"310\" y2=\"125\" stroke=\"var(--accent-green)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-green)\"/>\n          <path d=\"M 435 60 C 370 60, 340 100, 305 118\" fill=\"none\" stroke=\"var(--accent-purple)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-purple)\"/>\n          <circle cx=\"120\" cy=\"125\" r=\"22\" class=\"node-circle-base\"/>\n          <text x=\"120\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\">c1</text>\n          <text x=\"120\" y=\"162\" text-anchor=\"middle\" class=\"node-text-desc\">Initial</text>\n          <circle cx=\"280\" cy=\"125\" r=\"22\" class=\"node-circle-base\"/>\n          <text x=\"280\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\">c2</text>\n          <text x=\"280\" y=\"162\" text-anchor=\"middle\" class=\"node-text-desc\">Shared base</text>\n          <circle cx=\"460\" cy=\"125\" r=\"22\" class=\"node-circle-base\" stroke=\"var(--accent-green)\" stroke-width=\"3\"/>\n          <text x=\"460\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-green)\">c3</text>\n          <text x=\"460\" y=\"162\" text-anchor=\"middle\" class=\"node-text-desc\">main progress</text>\n          <circle cx=\"460\" cy=\"55\" r=\"22\" class=\"node-circle-base\" stroke=\"var(--accent-purple)\" stroke-width=\"3.5\"/>\n          <text x=\"460\" y=\"60\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-purple)\">c4</text>\n          <text x=\"460\" y=\"90\" text-anchor=\"middle\" class=\"node-text-desc\" font-weight=\"bold\" fill=\"var(--accent-purple)\">experimental feature</text>\n          <rect x=\"500\" y=\"114\" width=\"70\" height=\"22\" rx=\"4\" fill=\"rgba(52, 211, 153, 0.18)\" stroke=\"var(--accent-green)\" stroke-width=\"1.5\"/>\n          <text x=\"535\" y=\"129\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-green)\">main</text>\n          <rect x=\"500\" y=\"44\" width=\"105\" height=\"22\" rx=\"4\" fill=\"rgba(192, 132, 252, 0.18)\" stroke=\"var(--accent-purple)\" stroke-width=\"1.5\"/>\n          <text x=\"552\" y=\"59\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-purple)\">feature branch</text>\n          <rect x=\"625\" y=\"44\" width=\"75\" height=\"22\" rx=\"4\" fill=\"var(--git-orange)\"/>\n          <text x=\"662\" y=\"59\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#ffffff\">HEAD (You)</text>\n          <line x1=\"625\" y1=\"55\" x2=\"608\" y2=\"55\" stroke=\"var(--git-orange)\" stroke-width=\"2\" marker-end=\"url(#arrow-orange)\"/>\n        </svg>",
+      "bullets": [
+        "<strong>Created a new sticky note:</strong> <code>git switch -c</code> placed a new bookmark on your project so you can work independently.",
+        "<strong>Moved your camera (HEAD):</strong> You are now editing in this safe sandbox branch.",
+        "<strong>Your main branch is 100% safe:</strong> Even if your code breaks in c4, your main project stays clean and working at c3.",
+        "<strong>Zero fear of making mistakes:</strong> If your experiment fails, you can discard this branch with zero harm."
+      ],
+      "rule": "Always create a branch when starting new work. It keeps your main codebase safe while you build and test."
+    },
+    "merge": {
+      "name": "Merging (Combining Your Work)",
+      "command": "git switch main && git merge feature/login",
+      "headFile": "ref: refs/heads/main",
+      "headNote": "HEAD returned to main and points to merge milestone c5",
+      "branchPath": "📄 .git/refs/heads/main",
+      "branchFile": "c5d1928374650192837465019283746501928374e",
+      "branchNote": "40-char SHA hash of merge commit c5 (has two parent hashes)",
+      "svg": "<svg viewBox=\"0 0 760 220\" class=\"graph-svg\" aria-label=\"Merging Work Visual Timeline\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"#64748b\"/>\n            </marker>\n            <marker id=\"arrow-blue\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-blue)\"/>\n            </marker>\n            <marker id=\"arrow-orange\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--git-orange)\"/>\n            </marker>\n          </defs>\n          <text x=\"380\" y=\"20\" text-anchor=\"middle\" class=\"graph-hint-text\">← Checkpoint c5 brings both sets of work together safely ←</text>\n          <line x1=\"180\" y1=\"110\" x2=\"110\" y2=\"110\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <path d=\"M 320 155 C 270 155, 250 125, 225 115\" fill=\"none\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <path d=\"M 320 65 C 270 65, 250 95, 225 105\" fill=\"none\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <path d=\"M 495 110 C 440 110, 410 145, 370 152\" fill=\"none\" stroke=\"var(--accent-blue)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-blue)\"/>\n          <path d=\"M 495 110 C 440 110, 410 75, 370 68\" fill=\"none\" stroke=\"var(--accent-blue)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-blue)\"/>\n          <circle cx=\"85\" cy=\"110\" r=\"20\" class=\"node-circle-base\"/>\n          <text x=\"85\" y=\"115\" text-anchor=\"middle\" class=\"node-text-title\">c1</text>\n          <circle cx=\"205\" cy=\"110\" r=\"20\" class=\"node-circle-base\"/>\n          <text x=\"205\" y=\"115\" text-anchor=\"middle\" class=\"node-text-title\">c2</text>\n          <circle cx=\"345\" cy=\"155\" r=\"20\" class=\"node-circle-base\" stroke=\"var(--accent-green)\" stroke-width=\"2.5\"/>\n          <text x=\"345\" y=\"160\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-green)\">c3</text>\n          <circle cx=\"345\" cy=\"65\" r=\"20\" class=\"node-circle-base\" stroke=\"var(--accent-purple)\" stroke-width=\"2.5\"/>\n          <text x=\"345\" y=\"70\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-purple)\">c4</text>\n          <circle cx=\"520\" cy=\"110\" r=\"24\" class=\"node-circle-base\" stroke=\"var(--accent-blue)\" stroke-width=\"3.5\"/>\n          <text x=\"520\" y=\"115\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-blue)\">c5</text>\n          <text x=\"520\" y=\"146\" text-anchor=\"middle\" class=\"node-text-desc\" font-weight=\"bold\" fill=\"var(--accent-blue)\">Combined together!</text>\n          <rect x=\"300\" y=\"24\" width=\"90\" height=\"20\" rx=\"4\" fill=\"rgba(192, 132, 252, 0.18)\" stroke=\"var(--accent-purple)\" stroke-width=\"1.5\"/>\n          <text x=\"345\" y=\"38\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"var(--accent-purple)\">feature branch</text>\n          <rect x=\"560\" y=\"99\" width=\"60\" height=\"22\" rx=\"4\" fill=\"rgba(52, 211, 153, 0.18)\" stroke=\"var(--accent-green)\" stroke-width=\"1.5\"/>\n          <text x=\"590\" y=\"114\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-green)\">main</text>\n          <rect x=\"640\" y=\"99\" width=\"75\" height=\"22\" rx=\"4\" fill=\"var(--git-orange)\"/>\n          <text x=\"677\" y=\"114\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#ffffff\">HEAD (You)</text>\n          <line x1=\"640\" y1=\"110\" x2=\"624\" y2=\"110\" stroke=\"var(--git-orange)\" stroke-width=\"2\" marker-end=\"url(#arrow-orange)\"/>\n        </svg>",
+      "bullets": [
+        "<strong>Your feature is done:</strong> You tested your work and you are ready to include it in the main project.",
+        "<strong>A reunion checkpoint (c5):</strong> Git automatically compares changes from c3 and c4, combines them, and records checkpoint c5.",
+        "<strong>Notice the lines joining together:</strong> Checkpoint c5 connects both branches so no history is lost.",
+        "<strong>Main now has all your improvements:</strong> You can now safely delete the temporary feature branch bookmark."
+      ],
+      "rule": "Merging is like pouring two rivers into one: it combines work from both branches into a single shared milestone."
+    },
+    "rebase": {
+      "name": "Rebase (Straighten Your Timeline)",
+      "command": "git switch feature/login && git rebase main",
+      "headFile": "ref: refs/heads/feature/login",
+      "headNote": "HEAD points to feature/login replayed onto tip of main",
+      "branchPath": "📄 .git/refs/heads/feature/login",
+      "branchFile": "9f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90a",
+      "branchNote": "New commit hash c4' created with c3 as its parent",
+      "svg": "<svg viewBox=\"0 0 760 210\" class=\"graph-svg\" aria-label=\"Rebase Straight Timeline Visual\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"#64748b\"/>\n            </marker>\n            <marker id=\"arrow-green\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-green)\"/>\n            </marker>\n            <marker id=\"arrow-orange\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--git-orange)\"/>\n            </marker>\n          </defs>\n          <text x=\"380\" y=\"20\" text-anchor=\"middle\" class=\"graph-hint-text\">← Rebase moves your work to the front of the line so your project history is a simple straight line ←</text>\n          <line x1=\"200\" y1=\"120\" x2=\"115\" y2=\"120\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <line x1=\"355\" y1=\"120\" x2=\"255\" y2=\"120\" stroke=\"var(--accent-green)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-green)\"/>\n          <line x1=\"510\" y1=\"120\" x2=\"410\" y2=\"120\" stroke=\"var(--git-orange)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-orange)\"/>\n          <path d=\"M 235 60 C 235 85, 235 95, 235 98\" fill=\"none\" class=\"graph-edge-base\" stroke-dasharray=\"3,3\" opacity=\"0.4\" marker-end=\"url(#arrow)\"/>\n          <circle cx=\"90\" cy=\"120\" r=\"20\" class=\"node-circle-base\"/>\n          <text x=\"90\" y=\"125\" text-anchor=\"middle\" class=\"node-text-title\">c1</text>\n          <circle cx=\"235\" cy=\"120\" r=\"20\" class=\"node-circle-base\"/>\n          <text x=\"235\" y=\"125\" text-anchor=\"middle\" class=\"node-text-title\">c2</text>\n          <circle cx=\"235\" cy=\"45\" r=\"18\" class=\"node-circle-base\" stroke-dasharray=\"3,3\" opacity=\"0.4\"/>\n          <text x=\"235\" y=\"50\" text-anchor=\"middle\" class=\"node-text-title\" opacity=\"0.6\">c4</text>\n          <text x=\"235\" y=\"75\" text-anchor=\"middle\" class=\"node-text-desc\" opacity=\"0.6\">Old draft</text>\n          <circle cx=\"380\" cy=\"120\" r=\"20\" class=\"node-circle-base\" stroke=\"var(--accent-green)\" stroke-width=\"2.5\"/>\n          <text x=\"380\" y=\"125\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-green)\">c3</text>\n          <text x=\"380\" y=\"155\" text-anchor=\"middle\" class=\"node-text-desc\">main progress</text>\n          <circle cx=\"535\" cy=\"120\" r=\"24\" class=\"node-circle-base\" stroke=\"var(--git-orange)\" stroke-width=\"3.5\"/>\n          <text x=\"535\" y=\"125\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--git-orange)\">c4'</text>\n          <text x=\"535\" y=\"155\" text-anchor=\"middle\" class=\"node-text-desc\" font-weight=\"bold\" fill=\"var(--git-orange)\">replayed at front</text>\n          <rect x=\"345\" y=\"80\" width=\"70\" height=\"20\" rx=\"4\" fill=\"rgba(52, 211, 153, 0.18)\" stroke=\"var(--accent-green)\" stroke-width=\"1.5\"/>\n          <text x=\"380\" y=\"94\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"var(--accent-green)\">main</text>\n          <rect x=\"480\" y=\"52\" width=\"110\" height=\"22\" rx=\"4\" fill=\"rgba(192, 132, 252, 0.18)\" stroke=\"var(--accent-purple)\" stroke-width=\"1.5\"/>\n          <text x=\"535\" y=\"67\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-purple)\">feature branch</text>\n          <rect x=\"610\" y=\"52\" width=\"75\" height=\"22\" rx=\"4\" fill=\"var(--git-orange)\"/>\n          <text x=\"647\" y=\"67\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#ffffff\">HEAD (You)</text>\n          <line x1=\"610\" y1=\"63\" x2=\"593\" y2=\"63\" stroke=\"var(--git-orange)\" stroke-width=\"2\" marker-end=\"url(#arrow-orange)\"/>\n        </svg>",
+      "bullets": [
+        "<strong>New updates happened on main:</strong> While you were coding on your branch, someone added c3 to main.",
+        "<strong>Replaying your work at the front:</strong> Rebase lifts your changes (c4) and replays them right after c3 as c4'.",
+        "<strong>A clean straight timeline:</strong> It looks like you started your work today on the freshest code, avoiding messy merge criss-crosses.",
+        "<strong>The old draft is safely discarded:</strong> Git replaces the old branch pointer with your new replayed checkpoint."
+      ],
+      "rule": "Golden Rule: Only rebase your own private work before sharing it. Never rebase commits already pushed to a team branch."
+    },
+    "detached": {
+      "name": "Looking at the Past (Detached HEAD State)",
+      "command": "git switch --detach <hash-c2>",
+      "headFile": "4e9182ab30198273645102938475610293847501b",
+      "headNote": "⚠️ DETACHED: .git/HEAD holds a direct raw commit hash (c2), NOT a branch ref!",
+      "branchPath": "📄 .git/refs/heads/(none)",
+      "branchFile": "(None — commits will be dangling until anchored to a branch)",
+      "branchNote": "Run git switch -c <name> to attach a named branch pointer",
+      "svg": "<svg viewBox=\"0 0 760 210\" class=\"graph-svg\" aria-label=\"Detached HEAD Time Travel Visual\" xmlns=\"http://www.w3.org/2000/svg\">\n          <defs>\n            <marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"#64748b\"/>\n            </marker>\n            <marker id=\"arrow-red\" viewBox=\"0 0 10 10\" refX=\"6\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\">\n              <path d=\"M 0 1.5 L 8 5 L 0 8.5 z\" fill=\"var(--accent-red)\"/>\n            </marker>\n          </defs>\n          <text x=\"380\" y=\"20\" text-anchor=\"middle\" class=\"graph-hint-text\" fill=\"var(--accent-amber)\">👀 Time-travel mode: viewing an old save point without a bookmark. Existing branches are safe! 👀</text>\n          <line x1=\"260\" y1=\"125\" x2=\"160\" y2=\"125\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <line x1=\"460\" y1=\"125\" x2=\"340\" y2=\"125\" class=\"graph-edge-base\" marker-end=\"url(#arrow)\"/>\n          <path d=\"M 300 70 C 300 90, 300 95, 300 100\" fill=\"none\" stroke=\"var(--accent-red)\" stroke-width=\"2.5\" marker-end=\"url(#arrow-red)\"/>\n          <circle cx=\"130\" cy=\"125\" r=\"22\" class=\"node-circle-base\"/>\n          <text x=\"130\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\">c1</text>\n          <circle cx=\"300\" cy=\"125\" r=\"22\" class=\"node-circle-base\" stroke=\"var(--accent-amber)\" stroke-width=\"3\"/>\n          <text x=\"300\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-amber)\">c2</text>\n          <text x=\"300\" y=\"160\" text-anchor=\"middle\" class=\"node-text-desc\">inspecting past checkpoint</text>\n          <circle cx=\"490\" cy=\"125\" r=\"22\" class=\"node-circle-base\" stroke=\"var(--accent-green)\" stroke-width=\"3\"/>\n          <text x=\"490\" y=\"130\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-green)\">c3</text>\n          <text x=\"490\" y=\"160\" text-anchor=\"middle\" class=\"node-text-desc\">main (today's work)</text>\n          <rect x=\"460\" y=\"80\" width=\"60\" height=\"20\" rx=\"4\" fill=\"rgba(52, 211, 153, 0.18)\" stroke=\"var(--accent-green)\" stroke-width=\"1.5\"/>\n          <text x=\"490\" y=\"94\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"bold\" fill=\"var(--accent-green)\">main</text>\n          <circle cx=\"300\" cy=\"48\" r=\"20\" class=\"node-circle-base\" stroke=\"var(--accent-red)\" stroke-width=\"3\"/>\n          <text x=\"300\" y=\"53\" text-anchor=\"middle\" class=\"node-text-title\" fill=\"var(--accent-red)\">exp</text>\n          <rect x=\"345\" y=\"36\" width=\"180\" height=\"24\" rx=\"4\" fill=\"rgba(248, 113, 113, 0.18)\" stroke=\"var(--accent-red)\" stroke-width=\"1.5\"/>\n          <text x=\"435\" y=\"52\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"bold\" fill=\"var(--accent-red)\">HEAD (Viewing without bookmark)</text>\n          <line x1=\"345\" y1=\"48\" x2=\"324\" y2=\"48\" stroke=\"var(--accent-red)\" stroke-width=\"2\" marker-end=\"url(#arrow-red)\"/>\n        </svg>",
+      "bullets": [
+        "<strong>You are browsing an old milestone:</strong> Your view (<code>HEAD</code>) hopped off branch bookmarks to look directly at c2.",
+        "<strong>Nothing is broken:</strong> It is like looking through an old photo album. Your main branch and recent work are completely safe.",
+        "<strong>Want to experiment here?</strong> If you want to make changes and keep them, run <code>git switch -c new-feature</code> to attach a new bookmark.",
+        "<strong>Return to safety anytime:</strong> Run <code>git switch main</code> to jump straight back to today's work."
+      ],
+      "rule": "Detached HEAD is harmless for reading history. If you make changes you want to keep, attach a bookmark with git switch -c <name>."
+    }
+  },
+  "cards": [
+    {
+      "id": "card-init",
+      "text": "Start a Repository from Scratch Onboarding Link Scope: Local → Remote Risk: Safe Guided Concept Turns a regular folder into a tracked project with a time-machine ledger in .git/ , then links it to GitHub. When to use: You started a new project folder on your machine and want to begin tracking it with Git and connect it to GitHub. Initialization Sequence Copy Customize: repo URL: # 1. Initialize local repository with default branch 'main' git init -b main # 2. Stage all initial files and make the first milestone git add . git commit -m \"feat: initial project setup\" # 3. Link to your empty GitHub repository and push git remote add origin https://github.com/username/repo.git git push -u origin main What happens: Creates a hidden .git database in your folder, snapshots your initial files, and links your local main branch to GitHub. Verify result: Run git remote -v and git status to confirm clean tree and upstream tracking. Related: git clone · .gitignore",
+      "commands": [
+        "# 1. Initialize local repository with default branch 'main'\r\ngit init -b main\r\n\r\n# 2. Stage all initial files and make the first milestone\r\ngit add .\r\ngit commit -m \"feat: initial project setup\"\r\n\r\n# 3. Link to your empty GitHub repository and push\r\ngit remote add origin https://github.com/username/repo.git\r\ngit push -u origin main"
+      ]
+    },
+    {
+      "id": "card-clone",
+      "text": "Clone an Existing Project Onboarding Link Scope: Remote → Local Risk: Safe Guided Concept Downloads an exact duplicate of the project and its entire history from GitHub onto your computer. When to use: You want to download a team repository or open-source project from GitHub onto your computer and start working. Clone &amp; Inspect Copy Customize: repo URL: # 1. Download complete repository history into a new folder: git clone https://github.com/username/repo.git # 2. Enter directory and inspect status: cd repo git status # 3. List all local and remote branches: git branch -a What happens: Downloads the full historical object graph, sets up origin remote tracking branches, and checks out the default branch. Verify result: Run git branch -vv to see the active checked-out branch. Related: git switch · git fetch",
+      "commands": [
+        "# 1. Download complete repository history into a new folder:\r\ngit clone https://github.com/username/repo.git\r\n\r\n# 2. Enter directory and inspect status:\r\ncd repo\r\ngit status\r\n\r\n# 3. List all local and remote branches:\r\ngit branch -a"
+      ]
+    },
+    {
+      "id": "card-stage",
+      "text": "Precise Staging &amp; Checkpoints Daily Essential Link Scope: Working Tree → Index Risk: Safe Guided Concept git add puts files into your shopping cart; git commit pays at the register to seal a permanent save point. When to use: You edited several files and want to seal a clean milestone snapshot containing only the changes intended for this commit. Status, Add &amp; Diff Copy Customize: file: message: # 1. Review status of modified files: git status # 2. Stage specific intended files: git add src/app.js # 3. Review the exact staged snapshot: git diff --staged # 4. Commit with a clear note: git commit -m \"feat: add user authentication\" What happens: Places file snapshots into the staging index, then seals them into an immutable cryptographic commit object. Verify result: Run git status to confirm clean tree and git log -1 to inspect the new commit. Caution on git add . : Stages all non-ignored files under the current folder. Prefer naming files or using git add -p to stage hunk-by-hunk. Related: git diff · git restore --staged",
+      "commands": [
+        "# 1. Review status of modified files:\r\ngit status\r\n\r\n# 2. Stage specific intended files:\r\ngit add src/app.js\r\n\r\n# 3. Review the exact staged snapshot:\r\ngit diff --staged\r\n\r\n# 4. Commit with a clear note:\r\ngit commit -m \"feat: add user authentication\""
+      ]
+    },
+    {
+      "id": "card-branch",
+      "text": "Branches: Isolated Sandboxes Branches Link Scope: Local History Risk: Safe Guided Concept Creates an isolated sandbox where you can code and test safely without risking the working production code on main . When to use: Starting a new feature, bugfix, or experiment without risking the working production code on main . Branch Navigation Modern (switch) Legacy (checkout) Copy Customize: branch: # 1. Create and switch to a new branch: git switch -c feature/redesign # 2. Work safely, edit files, and commit: git add src/redesign.css git commit -m \"style: apply new color palette\" # 3. Return to main branch when ready: git switch main What happens: Creates a lightweight 41-byte pointer to your current commit and moves HEAD to track it. Verify result: Run git branch --show-current to verify your active branch. Task Modern Standard (Git 2.23+) Legacy Overloaded Switch branch git switch &lt;name&gt; Clean git checkout &lt;name&gt; Create &amp; switch git switch -c &lt;name&gt; Clear git checkout -b &lt;name&gt;",
+      "commands": [
+        "# 1. Create and switch to a new branch:\r\ngit switch -c feature/redesign\r\n\r\n# 2. Work safely, edit files, and commit:\r\ngit add src/redesign.css\r\ngit commit -m \"style: apply new color palette\"\r\n\r\n# 3. Return to main branch when ready:\r\ngit switch main"
+      ]
+    },
+    {
+      "id": "card-undo",
+      "text": "Undoing Mistakes Safely Undo &amp; Recovery Link Scope: Working Tree &amp; Index Risk: Destructive / Reversible Guided Concept restore --staged takes items out of your shopping cart safely; restore throws away changes on disk permanently. When to use: You made accidental edits or staged files too early and need to back out without losing unintended work. Restore Commands Modern (restore) Legacy (checkout/reset) Copy Customize: file: commit: # 1. Unstage a file (SAFE: keeps your local edits in file): git restore --staged src/app.js # 2. Discard uncommitted edits (PERMANENT: overwrites file): git restore src/app.js # 3. Undo a pushed commit safely with an inverse commit: git revert a1b2c3d What happens: restore --staged removes files from index without touching files on disk. restore copies the committed version over disk. Verify result: Run git status to confirm file state. Go Back Further &amp; Quick Amend Copy # Restore one file to how it looked at an older commit: git restore --source &lt;commit-hash&gt; -- path/to/file # Legacy form: git checkout &lt;commit-hash&gt; -- path/to/file # Add a forgotten file to the last commit without editing the message: git add &lt;forgotten-file&gt; git commit --amend --no-edit When to stop: Stop before git restore &lt;filename&gt; on a file whose uncommitted edits you still need. restore permanently overwrites the working file with the committed version, and those unstaged edits are not saved anywhere in Git. Never --amend a commit already pushed to a shared branch. Permanent Loss Warning: git restore &lt;filename&gt; permanently overwrites uncommitted working edits. Those unstaged edits are not saved anywhere in Git. Related: git reset · git revert · git reflog 🔬 Deep Dive: The Three Trees &amp; Reset Matrix CS Theory Git coordinates Three Trees of repository state: HEAD: The commit snapshot checked out in your repository database. Index / Staging ( .git/index ): A binary cache recording file paths, stat caches, and blob SHA hashes for the next commit. Working Tree: The physical files and directories you edit directly on your operating system filesystem. The git reset command alters how many of these three trees move: Reset Flag HEAD Index (Cart) Working Tree Risk Level git reset --soft Moves Untouched Untouched 🟢 Safe git reset --mixed (default) Moves Resets Untouched 🟡 Reversible git reset --hard Moves Resets Overwritten 🔴 Destructive Takeaway: git restore --staged copies from HEAD into Index (leaving Working Tree alone), while git restore copies from Index into Working Tree.",
+      "commands": [
+        "# 1. Unstage a file (SAFE: keeps your local edits in file):\r\ngit restore --staged src/app.js\r\n\r\n# 2. Discard uncommitted edits (PERMANENT: overwrites file):\r\ngit restore src/app.js\r\n\r\n# 3. Undo a pushed commit safely with an inverse commit:\r\ngit revert a1b2c3d",
+        "# Restore one file to how it looked at an older commit:\r\ngit restore --source &lt;commit-hash&gt; -- path/to/file\r\n# Legacy form:\r\ngit checkout &lt;commit-hash&gt; -- path/to/file\r\n\r\n# Add a forgotten file to the last commit without editing the message:\r\ngit add &lt;forgotten-file&gt;\r\ngit commit --amend --no-edit"
+      ]
+    },
+    {
+      "id": "card-sync",
+      "text": "Working with Remotes (GitHub, GitLab, Bitbucket) Cloud &amp; Remotes Link Scope: Remote &amp; Local Risk: Reversible Guided Concept git pull downloads teammates' newest checkpoints; git push uploads your save points to the cloud host. When to use: Sharing your commits with teammates on GitHub, GitLab, or Bitbucket, or downloading their latest updates before merging. Fetch, Rebase &amp; Remote URLs Copy Customize: branch: # 1. Download remote changes WITHOUT altering working files: git fetch origin # 2. Pull & integrate linearly into your branch: git pull --rebase origin main # 3. Upload your commits to remote: git push origin feature/my-branch # Remote URL conventions across hosts: git remote add origin https://github.com/user/repo.git # GitHub git remote add origin https://gitlab.com/user/repo.git # GitLab git remote add origin https://bitbucket.org/user/repo.git # Bitbucket What happens: fetch updates remote-tracking references (`origin/main`). pull --rebase replays your local commits on top of incoming work. Verify result: Run git status to confirm your branch is up to date with origin/main . When to stop: Stop before git push --force if the remote rejected a normal push. Force-pushing rewrites shared history and can drop teammates' commits. Rebase or merge instead, then push normally. Fetch vs. Pull: git fetch downloads remote objects and updates origin/&lt;branch&gt; tracking references without touching your local working files. 🌐 The Cloud Host Rosetta Stone (GitHub vs. GitLab vs. Bitbucket) Multi-Host The Git command-line engine is identical across all hosts, but team review workflows and automation conventions differ: Capability GitHub GitLab Bitbucket Code Review Pull Request (PR) Merge Request (MR) Pull Request (PR) Official CLI gh pr create glab mr create bb / Atlassian CLI Issue Links #123 / GH-123 #123 / GL-123 Jira: PROJ-123 #resolve Default Branch main main main (legacy: master ) CI/CD Config .github/workflows/*.yml .gitlab-ci.yml bitbucket-pipelines.yml Takeaway: Once configured as an origin remote, standard Git commands behave identically regardless of which platform hosts the repository.",
+      "commands": [
+        "# 1. Download remote changes WITHOUT altering working files:\r\ngit fetch origin\r\n\r\n# 2. Pull & integrate linearly into your branch:\r\ngit pull --rebase origin main\r\n\r\n# 3. Upload your commits to remote:\r\ngit push origin feature/my-branch\r\n\r\n# Remote URL conventions across hosts:\r\ngit remote add origin https://github.com/user/repo.git     # GitHub\r\ngit remote add origin https://gitlab.com/user/repo.git     # GitLab\r\ngit remote add origin https://bitbucket.org/user/repo.git  # Bitbucket"
+      ]
+    },
+    {
+      "id": "card-forge-troubleshoot",
+      "text": "Cloud Forge Troubleshooting (GitHub, GitLab, Bitbucket) Multi-Host Overlays Link Scope: Remote Authentication &amp; Rules Risk: Reversible / Safe When to use: You ran into a remote platform rejection on GitHub, GitLab, or Bitbucket: a protected branch push rejection, invalid authentication or credentials, automated secret detection blocks, or fork divergence. GitHub GitLab Bitbucket Protected Branch Rejected Authentication &amp; Tokens Secret Scan Block (GH013) Fork &amp; Upstream Sync",
+      "commands": []
+    },
+    {
+      "id": "card-pipeline",
+      "text": "Pipelines &amp; Automated CI/CD Cloud &amp; Remotes Link Scope: Remote Cloud Risk: Read-Only When to use: Understanding how pushing code triggers cloud robots that test code, build assets, and deploy applications automatically across GitHub, GitLab, or Bitbucket. GitHub Actions GitLab CI/CD Bitbucket Pipelines GitHub Actions (.github/workflows/ci.yml) Copy # .github/workflows/ci.yml name: CI on: [push, pull_request] jobs: test: runs-on: ubuntu-latest steps: - uses: actions/checkout@v4 - name: Run Tests run: npm test What happens: Without an explicit workflow file, cloud hosts act solely as code storage. Pushing only triggers automated jobs if a configuration file is detected in the repository root. Verify result: Check the \"Actions\" (GitHub), \"Pipelines\" (GitLab), or \"Pipelines\" (Bitbucket) tab in your web browser to view live job logs. Related: git push · .github/workflows · .gitlab-ci.yml · bitbucket-pipelines.yml",
+      "commands": [
+        "# .github/workflows/ci.yml\r\nname: CI\r\non: [push, pull_request]\r\n\r\njobs:\r\n  test:\r\n    runs-on: ubuntu-latest\r\n    steps:\r\n      - uses: actions/checkout@v4\r\n      - name: Run Tests\r\n        run: npm test"
+      ]
+    },
+    {
+      "id": "card-stash",
+      "text": "Stashing: Temporary Work Shelving Daily Essential Link Scope: Working Tree &amp; Stash Risk: Reversible When to use: You are halfway through coding when an urgent bugfix is requested. Shelve your uncommitted edits so your workspace is clean, then restore them later. Stash Lifecycle Copy # 1. Stash changes (use -u to include newly created files): git stash push -u -m \"WIP: navigation refactor\" # 2. Your workspace is now clean. Switch branches or patch... git switch hotfix # 3. Return to branch and pop your shelved work: git stash pop Recovery &amp; Shortcuts Copy # Pull while you have local changes (stash, pull, pop in one step): git pull --autostash # Turn a stash into its own branch when it no longer applies cleanly: git stash branch rescue-wip stash@{0} # Recover a stash you dropped or cleared (before git gc prunes it): git fsck --no-reflog | grep \"dangling commit\" git stash apply &lt;commit-id&gt; What happens: Saves modified and untracked files into the stash stack and reverts your working tree to HEAD . Verify result: Run git stash list to inspect saved stashes. When to stop: Stop before git stash pop if you are unsure which stash holds your work or the working tree is not clean. Check git stash list first; popping the wrong stash applies unrelated changes. Recover dropped stashes before git gc prunes them, and do not git stash clear until you have reviewed the list. Untracked Files Caveat: Default git stash ignores new untracked files. Always pass -u if you created new files.",
+      "commands": [
+        "# 1. Stash changes (use -u to include newly created files):\r\ngit stash push -u -m \"WIP: navigation refactor\"\r\n\r\n# 2. Your workspace is now clean. Switch branches or patch...\r\ngit switch hotfix\r\n\r\n# 3. Return to branch and pop your shelved work:\r\ngit stash pop",
+        "# Pull while you have local changes (stash, pull, pop in one step):\r\ngit pull --autostash\r\n\r\n# Turn a stash into its own branch when it no longer applies cleanly:\r\ngit stash branch rescue-wip stash@{0}\r\n\r\n# Recover a stash you dropped or cleared (before git gc prunes it):\r\ngit fsck --no-reflog | grep \"dangling commit\"\r\ngit stash apply &lt;commit-id&gt;"
+      ]
+    },
+    {
+      "id": "card-conflict",
+      "text": "Merge Conflict Resolution Branches Link Scope: Working Tree &amp; History Risk: Reversible When to use: Git halts a merge or rebase because two branches altered identical lines and requires you to pick the right code. Realistic Conflict Markers Copy &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD const apiEndpoint = \"https://api.v2.internal\"; ======= const apiEndpoint = \"https://api.v3.production\"; &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/endpoint-upgrade Resolution Steps Copy # 1. Edit file: delete the 3 marker lines and keep the right code # 2. Mark conflict resolved: git add src/config.js # 3. Finalize merge (or abort if you need to rethink): git merge --continue # Or 'git merge --abort' What happens: Staging the cleaned file signals Git that the conflict is resolved. Finalizing creates the merge commit. Verify result: Run git status to confirm all merge conflicts are cleared. When to stop: Stop before running git merge --abort if you have already resolved and staged some files. Aborting throws away the entire merge and returns to the pre-merge state; redo any resolutions you want to keep.",
+      "commands": [
+        "&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\r\nconst apiEndpoint = \"https://api.v2.internal\";\r\n=======\r\nconst apiEndpoint = \"https://api.v3.production\";\r\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/endpoint-upgrade",
+        "# 1. Edit file: delete the 3 marker lines and keep the right code\r\n# 2. Mark conflict resolved:\r\ngit add src/config.js\r\n\r\n# 3. Finalize merge (or abort if you need to rethink):\r\ngit merge --continue   # Or 'git merge --abort'"
+      ]
+    },
+    {
+      "id": "card-rebase",
+      "text": "Interactive Rebase (Commit Polish) Advanced / Pro Link Scope: Local History Risk: History Rewriting When to use: Squashing WIP micro-commits into clean milestones before opening a Pull Request for your team. Rebase Session Copy # Rebase the last 3 local commits: git rebase -i HEAD~3 # In editor: # pick = keep commit # squash = combine into previous commit &amp; merge message # fixup = combine into previous commit &amp; discard message git rebase --continue git rebase --abort # Safe escape hatch What happens: Reconstructs a linear commit sequence with updated parent hashes. Verify result: Run git log --oneline -n 5 to inspect the newly squashed history. When to stop: Stop before rebasing commits already pushed to a shared branch. Rewriting public history breaks teammates' local branches and forces a --force push to reconcile. Golden Rule: Never rebase commits that have already been pushed to a shared public branch. Rewriting shared history breaks teammates' local branches. 🔬 Deep Dive: The Rebase Cherry-Pick Pipeline CS Theory Git cannot modify existing commits because commits in the DAG are cryptographically immutable. Under the hood, git rebase executes an automated patch pipeline: 1. LCA Discovery: Git traverses backwards to identify the Lowest Common Ancestor ( A ) between your branch and target base ( B ). 2. Patch Generation: Commits unique to your branch are serialized into temporary diff patches in .git/rebase-merge/ . 3. HEAD Pointer Reset: Git resets HEAD to the target base commit ( B ). 4. Sequential Replay: Git applies each patch one-by-one (automated cherry-pick ). Each applied patch creates a brand new commit object with a new parent hash, new committer timestamp, and a completely different SHA checksum. Why shared branches break: Teammates' local DAGs still point to the old commit SHAs. Pushing rebased commits results in divergent histories and duplicate commits.",
+      "commands": [
+        "# Rebase the last 3 local commits:\r\ngit rebase -i HEAD~3\r\n\r\n# In editor:\r\n# pick   = keep commit\r\n# squash = combine into previous commit &amp; merge message\r\n# fixup  = combine into previous commit &amp; discard message\r\n\r\ngit rebase --continue\r\ngit rebase --abort   # Safe escape hatch"
+      ]
+    },
+    {
+      "id": "card-detached",
+      "text": "Detached HEAD Recovery Advanced / Pro Link Scope: HEAD Pointer Risk: Reversible When to use: You checked out a raw commit hash instead of a branch name, and need to safely save any test commits you made. Diagnosis &amp; Safe Exit Modern (switch) Legacy (checkout) Copy Customize: branch: # 1. Check if detached: git status # Shows: \"HEAD detached at a1b2c3d\" # Exit A: Discard experiments and return to safety: git switch main # Exit B: Preserve commits made while detached: git switch -c recovery-branch What happens: Creating a branch attaches a named pointer to your current detached commit so garbage collection will not prune it. Verify result: Run git branch --show-current to verify you are back on a named branch. When to stop: Stop before running git switch if you made commits while detached. Create a rescue branch first, or those commits become unreferenced and can only be recovered from git reflog .",
+      "commands": [
+        "# 1. Check if detached:\r\ngit status  # Shows: \"HEAD detached at a1b2c3d\"\r\n\r\n# Exit A: Discard experiments and return to safety:\r\ngit switch main\r\n\r\n# Exit B: Preserve commits made while detached:\r\ngit switch -c recovery-branch"
+      ]
+    },
+    {
+      "id": "card-worktree",
+      "text": "Git Worktrees (Parallel Folders) Advanced / Pro Link Scope: Working Trees &amp; Branches Risk: Safe When to use: Checking out two different branches simultaneously into separate directories on your computer without re-cloning. Worktree Management Copy # 1. Check out hotfix branch into sibling folder: git worktree add ../project-hotfix hotfix-branch # 2. List all active directory locations: git worktree list # 3. Clean up folder when finished: git worktree remove ../project-hotfix What happens: Links multiple working directories to the same underlying .git repository database. Verify result: Run git worktree list to verify registered directory paths.",
+      "commands": [
+        "# 1. Check out hotfix branch into sibling folder:\r\ngit worktree add ../project-hotfix hotfix-branch\r\n\r\n# 2. List all active directory locations:\r\ngit worktree list\r\n\r\n# 3. Clean up folder when finished:\r\ngit worktree remove ../project-hotfix"
+      ]
+    },
+    {
+      "id": "card-reflog",
+      "text": "Reflog Recovery (Lost Work) Advanced / Pro Link Scope: Local Reflog Ledger Risk: Reversible When to use: You accidentally ran git reset --hard , deleted a branch with unmerged work, or lost a commit and thought it was gone forever. Reflog Rescue Recipe Copy # 1. View chronological action ledger: git reflog -n 15 # 2. Locate the commit hash before the mistake (e.g. HEAD@{2}) # 3. Create a rescue branch attached to that commit: git switch -c rescue-branch HEAD@{2} What happens: Git stores all HEAD reference movements locally for 30-90 days before garbage collection. Creating a branch resurrects the orphaned commit into active history. Verify result: Run git log -1 rescue-branch to confirm your lost code is restored. Related: git reset · git branch 🔬 Deep Dive: Object Reachability &amp; Garbage Collection CS Theory Git almost never deletes your commits immediately. Even after git reset --hard or deleting a branch: Unreachable Objects: The commit objects remain in .git/objects/ . They are merely disconnected from named branch refs (dangling in the DAG). Append-Only Reflogs: Files in .git/logs/HEAD and .git/logs/refs/heads/ log every SHA hash that references have pointed to locally. Garbage Collection ( git gc ): Unreachable objects are only purged when git gc runs and an object exceeds both gc.reflogExpire (default: 90 days) and gc.pruneExpire (default: 14 days). Takeaway: As long as you know the commit hash from git reflog , creating a new branch resurrects orphaned work into the active DAG with zero data loss.",
+      "commands": [
+        "# 1. View chronological action ledger:\r\ngit reflog -n 15\r\n\r\n# 2. Locate the commit hash before the mistake (e.g. HEAD@{2})\r\n# 3. Create a rescue branch attached to that commit:\r\ngit switch -c rescue-branch HEAD@{2}"
+      ]
+    },
+    {
+      "id": "card-bisect",
+      "text": "Regression Hunting (bisect &amp; blame) Advanced / Pro Link Scope: Local History Risk: Safe / Read-Only When to use: A bug appeared and you need to pinpoint the exact commit out of hundreds that introduced the regression, or see who authored specific lines. Bisect Binary Search Copy # 1. Start binary search: git bisect start git bisect bad # Current version is broken git bisect good v1.2.0 # Known good previous release # 2. Test intermediate commits checked out by Git: git bisect good # (or 'git bisect bad') # 3. Finish and return to active branch: git bisect reset # Inspect line-by-line author timestamps: git blame -L 20,45 src/app.js What happens: Performs a binary search across commit history in logarithmic steps (log 2 N ), isolating the faulty commit in minutes. Verify result: Git outputs: [hash] is the first bad commit with author and commit message.",
+      "commands": [
+        "# 1. Start binary search:\r\ngit bisect start\r\ngit bisect bad                 # Current version is broken\r\ngit bisect good v1.2.0          # Known good previous release\r\n\r\n# 2. Test intermediate commits checked out by Git:\r\ngit bisect good   # (or 'git bisect bad')\r\n\r\n# 3. Finish and return to active branch:\r\ngit bisect reset\r\n\r\n# Inspect line-by-line author timestamps:\r\ngit blame -L 20,45 src/app.js"
+      ]
+    },
+    {
+      "id": "card-tag",
+      "text": "Release Tags &amp; Semantic Versioning Release Engineering Link Scope: Repository Checkpoints Risk: Safe / Immutable When to use: Marking an official production release, milestone, or version number (e.g. v1.0.0 ) in your Git history. Annotated Tag Workflow Copy # 1. Create an annotated release tag: git tag -a v1.0.0 -m \"Release v1.0.0: Initial public launch\" # 2. Push tag to GitHub (tags are not pushed by default!): git push origin v1.0.0 # Or push all local tags at once: git push origin --tags # List all tags sorted by version: git tag -l -n 1 What happens: Creates an annotated Git tag object containing author, timestamp, and release notes permanently referencing the current commit. Verify result: Run git describe --tags to verify the active release version. Related: git log --oneline --decorate · git push origin --tags",
+      "commands": [
+        "# 1. Create an annotated release tag:\r\ngit tag -a v1.0.0 -m \"Release v1.0.0: Initial public launch\"\r\n\r\n# 2. Push tag to GitHub (tags are not pushed by default!):\r\ngit push origin v1.0.0\r\n\r\n# Or push all local tags at once:\r\ngit push origin --tags\r\n\r\n# List all tags sorted by version:\r\ngit tag -l -n 1"
+      ]
+    },
+    {
+      "id": "card-force-lease",
+      "text": "Safe Force-Push (--force-with-lease) PR &amp; Team Hygiene Link Scope: Remote Tracking Branch Risk: Caution / Rewriting Remote When to use: Updating a pull request branch after rebasing or squashing local commits, without the danger of destroying teammates' pushed work. Safe PR Force-Push Copy # Safely push rebased branch to remote pull request: git push --force-with-lease origin feature/auth # NEVER use raw 'git push --force' on shared repositories! What happens: Git verifies if the remote branch has received commits from teammates since your last fetch. If someone else pushed work, Git refuses the push instead of blindly overwriting it. Verify result: Git responds with [forced update] only if your local ref was synchronized with remote. When to stop: Stop if the remote branch has commits from teammates you have not fetched. A plain git push --force on a shared branch can silently overwrite their work. Use --force-with-lease only on your own pull-request branch. Related: git rebase -i · git fetch origin",
+      "commands": [
+        "# Safely push rebased branch to remote pull request:\r\ngit push --force-with-lease origin feature/auth\r\n\r\n# NEVER use raw 'git push --force' on shared repositories!"
+      ]
+    },
+    {
+      "id": "card-cherry-pick",
+      "text": "Port Isolated Commits (cherry-pick) Branch Maintenance Link Scope: Commit Plucking Risk: Reversible When to use: Applying a specific bugfix commit from one branch (e.g. main ) into a separate maintenance or release branch without merging the whole branch. Cherry-Pick Recipe Copy # 1. Switch to target branch (e.g. maintenance branch): git switch release/v1.0 # 2. Pluck specific bugfix commit by hash: git cherry-pick 7a1b2c3 # If conflict occurs: # git cherry-pick --continue # Or cancel and return to safety: # git cherry-pick --abort What happens: Re-applies the exact code diff from the specified commit hash and records a brand new commit on the currently active branch. Verify result: Run git log -1 --stat to confirm the bugfix commit was applied. When to stop: Stop if a cherry-pick conflicts. Use git cherry-pick --abort to cancel cleanly, or resolve and git cherry-pick --continue . Do not chain multiple cherry-picks while one is stuck in a conflicted state. Related: git switch · git merge · git log --oneline",
+      "commands": [
+        "# 1. Switch to target branch (e.g. maintenance branch):\r\ngit switch release/v1.0\r\n\r\n# 2. Pluck specific bugfix commit by hash:\r\ngit cherry-pick 7a1b2c3\r\n\r\n# If conflict occurs:\r\n# git cherry-pick --continue\r\n# Or cancel and return to safety:\r\n# git cherry-pick --abort"
+      ]
+    }
+  ],
+  "analyzer": [
+    {
+      "inputKey": "detached",
+      "input": "HEAD detached at 7a2b3c4\nnothing to commit, working tree clean",
+      "result": {
+        "icon": "📍",
+        "title": "Detached HEAD State",
+        "confidence": "High Confidence",
+        "triggerLine": "HEAD detached at 7a2b3c4",
+        "workLostStatus": "danger",
+        "workLostText": "⚠️ Warning: HEAD is unattached! Any new commits made here will be orphaned if you switch branches without naming them.",
+        "desc": "You checked out a raw commit hash or tag instead of a named branch pointer.",
+        "code": "# 1. Check if you created new commits while detached:\ngit log -1 --oneline\n\n# 2. Secure your commits with a named rescue branch:\ngit switch -c rescue-branch\n\n# 3. Or return to main if no commits were created:\ngit switch main",
+        "effect": "Creates a permanent named branch pointer anchored to your current commit checkpoint.",
+        "verify": "Run git branch --show-current to verify you are on a named branch.",
+        "warning": "Do NOT run git switch or git checkout before creating a rescue branch if you made commits!",
+        "linkText": "View Detached HEAD Card",
+        "linkId": "card-detached"
+      }
+    },
+    {
+      "inputKey": "conflict",
+      "input": "On branch main\nYou have unmerged paths.\n  (fix conflicts and run \"git commit\")\n  (use \"git merge --abort\" to abort the merge)\n\nUnmerged paths:\n  (use \"git add <file>...\" to mark resolution)\n\tboth modified:   src/app.js\n\nno changes added to commit (use \"git add\" and/or \"git commit -a\")",
+      "result": {
+        "icon": "⚠️",
+        "title": "Merge Conflict in Progress",
+        "confidence": "High Confidence",
+        "triggerLine": "You have unmerged paths.",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No! All conflicting files are preserved on disk with marker lines (<<<<<<< ======= >>>>>>>).",
+        "desc": "Git stopped automated integration because both branches modified identical lines of code.",
+        "code": "# 1. List all files currently in conflict:\ngit diff --name-only --diff-filter=U\n\n# 2. Open each file, choose desired code, remove <<<<<<< markers\n\n# 3. Stage resolved files:\ngit add src/app.js\n\n# 4. Finalize the merge commit:\ngit merge --continue",
+        "effect": "Completes the merge operation and seals the combined snapshot.",
+        "verify": "Run git status. It will report \"nothing to commit, working tree clean\".",
+        "warning": "Do NOT run git merge --abort unless you want to throw away the merge and restart from scratch.",
+        "linkText": "View Full Merge Conflict Card",
+        "linkId": "card-conflict"
+      }
+    },
+    {
+      "inputKey": "diverged",
+      "input": "On branch main\nYour branch and 'origin/main' have diverged,\nand have 2 and 1 different commits each, respectively.\n  (use \"git pull\" if you want to integrate the remote branch with yours)\n\nnothing to commit, working tree clean",
+      "result": {
+        "icon": "🔀",
+        "title": "Branch Divergence (Different Local & Remote Commits)",
+        "confidence": "High Confidence",
+        "triggerLine": "Your branch and 'origin/main' have diverged,",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No! Both your local commits and incoming remote commits exist safely.",
+        "desc": "Teammates pushed new work to the remote branch while you also made new commits locally.",
+        "code": "# Recommended: Replay your commits linearly on top of remote work:\ngit pull --rebase origin main\n\n# Alternative: Create an explicit 3-way merge commit:\ngit pull origin main",
+        "effect": "Integrates remote updates with your local commits.",
+        "verify": "Run git log --oneline -5 to verify linear history, then push.",
+        "warning": "Avoid git push --force on shared branches. Use pull --rebase to integrate cleanly.",
+        "linkText": "View Team Sync Card",
+        "linkId": "card-sync"
+      }
+    },
+    {
+      "inputKey": "secret",
+      "input": "remote: error: GH013: Repository rule violations found for refs/heads/main.\nremote: Review all 1 check failure at https://github.com/user/repo/rules\nremote: - Push cannot contain secrets: OpenAI API Key found in src/config.js\nTo https://github.com/user/repo.git\n ! [remote rejected] main -> main (push declined due to repository rule violations)\nerror: failed to push some refs to 'https://github.com/user/repo.git'",
+      "result": {
+        "icon": "🛡️",
+        "title": "Remote Push Rejected: Secret / API Key Detected",
+        "confidence": "High Confidence",
+        "triggerLine": "remote: error: GH013: Repository rule violations found for refs/heads/main.",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No! Your commits are safely stored locally. The cloud remote rejected the push to protect your secrets.",
+        "desc": "GitHub or GitLab pre-receive secret scanning prevented private credentials from being pushed to public history.",
+        "code": "# 1. Rewind the commit while keeping edits on disk:\ngit reset --soft HEAD~1\n\n# 2. Add sensitive file to .gitignore:\necho \".env\" >> .gitignore\n\n# 3. Re-commit clean files and push:\ngit add .gitignore <clean-files>\ngit commit -m \"fix: sanitize secrets\"\ngit push origin <branch>",
+        "effect": "Removes the secret from Git commit objects before it reaches remote servers.",
+        "verify": "Push completes without GH013 rejection.",
+        "warning": "If the token was already exposed elsewhere, revoke and regenerate the API key immediately.",
+        "linkText": "Open Full Cloud Forge Overlays",
+        "linkId": "card-forge-troubleshoot"
+      }
+    },
+    {
+      "inputKey": "clean",
+      "input": "On branch feature/login\nnothing to commit, working tree clean",
+      "result": {
+        "icon": "✨",
+        "title": "Working Tree Clean (No Pending Edits)",
+        "confidence": "High Confidence",
+        "triggerLine": "nothing to commit, working tree clean",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 All files on disk match your latest commit checkpoint. If your work seems missing, you may be on the wrong branch!",
+        "desc": "Git has recorded all modifications. There are no unstaged or uncommitted changes.",
+        "code": "# 1. List all branches to see where you might have worked:\ngit branch -a\n\n# 2. View recent commit checkpoints:\ngit log -n 5 --oneline\n\n# 3. Check your local action ledger for recent switches:\ngit reflog -n 10",
+        "effect": "Inspects your full local history and branch bookmarks to locate misplaced commits.",
+        "verify": "Locate your commit ID in reflog, then run git switch <branch-name>.",
+        "warning": "Remember that git checkout and git switch alter which branch files are shown in your editor.",
+        "linkText": "View Reflog Recovery Guide",
+        "linkId": "card-reflog"
+      }
+    },
+    {
+      "inputKey": "unknown",
+      "input": "mystery failure",
+      "result": {
+        "icon": "📋",
+        "title": "Diagnostic Output Inspected",
+        "confidence": "General Guidance",
+        "triggerLine": "mystery failure",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 General status output analyzed. Take a breath and inspect the state below.",
+        "desc": "Git reported repository state information. Follow the tested safe sequence below:",
+        "code": "# 1. Check detailed status without altering files:\ngit status\n\n# 2. Inspect unstaged and staged diffs:\ngit diff\ngit diff --staged\n\n# 3. View recent commit history:\ngit log -n 5 --oneline",
+        "effect": "Gathers clean diagnostics without altering your files.",
+        "verify": "Review the output to decide on next action.",
+        "warning": "Avoid running destructive commands with --hard or --force without a backup branch bookmark.",
+        "linkText": "Explore Undo Decision Tree",
+        "linkId": "troubleshootConsole"
+      }
+    },
+    {
+      "inputKey": "ahead",
+      "input": "Your branch is ahead of 'origin/main' by 1 commit",
+      "result": {
+        "icon": "📤",
+        "title": "Unpushed Local Commits",
+        "confidence": "High Confidence",
+        "triggerLine": "Your branch is ahead of 'origin/main' by 1 commit",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No! Your changes are safely recorded in your local Git repository database.",
+        "desc": "You have sealed commits on this computer that have not yet been published to your remote cloud host.",
+        "code": "# Upload your commits to remote:\ngit push origin <branch-name>",
+        "effect": "Updates remote tracking branch to match local HEAD.",
+        "verify": "Run git status. It will report up to date with origin.",
+        "warning": "Ensure your test suite passes before pushing shared commits.",
+        "linkText": "View Cloud Push Guide",
+        "linkId": "card-sync"
+      }
+    },
+    {
+      "inputKey": "behind",
+      "input": "Your branch is behind 'origin/main' by 1 commit",
+      "result": {
+        "icon": "📥",
+        "title": "Branch Behind Remote",
+        "confidence": "High Confidence",
+        "triggerLine": "Your branch is behind 'origin/main' by 1 commit",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No! You just need to download incoming commits created by teammates.",
+        "desc": "Remote has commits that you do not yet have in your local working checkout.",
+        "code": "# Download and integrate linearly:\ngit pull --rebase origin <branch-name>",
+        "effect": "Advances your local branch bookmark to include incoming remote changes.",
+        "verify": "Run git log -1 to inspect the latest downloaded commit.",
+        "warning": "Fetch first if you want to inspect incoming diffs without altering working files: git fetch origin",
+        "linkText": "View Team Sync Card",
+        "linkId": "card-sync"
+      }
+    },
+    {
+      "inputKey": "sensitive",
+      "input": "Untracked files:\n  .env",
+      "result": {
+        "icon": "🔒",
+        "title": "Sensitive Credential File in Untracked List",
+        "confidence": "High Confidence",
+        "triggerLine": ".env",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 Safe on disk, but high risk of accidental commit!",
+        "desc": "Git detected private configuration files (.env, keys) in your working folder that are not yet ignored.",
+        "code": "# 1. Append sensitive files to .gitignore:\necho \".env\" >> .gitignore\n\n# 2. Verify git status ignores them:\ngit status",
+        "effect": "Prevents sensitive credentials from accidentally being staged by git add .",
+        "verify": "Run git status. Sensitive files must not appear under Untracked files.",
+        "warning": "Never commit API keys or private keys to version control.",
+        "linkText": "View Staging Guide",
+        "linkId": "card-stage"
+      }
+    },
+    {
+      "inputKey": "auth",
+      "input": "fatal: Authentication failed",
+      "result": {
+        "icon": "🔑",
+        "title": "Authentication / Credential Failure",
+        "confidence": "High Confidence",
+        "triggerLine": "fatal: Authentication failed",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No! Your local work is 100% intact. Only remote transmission failed.",
+        "desc": "Remote rejected credentials: password authentication is deprecated on GitHub/Bitbucket; token or SSH key required.",
+        "code": "# Clear cached credentials in Git Credential Manager:\ngit credential reject\n\n# Or test SSH key connection directly:\nssh -T git@github.com",
+        "effect": "Clears stale cached credentials and verifies cryptographic key access.",
+        "verify": "Remote returns a welcome message.",
+        "warning": "Bitbucket Cloud users: You must use your full Atlassian account email address as username with App Passwords.",
+        "linkText": "Open Authentication Troubleshooter",
+        "linkId": "card-forge-troubleshoot"
+      }
+    },
+    {
+      "inputKey": "protected",
+      "input": "remote: error: GH006: Protected branch update failed",
+      "result": {
+        "icon": "🚫",
+        "title": "Remote Push Rejected: Protected Branch Rules",
+        "confidence": "High Confidence",
+        "triggerLine": "remote: error: GH006: Protected branch update failed",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No! All your commits exist safely on your computer. Direct pushes to this branch are restricted by team policy.",
+        "desc": "Your team or organization protects main/master to require peer code reviews before merging.",
+        "code": "# 1. Move your commits onto a new feature branch:\ngit switch -c feature/my-fix\n\n# 2. Push the branch to remote:\ngit push -u origin feature/my-fix\n\n# 3. Align local main back to remote clean state:\ngit switch main\ngit fetch origin\ngit reset --hard origin/main",
+        "effect": "Publishes your changes on a review branch and restores local main cleanly.",
+        "verify": "Run git status on both branches to verify local main matches remote.",
+        "warning": "Never attempt --force on a protected branch; it will be rejected and may violate organization policy.",
+        "linkText": "View Forge-Specific PR/MR Guide",
+        "linkId": "card-forge-troubleshoot"
+      }
+    },
+    {
+      "inputKey": "notRepo",
+      "input": "fatal: not a git repository",
+      "result": {
+        "icon": "📁",
+        "title": "Not a Git Repository",
+        "confidence": "High Confidence",
+        "triggerLine": "fatal: not a git repository",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No files were deleted. Your current folder is simply not configured with Git tracking.",
+        "desc": "The current working directory does not contain a .git metadata folder.",
+        "code": "# Option A: Initialize Git in this project folder:\ngit init -b main\n\n# Option B: Or navigate to your existing project repository:\ncd path/to/your/actual/project\ngit status",
+        "effect": "Creates a new .git/ ledger or navigates to the correct repository checkout.",
+        "verify": "Run git status. It will display branch information instead of a fatal error.",
+        "warning": "Check if you are inside a child or parent directory before running git init.",
+        "linkText": "View Repository Init Guide",
+        "linkId": "card-init"
+      }
+    },
+    {
+      "inputKey": "ambiguous",
+      "input": "rebase in progress\nUnmerged paths:\nboth modified: app.js",
+      "result": {
+        "icon": "⚠️",
+        "title": "Merge Conflict in Progress",
+        "confidence": "High Confidence",
+        "triggerLine": "Unmerged paths:",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No! All conflicting files are preserved on disk with marker lines (<<<<<<< ======= >>>>>>>).",
+        "desc": "Git stopped automated integration because both branches modified identical lines of code.",
+        "code": "# 1. List all files currently in conflict:\ngit diff --name-only --diff-filter=U\n\n# 2. Open each file, choose desired code, remove <<<<<<< markers\n\n# 3. Stage resolved files:\ngit add app.js\n\n# 4. Finalize the merge commit:\ngit merge --continue",
+        "effect": "Completes the merge operation and seals the combined snapshot.",
+        "verify": "Run git status. It will report \"nothing to commit, working tree clean\".",
+        "warning": "Do NOT run git merge --abort unless you want to throw away the merge and restart from scratch.",
+        "linkText": "View Full Merge Conflict Card",
+        "linkId": "card-conflict"
+      }
+    },
+    {
+      "inputKey": "rules",
+      "input": "remote: error: GH013: Repository rule violations found",
+      "result": {
+        "icon": "🛡️",
+        "title": "Remote Push Rejected: Secret / API Key Detected",
+        "confidence": "High Confidence",
+        "triggerLine": "remote: error: GH013: Repository rule violations found",
+        "workLostStatus": "safe",
+        "workLostText": "🟢 No! Your commits are safely stored locally. The cloud remote rejected the push to protect your secrets.",
+        "desc": "GitHub or GitLab pre-receive secret scanning prevented private credentials from being pushed to public history.",
+        "code": "# 1. Rewind the commit while keeping edits on disk:\ngit reset --soft HEAD~1\n\n# 2. Add sensitive file to .gitignore:\necho \".env\" >> .gitignore\n\n# 3. Re-commit clean files and push:\ngit add .gitignore <clean-files>\ngit commit -m \"fix: sanitize secrets\"\ngit push origin <branch>",
+        "effect": "Removes the secret from Git commit objects before it reaches remote servers.",
+        "verify": "Push completes without GH013 rejection.",
+        "warning": "If the token was already exposed elsewhere, revoke and regenerate the API key immediately.",
+        "linkText": "Open Full Cloud Forge Overlays",
+        "linkId": "card-forge-troubleshoot"
+      }
+    }
+  ]
+}

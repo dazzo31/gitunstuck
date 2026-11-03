@@ -1,7 +1,7 @@
 # Contributing to GitUnstuck
 
 Thanks for your interest in contributing. GitUnstuck is a dependency-free,
-client-side application: a single `index.html` plus an automated test suite.
+client-side application: `index.html`, shared `recovery.js`, SVG assets and automated tests.
 We welcome contributions that keep it small, private, and easy to run.
 
 ## How to contribute
@@ -14,7 +14,7 @@ We welcome contributions that keep it small, private, and easy to run.
 4. **Run the test suite.** Everything must pass before review:
 
    ```bash
-   node tests/test-analyzer.js
+   npm test
    ```
 
 5. **Open a pull request.** Link the issue and describe what changed and why.
@@ -22,7 +22,7 @@ We welcome contributions that keep it small, private, and easy to run.
 ## Coding conventions
 
 - **Zero dependencies.** Do not add npm packages, external fonts, external
-  scripts, or a build step. GitUnstuck runs by opening `index.html` directly.
+  scripts or runtime frameworks. Preserve the existing build-only minifiers. Source use opens `index.html` alongside `recovery.js`.
 - **Privacy first.** Pasted terminal output stays in the browser tab. Never
   transmit input over the network, and do not log or store it.
 - **Risk-aware guidance.** Every destructive command must be paired with a
@@ -35,16 +35,17 @@ We welcome contributions that keep it small, private, and easy to run.
 
 ## Project layout
 
-- `index.html` — the entire application (markup, styles, and scripts).
-- `tests/test-analyzer.js` — the automated regression suite (155 assertions).
+- `index.html` — markup, styles, navigation and rendering.
+- `recovery.js` — shared recipe data and diagnosis logic.
+- `tests/test-analyzer.js` — parser, data and source assertions.
+- `tests/test-recovery.js` — executable disposable-repository scenarios.
+- `tests/test-browser.cjs` — optional browser journey and presentation checks.
 - `docs/` — plans, feature specifications, and design notes.
 - `.github/` — CI workflows, issue/PR templates, and funding configuration.
 
 ## Tests
 
-The suite covers diagnostics, input normalization, forge guidance, navigation,
-accessibility, branding, experience modes, and the visual data-flow tools. If you
-change behavior, add or update the corresponding assertions.
+Keep parser checks, executable recovery evidence and browser checks distinct. Tests must execute the same recipe definitions as the UI and assert protected file/index/history state. Do not treat matching source strings as proof that a recovery works. See README.md for supported environments and provider limitations.
 
 ## Code of Conduct
 

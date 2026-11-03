@@ -20,6 +20,7 @@ import {
 } from 'node:fs';
 import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 import { gzipSync, brotliCompressSync, constants } from 'node:zlib';
 import { transform as transformCss } from 'lightningcss';
 import { minify as minifyJavaScript } from 'terser';
@@ -116,7 +117,13 @@ const enc = s => Buffer.from(s, 'utf8');
 const gz = s => gzipSync(enc(s), { level: 9 }).length;
 const br = s => brotliCompressSync(enc(s), { params: { [constants.BROTLI_PARAM_QUALITY]: 11 } }).length;
 
-const source = readFileSync(SRC, 'utf8');
+// Inline the shared recovery module so the deployed artifact stays self-contained.
+const revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
+const source = readFileSync(SRC, 'utf8').replace('</head>',
+  `<meta name="gitunstuck-revision" content="${revision}"></head>`).replace(
+  '<script src="recovery.js"></script>',
+  () => '<script>' + readFileSync(join(ROOT, 'recovery.js'), 'utf8') + '</script>',
+);
 const minified = await minifyHtml(source);
 
 console.log('GitUnstuck build');

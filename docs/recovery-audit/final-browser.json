@@ -1,0 +1,67 @@
+{
+  "target": "Local production artifact: dist/index.html",
+  "results": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "errors": [],
+      "widths": {
+        "fix": {
+          "scroll": 1440,
+          "client": 1440
+        },
+        "learn": {
+          "scroll": 1440,
+          "client": 1440
+        },
+        "reference": {
+          "scroll": 1440,
+          "client": 1440
+        }
+      },
+      "contrast": [
+        {
+          "theme": "light",
+          "failures": []
+        },
+        {
+          "theme": "dark",
+          "failures": []
+        }
+      ],
+      "focus": "solid"
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "errors": [],
+      "widths": {
+        "fix": {
+          "scroll": 390,
+          "client": 390
+        },
+        "learn": {
+          "scroll": 390,
+          "client": 390
+        },
+        "reference": {
+          "scroll": 390,
+          "client": 390
+        }
+      },
+      "contrast": [
+        {
+          "theme": "light",
+          "failures": []
+        },
+        {
+          "theme": "dark",
+          "failures": []
+        }
+      ],
+      "focus": "solid"
+    }
+  ]
+}

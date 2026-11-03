@@ -16,8 +16,8 @@ Link the issue this addresses, if any (for example, `Fixes #12`).
 
 ## Testing
 
-- [ ] `node tests/test-analyzer.js` passes (155 assertions)
-- [ ] Manual browser check performed in Guided Essentials and Developer Hub
+- [ ] `npm test` passes (parser/source checks and executable recovery scenarios)
+- [ ] Browser journeys checked for Fix a problem, Learn Git and Find a command
 
 ## Checklist
 
