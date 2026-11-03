@@ -96,11 +96,11 @@ These links can be shared in team chat, documentation, and support replies.
 
 ## Built for privacy and speed
 
-GitUnstuck is a dependency-free, client-side application built with vanilla HTML, CSS, and JavaScript. It has no build step and sends no pasted terminal content to a server. The interface is designed for WCAG AA contrast and supports keyboard and screen-reader use.
+GitUnstuck is a dependency-free, client-side application built with vanilla HTML, CSS, and JavaScript. It sends no pasted terminal content to a server. The repository keeps a readable, self-contained `index.html`; GitHub Pages uses a zero-dependency Node build script to minify the deployed copy. The interface is designed for WCAG AA contrast and supports keyboard and screen-reader use.
 
 ## Run locally
 
-Clone the repository and open `index.html` in a modern browser. No package installation or build command is required.
+Clone the repository and open `index.html` in a modern browser. No package installation or build command is required for local use. To generate the minified deployment artifact, run `node scripts/build.mjs`; it writes `dist/` using only Node built-ins.
 
 Run the automated regression suite with:
 
