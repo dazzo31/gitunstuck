@@ -24,6 +24,8 @@ Protected-branch guidance creates and publishes a new review branch. It does not
 
 Open `index.html` alongside `recovery.js`, `learning.js` and the SVG assets in a modern browser. Source checkout use needs no build. `#learn` opens the outline; `#learn/staging/edited-v3` opens a specific checkpoint. Lesson reference links retain their validated checkpoint through reload and search. Browser controls change illustrations only; the page cannot inspect or grade a real repository.
 
+Visual tools sit inside their related lessons: expand **Explore the staging checkpoints visually** in staging or **Explore other branch and merge scenarios** in branches. The staging tool starts at the current checkpoint. Older visual deep links still open the relevant tool and offer a link to its practice lesson.
+
 Commands use Git 2.23+ syntax. Current learning fixtures ran on Git 2.56.0.windows.4; actual Git 2.23 runtime compatibility remains unverified. Bash and Windows PowerShell 5.1 setup blocks were executed in their actual shells. Use a fresh named directory for each lesson; practice identity, hook, signing and pager settings stay local. Replace uppercase reference placeholders with checked values; paths containing shell expansion characters or quotes need shell-specific quoting. Do not paste credentials into the guide.
 
 With Node.js 22 or later and Git installed:

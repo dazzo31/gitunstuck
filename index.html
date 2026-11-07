@@ -2150,13 +2150,16 @@
     [data-destination-panel] { scroll-margin-top: 110px; }
     .secondary-path, .symptom-details, .sample-details { margin: 18px 0; }
     summary { cursor: pointer; padding: 8px 0; }
-    .learning-path { line-height: 2; padding-left: 24px; }
-    #learn.lesson-open > .learning-path, #learn.lesson-open > .hero-primer,
-    #learn.lesson-open > #learningIllustrations,
-    #learn.lesson-open > .learn-introduction, #learn.lesson-open > .concept-links-label,
-    #learn.lesson-open #fourZoneModel, #learn.lesson-open #commitGraphExplorer { display: none !important; }
+    #learn.lesson-open > .learn-introduction { display: none; }
     #learningCourse { margin: 24px 0; min-width: 0; }
-    #learningIllustrations > summary { cursor: pointer; min-height: 44px; padding: 12px 0; border-top: 1px solid var(--border); font-weight: 600; }
+    .learning-visual { margin: 24px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .learning-visual > summary { min-height: 44px; padding: 12px 0; font-weight: 600; }
+    .learning-visual :is(.four-zone-section,.graph-explorer) { margin: 0; padding: 12px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+    .learning-visual .primer-badge, .learning-visual .graph-header > p:last-child { display: none; }
+    .learning-visual :is(.four-zone-title,.graph-title) { font-size: 1.15rem; }
+    .learning-visual { scroll-margin-top: 110px; }
+    @media (max-width: 900px) { .learning-visual { scroll-margin-top: 180px; } }
+    #learningIllustrations[hidden], #learningIllustrations > [hidden] { display: none !important; }
     .course-list { padding-left: 24px; }
     .course-list a { font-weight: 700; color: var(--accent-green); }
     .course-list p { margin: 6px 0 16px; }
@@ -2256,14 +2259,6 @@
     a:hover { color: var(--text); }
     main p a { text-decoration: underline dotted; text-underline-offset: 4px; }
     main p a:hover { text-decoration-style: solid; }
-    .learning-path li { padding: 4px 0; }
-    .learning-path a {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      max-width: 440px; padding: 8px 12px; border: 1px solid var(--border);
-      border-radius: 6px; background: var(--bg-card); font-size: 0.9rem; line-height: 1.5;
-    }
-    .learning-path a::after { content: "\2192"; flex-shrink: 0; }
-    .learning-path a:hover { background: var(--bg-card-hover); border-color: var(--accent-green); }
     :is(a, button, input, textarea, select, summary, [tabindex="0"]):focus-visible {
       outline: 2px solid var(--accent-green); outline-offset: 3px;
     }
@@ -2503,9 +2498,7 @@
     <section id="learn" data-destination-panel="learn" aria-label="Learn Git" hidden>
 <h2>Learn Git</h2><p class="learn-introduction">Practise with plain-text files, predict what Git will do, then inspect the result.</p>
       <div id="learningCourse"></div>
-      <details id="learningIllustrations"><summary>Concept illustrations and advanced examples</summary>
-      <p class="concept-links-label">Concept illustrations and existing explanations</p>
-      <ol class="learning-path"><li><a href="#analogy-repo">Repositories and saved commits</a></li><li><a href="#analogy-staging">Choose what to stage</a></li><li><a href="#fourZoneModel">Compare Git content locations</a></li><li><a href="#commitGraphExplorer">Understand branches and merges</a></li></ol>
+      <div id="learningIllustrations" hidden>
 <section class="hero-primer" id="beginnerPrimer" aria-labelledby="primerHeading">
       <div class="primer-header">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
@@ -2825,7 +2818,7 @@
           </div>
         </div>
       </details>
-    </section></details></section>
+    </section></div></section>
     <section id="reference" data-destination-panel="reference" aria-label="Find a command" hidden>
       <h2>Find a command</h2><p>Search by command or task. Read the prerequisites and consequences, then open the steps when you need them.</p><div id="referenceLearningContext"></div><p id="referenceInstructions" class="reference-instructions"></p>      <!-- Quick Search -->
       <div class="search-wrapper">
@@ -4772,10 +4765,23 @@ jobs:
     function renderLearning(hash) {
       const container = document.getElementById('learningCourse');
       if (!container) return;
+      const illustrations=document.getElementById('learningIllustrations');
+      // Preserve the existing controls and their listeners before replacing lesson markup.
+      for(const id of ['fourZoneModel','commitGraphExplorer'])illustrations.append(document.getElementById(id));
+      const legacyId=hash.slice(1);
+      const visualId=legacyId.startsWith('zone-')?'fourZoneModel':document.getElementById(legacyId)?.closest('#fourZoneModel,#commitGraphExplorer,#beginnerPrimer')?.id||null;
+      illustrations.hidden=!visualId;
+      for(const section of illustrations.children)section.hidden=section.id!==visualId;
       const route = GitLearning.route(hash);
       const item = route.valid && route.lesson ? GitLearning.lesson(route.lesson) : null;
       document.getElementById('learn').classList.toggle('lesson-open', Boolean(item));
       if (!item) {
+        if(visualId){
+          const related=visualId==='commitGraphExplorer'?'branches':legacyId==='analogy-remote'?'remotes':legacyId==='analogy-repo'?'setup':'staging';
+          const lesson=GitLearning.lesson(related);
+          container.innerHTML=`<nav aria-label="Related lesson"><a href="#learn">All lessons</a> · <a href="#learn/${related}/${lesson.checkpoints[0].id}">Practise: ${h(lesson.title)}</a></nav>`;
+          return;
+        }
         container.innerHTML = `${!route.valid && hash.startsWith('#learn/') ? '<p role="status">That lesson or checkpoint is unavailable. Choose a lesson below.</p>' : ''}<nav aria-label="Practical lessons"><ul class="course-list">${GitLearning.lessons.map(lesson => `<li><a href="#learn/${h(lesson.id)}/${h(lesson.checkpoints[0].id)}">${h(lesson.title)}${lesson.optional?' (optional)':''}</a><p>${h(lesson.outcome)}</p></li>`).join('')}</ul></nav>`;
         return;
       }
@@ -4823,6 +4829,7 @@ jobs:
               ${point.recovery?`<p><a data-learning-reference href="${h(GitLearning.referenceUrl('card-conflict',item.id,point.id))}">Confirmed merge recovery steps</a></p>`:''}
               ${point.alternative?`<details class="learning-alternative"><summary>${h(point.alternative.title)}</summary><h5>When to stop</h5><p>${h(point.alternative.stop)}</p><h5>Check first</h5>${learningCommands(point.alternative.checks,'Confirm the practice merge state')}<p><strong>What changes:</strong> ${h(point.alternative.effect)}</p><p>${h(GitRecovery.recipes[point.alternative.recipe].failure)}</p>${learningActions(point.alternative.actions)}<p>${h(point.alternative.after)}</p><p><a href="${h(GitLearning.sources[point.alternative.source])}" target="_blank" rel="noopener noreferrer">Official merge documentation</a></p></details>`:''}
             </section>
+            ${['staging','branches'].includes(item.id)?`<details class="learning-visual"><summary>${item.id==='staging'?'Explore the staging checkpoints visually':'Explore other branch and merge scenarios'}</summary><p>${item.id==='staging'?'Compare the five states from this lesson side by side. These controls explore the example independently; they do not change your lesson checkpoint or local files.':'The graphs above follow your practice repository. This explorer adds separate examples of branching, merging, rebasing and detached HEAD; changing it does not change your lesson checkpoint or repository.'}</p><div data-learning-visual-slot></div></details>`:''}
             <nav class="lesson-movement" aria-label="Move through the example">${position > 0 ? `<a href="${link(item.checkpoints[position-1])}">← ${h(item.checkpoints[position-1].title)}</a>` : ''}${position < item.checkpoints.length-1 ? `<a href="${link(item.checkpoints[position+1])}">${h(item.checkpoints[position+1].title)} →</a>` : ''}<button type="button" data-learning-reset>Restart browser example</button></nav>
             ${position === item.checkpoints.length-1 ? `<section class="learning-transfer"><h4>${h(item.independent.title)}</h4><p>${h(item.independent.task)}</p><details><summary>Worked answer and verification</summary><p>${h(item.independent.answer)}</p>${item.independent.actions.map((action,index) => (index===item.independent.gateBefore?learningRecoveryGate(item.independent.gate):'')+(action.kind === 'edit' ? learningEdits([action]) : learningCommands([action]))).join('')}${learningCommands(item.independent.inspect, 'Verify the independent task')}</details></section>` : ''}
             <p><a data-learning-reference href="${h(GitLearning.referenceUrl(item.reference,item.id,point.id))}">${h(item.referenceLabel || 'Staging and commit reference')}</a></p>
@@ -4831,6 +4838,8 @@ jobs:
             ${item.hostingNote?`<p>${h(item.hostingNote)}</p>`:''}
           </article>
         </div>`;
+      const visualSlot=container.querySelector('[data-learning-visual-slot]');
+      if(visualSlot){const visual=document.getElementById(item.id==='staging'?'fourZoneModel':'commitGraphExplorer');visual.hidden=false;visualSlot.append(visual);if(item.id==='staging')showZoneCheckpoint(point.id,false);}
     }
     document.getElementById('learningCourse')?.addEventListener('click', event => {
       const reference=event.target.closest('a[data-learning-reference]');

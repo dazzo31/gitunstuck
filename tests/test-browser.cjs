@@ -99,7 +99,7 @@ async function checkLearningPresentation(browser) {
     assert.equal(await page.locator('#checkpointTitle').innerText(),'Save a second version');
     // Copy failure must keep focus and explain a usable fallback.
     await page.evaluate(()=>{Object.defineProperty(navigator,'clipboard',{value:{writeText:async()=>{throw new Error('test failure');}},configurable:true});document.execCommand=()=>false;});
-    const copy=page.locator('.lesson-reading .copy-btn').last();await copy.click();
+    const copy=page.locator('.lesson-reading .copy-btn:visible').last();await copy.click();
     await copy.locator('xpath=self::*[contains(@class,"copy-error")]').waitFor();
     assert.equal(await copy.textContent(),'Copy failed');assert.equal(await copy.evaluate(e=>e===document.activeElement),true);
     await page.waitForFunction(()=>document.querySelector('#liveAnnouncer').textContent.includes('copy it manually'));
@@ -218,7 +218,7 @@ async function checkLearningPresentation(browser) {
       await page.locator('.lesson-outline a[href="#learn/staging/staged-v2"]').click();
       await page.goBack();assert.equal(await page.locator('#checkpointTitle').innerText(),'Edit again without staging');
       await page.goForward();assert.equal(await page.locator('#checkpointTitle').innerText(),'Stage the current content');
-      const lessonCopy=page.locator('.lesson-reading .snippet-block .copy-btn').last();
+      const lessonCopy=page.locator('.lesson-reading .snippet-block .copy-btn:visible').last();
       const lessonExpected=await lessonCopy.locator('xpath=ancestor::div[contains(@class,"snippet-block")]').locator('pre code').innerText();
       await lessonCopy.click();assert.equal(await page.evaluate(()=>window.testClipboard.at(-1)),lessonExpected);
       assert.ok(await page.locator('.lesson-reading').evaluate(e=>e.scrollWidth<=e.clientWidth),'Lesson reading column contains wide content');
@@ -346,15 +346,21 @@ async function checkLearningPresentation(browser) {
         assert.equal(await page.locator('#learningCourse img').count(),0);
       }
       await page.locator('.destination-link[data-destination="learn"]').click();await page.locator('#learn').waitFor({state:'visible'});
-      if(!await page.locator('#learningIllustrations').evaluate(e=>e.open))await page.locator('#learningIllustrations > summary').click();
-      await page.mouse.move(0,0);
-      const lessonLink=page.locator('.learning-path a').first();
-      const linkStyle=await lessonLink.evaluate(element=>({color:getComputedStyle(element).color,decoration:getComputedStyle(element).textDecorationLine}));
-      assert.equal(linkStyle.decoration,'none');
-      assert.equal(linkStyle.color,'rgb(4, 120, 87)','Learning links use the green theme colour rather than the browser default');
-      const lessonTreatment=await lessonLink.evaluate(element=>({display:getComputedStyle(element).display,arrow:getComputedStyle(element,'::after').content,radius:getComputedStyle(element).borderRadius}));
-      assert.equal(lessonTreatment.display,'flex');assert.equal(lessonTreatment.radius,'6px');assert.ok(lessonTreatment.arrow.includes('\u2192'));
-      await page.locator('.learning-path a[href="#analogy-staging"]').click();await page.waitForFunction(()=>location.hash==='#analogy-staging');
+      assert.equal(await page.locator('#learningIllustrations').isVisible(),false,'Overview has one course path without a separate illustration collection');
+      await page.goto(base+'#learn/staging/edited-v3');
+      await page.locator('.learning-visual > summary').click();
+      assert.equal(await page.locator('.lesson-reading #fourZoneModel').isVisible(),true,'Staging tool belongs to its lesson');
+      assert.equal(await page.locator('#zoneCheckpointSelect').inputValue(),'edited-v3','Embedded staging starts at the current lesson checkpoint');
+      assert.equal(await page.locator('#commitGraphExplorer').isVisible(),false);
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),'Embedded staging tool reflows');
+      await page.goto(base+'#learn/branches/merged');
+      await page.locator('.learning-visual > summary').click();
+      assert.equal(await page.locator('.lesson-reading #commitGraphExplorer').isVisible(),true,'Graph explorer belongs to branches');
+      assert.equal(await page.locator('#fourZoneModel').isVisible(),false);
+      await page.locator('[data-scenario="detached"]').click();
+      assert.match(await page.locator('#graphExplanationPanel').innerText(),/detached/i);
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),'Embedded graph explorer reflows');
+      await page.goto(base+'#analogy-staging');
       assert.equal(await page.locator('#analogy-staging').isVisible(),true);
       await page.locator('.destination-link[data-destination="reference"]').click();await page.locator('#reference').waitFor({state:'visible'});
       await page.locator('#searchInput').fill('reflog');assert.equal(await page.locator('#card-reflog').isVisible(),true);assert.equal(await page.locator('#card-init').isVisible(),false);
@@ -388,7 +394,7 @@ async function checkLearningPresentation(browser) {
       assert.equal(await page.locator('#reference .execution-instructions').count(),0,'Common execution guidance belongs above the reference, once');assert.equal(await page.locator('#card-stage [data-recipe="stage"] > h3').count(),0,'The card title must not repeat inside its recipe');
       const stageDetails=page.locator('#card-stage .recipe-details');assert.equal(await stageDetails.evaluate(element=>element.open),false);assert.equal(await page.locator('#card-stage .card-check').count(),0,'Do not inject a second prerequisite checklist');await stageDetails.locator('summary').click();assert.equal(await page.locator('#card-stage .recovery-steps').isVisible(),true);
       await page.locator('.destination-link[data-destination="learn"]').click();assert.match(await page.locator('.graph-subtitle').textContent(),/Each time you create a commit/);assert.doesNotMatch(await page.locator('#learn').textContent(),/automatic scrapbook|Each time you save|Two-Way Highway|Data Flow Lifecycle/);
-      if(!await page.locator('#learningIllustrations').evaluate(e=>e.open))await page.locator('#learningIllustrations > summary').click();
+      await page.goto(base+'#analogy-remote');
       await page.locator('#analogy-remote .analogy-action-btn').click();await page.locator('#card-sync [data-recipe="sync"]').waitFor({state:'visible'});assert.equal(await page.locator('#card-sync .card-title').innerText(),'Update a branch from its remote');assert.equal(await page.locator('#sync-diverged').evaluate(element=>element.open),false);await page.locator('#sync-diverged > summary').click();assert.equal(await page.locator('#sync-diverged [data-recipe="diverged"]').isVisible(),true);
       assert.equal(await page.locator('#heroJumpToAnalyzer').count(),0,'Do not jump to an input already visible in the hero');
       for(const destination of ['fix','learn','reference']) {
