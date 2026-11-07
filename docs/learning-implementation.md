@@ -1,9 +1,9 @@
 # GitUnstuck learning improvement plan
 
-Version 1.0 · 6 November 2026  
-Purpose: implementation instructions for an LLM, with reviewable tasks and evidence requirements.  
-Repository: https://github.com/dazzo31/gitunstuck  
-Reviewed baseline: 7115b5d643bb1b6259aa13b2b615d07e1d8a0327, committed 3 November 2026.  
+Version 1.0 · 6 November 2026
+Purpose: implementation instructions for an LLM, with reviewable tasks and evidence requirements.
+Repository: https://github.com/dazzo31/gitunstuck
+Reviewed baseline: 7115b5d643bb1b6259aa13b2b615d07e1d8a0327, committed 3 November 2026.
 Scope of this document: a plan. Its preparation did not modify the repository or execute its tests.
 
 ## 1. Intended result
@@ -891,4 +891,3 @@ Interface criteria:
 - WCAG target-size explanation and exceptions: https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html
 
 Consult the relevant official command manual while implementing additional operations. Record the documentation actually checked and the repository outcomes actually executed. This source list is a starting map, not evidence that every eventual statement has been reviewed.
-
