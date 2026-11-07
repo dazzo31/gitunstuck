@@ -1,5 +1,7 @@
 # GitUnstuck v3 — Feature Plan
 
+Historical proposal. Its architecture/status statements describe an earlier checkout. Use README.md, CONTRIBUTING.md and learning-implementation.md for the current learning work; this file is retained for context.
+
 > Branch: `v3` (off `main` @ `v2.2.1` / `0cda374`)
 > Source of inspiration: Terraform Unstuck's recipe safety model (`docs/SAFETY_MODEL.md`, per-recipe "When to stop", source citations with review dates, and read-only "Check first" separation).
 > Status: Phase 1 in progress.

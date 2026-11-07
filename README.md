@@ -5,7 +5,7 @@
 GitUnstuck is a browser guide with three destinations:
 
 - **Fix a problem:** paste Git output or choose a specific recovery path. Read the prerequisites, run one step at a time, and verify the result.
-- **Learn Git:** follow the existing lessons on repositories, staging, commits, branches and remotes.
+- **Learn Git:** optional setup followed by six practical lessons: inspect, staging, history, branches/merges, remotes, and recovery. Each uses a fresh plain-text practice project, a prediction, observations, and an independent task.
 - **Find a command:** search the command reference for syntax, effects and examples.
 
 Pasted terminal content is processed in the current tab. The app does not upload or save that content. Theme and display preferences use local storage. No account or runtime package installation is required.
@@ -22,7 +22,9 @@ Protected-branch guidance creates and publishes a new review branch. It does not
 
 ## Run and check locally
 
-Open `index.html` alongside `recovery.js` and the SVG assets in a modern browser. Source checkout use needs no build. Commands in the guide use Git 2.23+ syntax and ordinary double-quoted paths. Replace uppercase placeholders before running a command; paths containing shell expansion characters or quotes need shell-specific quoting. Do not paste credentials into the guide.
+Open `index.html` alongside `recovery.js`, `learning.js` and the SVG assets in a modern browser. Source checkout use needs no build. `#learn` opens the outline; `#learn/staging/edited-v3` opens a specific checkpoint. Lesson reference links retain their validated checkpoint through reload and search. Browser controls change illustrations only; the page cannot inspect or grade a real repository.
+
+Commands use Git 2.23+ syntax. Current learning fixtures ran on Git 2.56.0.windows.4; actual Git 2.23 runtime compatibility remains unverified. Bash and Windows PowerShell 5.1 setup blocks were executed in their actual shells. Use a fresh named directory for each lesson; practice identity, hook, signing and pager settings stay local. Replace uppercase reference placeholders with checked values; paths containing shell expansion characters or quotes need shell-specific quoting. Do not paste credentials into the guide.
 
 With Node.js 22 or later and Git installed:
 
@@ -30,7 +32,7 @@ With Node.js 22 or later and Git installed:
 npm test
 ```
 
-This runs parser/source checks and disposable-repository integration tests. On the implementation machine, 194 parser/data/source assertions and 33 recovery scenarios passed. The Ubuntu CI suite exercises Bash; Windows additionally runs the PowerShell scenario. Source-string assertions only establish markup/data properties; the integration tests establish repository outcomes.
+This runs parser/source checks, recovery integration tests, and the learning data/real-Git suite. Current Windows runs passed 194 analyzer assertions, 33 recovery scenarios and all seven lesson setups/worked examples/independent tasks. Learning setup was executed in Git Bash and Windows PowerShell 5.1. Checked-in CI workflows run Ubuntu with Node 22; there is no checked-in Windows job. Local validation used Node 26.12.1. Source-string assertions establish markup properties; Git fixtures establish repository outcomes.
 
 The recovery tests use temporary repositories and local bare remotes. They inspect actual file contents, index snapshots, untracked files, commit reachability and remote history. Coverage includes full staged-diff review, fetched outgoing-secret history, everyday remote updates in equal/ahead/behind/diverged states, latest and earlier secrets, dirty protected-branch recovery, main/master/custom branches, custom remotes, paths with spaces, existing backup names, real merge and rebase conflicts, reflog, snapshots, discard, unstage, rewind, revert, clone, commit, worktree, tags, cherry-pick, lease rejection and deterministic bisect. The snapshot commands were also executed in actual Windows PowerShell and Git Bash.
 
@@ -42,7 +44,7 @@ npm run build:check
 npm run build
 ```
 
-Build-only minifiers are locked in `package-lock.json`; they are not browser dependencies. The build embeds the same `recovery.js` consumed by the interface and tests into `dist/index.html`. The Pages workflow runs `npm test` before building and deploying.
+Build-only minifiers are locked in `package-lock.json`; they are not browser dependencies. The build embeds the same `recovery.js` and `learning.js` consumed by the interface and tests into `dist/index.html`. Metadata records base Git HEAD, clean/dirty working-tree state, and a SHA-256 of source/build inputs so an uncommitted artifact is not mistaken for a clean revision. The Pages workflow runs `npm test` before building and deploying.
 
 ## Browser verification
 
@@ -54,7 +56,9 @@ node tests/test-browser.cjs
 
 Set `GITUNSTUCK_TEST_URL` to test an HTTP deployment or the built `dist/index.html` file URL. Results and screenshots are written to ignored `artifacts/`.
 
-Desktop (1440×1000) and mobile (390×844) Chromium checks cover recovery, staging lessons, command search, reload/Back, retained deep links, copy output, keyboard entry/arrow navigation, focus visibility, reduced motion, sampled recovery-text contrast in both themes, and horizontal overflow. Screenshots were visually inspected. The same journeys passed against the deployed HTTPS site; see [release evidence](docs/recovery-audit/release.md). This is not a complete accessibility certification or cross-browser test.
+Current source and built Chromium journeys cover all lessons, reference return/reload/Back/Forward, recovery, legacy routes, clipboard success/failure, input privacy and reference printing. Presentation checks use 320, 390, 768 and 1440 CSS-pixel widths in both themes, keyboard focus, reduced motion, sampled text/graph contrast and desktop CSS zoom at 200%. Screenshots were inspected. Actual browser-menu zoom, a second engine and a real screen-reader pass remain unverified. No accessibility certification or beginner teaching-effectiveness claim is made.
+
+The new course has not been deployed or tested with actual beginners. See [learning evidence](docs/learning-evidence.md) for the tested scope and remaining gaps. [Earlier release evidence](docs/recovery-audit/release.md) concerns the earlier recovery release, not this learning implementation.
 
 ## Limits and evidence
 

@@ -1036,8 +1036,8 @@
     }
 
     /* SVG Theme Adaptive Classes */
-    .node-circle-base { fill: #151f32; stroke: #334155; stroke-width: 3; }
-    [data-theme="light"] .node-circle-base { fill: #ffffff; stroke: #94a3b8; }
+    .node-circle-base { fill: var(--bg-card); stroke: var(--text-muted); stroke-width: 3; }
+    [data-theme="light"] .node-circle-base { fill: #ffffff; stroke: var(--text-muted); }
 
     .node-text-title { font-family: var(--font-mono); font-size: 12px; font-weight: bold; fill: #f8fafc; }
     [data-theme="light"] .node-text-title { fill: #0f172a; }
@@ -1045,8 +1045,8 @@
     .node-text-desc { font-size: 11px; fill: #94a3b8; font-weight: 500; }
     [data-theme="light"] .node-text-desc { fill: #334155; }
 
-    .graph-edge-base { stroke: #334155; stroke-width: 2.5; }
-    [data-theme="light"] .graph-edge-base { stroke: #94a3b8; }
+    .graph-edge-base { stroke: var(--text-muted); stroke-width: 2.5; }
+    [data-theme="light"] .graph-edge-base { stroke: var(--text-muted); }
 
     .graph-hint-text { font-size: 11px; font-style: italic; fill: #94a3b8; }
     [data-theme="light"] .graph-hint-text { fill: #475569; }
@@ -2151,6 +2151,80 @@
     .secondary-path, .symptom-details, .sample-details { margin: 18px 0; }
     summary { cursor: pointer; padding: 8px 0; }
     .learning-path { line-height: 2; padding-left: 24px; }
+    #learn.lesson-open > .learning-path, #learn.lesson-open > .hero-primer,
+    #learn.lesson-open > #learningIllustrations,
+    #learn.lesson-open > .learn-introduction, #learn.lesson-open > .concept-links-label,
+    #learn.lesson-open #fourZoneModel, #learn.lesson-open #commitGraphExplorer { display: none !important; }
+    #learningCourse { margin: 24px 0; min-width: 0; }
+    #learningIllustrations > summary { cursor: pointer; min-height: 44px; padding: 12px 0; border-top: 1px solid var(--border); font-weight: 600; }
+    .course-list { padding-left: 24px; }
+    .course-list a { font-weight: 700; color: var(--accent-green); }
+    .course-list p { margin: 6px 0 16px; }
+    .lesson-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; }
+    .lesson-reading { min-width: 0; max-width: 780px; line-height: 1.65; }
+    .lesson-reading h3 { font-size: 1.65rem; }
+    .lesson-reading h4 { font-size: 1.15rem; margin: 18px 0 10px; }
+    .lesson-reading p { margin: 12px 0; }
+    .lesson-reading a, .lesson-outline a, .lesson-movement a { color: var(--accent-green); text-underline-offset: 3px; }
+    .lesson-outline ol { padding-left: 22px; }
+    .lesson-outline li { padding: 6px 0; }
+    .lesson-outline a { display: inline-block; padding: 6px 0; }
+    .lesson-outline [aria-current="step"] { font-weight: 700; text-decoration-thickness: 3px; }
+    .learning-example-note { border-left: 3px solid var(--accent-green); padding-left: 14px; }
+    .learning-setup { border-block: 1px solid var(--border); padding: 16px 0; margin: 22px 0; }
+    .lesson-reading summary { cursor: pointer; font-weight: 600; min-height: 36px; }
+    .learning-table-scroll { overflow-x: auto; margin: 20px 0; }
+    .learning-table-help { display: none; }
+    .learning-comparison { border-collapse: collapse; width: 100%; }
+    .learning-comparison th, .learning-comparison td { padding: 12px; text-align: left; border: 1px solid var(--border); }
+    .learning-comparison caption { text-align: left; padding-bottom: 8px; font-weight: 600; }
+    .learning-comparison pre { margin: 0; }
+    .learning-output { padding: 14px; border: 1px solid var(--border); background: var(--bg-card); overflow-x: auto; white-space: pre; }
+    .learning-output-label { font-weight: 600; }
+    .lesson-reading pre, .lesson-reading pre code { font-size: 0.9rem; line-height: 1.6; }
+    .lesson-reading .snippet-header { color: var(--text-muted); }
+    .lesson-reading .copy-btn { min-width: 44px; min-height: 44px; border-color: var(--text-muted); }
+    .learning-diffs { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+    .learning-diffs figure { margin: 0; min-width: 0; }
+    .learning-diffs figcaption { font-size: 0.9rem; }
+    .learning-diffs .learning-output { margin-top: 8px; }
+    .learning-ref-list, .graph-reference-list { display: flex; flex-wrap: wrap; gap: 12px 24px; padding-bottom: 12px; }
+    .learning-ref-list > div, .graph-reference-list > div { display: flex; gap: 10px; align-items: baseline; }
+    .learning-ref-list dt { font-weight: 600; }
+    .learning-alternative { margin: 20px 0; border-block: 1px solid var(--border); padding: 12px 0; }
+    .learning-recovery-gate { border-left: 3px solid var(--text-muted); padding-left: 16px; margin: 20px 0; }
+    .learning-recovery-gate[data-learning-recipe="discard"] { border-color: var(--accent-red); }
+    .zone-example-controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 18px 0; }
+    .zone-example-controls :is(button,select) { font: inherit; color: var(--text); background: var(--bg-card); border: 1px solid var(--text-muted); border-radius: 6px; min-height: 44px; padding: 8px; max-width: 100%; }
+    .zone-example-controls button:disabled { opacity: .55; cursor: default; }
+    .zone-example-content { white-space: pre-wrap; overflow-wrap: anywhere; padding: 10px; background: var(--bg-code); color: var(--text); border: 1px solid var(--border); margin: 8px 0; }
+    #fourZoneModel, #commitGraphExplorer, .zone-example-controls :is(button,select) { scroll-margin-top: 110px; }
+    @media (max-width: 900px) { #fourZoneModel, #commitGraphExplorer, .zone-example-controls :is(button,select) { scroll-margin-top: 180px; } }
+    .learning-remote-comparison { margin: 20px 0; }
+    .learning-graph-pair { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin: 20px 0; }
+    .learning-graph-figure { min-width: 0; margin: 16px 0; }
+    .learning-graph-figure figcaption { font-weight: 700; }
+    .learning-graph-scroll { overflow-x: auto; margin: 12px 0; }
+    .learning-graph-svg { display: block; min-width: 0; max-width: none; height: 230px; }
+    summary.git-internals-header { cursor: pointer; min-height: 44px; }
+    @media (max-width: 768px) { .learning-graph-pair { grid-template-columns: minmax(0,1fr); } }
+    .learning-remote-comparison figcaption { font-weight: 600; }
+    .learning-remote-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin-top: 12px; }
+    .learning-remote-grid > div { border-top: 2px solid var(--text-muted); padding-top: 10px; min-width: 0; }
+    .learning-remote-grid h5 { font-size: 1rem; }
+    .learning-remote-grid code { overflow-wrap: anywhere; }
+    @media (max-width: 768px) { .learning-remote-grid { grid-template-columns: minmax(0,1fr); } }
+    .lesson-reading .snippet-block { min-width: 0; margin: 16px 0; }
+    .lesson-reading .code-content { overflow-x: auto; }
+    .learning-prediction { border: 1px solid var(--border); padding: 16px; margin: 22px 0; }
+    .learning-prediction button, .lesson-movement button { font: inherit; color: var(--text); background: var(--bg-card); border: 1px solid var(--text-muted); padding: 8px 12px; border-radius: 6px; min-height: 44px; cursor: pointer; margin: 4px; }
+    .learning-prediction button:hover, .lesson-movement button:hover { background: var(--bg-card-hover); }
+    .lesson-movement { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 24px 0; }
+    .lesson-movement a { padding: 8px 0; }
+    #lessonTitle, #checkpointTitle, #learningCourse :is(a,button,summary,[tabindex]) { scroll-margin-top: 110px; scroll-margin-bottom: 24px; }
+    @media (max-width: 768px) { .lesson-layout { grid-template-columns: minmax(0,1fr); gap: 20px; } .lesson-outline ol { display: flex; flex-wrap: wrap; gap: 6px 24px; } .lesson-reading .snippet-header { flex-wrap: wrap; gap: 8px; } .learning-diffs { grid-template-columns: minmax(0,1fr); } }
+    @media (max-width: 900px) { #lessonTitle, #checkpointTitle, #learningCourse :is(a,button,summary,[tabindex]) { scroll-margin-top: 180px; } }
+    @media (max-width: 600px) { .learning-table-help { display: block; font-size: 0.9rem; } }
     [data-destination="reference"] .task-navigator { margin-top: 20px; }
     [data-destination="learn"] #fourZoneModel, [data-destination="learn"] #commitGraphExplorer { display: block !important; }
     .recovery-recipe { line-height: 1.6; }
@@ -2427,8 +2501,11 @@
 
     </section></details></section>
     <section id="learn" data-destination-panel="learn" aria-label="Learn Git" hidden>
-<h2>Learn Git</h2><p>Follow these existing lessons in order. Each step links to a concept, then its commands.</p>
-      <ol class="learning-path"><li><a href="#analogy-repo">Repositories and saved commits</a></li><li><a href="#analogy-staging">Choose what to stage</a></li><li><a href="#fourZoneModel">Follow files from disk to the remote</a></li><li><a href="#commitGraphExplorer">Understand branches and merges</a></li></ol>
+<h2>Learn Git</h2><p class="learn-introduction">Practise with plain-text files, predict what Git will do, then inspect the result.</p>
+      <div id="learningCourse"></div>
+      <details id="learningIllustrations"><summary>Concept illustrations and advanced examples</summary>
+      <p class="concept-links-label">Concept illustrations and existing explanations</p>
+      <ol class="learning-path"><li><a href="#analogy-repo">Repositories and saved commits</a></li><li><a href="#analogy-staging">Choose what to stage</a></li><li><a href="#fourZoneModel">Compare Git content locations</a></li><li><a href="#commitGraphExplorer">Understand branches and merges</a></li></ol>
 <section class="hero-primer" id="beginnerPrimer" aria-labelledby="primerHeading">
       <div class="primer-header">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
@@ -2436,7 +2513,7 @@
             <span class="primer-badge">Learn Git</span>
             <h2 class="primer-title" id="primerHeading">Files, staging and commits</h2>
             <p class="primer-subtitle">How Git actually works: intuitive conceptual models before diving into commands.</p>
-            <div class="primer-collapsed-tagline"><svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/></svg> <strong>Quick Concept:</strong> Repo = Time Machine • Commit = Save Point • Staging = Cart • 5-Step Safe Routine <button type="button" class="tagline-expand-link" onclick="setPrimerCollapsed(false, true)" aria-label="Expand 60-Second Mental Model">[Expand Guide ↑]</button></div>
+            <div class="primer-collapsed-tagline"><svg class="tota-icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/></svg> <strong>Quick Concept:</strong> Working directory → index → commit → remote <button type="button" class="tagline-expand-link" onclick="setPrimerCollapsed(false, true)" aria-label="Expand Git concepts">[Expand Guide ↑]</button></div>
           </div>
           <button id="togglePrimerBtn" class="primer-toggle-btn" aria-expanded="true" aria-controls="primerBody">
             <span class="primer-toggle-icon" aria-hidden="true">▲</span> Collapse Guide
@@ -2450,7 +2527,7 @@
           <div class="analogy-card" id="analogy-repo">
             <div class="analogy-icon" aria-hidden="true"><svg class="tota-icon tota-icon-xl" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2z"/></svg></div>
             <div class="analogy-term">The Repository ("Repo")</div>
-            <div class="analogy-meta">Project Folder + Time Machine</div>
+            <div class="analogy-meta">Working files, objects and references</div>
             <p class="analogy-text">A repository stores Git objects and references alongside your working files. Only commits record a history snapshot; saving a file in an editor does not create a commit.</p>
             <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-init')">
               <span>View Recipe: Start a Repo</span> →
@@ -2460,7 +2537,7 @@
           <div class="analogy-card" id="analogy-commit">
             <div class="analogy-icon" aria-hidden="true"><svg class="tota-icon tota-icon-xl" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></div>
             <div class="analogy-term">The Commit</div>
-            <div class="analogy-meta">A Game Save Point</div>
+            <div class="analogy-meta">A recorded snapshot</div>
             <p class="analogy-text">A commit records the staged snapshot. It excludes unstaged, untracked and ignored work. Keep another copy of important work; undoing later changes can still overwrite files.</p>
             <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-stage')">
               <span>View Recipe: Save a commit</span> →
@@ -2470,8 +2547,8 @@
           <div class="analogy-card" id="analogy-staging">
             <div class="analogy-icon" aria-hidden="true"><svg class="tota-icon tota-icon-xl" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
             <div class="analogy-term">The Staging Area (git add)</div>
-            <div class="analogy-meta">Your Shopping Cart</div>
-            <p class="analogy-text">Before you buy items, you place them into a cart. <code>git add</code> picks which edited files enter the cart. <code>git commit</code> pays at the register to save a commit.</p>
+            <div class="analogy-meta">The index selects content</div>
+            <p class="analogy-text"><code>git add</code> copies the selected file’s current content into the index (staging area). <code>git commit</code> records that staged snapshot. Later edits stay in the working directory until you stage again. A cart describes selection only: staging does not move files off disk.</p>
             <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-stage')">
               <span>View staging and commit commands</span> →
             </button>
@@ -2481,7 +2558,7 @@
             <div class="analogy-icon" aria-hidden="true"><svg class="tota-icon tota-icon-xl" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/></svg></div>
             <div class="analogy-term">Remote &amp; Pipelines</div>
             <div class="analogy-meta">Cloud Storage &amp; Configured Robot</div>
-            <p class="analogy-text"><strong>GitHub</strong> is a cloud host for your repo. A <strong>Pipeline</strong> is a robot that runs automated tests and deploys, <em>if your repository has a workflow file configured</em>.</p>
+            <p class="analogy-text">A remote is another repository, reached through a configured name such as <code>origin</code>. Fetch updates your local observations of its branches; push publishes commits. A remote can be a local directory or a repository hosted by a service such as GitHub.</p>
             <button type="button" class="analogy-action-btn" onclick="jumpToTarget('card-sync')">
               <span>View remote update commands</span> →
             </button>
@@ -2540,13 +2617,21 @@
           Working files, staging and commits
         </h2>
         <p class="four-zone-subtitle">
-          These four locations describe different Git states; they are not four separate copies of every file. Click any zone card or simulation step to trace how code advances forward, what <code>git status</code> reports at each checkpoint, and which prerequisites each undo operation needs:
+          Compare the same file’s committed, indexed and working contents. Staging copies content; it does not move files off disk. Checkpoint controls change this illustration only. Zone cards explain operation types and their prerequisites.
         </p>
       </div>
 
-      <!-- Simulation Control Toolbar -->
-      <div class="four-zone-flow-bar" role="toolbar" aria-label="Simulate file journey through the 4 zones">
-        <span class="flow-bar-label">Trace Lifecycle:</span>
+      <div class="zone-example-controls">
+        <label for="zoneCheckpointSelect">Staging example checkpoint</label>
+        <select id="zoneCheckpointSelect"></select>
+        <button type="button" id="zoneExamplePrevious">Previous checkpoint</button>
+        <button type="button" id="zoneExampleNext">Next checkpoint</button>
+        <button type="button" id="zoneExampleReset">Restart example</button>
+      </div>
+      <p id="zoneExampleObservation"></p><pre class="learning-output" id="zoneExampleStatus"></pre>
+      <p><a id="zonePracticeLink" href="#learn/staging/initial">Practise this checkpoint with real Git</a></p>
+      <div class="four-zone-flow-bar" role="toolbar" aria-label="Explore Git operation types">
+        <span class="flow-bar-label">Explore operation types:</span>
         <button type="button" class="zone-step-btn active" data-step="working" aria-pressed="true">
           <span class="step-num">1</span> Edit on Disk
         </button>
@@ -2572,9 +2657,10 @@
             <span class="zone-pill zone-pill-work">Zone 1</span>
             <span class="zone-name">Working Directory</span>
           </div>
-          <div class="zone-metaphor">The Worktable (Disk Files)</div>
+          <div class="zone-metaphor">Files on disk</div>
           <div class="zone-badge-status status-modified">Untracked / Modified</div>
-          <p class="zone-desc">Your real files in your project directory. Changes are editable in your IDE, but NOT yet snapshot-protected by Git.</p>
+          <p class="zone-desc">Files you edit in your project directory. Saving changes a working file; staging and committing are separate actions.</p>
+          <p>Example notes.txt on disk</p><pre class="zone-example-content" id="zoneWorkingContent">Version 1</pre>
           <div class="zone-flow-connector" aria-hidden="true">
             <span class="flow-cmd">git add &rarr;</span>
           </div>
@@ -2586,9 +2672,10 @@
             <span class="zone-pill zone-pill-stage">Zone 2</span>
             <span class="zone-name">Staging Area (Index)</span>
           </div>
-          <div class="zone-metaphor">The Shopping Cart (<code>.git/index</code>)</div>
+          <div class="zone-metaphor">Selected content (<code>.git/index</code>)</div>
           <div class="zone-badge-status status-staged">Changes to be committed</div>
-          <p class="zone-desc">The staging index. A curated staging cart where you gather only the files ready to be photographed in your next save point.</p>
+          <p class="zone-desc">The index holds the selected content for the next commit. It can differ from both the last commit and the working file.</p>
+          <p>Example indexed notes.txt</p><pre class="zone-example-content" id="zoneIndexContent">Version 1</pre>
           <div class="zone-flow-connector" aria-hidden="true">
             <span class="flow-cmd">git commit &rarr;</span>
           </div>
@@ -2600,9 +2687,10 @@
             <span class="zone-pill zone-pill-local">Zone 3</span>
             <span class="zone-name">Local Repository</span>
           </div>
-          <div class="zone-metaphor">The Vault / Save Points (<code>HEAD</code>)</div>
+          <div class="zone-metaphor">Objects and references</div>
           <div class="zone-badge-status status-committed">Committed snapshots</div>
           <p class="zone-desc">Committed snapshots in <code>.git/objects</code>. Keep important commits reachable and maintain external backups.</p>
+          <p>Example HEAD:notes.txt</p><pre class="zone-example-content" id="zoneHeadContent">Version 1</pre>
           <div class="zone-flow-connector" aria-hidden="true">
             <span class="flow-cmd">git push &rarr;</span>
           </div>
@@ -2612,11 +2700,12 @@
         <div class="zone-card" id="zoneCardRemote" data-zone="remote" role="tab" aria-selected="false" tabindex="0">
           <div class="zone-card-header">
             <span class="zone-pill zone-pill-remote">Zone 4</span>
-            <span class="zone-name">Remote Cloud Host</span>
+            <span class="zone-name">Remote repository</span>
           </div>
-          <div class="zone-metaphor">Central Forge (GitHub • GitLab • Bitbucket)</div>
+          <div class="zone-metaphor">Another local or hosted repository</div>
           <div class="zone-badge-status status-remote">Published Team History</div>
-          <p class="zone-desc">The remote upstream repository. Where teammates pull your commits, review Pull Requests, and automated CI pipelines run.</p>
+          <p class="zone-desc">Another repository that can receive published commits. Hosting services may add code review and automation; these are separate from Git.</p>
+          <p>Staging example: no remote is configured or updated.</p>
         </div>
       </div>
 
@@ -2629,6 +2718,7 @@
         <span class="primer-badge">Interactive Visual Map</span>
         <h2 class="graph-title" id="graphHeading">🗺️ Branches, commits and HEAD</h2>
         <p class="graph-subtitle">Each time you create a commit, Git records the staged snapshot and links it to its parent commits. Saving a file in your editor changes the working file only. Choose an example to see how commits, branches and HEAD relate:</p>
+        <p><a href="#learn/branches/branched">Compare branch creation, fast-forward and merge states before and after each action</a></p>
       </div>
 
       <!-- Graph Scenario Tabs -->
@@ -2663,12 +2753,12 @@
       </div>
 
       <!-- LIVE .git/ REFS & HEAD INTERNALS INSPECTOR (Phase 5) -->
-      <div class="git-internals-inspector" id="gitInternalsInspector" aria-labelledby="gitInternalsTitle">
-        <div class="git-internals-header">
-          <span class="git-internals-title" id="gitInternalsTitle"><svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Under the Hood: Actual .git/ Files</span>
-          <span class="git-internals-badge">Live File System State</span>
-        </div>
-        <p class="git-internals-desc">See exactly what 41-byte text files Git reads and writes inside the hidden <code>.git/</code> database for this scenario:</p>
+      <details class="git-internals-inspector" id="gitInternalsInspector" aria-labelledby="gitInternalsTitle">
+        <summary class="git-internals-header">
+          <span class="git-internals-title" id="gitInternalsTitle"><svg class="tota-icon tota-icon-md" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Example Git metadata</span>
+          <span class="git-internals-badge">Illustration</span>
+        </summary>
+        <p class="git-internals-desc">These invented SHA-1 values illustrate HEAD and loose branch references for the standalone diagram above. The course uses its own labelled checkpoints. This page does not read your repository. References may also be packed or use another storage backend; object ID length depends on the repository’s hash format. <a href="https://git-scm.com/docs/gitrepository-layout" target="_blank" rel="noopener noreferrer">Git repository layout</a></p>
         <div class="git-internals-grid">
           <div class="git-file-card">
             <div class="git-file-path"><svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> .git/HEAD</div>
@@ -2681,7 +2771,7 @@
             <div class="git-file-note" id="inspectorBranchNote">40-char SHA-1 hash pointing to commit c3</div>
           </div>
         </div>
-      </div>
+      </details>
 
       <!-- EXPANDABLE COMPUTER SCIENCE DEEP DIVE (Learning Feature) -->
       <details class="jargon-deep-dive" id="jargonDeepDive">
@@ -2691,7 +2781,7 @@
         </summary>
         <div class="jargon-content">
           <p class="jargon-intro">
-            While real-world analogies (save points, breadcrumbs, bookmarks, camera lens) provide an intuitive daily mental model, under the hood Git is a <strong>Directed Acyclic Graph (DAG)</strong> built atop an immutable content-addressable object store. Here is the formal technical architecture:
+            Git history is a <strong>Directed Acyclic Graph (DAG)</strong> built atop an immutable content-addressable object store. Here is the formal technical architecture:
           </p>
           <div class="jargon-grid">
             <div class="jargon-card">
@@ -2718,26 +2808,26 @@
               <h3 class="jargon-card-title">3. References (Refs) &amp; Symbolic Refs</h3>
               <p>Branches and HEAD are lightweight pointers, not folder copies:</p>
               <ul>
-                <li><strong>Branch Ref:</strong> A 41-byte text file in <code>.git/refs/heads/&lt;branch-name&gt;</code> containing a single 40-character hexadecimal commit hash. When you commit, Git writes the commit object and updates this file.</li>
-                <li><strong>HEAD (Symbolic Ref):</strong> The file <code>.git/HEAD</code> contains <code>ref: refs/heads/main</code>, delegating where the working tree is anchored. In <em>detached HEAD</em> state, <code>.git/HEAD</code> holds a raw commit hash instead of a branch path.</li>
-                <li><strong>Remote-Tracking Refs:</strong> Read-only pointers in <code>.git/refs/remotes/origin/</code> reflecting the last known commit on the remote server.</li>
+                <li><strong>Branch Ref:</strong> A name such as <code>refs/heads/main</code> that identifies a commit. A loose reference can be stored in <code>.git/refs/heads/</code>, but references can also be packed or stored using another backend. Committing on a branch updates its reference.</li>
+                <li><strong>HEAD (Symbolic Ref):</strong> In this loose-reference example, <code>.git/HEAD</code> contains <code>ref: refs/heads/main</code>, naming the checked-out branch. In <em>detached HEAD</em> state, HEAD directly identifies a commit instead of naming a branch.</li>
+                <li><strong>Remote-Tracking Refs:</strong> Local references such as <code>refs/remotes/origin/main</code> updated by fetch to record an observed remote branch tip. They can be stale until you communicate with the remote again.</li>
               </ul>
             </div>
             <div class="jargon-card">
               <h3 class="jargon-card-title">4. Best Common Ancestor (BCA) &amp; 3-Way Merge</h3>
               <p>How Git calculates merges without manual guesswork:</p>
               <ul>
-                <li><strong>Lowest Common Ancestor (LCA):</strong> When merging two branches (<var>B</var><sub>1</sub> and <var>B</var><sub>2</sub>), Git traverses the DAG backwards to find their <em>Best Common Ancestor</em> commit <var>A</var>.</li>
-                <li><strong>3-Way Diff Matrix:</strong> Git computes <code>Δ<sub>1</sub> = diff(<var>A</var>, <var>B</var><sub>1</sub>)</code> and <code>Δ<sub>2</sub> = diff(<var>A</var>, <var>B</var><sub>2</sub>)</code>. Clean changes to disjoint lines are automatically combined. Changes to identical lines trigger conflict markers.</li>
-                <li><strong>Merge Commit:</strong> The resulting snapshot has <em>two parent pointers</em>: Parent 1 (<var>B</var><sub>1</sub>) and Parent 2 (<var>B</var><sub>2</sub>).</li>
+                <li><strong>Common base in this example:</strong> The two branches (<var>B</var><sub>1</sub> and <var>B</var><sub>2</sub>) share ancestor <var>A</var>, used to compare their changes.</li>
+                <li><strong>3-Way Diff Matrix:</strong> Git computes <code>Δ<sub>1</sub> = diff(<var>A</var>, <var>B</var><sub>1</sub>)</code> and <code>Δ<sub>2</sub> = diff(<var>A</var>, <var>B</var><sub>2</sub>)</code>. Non-overlapping changes can combine automatically. Incompatible overlapping changes can conflict; identical edits need not conflict.</li>
+                <li><strong>Merge Commit:</strong> A new merge commit for this diverged two-branch example has <em>two parent pointers</em>: Parent 1 (<var>B</var><sub>1</sub>) and Parent 2 (<var>B</var><sub>2</sub>). A fast-forward creates no new commit.</li>
               </ul>
             </div>
           </div>
         </div>
       </details>
-    </section></section>
+    </section></details></section>
     <section id="reference" data-destination-panel="reference" aria-label="Find a command" hidden>
-      <h2>Find a command</h2><p>Search by command or task. Read the prerequisites and consequences, then open the steps when you need them.</p><p id="referenceInstructions" class="reference-instructions"></p>      <!-- Quick Search -->
+      <h2>Find a command</h2><p>Search by command or task. Read the prerequisites and consequences, then open the steps when you need them.</p><div id="referenceLearningContext"></div><p id="referenceInstructions" class="reference-instructions"></p>      <!-- Quick Search -->
       <div class="search-wrapper">
         <label for="searchInput" class="search-label" aria-hidden="true">
           <svg class="tota-icon tota-icon-sm" viewBox="0 0 24 24" aria-hidden="true">
@@ -2875,7 +2965,7 @@
             <div class="table-container">
               <table class="compare-table">
                 <thead>
-                  <tr><th>Reset Flag</th><th>HEAD</th><th>Index (Cart)</th><th>Working Tree</th><th>Risk Level</th></tr>
+                  <tr><th>Reset Flag</th><th>HEAD</th><th>Index</th><th>Working directory</th><th>Risk Level</th></tr>
                 </thead>
                 <tbody>
                   <tr><td><code>git reset --soft</code></td><td>Moves</td><td>Untouched</td><td>Untouched</td><td>Index and files retained; branch moves</td></tr>
@@ -2985,7 +3075,7 @@
           <span class="badge badge-scope">Scope: Remote Cloud</span>
         </div>
         <div class="card-scenario">
-          <strong>When to use:</strong> Understanding how pushing code triggers cloud robots that test code, build assets, and deploy applications automatically across GitHub, GitLab, or Bitbucket.
+          <strong>When to use:</strong> Configure automated tests, builds or deployment on your hosting provider. A push triggers these only when a matching workflow is configured.
         </div>
 
         <!-- 3-Way Host Starter Config Selector -->
@@ -3191,6 +3281,7 @@ jobs:
   </footer>
 
   <script src="recovery.js"></script>
+  <script src="learning.js"></script>
   <script>
     // Storage Safety Helpers (with strict value validation)
     function safeStorageGet(key, defaultVal, allowedValues) {
@@ -3301,6 +3392,7 @@ jobs:
         <h4>Check before continuing</h4><p>${h(r.checks)}</p>${common ? `<p class="execution-instructions">${h(GitRecovery.stop)}</p>` : ''}
         ${compact ? `${changes}<details class="recipe-details"><summary>Show steps and verification</summary>${steps}${verification}</details>` : `${steps}${changes}${verification}`}
         ${source ? `<div class="card-source"><a href="${r.source}" target="_blank" rel="noopener noreferrer">Official documentation</a></div>` : ''}
+        ${typeof GitLearning!=='undefined'&&GitLearning.recipeLessons[key]?`<p class="recipe-learning-link"><a href="#learn/${h(GitLearning.recipeLessons[key][0])}/${h(GitLearning.recipeLessons[key][1])}">Practise: ${h(GitLearning.lesson(GitLearning.recipeLessons[key][0]).title)}</a></p>`:''}
       </div>`;
     }
 
@@ -3328,9 +3420,7 @@ jobs:
       });
     });
 
-    // Render initial decision tree solution.
-    // Set the default selection before applying any saved route.
-    setTimeout(() => renderUndoSolution('unstaged'), 0);
+    // The initial solution is rendered after setup, before applying the saved route.
 
     // 2b. Visual Commit Timeline & Branch Map Logic
     const graphScenarios = {
@@ -3373,21 +3463,21 @@ jobs:
           <line x1="585" y1="55" x2="568" y2="55" stroke="var(--git-orange)" stroke-width="2" marker-end="url(#arrow-orange)"/>
         </svg>`,
         bullets: [
-          '<strong>Created checkpoint c3:</strong> Git saved a snapshot of your files and linked it to c2.',
-          '<strong>Your main bookmark slid forward:</strong> Git automatically moved the <code>main</code> label to c3 so you never lose your spot.',
-          '<strong>HEAD is your camera lens:</strong> <code>HEAD</code> just means "what you are currently looking at". Right now, you are looking at your main branch.',
+          '<strong>Created checkpoint c3:</strong> Git recorded the staged snapshot and linked it to c2.',
+          '<strong>Main advanced:</strong> Committing on <code>main</code> moved that branch reference to c3.',
+          '<strong>HEAD identifies the current checkout:</strong> In this example, <code>HEAD</code> names main, which identifies c3.',
           '<strong>Why arrows point backwards:</strong> Like breadcrumbs in a trail, each save point links back to where you came from.'
         ],
-        rule: 'A branch is a tiny sticky note pointing to your latest save point.'
+        rule: 'A branch reference identifies a commit. Committing on that branch advances its reference.'
       },
       'branch': {
         name: 'Branch (Separate commit reference)',
-        command: 'git switch -c feature/login && git commit -m "add password reset"',
+        command: 'git switch -c feature/login CHECKED_C2_ID',
         headFile: 'ref: refs/heads/feature/login',
         headNote: 'HEAD shifted to track the new branch ref file',
         branchPath: '📄 .git/refs/heads/feature/login',
-        branchFile: '7b2e109ac483f982146910837465019283746501f',
-        branchNote: '40-char SHA hash of feature checkpoint c4 (main remains at c2)',
+        branchFile: '7b2e109ac483f982146910837465019283746501',
+        branchNote: 'Example SHA-1 object ID of c4 (main remains at c3)',
         svg: `<svg viewBox="0 0 760 210" class="graph-svg" aria-label="Branch Sandbox Visual Timeline" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -3428,12 +3518,12 @@ jobs:
           <line x1="625" y1="55" x2="608" y2="55" stroke="var(--git-orange)" stroke-width="2" marker-end="url(#arrow-orange)"/>
         </svg>`,
         bullets: [
-          '<strong>Created a new sticky note:</strong> <code>git switch -c</code> placed a new bookmark on your project so you can work independently.',
-          '<strong>Moved your camera (HEAD):</strong> HEAD now names the feature branch. Dirty files still share this working directory.',
+          '<strong>Start at the checked c2 commit:</strong> Creating the branch initially names c2. This later state also includes a subsequent staged commit c4 on feature/login and a separate c3 commit on main; branch creation alone does not create either commit.',
+          '<strong>HEAD names the feature branch:</strong> Uncommitted files still share this working directory.',
           '<strong>Branch references are separate:</strong> Creating commits on the feature branch leaves the main reference at c3. Uncommitted work is not isolated by a branch.',
           '<strong>Before deleting a branch:</strong> preserve its needed commits and any dirty work separately.'
         ],
-        rule: 'Always create a branch when starting new work. It gives new commits their own reference. It does not isolate uncommitted edits.'
+        rule: 'A new branch gives subsequent commits their own reference. It does not isolate uncommitted edits.'
       },
       'merge': {
         name: 'Merging (Combining Your Work)',
@@ -3441,7 +3531,7 @@ jobs:
         headFile: 'ref: refs/heads/main',
         headNote: 'HEAD returned to main and points to merge milestone c5',
         branchPath: '📄 .git/refs/heads/main',
-        branchFile: 'c5d1928374650192837465019283746501928374e',
+        branchFile: 'c5d1928374650192837465019283746501928374',
         branchNote: '40-char SHA hash of merge commit c5 (has two parent hashes)',
         svg: `<svg viewBox="0 0 760 220" class="graph-svg" aria-label="Merging Work Visual Timeline" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -3486,7 +3576,7 @@ jobs:
           '<strong>Notice the lines joining together:</strong> Checkpoint c5 connects both branches so no history is lost.',
           '<strong>Main now has all your improvements:</strong> Delete a feature branch only after confirming its needed commits are retained elsewhere.'
         ],
-        rule: 'Merging is like pouring two rivers into one: it combines work from both branches into a single shared milestone.'
+        rule: 'This diverged merge records two parents. A fast-forward advances a reference without creating a merge commit.'
       },
       'rebase': {
         name: 'Rebase (Straighten Your Timeline)',
@@ -3494,7 +3584,7 @@ jobs:
         headFile: 'ref: refs/heads/feature/login',
         headNote: 'HEAD points to feature/login replayed onto tip of main',
         branchPath: '📄 .git/refs/heads/feature/login',
-        branchFile: '9f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90a',
+        branchFile: '9f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f90',
         branchNote: 'New commit hash c4\' created with c3 as its parent',
         svg: `<svg viewBox="0 0 760 210" class="graph-svg" aria-label="Rebase Straight Timeline Visual" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -3537,19 +3627,19 @@ jobs:
         bullets: [
           '<strong>New updates happened on main:</strong> While you were coding on your branch, someone added c3 to main.',
           '<strong>Replaying your work at the front:</strong> Rebase lifts your changes (c4) and replays them right after c3 as c4\'.',
-          '<strong>A clean straight timeline:</strong> It looks like you started your work today on the freshest code, avoiding messy merge criss-crosses.',
+          '<strong>A different history:</strong> Rebase creates a replayed commit with a new parent and object ID. Merge can preserve the existing commit relationships instead. Check whether others use these commits before rewriting them.',
           '<strong>The branch reference moves:</strong> Git replaces the old branch pointer with your new replayed checkpoint.'
         ],
         rule: 'Golden Rule: Only rebase your own private work before sharing it. Never rebase commits already pushed to a team branch.'
       },
       'detached': {
         name: 'Looking at the Past (Detached HEAD State)',
-        command: 'git switch --detach <hash-c2>',
-        headFile: '4e9182ab30198273645102938475610293847501b',
-        headNote: '⚠️ DETACHED: .git/HEAD holds a direct raw commit hash (c2), NOT a branch ref!',
-        branchPath: '📄 .git/refs/heads/(none)',
-        branchFile: '(None — commits will be dangling until anchored to a branch)',
-        branchNote: 'Run git switch -c <name> to attach a named branch pointer',
+        command: 'git switch --detach CHECKED_C2_ID',
+        headFile: '4e9182ab30198273645102938475610293847501',
+        headNote: 'HEAD directly identifies c2; no branch is checked out',
+        branchPath: '📄 .git/refs/heads/main',
+        branchFile: '3a7f82b49e10d54c82b90198273645102938475a',
+        branchNote: 'Main still identifies c3; detaching does not delete branches',
         svg: `<svg viewBox="0 0 760 210" class="graph-svg" aria-label="Detached HEAD Time Travel Visual" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -3562,7 +3652,6 @@ jobs:
           <text x="380" y="20" text-anchor="middle" class="graph-hint-text" fill="var(--accent-amber)">👀 Time-travel mode: viewing an old save point without a bookmark. Existing branch references remain. 👀</text>
           <line x1="260" y1="125" x2="160" y2="125" class="graph-edge-base" marker-end="url(#arrow)"/>
           <line x1="460" y1="125" x2="340" y2="125" class="graph-edge-base" marker-end="url(#arrow)"/>
-          <path d="M 300 70 C 300 90, 300 95, 300 100" fill="none" stroke="var(--accent-red)" stroke-width="2.5" marker-end="url(#arrow-red)"/>
           <circle cx="130" cy="125" r="22" class="node-circle-base"/>
           <text x="130" y="130" text-anchor="middle" class="node-text-title">c1</text>
           <circle cx="300" cy="125" r="22" class="node-circle-base" stroke="var(--accent-amber)" stroke-width="3"/>
@@ -3573,11 +3662,9 @@ jobs:
           <text x="490" y="160" text-anchor="middle" class="node-text-desc">main (today\'s work)</text>
           <rect x="460" y="80" width="60" height="20" rx="4" fill="rgba(52, 211, 153, 0.18)" stroke="var(--accent-green)" stroke-width="1.5"/>
           <text x="490" y="94" text-anchor="middle" font-size="10" font-weight="bold" fill="var(--accent-green)">main</text>
-          <circle cx="300" cy="48" r="20" class="node-circle-base" stroke="var(--accent-red)" stroke-width="3"/>
-          <text x="300" y="53" text-anchor="middle" class="node-text-title" fill="var(--accent-red)">exp</text>
           <rect x="345" y="36" width="180" height="24" rx="4" fill="rgba(248, 113, 113, 0.18)" stroke="var(--accent-red)" stroke-width="1.5"/>
           <text x="435" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="var(--accent-red)">HEAD (Viewing without bookmark)</text>
-          <line x1="345" y1="48" x2="324" y2="48" stroke="var(--accent-red)" stroke-width="2" marker-end="url(#arrow-red)"/>
+          <path d="M 345 48 L 300 48 L 300 98" fill="none" stroke="var(--accent-red)" stroke-width="2" marker-end="url(#arrow-red)"/>
         </svg>`,
         bullets: [
           '<strong>You are browsing an old milestone:</strong> Your view (<code>HEAD</code>) hopped off branch bookmarks to look directly at c2.',
@@ -3585,7 +3672,7 @@ jobs:
           '<strong>Want to experiment here?</strong> If you want to make changes and keep them, run <code>git switch -c new-feature</code> to attach a new bookmark.',
           '<strong>Before switching:</strong> Name needed detached commits with a new branch and inspect dirty files first.'
         ],
-        rule: 'Detached HEAD is harmless for reading history. If you make changes you want to keep, attach a bookmark with git switch -c <name>.'
+        rule: 'Detached HEAD identifies a commit directly. Existing branches remain. Name needed new commits with a branch and preserve uncommitted work before leaving.'
       }
     };
 
@@ -3607,7 +3694,7 @@ jobs:
         </div>
       `;
 
-      // Live .git/ Files Internals Inspector update
+      // Update predefined example metadata; no filesystem access.
       const headElem = document.getElementById('inspectorHeadContent');
       const headNoteElem = document.getElementById('inspectorHeadNote');
       const branchPathElem = document.getElementById('inspectorBranchPath');
@@ -3956,8 +4043,9 @@ jobs:
     }
 
     function fallbackCopyText(text, btn, buttonLabel = 'Copied!', feedbackMsg = 'Command snippet copied to clipboard') {
+      let textArea;
       try {
-        const textArea = document.createElement('textarea');
+        textArea = document.createElement('textarea');
         textArea.value = text;
         textArea.style.position = 'fixed';
         textArea.style.left = '-9999px';
@@ -3966,17 +4054,19 @@ jobs:
         textArea.focus();
         textArea.select();
         const success = document.execCommand('copy');
-        document.body.removeChild(textArea);
         if (success) {
           setCopyButtonFeedback(btn, buttonLabel, true);
           announceState(feedbackMsg);
         } else {
           setCopyButtonFeedback(btn, 'Copy failed', false);
-          announceState('Copy operation failed');
+          announceState('Copy failed. Select the displayed command text and copy it manually.');
         }
       } catch (err) {
         setCopyButtonFeedback(btn, 'Copy failed', false);
-        announceState('Copy operation failed');
+        announceState('Copy failed. Select the displayed command text and copy it manually.');
+      } finally {
+        if (textArea?.parentNode) textArea.parentNode.removeChild(textArea);
+        btn?.focus({preventScroll:true});
       }
     }
 
@@ -4034,6 +4124,17 @@ jobs:
     // Expose link copy functions globally for inline onclick handlers
     window.copyCardLink = copyCardLink;
     window.copyDecisionLink = copyDecisionLink;
+    let printDisclosures=[];
+    window.addEventListener('beforeprint',()=>{
+      if(printDisclosures.length)return;
+      printDisclosures=[...document.querySelectorAll('[data-destination-panel]:not([hidden]) details')].map(element=>({element,open:element.open}));
+      printDisclosures.forEach(({element})=>{element.open=true;});
+    });
+    window.addEventListener('afterprint',()=>{printDisclosures.forEach(({element,open})=>{element.open=open;});printDisclosures=[];});
+    document.getElementById('mainContent')?.addEventListener('click',event=>{
+      const link=event.target.closest('.recipe-learning-link a');if(!link)return;
+      event.preventDefault();navigateHash(link.getAttribute('href'),'');handleHashRoute();
+    });
 
     // 8b. Variable Customizer & Git Syntax Toggle Controller
     function convertModernToLegacy(text) {
@@ -4350,12 +4451,12 @@ jobs:
     const SELF_CHECK = {
       question: 'You edited a file on disk but have not run git add yet. Where do your changes live?',
       options: [
-        { text: 'In the staging area (cart), ready to be committed', correct: false },
+        { text: 'In the index (staging area), ready to be committed', correct: false },
         { text: 'Only in your working directory, not yet tracked by a commit', correct: true },
         { text: 'Already recorded in your local commit history', correct: false },
         { text: 'On the remote (GitHub), visible to teammates', correct: false }
       ],
-      explanation: 'Edits live in the working directory until you stage them with git add. Staging moves them to the cart; committing saves a commit; pushing publishes to the remote.'
+      explanation: 'Saving changes the working file. git add copies its current content into the index; it leaves the working file on disk. Editing again does not update that staged copy. git commit records the index, and git push publishes commits to a remote.'
     };
 
     function renderSelfCheck() {
@@ -4575,13 +4676,42 @@ jobs:
       if (searchInput && searchInput.value) params.set('q', searchInput.value);
       if (activeFilter !== 'all') params.set('category', activeFilter);
       if (activeRiskFilter !== 'all') params.set('risk', activeRiskFilter);
+      const context=GitLearning.returnContext(window.location.search||'');
+      if(context){params.set('learnReturn',context.lesson);params.set('learnStep',context.checkpoint);}
       window.history.replaceState(null, '', window.location.pathname + (params.size ? '?' + params : '') + '#reference');
+      lastHandledUrl = null;
     }
     let routing = false;
-    function navigateHash(hash) {
+    let lastHandledUrl = null;
+    function navigateHash(hash, search) {
       if (routing || !window.history) return;
-      if (window.location.hash !== hash || window.location.search) window.history.pushState(null, '', window.location.pathname + hash);
+      if(search===undefined) {
+        const context=GitLearning.returnContext(window.location.search||'');
+        const target=document.getElementById(hash.slice(1));
+        const reference=hash==='#reference'||target?.closest('[data-destination-panel]')?.id==='reference'||/^#forge-(github|gitlab|bitbucket)(\/(protected-branch|auth|secret|fork))?$/.test(hash);
+        const params=new URLSearchParams();if(context&&reference){params.set('learnReturn',context.lesson);params.set('learnStep',context.checkpoint);}
+        search=params.size?'?'+params.toString():'';
+      }
+      if (window.location.hash !== hash || (window.location.search||'')!==search) {
+        window.history.pushState(null, '', window.location.pathname + search + hash);
+        lastHandledUrl = null;
+      }
     }
+    function renderReferenceLearningContext() {
+      const panel=document.getElementById('referenceLearningContext');if(!panel)return;
+      const context=GitLearning.returnContext(window.location.search||'');
+      if(context) {
+        const item=GitLearning.lesson(context.lesson),point=GitLearning.checkpoint(context.lesson,context.checkpoint);
+        panel.innerHTML=`<p><a data-learning-return href="#learn/${h(item.id)}/${h(point.id)}">Return to ${h(item.title)} — ${h(point.title)}</a></p>`;
+      } else {
+        const related=GitLearning.relatedLessons[(window.location.hash||'').slice(1)];
+        panel.innerHTML=related?`<p><a data-learning-return href="#learn/${h(related[0])}/${h(related[1])}">Practise: ${h(GitLearning.lesson(related[0]).title)}</a></p>`:'<p><a data-learning-return href="#learn">Explore the practical Git lessons</a></p>';
+      }
+    }
+    document.getElementById('referenceLearningContext')?.addEventListener('click',event=>{
+      const link=event.target.closest('[data-learning-return]');if(!link)return;
+      event.preventDefault();navigateHash(link.getAttribute('href'),'');handleHashRoute();
+    });
     function setDestination(destination) {
       if (!['fix', 'learn', 'reference'].includes(destination)) destination = 'fix';
       htmlElem.setAttribute('data-destination', destination);
@@ -4593,6 +4723,129 @@ jobs:
       setMode(destination === 'reference' ? 'pro' : 'beginner');
       if (destination === 'learn') setPrimerCollapsed(false);
     }
+    function learningCommands(actions, label) {
+      label = label || (actions.some(action=>action.repository) ? 'Run from the practice workspace' : 'Run in your practice repository');
+      const commands = actions.filter(action => action.kind === 'git').map(GitLearning.command).join('\n');
+      if (!commands) return '';
+      return `<div class="snippet-block"><div class="snippet-header"><span>${h(label)}</span><button type="button" class="copy-btn" onclick="copySnippet(this)" aria-label="Copy ${h(label)}">Copy</button></div><pre class="code-content"><code>${h(commands)}</code></pre></div>`;
+    }
+    function learningEdits(actions) {
+      return actions.filter(action => action.kind === 'edit').map(action => `<p class="learning-output-label">Save in your editor: <code>${h(action.repository?action.repository+'/'+action.file:action.file)}</code></p><pre class="learning-output"><code>${h(action.content)}</code></pre>`).join('');
+    }
+    function learningActions(actions) {
+      let markup='', commands=[];
+      const flush=()=>{ if(commands.length)markup+=learningCommands(commands); commands=[]; };
+      for(const action of actions) {
+        if(action.kind==='edit') { flush(); markup+=learningEdits([action]); }
+        else commands.push(action);
+      }
+      flush(); return markup;
+    }
+    function learningRepositories(repositories) {
+      const names={learner:'Your learner copy',partner:'Partner copy','shared.git':'Shared bare repository'};
+      return `<figure class="learning-remote-comparison"><figcaption>Example repository references — an illustration, not a live connection</figcaption><div class="learning-remote-grid">${Object.entries(repositories).map(([name,state])=>`<div data-example-repository="${h(name)}"><h5>${h(names[name]||name)}</h5><p><code>${h(name)}</code></p>${Object.entries(state.refs).map(([branch,tip])=>`<p>Branch <code>${h(branch)}</code>: <strong>${h(tip)}</strong></p>`).join('')}${state.bare?'<p>No index or working files.</p>':`<p>HEAD names <code>${h(state.branch)}</code>.</p>${Object.entries(state.remoteTracking||{}).map(([ref,tip])=>`<p>Observed <code>${h(ref)}</code>: <strong>${h(tip)}</strong></p>`).join('')}`}</div>`).join('')}</div><p>The r labels name example commits, not actual object IDs. Each origin/main is stored in its own copy and can lag behind the shared branch.</p></figure>`;
+    }
+    function learningRecoveryGate(gate) {
+      if (!gate) return '';
+      const recipe = GitRecovery.recipes[gate.recipe];
+      const local = text => Object.entries(gate.values || {}).reduce((value,[key,replacement])=>value.replaceAll(key,replacement),text);
+      return `<div class="learning-recovery-gate" data-learning-recipe="${h(gate.recipe)}"><p><strong>${h(gate.title||recipe.title)}</strong> — ${h(recipe.risk)}</p><h5>When to stop</h5><p>${h(gate.stop)}</p><h5>Check first</h5><p>${h(local(recipe.checks))}</p>${learningCommands(gate.checks,'Check before this recovery action')}<p><strong>What changes:</strong> ${h(local(recipe.effect))}</p><p><a href="${h(recipe.source)}" target="_blank" rel="noopener noreferrer">Official recovery documentation</a></p></div>`;
+    }
+    function learningGraphFigure(graph,title,instance,current) {
+      const grouped={};for(const node of graph.nodes)(grouped[node.depth] ||= []).push(node.id);
+      const positions=Object.fromEntries(graph.nodes.map(node=>[node.id,{x:55+node.depth*110,y:grouped[node.depth].length===1?90:50+grouped[node.depth].indexOf(node.id)*90}]));
+      const width=Math.max(320,Math.max(...graph.nodes.map(node=>node.depth))*110+140);
+      const marker='learning-parent-'+instance;
+      const edges=graph.nodes.flatMap(node=>node.parents.map(parent=>`<line data-child="${h(node.id)}" data-parent="${h(parent)}" x1="${positions[node.id].x-18}" y1="${positions[node.id].y}" x2="${positions[parent].x+18}" y2="${positions[parent].y}" stroke="var(--text-muted)" stroke-width="2" marker-end="url(#${marker})"/>`)).join('');
+      const nodes=graph.nodes.map(node=>{
+        const p=positions[node.id],refs=Object.entries(graph.refs).filter(([,tip])=>tip===node.id);
+        return `<g data-commit="${h(node.id)}"><circle cx="${p.x}" cy="${p.y}" r="18" fill="var(--bg-card)" stroke="${node.id===graph.head?'var(--accent-green)':'var(--text-muted)'}" stroke-width="2"/><text x="${p.x}" y="${p.y+4}" text-anchor="middle" fill="var(--text)" font-size="13">${h(node.id)}</text>${node.id===graph.head?`<text x="${p.x}" y="${p.y-28}" text-anchor="middle" fill="var(--text)" font-size="12">HEAD</text>`:''}${refs.map(([name],index)=>`<text x="${p.x}" y="${p.y+38+index*17}" text-anchor="middle" fill="var(--text)" font-size="12">${h(name)}</text>`).join('')}</g>`;
+      }).join('');
+      return `<figure class="learning-graph-figure" data-graph-instance="${instance}"><figcaption>${h(title)}</figcaption><p>HEAD names <code>${h(graph.branch)}</code> at <code>${h(graph.head)}</code>.</p><div class="learning-graph-scroll" role="region" tabindex="0" aria-label="${h(title)} commit graph"><svg class="graph-svg learning-graph-svg" style="width:${width}px" viewBox="0 0 ${width} 230" role="img" aria-label="${h(title)}: arrows point from commits to their parents"><defs><marker id="${marker}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 1 1 L 9 5 L 1 9 z" fill="var(--text-muted)"/></marker></defs>${edges}${nodes}</svg></div><dl class="graph-reference-list${current?' learning-ref-list':''}">${Object.entries(graph.refs).map(([name,tip])=>`<div><dt><code>${h(name)}</code></dt><dd>${h(tip)}</dd></div>`).join('')}</dl><details><summary>Commit parents in text</summary><ul>${graph.nodes.map(node=>`<li><code>${h(node.id)}</code>: ${node.parents.length?'parents '+node.parents.map(h).join(', '):'initial commit, no parents'}</li>`).join('')}</ul></details></figure>`;
+    }
+    function learningBranchComparison(item,position) {
+      const point=item.checkpoints[position],after=GitLearning.graph(item.id,point.id);
+      if(position===0)return learningGraphFigure(after,'Initial history','after',true);
+      const before=GitLearning.graph(item.id,item.checkpoints[position-1].id);
+      return `<p>Before and after this checkpoint’s actions. Arrows point to parents; labels identify example commits rather than object IDs. Scroll a graph sideways if needed.</p><div class="learning-graph-pair">${learningGraphFigure(before,'Before these actions','before',false)}${learningGraphFigure(after,'After these actions','after',true)}</div>`;
+    }
+    function renderLearning(hash) {
+      const container = document.getElementById('learningCourse');
+      if (!container) return;
+      const route = GitLearning.route(hash);
+      const item = route.valid && route.lesson ? GitLearning.lesson(route.lesson) : null;
+      document.getElementById('learn').classList.toggle('lesson-open', Boolean(item));
+      if (!item) {
+        container.innerHTML = `${!route.valid && hash.startsWith('#learn/') ? '<p role="status">That lesson or checkpoint is unavailable. Choose a lesson below.</p>' : ''}<nav aria-label="Practical lessons"><ul class="course-list">${GitLearning.lessons.map(lesson => `<li><a href="#learn/${h(lesson.id)}/${h(lesson.checkpoints[0].id)}">${h(lesson.title)}${lesson.optional?' (optional)':''}</a><p>${h(lesson.outcome)}</p></li>`).join('')}</ul></nav>`;
+        return;
+      }
+      const point = GitLearning.checkpoint(item.id, route.checkpoint);
+      const position = item.checkpoints.indexOf(point);
+      const comparisonFile = point.comparisonFile || 'notes.txt';
+      const link = step => `#learn/${item.id}/${step.id}`;
+      const setup = item.setup;
+      const shell = (label, text) => `<h4>${label}</h4><div class="snippet-block"><div class="snippet-header"><span>Create a new directory — ${label}</span><button type="button" class="copy-btn" onclick="copySnippet(this)" aria-label="Copy ${label} directory commands">Copy</button></div><pre class="code-content"><code>${h(text)}</code></pre></div>`;
+      container.innerHTML = `
+        <div class="lesson-layout">
+          <nav class="lesson-outline" aria-label="Lesson checkpoints"><a href="#learn">All lessons</a><ol>${item.checkpoints.map(step => `<li><a href="${link(step)}" ${step.id === point.id ? 'aria-current="step"' : ''}>${h(step.title)}</a></li>`).join('')}</ol></nav>
+          <article class="lesson-reading" aria-labelledby="lessonTitle">
+            <h3 id="lessonTitle" tabindex="-1">${h(item.title)}</h3><p>${h(item.outcome)}</p>
+            <p><strong>Before you start:</strong> ${h(item.prerequisites)}</p>
+            <p class="learning-example-note">This is a browser illustration. Its controls change only the example. To practise with real Git, run the commands yourself in <code>${h(item.directory)}</code>. This page cannot inspect or grade your repository.</p>
+            <details class="learning-setup" ${position === 0 ? 'open' : ''}><summary>Practice setup for direct entry</summary>
+              <p>First check that Git is available:</p>${learningCommands(setup.availability, 'Check Git availability')}
+              <p>Expect a Git version number. If the command is missing, install Git using <a href="https://git-scm.com/install/" target="_blank" rel="noopener noreferrer">the official installation instructions</a>, then reopen your terminal. These exercises use Git 2.23 or later syntax; runtime compatibility with 2.23 has not yet been verified.</p>
+              <p>In your chosen parent directory, check whether you are already inside a repository:</p>${learningCommands(setup.parentCheck, 'Check the parent directory')}
+              <p>If this prints a repository path, stop and choose a parent outside that project. Outside a repository, the expected result is a “not a git repository” error; this specific read-only check is the exception to stopping on errors. Do not run git init in your existing project.</p>
+              <p>Choose a parent directory for practice. Use a new directory named <code>${h(item.directory)}</code>. If it already exists, stop and choose a different fresh name; do not reset or delete earlier work. Run one command at a time and stop on an error.</p>
+              <p>Run the block for your shell; do not run both blocks.</p>
+              ${shell('Bash', setup.bash)}${shell('Windows PowerShell 5.1', setup.powershell)}
+              ${setup.note?`<p>${h(setup.note)}</p>`:''}
+              <p>Confirm the printed location ends in your new practice directory before continuing. The Git commands below work in either shell. ${setup.kind==='remote-workspace'?'Keep the terminal in the workspace; git -C chooses a repository. The later identity check reports the learner copy’s path.':'The main branch name is set explicitly in this new, empty repository.'}</p>
+              ${learningCommands(setup.git, 'Initialize and configure this practice repository')}
+              ${learningCommands(setup.confirm, 'Confirm location and local identity before committing')}
+              <p>These settings apply only to ${setup.kind==='remote-workspace'?'the new practice repositories':'this new practice repository'}. Commits record the example author identity and could be published. Practice setup omits template hooks, uses each new repository’s own hooks directory, turns off commit signing here, and uses a plain pager. Global settings and other repositories are unchanged. Do not apply these practice settings to an existing project.</p>
+              <p>${h(setup.explanation)}</p>${Object.entries(setup.files).map(([file,content])=>`<p class="learning-output-label">${h(file)}</p><pre class="learning-output"><code>${h(content)}</code></pre>`).join('')}
+              ${learningCommands(setup.actions, setup.kind==='remote-workspace'?'Publish the initial snapshot and prepare the partner copy':'Record the starting snapshot')}
+              <p>Fresh entry at a later checkpoint: complete this setup, then perform the preceding checkpoints in order. Browser navigation does not perform those actions in your local repository.</p>
+            </details>
+            <section aria-labelledby="checkpointTitle"><p>Checkpoint ${position + 1} of ${item.checkpoints.length}</p><h4 id="checkpointTitle">${h(point.title)}</h4><p>${h(point.instruction)}</p>
+              ${learningRecoveryGate(point.gate)}
+              ${learningActions(point.actions)}
+              ${item.id==='branches'?learningBranchComparison(item,position):point.state.repositories?learningRepositories(point.state.repositories):point.state.refs?`<div class="learning-reference-state"><p><strong>Example checkout:</strong> HEAD names <code>${h(point.state.branch)}</code>; current commit <code>${h(point.state.headCommit)}</code>.</p><p>Branch tips below use commit labels, not actual object IDs.</p><dl class="learning-ref-list">${Object.entries(point.state.refs).map(([name,tip])=>`<div><dt><code>${h(name)}</code></dt><dd>${h(tip)}</dd></div>`).join('')}</dl></div>`:''}
+              <div class="learning-table-scroll" role="region" tabindex="0" aria-label="Compare ${h(comparisonFile)} versions"><table class="learning-comparison"><caption>Example contents of ${point.state.repositories?'learner/':''}${h(comparisonFile)} at this checkpoint</caption><thead><tr><th>HEAD — last commit</th><th>${point.state.unmerged?'Index — unresolved versions':'Index — next commit'}</th><th>Working file — on disk</th></tr></thead><tbody><tr>${['head','index','working'].map(zone => `<td><pre>${h(GitLearning.content(point.state,zone,comparisonFile))}</pre></td>`).join('')}</tr></tbody></table></div>
+              <p class="learning-table-help">If a column is cut off, scroll this comparison sideways. With a keyboard, focus the table and use the arrow keys.</p>
+              ${learningCommands(point.inspect, 'Inspect the result')}
+              <p><strong>Expected observation:</strong> ${h(point.observation)}</p><pre class="learning-output" aria-label="Illustrative short status"><code>${h(point.state.status || '(no output)')}</code></pre>
+              ${point.diffs ? `<div class="learning-diffs">${[['working','git diff','Index → working file'],['staged','git diff --staged','HEAD → index']].map(([key,command,comparison])=>`<figure><figcaption><code>${h(command)}</code>: ${h(comparison)}</figcaption><pre class="learning-output" data-learning-diff="${key}"><code>${h(point.diffs[key] || '(no output: these contents agree)')}</code></pre></figure>`).join('')}</div><p class="learning-output-note">Diff excerpts show removed lines with − and added lines with +. Git also prints file headers and line numbers; those are omitted here.</p>` : ''}
+              <p class="learning-output-note">Status above is illustrative. Short status uses the first column for the index and the second for the working file. Paths, commit IDs and commit summary output can vary in your terminal.</p>
+              ${point.prediction ? `<fieldset class="learning-prediction"><legend>${h(point.prediction.question)}</legend>${point.prediction.choices.map(choice => `<button type="button" data-prediction="${h(choice.id)}">${h(choice.text)}</button>`).join('')}<button type="button" data-learning-reveal>Reveal answer</button><button type="button" data-learning-retry>Try again</button><p id="learningFeedback" role="status" aria-live="polite"></p></fieldset>` : ''}
+              ${point.recovery?`<p><a data-learning-reference href="${h(GitLearning.referenceUrl('card-conflict',item.id,point.id))}">Confirmed merge recovery steps</a></p>`:''}
+              ${point.alternative?`<details class="learning-alternative"><summary>${h(point.alternative.title)}</summary><h5>When to stop</h5><p>${h(point.alternative.stop)}</p><h5>Check first</h5>${learningCommands(point.alternative.checks,'Confirm the practice merge state')}<p><strong>What changes:</strong> ${h(point.alternative.effect)}</p><p>${h(GitRecovery.recipes[point.alternative.recipe].failure)}</p>${learningActions(point.alternative.actions)}<p>${h(point.alternative.after)}</p><p><a href="${h(GitLearning.sources[point.alternative.source])}" target="_blank" rel="noopener noreferrer">Official merge documentation</a></p></details>`:''}
+            </section>
+            <nav class="lesson-movement" aria-label="Move through the example">${position > 0 ? `<a href="${link(item.checkpoints[position-1])}">← ${h(item.checkpoints[position-1].title)}</a>` : ''}${position < item.checkpoints.length-1 ? `<a href="${link(item.checkpoints[position+1])}">${h(item.checkpoints[position+1].title)} →</a>` : ''}<button type="button" data-learning-reset>Restart browser example</button></nav>
+            ${position === item.checkpoints.length-1 ? `<section class="learning-transfer"><h4>${h(item.independent.title)}</h4><p>${h(item.independent.task)}</p><details><summary>Worked answer and verification</summary><p>${h(item.independent.answer)}</p>${item.independent.actions.map((action,index) => (index===item.independent.gateBefore?learningRecoveryGate(item.independent.gate):'')+(action.kind === 'edit' ? learningEdits([action]) : learningCommands([action]))).join('')}${learningCommands(item.independent.inspect, 'Verify the independent task')}</details></section>` : ''}
+            <p><a data-learning-reference href="${h(GitLearning.referenceUrl(item.reference,item.id,point.id))}">${h(item.referenceLabel || 'Staging and commit reference')}</a></p>
+            ${position===item.checkpoints.length-1 && GitLearning.lessons[GitLearning.lessons.indexOf(item)+1] ? `<p class="next-lesson"><a href="#learn/${h(GitLearning.lessons[GitLearning.lessons.indexOf(item)+1].id)}/${h(GitLearning.lessons[GitLearning.lessons.indexOf(item)+1].checkpoints[0].id)}">Next lesson: ${h(GitLearning.lessons[GitLearning.lessons.indexOf(item)+1].title)}</a></p>` : ''}
+            <p class="learning-sources">Official Git documentation: ${item.sources.map(key => `<a href="${h(GitLearning.sources[key])}" target="_blank" rel="noopener noreferrer">${h(key)}</a>`).join(' · ')}</p>
+            ${item.hostingNote?`<p>${h(item.hostingNote)}</p>`:''}
+          </article>
+        </div>`;
+    }
+    document.getElementById('learningCourse')?.addEventListener('click', event => {
+      const reference=event.target.closest('a[data-learning-reference]');
+      if(reference){event.preventDefault();const url=new URL(reference.href);navigateHash(url.hash,url.search);handleHashRoute();return;}
+      const route = GitLearning.route(location.hash), item = GitLearning.lesson(route.lesson);
+      if (!item) return;
+      const button = event.target.closest('button'); if (!button) return;
+      if (button.hasAttribute('data-learning-reset')) { navigateHash(`#learn/${item.id}/${item.checkpoints[0].id}`); handleHashRoute(); announceState('Browser example restarted. Your local files are unchanged.'); }
+      const prediction = GitLearning.checkpoint(item.id, route.checkpoint)?.prediction;
+      const feedback = document.getElementById('learningFeedback');
+      if (!prediction || !feedback) return;
+      if (button.hasAttribute('data-learning-retry')) feedback.textContent = 'Choose a version to make another prediction.';
+      else if (button.hasAttribute('data-learning-reveal')) feedback.textContent = prediction.choices.find(choice => choice.correct).feedback;
+      else if (button.dataset.prediction) feedback.textContent = prediction.choices.find(choice => choice.id === button.dataset.prediction)?.feedback || '';
+    });
     document.querySelectorAll('.destination-link').forEach(link => link.addEventListener('click', e => {
       e.preventDefault(); navigateHash(link.getAttribute('href')); handleHashRoute();
     }));
@@ -4602,6 +4855,7 @@ jobs:
       if (!id) return;
       const target = document.getElementById(id);
       if (target) {
+        if(target.tagName==='DETAILS')target.open=true;
         const panel = target.closest('[data-destination-panel]');
         if (panel) setDestination(panel.dataset.destinationPanel);
         for (let parent = target.parentElement; parent; parent = parent.parentElement) { if (parent.tagName === 'DETAILS') parent.open = true; }
@@ -4641,8 +4895,21 @@ jobs:
     }
 
     function handleHashRoute() {
+      const routeUrl = window.location.href || String(window.location.pathname) + (window.location.search || '') + (window.location.hash || '');
+      if (lastHandledUrl === routeUrl) return;
       routing = true;
       try {
+        const learningHash = window.location.hash || '';
+        renderLearning(learningHash);
+        renderReferenceLearningContext();
+        if (learningHash.startsWith('#learn/')) {
+          setDestination('learn');
+          document.querySelectorAll('#learningCourse .learning-graph-scroll').forEach(region=>{region.scrollLeft=region.scrollWidth;});
+          const heading = document.getElementById('lessonTitle') || document.querySelector('#learn > h2');
+          heading.setAttribute('tabindex', '-1'); heading.focus({preventScroll:true}); heading.scrollIntoView({block:'start'});
+          announceState(GitLearning.route(learningHash).valid ? 'Learning checkpoint opened' : 'Choose an available lesson');
+          return;
+        }
         activeFilter = 'all'; activeRiskFilter = 'all';
         filterPills.forEach(pill => { const selected = pill.dataset.filter === 'all'; pill.classList.toggle('active', selected); pill.setAttribute('aria-pressed', String(selected)); });
         riskPills.forEach(pill => { const selected = pill.dataset.riskFilter === 'all'; pill.classList.toggle('active', selected); pill.setAttribute('aria-pressed', String(selected)); });
@@ -4773,7 +5040,7 @@ jobs:
         const id = hash.replace('#', '');
         jumpToTarget(id);
       }
-      } finally { routing = false; }
+      } finally { routing = false; lastHandledUrl = routeUrl; }
     }
 
     window.jumpToTarget = jumpToTarget;
@@ -5003,11 +5270,17 @@ nothing to commit, working tree clean`
     };
 
     let activeZoneKey = 'working';
+    let zoneCheckpointId = 'initial';
 
     function renderZoneDetail(zoneKey) {
       const panel = document.getElementById('zoneDetailPanel');
       if (!panel) return;
-      const data = fourZoneData[zoneKey] || fourZoneData.working;
+      const data = {...(fourZoneData[zoneKey] || fourZoneData.working)};
+      const point = GitLearning.checkpoint('staging', zoneCheckpointId);
+      if (['working','staging','local'].includes(zoneKey)) {
+        data.statusTitle = 'Illustrative short status for notes.txt:';
+        data.statusSnippet = point.state.status || '(no output)';
+      } else if (zoneKey === 'remote') data.statusSnippet = 'No remote is configured in this staging example.';
 
       panel.innerHTML = `
         <div class="zone-detail-title">
@@ -5113,6 +5386,37 @@ nothing to commit, working tree clean`
     const referenceInstructions = document.getElementById('referenceInstructions');
     if (referenceInstructions) referenceInstructions.textContent = GitRecovery.stop;
     renderZoneDetail('working');
+    function showZoneCheckpoint(id, announce = false) {
+      const point = GitLearning.checkpoint('staging', id);
+      if (!point) return;
+      zoneCheckpointId = point.id;
+      const list = GitLearning.lesson('staging').checkpoints;
+      const index = list.indexOf(point);
+      const select = document.getElementById('zoneCheckpointSelect');
+      select.value = point.id;
+      document.getElementById('zoneWorkingContent').textContent = point.state.working['notes.txt'];
+      document.getElementById('zoneIndexContent').textContent = point.state.index['notes.txt'];
+      document.getElementById('zoneHeadContent').textContent = point.state.head['notes.txt'];
+      document.getElementById('zoneExampleObservation').textContent = point.title + '. ' + point.observation;
+      document.getElementById('zoneExampleStatus').textContent = point.state.status || '(no output: index, working file and HEAD agree)';
+      document.getElementById('zonePracticeLink').href = '#learn/staging/' + point.id;
+      document.querySelector('#zoneCardWorking .zone-badge-status').textContent = point.state.working['notes.txt'] === point.state.index['notes.txt'] ? 'Matches index' : 'Unstaged edit';
+      document.querySelector('#zoneCardStaging .zone-badge-status').textContent = point.state.index['notes.txt'] === point.state.head['notes.txt'] ? 'Matches HEAD' : 'Staged change';
+      document.querySelector('#zoneCardRemote .zone-badge-status').textContent = 'Not published here';
+      document.getElementById('zoneExamplePrevious').disabled = index === 0;
+      document.getElementById('zoneExampleNext').disabled = index === list.length - 1;
+      document.getElementById('zoneExampleReset').disabled = index === 0;
+      if (document.activeElement?.disabled && document.activeElement.closest('.zone-example-controls')) select.focus({preventScroll:true});
+      renderZoneDetail(activeZoneKey);
+      if (announce) announceState('Example checkpoint: ' + point.title + '. Your local files are unchanged.');
+    }
+    const zoneCheckpointSelect = document.getElementById('zoneCheckpointSelect');
+    if (zoneCheckpointSelect) {
+      zoneCheckpointSelect.innerHTML = GitLearning.lesson('staging').checkpoints.map(point=>`<option value="${h(point.id)}">${h(point.title)}</option>`).join('');
+      zoneCheckpointSelect.addEventListener('change',()=>showZoneCheckpoint(zoneCheckpointSelect.value,true));
+      for (const [id,direction] of [['zoneExamplePrevious','previous'],['zoneExampleNext','next'],['zoneExampleReset','reset']]) document.getElementById(id).addEventListener('click',()=>showZoneCheckpoint(GitLearning.transition('staging',zoneCheckpointId,direction).id,true));
+      showZoneCheckpoint('initial');
+    }
 
     function bindChoiceKeys(selector) {
       const buttons = [...document.querySelectorAll(selector)];
@@ -5138,7 +5442,8 @@ nothing to commit, working tree clean`
     const initialMode = safeStorageGet('mode', 'beginner', ['beginner', 'pro']);
     setMode(initialMode);
     setDestination('fix');
-    setTimeout(handleHashRoute, 120);
+    renderUndoSolution('unstaged');
+    handleHashRoute();
   </script>
 </body>
 </html>

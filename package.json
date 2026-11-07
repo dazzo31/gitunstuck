@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "build:check": "node scripts/build.mjs --check",
-    "test": "node tests/test-analyzer.js && node tests/test-recovery.js"
+    "test": "node tests/test-analyzer.js && node tests/test-recovery.js && node tests/test-learning.js"
   },
   "devDependencies": {
     "lightningcss": "^1.33.0",
