@@ -22,6 +22,7 @@ import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { gzipSync, brotliCompressSync, constants } from 'node:zlib';
+import { createHash } from 'node:crypto';
 import { transform as transformCss } from 'lightningcss';
 import { minify as minifyJavaScript } from 'terser';
 
@@ -119,11 +120,17 @@ const br = s => brotliCompressSync(enc(s), { params: { [constants.BROTLI_PARAM_Q
 
 // Inline the shared recovery module so the deployed artifact stays self-contained.
 const revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
+const dirty=Boolean(execFileSync('git',['status','--porcelain','--untracked-files=normal'],{cwd:ROOT,encoding:'utf8'}).trim());
+const inputs=['index.html','recovery.js','learning.js','scripts/build.mjs','package-lock.json',...readdirSync(ROOT).filter(name=>extname(name)==='.svg')].sort();
+const fingerprint=createHash('sha256');
+for(const name of inputs)fingerprint.update(name+'\0').update(readFileSync(join(ROOT,name)));
+const sourceHash=fingerprint.digest('hex');
 const source = readFileSync(SRC, 'utf8').replace('</head>',
-  `<meta name="gitunstuck-revision" content="${revision}"></head>`).replace(
+  `<meta name="gitunstuck-revision" content="${revision}"><meta name="gitunstuck-working-tree" content="${dirty?'dirty':'clean'}"><meta name="gitunstuck-source-sha256" content="${sourceHash}"></head>`).replace(
   '<script src="recovery.js"></script>',
   () => '<script>' + readFileSync(join(ROOT, 'recovery.js'), 'utf8') + '</script>',
-);
+).replace('<script src="learning.js"></script>',
+  () => '<script>' + readFileSync(join(ROOT, 'learning.js'), 'utf8') + '</script>');
 const minified = await minifyHtml(source);
 
 console.log('GitUnstuck build');

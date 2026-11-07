@@ -1,7 +1,7 @@
 # Contributing to GitUnstuck
 
 Thanks for your interest in contributing. GitUnstuck is a dependency-free,
-client-side application: `index.html`, shared `recovery.js`, SVG assets and automated tests.
+client-side application: `index.html`, shared `recovery.js` and `learning.js`, SVG assets and automated tests.
 We welcome contributions that keep it small, private, and easy to run.
 
 ## How to contribute
@@ -22,7 +22,7 @@ We welcome contributions that keep it small, private, and easy to run.
 ## Coding conventions
 
 - **Zero dependencies.** Do not add npm packages, external fonts, external
-  scripts or runtime frameworks. Preserve the existing build-only minifiers. Source use opens `index.html` alongside `recovery.js`.
+  scripts or runtime frameworks. Preserve the existing build-only minifiers. Source use opens `index.html` alongside `recovery.js` and `learning.js`.
 - **Privacy first.** Pasted terminal output stays in the browser tab. Never
   transmit input over the network, and do not log or store it.
 - **Risk-aware guidance.** Every destructive command must be paired with a
@@ -37,8 +37,10 @@ We welcome contributions that keep it small, private, and easy to run.
 
 - `index.html` — markup, styles, navigation and rendering.
 - `recovery.js` — shared recipe data and diagnosis logic.
+- `learning.js` — canonical lessons, controlled Git/editor actions, manifests, routes and pure transitions.
 - `tests/test-analyzer.js` — parser, data and source assertions.
 - `tests/test-recovery.js` — executable disposable-repository scenarios.
+- `tests/test-learning.js` — all lesson and independent-task outcomes, reference/parent checks and actual shell setup runs.
 - `tests/test-browser.cjs` — optional browser journey and presentation checks.
 - `docs/` — plans, feature specifications, and design notes.
 - `.github/` — CI workflows, issue/PR templates, and funding configuration.
@@ -46,6 +48,14 @@ We welcome contributions that keep it small, private, and easy to run.
 ## Tests
 
 Keep parser checks, executable recovery evidence and browser checks distinct. Tests must execute the same recipe definitions as the UI and assert protected file/index/history state. Do not treat matching source strings as proof that a recovery works. See README.md for supported environments and provider limitations.
+
+## Teaching changes
+
+Before adding a lesson or control, name the learner difficulty, the resulting behaviour and a meaningful check. Keep the bounded sequence in `docs/learning-implementation.md`; record evidence and gaps in `docs/learning-evidence.md`. Additional topics need an explicit unmet need rather than a larger course outline.
+
+Define a stable lesson/checkpoint ID, prerequisites, fresh named practice setup, initial/final file/index/reference manifests, controlled action arrays, expected observations, prediction feedback, a changed independent task with a worked answer, and relevant reference/source links. Reuse the practice setup helper and canonical recovery prerequisites/consequences. Never execute lesson prose or learner-provided commands. Test actual repository contents and relationships, plus any new Bash/PowerShell syntax in those shells. Preserve old hashes and validated return context.
+
+Run `npm test`, `npm run build:check`, and `npm run build`; then run `node tests/test-browser.cjs` against source and the built artifact with an installed Playwright/Chromium environment. Keep build fingerprints aligned with tested inputs. Real beginner observations, older-Git runtime compatibility and unavailable accessibility checks must be reported separately from automated passes. Do not mark real learner validation complete using simulated beginners.
 
 ## Code of Conduct
 
