@@ -14,7 +14,7 @@ Pasted terminal content is processed in the current tab. The app does not upload
 
 The baseline course was published at revision `5678788` by the [successful Pages run](https://github.com/dazzo31/gitunstuck/actions/runs/42379373047). Live staging, feedback, remotes, exact reference return after reload and an existing recovery link were checked on 9 November 2026.
 
-This checkout includes the clarity follow-up: three-stage preparation, a shell selector, checkpoint-specific focus and a numbered course index. Its tested revisions and publication evidence are recorded in [learning evidence](docs/learning-evidence.md).
+The clarity follow-up was published at application revision `6913e3b` by the [successful Pages run](https://github.com/dazzo31/gitunstuck/actions/runs/42774274126). Live desktop/mobile checks passed on 10 November 2026 for the numbered index, three-stage preparation, both shell-command copies, checkpoint focus, prediction feedback, reference reload/return, remotes and an existing recovery link. Subsequent documentation-only commits can advance the site's revision marker; tested application and publication evidence are recorded in [learning evidence](docs/learning-evidence.md).
 
 Follow-up checks: **15 PASS**, **1 BLOCKED** for native browser-menu zoom and screen-reader observation, and **2 HUMAN_PENDING** for actual beginner sessions and follow-up transfer checks. See [learning evidence](docs/learning-evidence.md) for the task tracker, tested artifacts and limitations. [Earlier release evidence](docs/recovery-audit/release.md) concerns the preceding recovery release.
 
