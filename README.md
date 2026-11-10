@@ -10,6 +10,25 @@ GitUnstuck is a browser guide with three destinations:
 
 Pasted terminal content is processed in the current tab. The app does not upload or save that content. Theme and display preferences use local storage. No account or runtime package installation is required.
 
+## Development status
+
+The baseline course was published at revision `5678788` by the [successful Pages run](https://github.com/dazzo31/gitunstuck/actions/runs/42379373047). Live staging, feedback, remotes, exact reference return after reload and an existing recovery link were checked on 9 November 2026.
+
+This checkout includes the clarity follow-up: three-stage preparation, a shell selector, checkpoint-specific focus and a numbered course index. Its tested revisions and publication evidence are recorded in [learning evidence](docs/learning-evidence.md).
+
+Follow-up checks: **15 PASS**, **1 BLOCKED** for native browser-menu zoom and screen-reader observation, and **2 HUMAN_PENDING** for actual beginner sessions and follow-up transfer checks. See [learning evidence](docs/learning-evidence.md) for the task tracker, tested artifacts and limitations. [Earlier release evidence](docs/recovery-audit/release.md) concerns the preceding recovery release.
+
+## Follow the learning course
+
+To work through a lesson:
+
+1. Open **Learn Git**. Optional setup sits above the six numbered core lessons; **Start here** opens the inspection lesson. Every lesson remains directly accessible.
+2. Expand **Prepare this practice folder**. Choose **Bash / Git Bash** or **Windows PowerShell 5.1** to see the matching directory commands. Follow the three stages: choose a fresh folder, prepare Git locally, and create the starting snapshot. Each lesson uses its own practice directory.
+3. Use the checkpoint outline or the specific previous/next links. Predict the result, run commands in your terminal, and compare the actual observation. On later checkpoints, **About this lesson** holds the background and preparation remains available in a closed disclosure.
+4. Follow a lesson's reference link when needed, then use its **Return to…** link to resume the exact checkpoint, including after a reference reload. Attempt the independent task before opening its worked answer.
+
+The shell choice lasts only within the current tab and resets on reload. Browser navigation, predictions and restart controls affect the illustration; they do not execute Git or change your practice files.
+
 ## What the analyzer can establish
 
 The analyzer handles English Git output and recognizes explicit protected-branch, secret-scanning, authentication, detached HEAD, merge, rebase and divergence evidence. Potentially sensitive untracked filenames are labeled as filename observations, not proof of a secret. Its diagnosis and the consequences of the proposed commands are separate. It cannot inspect your repository, establish backups, verify credential exposure, or know whether output is current.
@@ -56,9 +75,7 @@ node tests/test-browser.cjs
 
 Set `GITUNSTUCK_TEST_URL` to test an HTTP deployment or the built `dist/index.html` file URL. Results and screenshots are written to ignored `artifacts/`.
 
-Current source and built Chromium journeys cover all lessons, reference return/reload/Back/Forward, recovery, legacy routes, clipboard success/failure, input privacy and reference printing. Presentation checks use 320, 390, 768 and 1440 CSS-pixel widths in both themes, keyboard focus, reduced motion, sampled text/graph contrast and desktop CSS zoom at 200%. Screenshots were inspected. Actual browser-menu zoom, a second engine and a real screen-reader pass remain unverified. No accessibility certification or beginner teaching-effectiveness claim is made.
-
-The new course has not been deployed or tested with actual beginners. See [learning evidence](docs/learning-evidence.md) for the tested scope and remaining gaps. [Earlier release evidence](docs/recovery-audit/release.md) concerns the earlier recovery release, not this learning implementation.
+Current source and built Chromium journeys cover all lessons, reference return/reload/Back/Forward, recovery, legacy routes, clipboard success/failure, input privacy and reference printing. Presentation checks use 320, 390, 768 and 1440 CSS-pixel widths in both themes, keyboard focus, reduced motion, sampled text/graph contrast and desktop CSS zoom at 200%. The clarity follow-up also ran focused source/built journeys in installed Firefox 159.0.1 through an isolated headless profile: ordered entry, shell choice, keyboard input, focus, feedback, reference reload/return and reflow. Screenshots were inspected. Actual browser-menu zoom and a real screen-reader pass remain unverified. No accessibility certification or beginner teaching-effectiveness claim is made.
 
 ## Limits and evidence
 

@@ -32,6 +32,7 @@
   }
   const lessons = [{
     id:'staging', title:'Choose what goes into a commit',
+    summary:'Choose which version of a file to record.',
     outcome:'Predict and verify which version of a file a commit records, even after you edit the file again.',
     prerequisites:'Git is installed. You can open a terminal and edit a plain-text file. Use a fresh practice directory for this lesson; no hosting account is needed.',
     directory:'gitunstuck-staging', reference:'card-stage', sources:['add','diff','commit','status'],
@@ -114,6 +115,7 @@
   const inspectStaged={...inspectEdited,index:{...inspectHead,'notes.txt':'Plan the meeting\n'},status:'M  notes.txt\n?? checklist.txt'};
   lessons.splice(1,0,{
     id:'inspect',title:'Read the repository’s state',
+    summary:'Read what changed and what a commit would include.',
     outcome:'Identify tracked, untracked, ignored, staged and unstaged content, and explain what the next commit can record.',
     prerequisites:'Know how to locate a fresh practice repository, or use the optional setup lesson. No previous lesson’s files are reused.',
     directory:'gitunstuck-inspect',reference:'card-stage',referenceLabel:'Status and staged-diff reference',sources:['status','diff','add','ignore'],
@@ -154,6 +156,7 @@
   const historyCommitted={head:historySelected.index,index:historySelected.index,working:historyWorking,branch:'main',status:' M checklist.txt'};
   lessons.push({
     id:'history',title:'Record and inspect history',
+    summary:'Make a focused commit and check its contents.',
     outcome:'Create a focused commit, inspect its complete snapshot and message, and identify work that remains outside that commit.',
     prerequisites:'Understand working files and the index from the staging lesson. Begin in this lesson’s fresh directory, not a previous exercise.',
     directory:'gitunstuck-history',reference:'card-stage',referenceLabel:'Commit creation and inspection reference',sources:['commit','show','log','diff'],
@@ -214,6 +217,7 @@
   branchSetup.note='This practice repository uses the simple merge conflict-marker style. The setting is local to this directory.';
   lessons.push({
     id:'branches',title:'Work on a branch and merge',
+    summary:'Work on a branch, merge, and resolve a simple conflict.',
     outcome:'Explain HEAD and branch tips, distinguish fast-forward from a merge commit, and resolve a deliberate same-line conflict.',
     prerequisites:'Understand commits and the index. Use this fresh practice directory and check that status is clean before each branch switch or merge below.',
     directory:'gitunstuck-branches',reference:'card-branch',referenceLabel:'Branch creation reference',sources:['switch','merge','show'],
@@ -321,6 +325,7 @@
   remoteSetup.note='Keep your terminal in gitunstuck-remotes. Commands use git -C learner or git -C partner to choose a copy; edit the explicitly named copy’s file. shared.git is a bare repository with no working files. You act for both people in this local exercise. The notes comparison below always describes the learner copy.';
   lessons.push({
     id:'remotes',title:'Exchange work with another copy',
+    summary:'See how another person’s changes reach your copy.',
     outcome:'Distinguish local, remote-tracking and server branch tips; fetch another copy’s commit without changing your files, then integrate it appropriately.',
     prerequisites:'Understand branches and fast-forward integration. Use a fresh workspace containing two local copies and one bare repository. No login or hosting account is needed; you perform both people’s actions.',
     directory:'gitunstuck-remotes',reference:'card-sync',referenceLabel:'Remote inspection and integration reference',sources:['fetch','push','clone','remote'],
@@ -380,6 +385,7 @@
   const recoveryFinal=recoveryState(keptNote,oneBook,keptNote,oneBook,keptNote,oneBook,'','k3');
   lessons.push({
     id:'recovery',title:'Choose a recovery action',
+    summary:'Choose a recovery action for the state you are in.',
     outcome:'Choose and justify unstaging, replacing one unwanted working edit, or adding a revert commit from the actual repository state.',
     prerequisites:'Understand HEAD, index and working files. Use only this fresh practice directory. Inspect the selected path before each operation; the cases below deliberately preserve the wanted note.',
     directory:'gitunstuck-recovery',reference:'card-undo',referenceLabel:'Checked recovery reference',sources:['restore','revert','diff'],

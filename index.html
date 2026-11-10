@@ -2157,9 +2157,16 @@
     #learn.lesson-open #fourZoneModel, #learn.lesson-open #commitGraphExplorer { display: none !important; }
     #learningCourse { margin: 24px 0; min-width: 0; }
     #learningIllustrations > summary { cursor: pointer; min-height: 44px; padding: 12px 0; border-top: 1px solid var(--border); font-weight: 600; }
-    .course-list { padding-left: 24px; }
-    .course-list a { font-weight: 700; color: var(--accent-green); }
-    .course-list p { margin: 6px 0 16px; }
+    #learningCourse > nav { max-width: 780px; }
+    .course-setup { margin: 0 0 8px; padding: 4px 0 20px; border-bottom: 1px solid var(--border); }
+    .course-setup a { color: var(--accent-green); }
+    .course-setup p { margin: 8px 0 0; color: var(--text-muted); }
+    .course-list { padding-left: 28px; margin: 0; }
+    .course-list li { padding: 20px 0 20px 8px; border-bottom: 1px solid var(--border); }
+    .course-list li::marker { font-weight: 700; color: var(--text-muted); }
+    .course-list a { display: block; padding: 4px 0; font-size: 1.1rem; font-weight: 700; color: var(--accent-green); text-underline-offset: 3px; }
+    .course-start-label { display: block; margin-bottom: 6px; font-size: 0.8rem; color: var(--text); }
+    .course-list p { margin: 6px 0 0; line-height: 1.6; }
     .lesson-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; }
     .lesson-reading { min-width: 0; max-width: 780px; line-height: 1.65; }
     .lesson-reading h3 { font-size: 1.65rem; }
@@ -2169,9 +2176,12 @@
     .lesson-outline ol { padding-left: 22px; }
     .lesson-outline li { padding: 6px 0; }
     .lesson-outline a { display: inline-block; padding: 6px 0; }
-    .lesson-outline [aria-current="step"] { font-weight: 700; text-decoration-thickness: 3px; }
+    .lesson-outline [aria-current="step"] { font-weight: 700; text-decoration-thickness: 3px; border-inline-start: 3px solid currentColor; padding-inline-start: 8px; }
+    .current-step-label { display: block; font-size: 0.8rem; color: var(--text-muted); }
     .learning-example-note { border-left: 3px solid var(--accent-green); padding-left: 14px; }
     .learning-setup { border-block: 1px solid var(--border); padding: 16px 0; margin: 22px 0; }
+    .learning-setup-stage + .learning-setup-stage { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--border); }
+    #learningShell { display: block; margin: 8px 0; max-width: 100%; min-height: 44px; padding: 8px 12px; color: var(--text); background: var(--bg-card); border: 1px solid var(--text-muted); border-radius: 6px; font: inherit; }
     .lesson-reading summary { cursor: pointer; font-weight: 600; min-height: 36px; }
     .learning-table-scroll { overflow-x: auto; margin: 20px 0; }
     .learning-table-help { display: none; }
@@ -2221,9 +2231,9 @@
     .learning-prediction button:hover, .lesson-movement button:hover { background: var(--bg-card-hover); }
     .lesson-movement { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 24px 0; }
     .lesson-movement a { padding: 8px 0; }
-    #lessonTitle, #checkpointTitle, #learningCourse :is(a,button,summary,[tabindex]) { scroll-margin-top: 110px; scroll-margin-bottom: 24px; }
+    #learnTitle, #lessonTitle, #checkpointTitle, #learningCourse :is(a,button,summary,[tabindex]) { scroll-margin-top: 110px; scroll-margin-bottom: 24px; }
     @media (max-width: 768px) { .lesson-layout { grid-template-columns: minmax(0,1fr); gap: 20px; } .lesson-outline ol { display: flex; flex-wrap: wrap; gap: 6px 24px; } .lesson-reading .snippet-header { flex-wrap: wrap; gap: 8px; } .learning-diffs { grid-template-columns: minmax(0,1fr); } }
-    @media (max-width: 900px) { #lessonTitle, #checkpointTitle, #learningCourse :is(a,button,summary,[tabindex]) { scroll-margin-top: 180px; } }
+    @media (max-width: 900px) { #learnTitle, #lessonTitle, #checkpointTitle, #learningCourse :is(a,button,summary,[tabindex]) { scroll-margin-top: 180px; } }
     @media (max-width: 600px) { .learning-table-help { display: block; font-size: 0.9rem; } }
     [data-destination="reference"] .task-navigator { margin-top: 20px; }
     [data-destination="learn"] #fourZoneModel, [data-destination="learn"] #commitGraphExplorer { display: block !important; }
@@ -2501,7 +2511,7 @@
 
     </section></details></section>
     <section id="learn" data-destination-panel="learn" aria-label="Learn Git" hidden>
-<h2>Learn Git</h2><p class="learn-introduction">Practise with plain-text files, predict what Git will do, then inspect the result.</p>
+<h2 id="learnTitle" tabindex="-1">Learn Git</h2><p class="learn-introduction">Practise with plain-text files, predict what Git will do, then inspect the result.</p>
       <div id="learningCourse"></div>
       <details id="learningIllustrations"><summary>Concept illustrations and advanced examples</summary>
       <p class="concept-links-label">Concept illustrations and existing explanations</p>
@@ -4683,6 +4693,16 @@ jobs:
     }
     let routing = false;
     let lastHandledUrl = null;
+    let lastLearningRoute = null;
+    let exactLearningReturn = false;
+    function focusLearningHeading(heading) {
+      heading.setAttribute('tabindex','-1');
+      const url=window.location.href;
+      const focus=()=>{if(window.location.href===url){heading.focus({preventScroll:true});heading.scrollIntoView({block:'start'});}};
+      // Render synchronously; apply initial focus after native fragment restoration.
+      if(document.readyState==='complete')focus();
+      else window.addEventListener('load',()=>window.requestAnimationFrame(focus),{once:true});
+    }
     function navigateHash(hash, search) {
       if (routing || !window.history) return;
       if(search===undefined) {
@@ -4710,7 +4730,7 @@ jobs:
     }
     document.getElementById('referenceLearningContext')?.addEventListener('click',event=>{
       const link=event.target.closest('[data-learning-return]');if(!link)return;
-      event.preventDefault();navigateHash(link.getAttribute('href'),'');handleHashRoute();
+      event.preventDefault();exactLearningReturn=Boolean(GitLearning.returnContext(window.location.search||''));navigateHash(link.getAttribute('href'),'');handleHashRoute();
     });
     function setDestination(destination) {
       if (!['fix', 'learn', 'reference'].includes(destination)) destination = 'fix';
@@ -4769,6 +4789,12 @@ jobs:
       const before=GitLearning.graph(item.id,item.checkpoints[position-1].id);
       return `<p>Before and after this checkpoint’s actions. Arrows point to parents; labels identify example commits rather than object IDs. Scroll a graph sideways if needed.</p><div class="learning-graph-pair">${learningGraphFigure(before,'Before these actions','before',false)}${learningGraphFigure(after,'After these actions','after',true)}</div>`;
     }
+    let learningShell = '';
+    function learningDirectoryCommands(setup) {
+      if (!learningShell) return '';
+      const label=learningShell==='bash'?'Bash / Git Bash':'Windows PowerShell 5.1';
+      return `<div class="snippet-block"><div class="snippet-header"><span>Create a new directory — ${label}</span><button type="button" class="copy-btn" onclick="copySnippet(this)" aria-label="Copy ${label} directory commands">Copy</button></div><pre class="code-content"><code>${h(setup[learningShell])}</code></pre></div>`;
+    }
     function renderLearning(hash) {
       const container = document.getElementById('learningCourse');
       if (!container) return;
@@ -4776,7 +4802,8 @@ jobs:
       const item = route.valid && route.lesson ? GitLearning.lesson(route.lesson) : null;
       document.getElementById('learn').classList.toggle('lesson-open', Boolean(item));
       if (!item) {
-        container.innerHTML = `${!route.valid && hash.startsWith('#learn/') ? '<p role="status">That lesson or checkpoint is unavailable. Choose a lesson below.</p>' : ''}<nav aria-label="Practical lessons"><ul class="course-list">${GitLearning.lessons.map(lesson => `<li><a href="#learn/${h(lesson.id)}/${h(lesson.checkpoints[0].id)}">${h(lesson.title)}${lesson.optional?' (optional)':''}</a><p>${h(lesson.outcome)}</p></li>`).join('')}</ul></nav>`;
+        const optional=GitLearning.lessons.find(lesson=>lesson.optional),core=GitLearning.lessons.filter(lesson=>!lesson.optional);
+        container.innerHTML = `${!route.valid && hash.startsWith('#learn/') ? '<p role="status">That lesson or checkpoint is unavailable. Choose a lesson below.</p>' : ''}<nav aria-label="Practical lessons"><div class="course-setup"><a href="#learn/${h(optional.id)}/${h(optional.checkpoints[0].id)}">${h(optional.title)} (optional)</a><p>${h(optional.outcome)}</p></div><ol class="course-list">${core.map((lesson,index) => `<li><a href="#learn/${h(lesson.id)}/${h(lesson.checkpoints[0].id)}">${index===0?'<span class="course-start-label">Start here</span>':''}${h(lesson.title)}</a><p>${h(lesson.summary||lesson.outcome)}</p></li>`).join('')}</ol></nav>`;
         return;
       }
       const point = GitLearning.checkpoint(item.id, route.checkpoint);
@@ -4784,32 +4811,37 @@ jobs:
       const comparisonFile = point.comparisonFile || 'notes.txt';
       const link = step => `#learn/${item.id}/${step.id}`;
       const setup = item.setup;
-      const shell = (label, text) => `<h4>${label}</h4><div class="snippet-block"><div class="snippet-header"><span>Create a new directory — ${label}</span><button type="button" class="copy-btn" onclick="copySnippet(this)" aria-label="Copy ${label} directory commands">Copy</button></div><pre class="code-content"><code>${h(text)}</code></pre></div>`;
       container.innerHTML = `
         <div class="lesson-layout">
-          <nav class="lesson-outline" aria-label="Lesson checkpoints"><a href="#learn">All lessons</a><ol>${item.checkpoints.map(step => `<li><a href="${link(step)}" ${step.id === point.id ? 'aria-current="step"' : ''}>${h(step.title)}</a></li>`).join('')}</ol></nav>
+          <nav class="lesson-outline" aria-label="Lesson checkpoints"><a href="#learn">All lessons</a><ol>${item.checkpoints.map(step => `<li><a href="${link(step)}" ${step.id === point.id ? 'aria-current="step"' : ''}>${h(step.title)}${step.id===point.id?'<span class="current-step-label" aria-hidden="true">Current checkpoint</span>':''}</a></li>`).join('')}</ol></nav>
           <article class="lesson-reading" aria-labelledby="lessonTitle">
-            <h3 id="lessonTitle" tabindex="-1">${h(item.title)}</h3><p>${h(item.outcome)}</p>
-            <p><strong>Before you start:</strong> ${h(item.prerequisites)}</p>
-            <p class="learning-example-note">This is a browser illustration. Its controls change only the example. To practise with real Git, run the commands yourself in <code>${h(item.directory)}</code>. This page cannot inspect or grade your repository.</p>
-            <details class="learning-setup" ${position === 0 ? 'open' : ''}><summary>Practice setup for direct entry</summary>
+            <h3 id="lessonTitle" tabindex="-1">${h(item.title)}</h3>
+            ${position===0?`<p>${h(item.outcome)}</p><p><strong>Before you start:</strong> ${h(item.prerequisites)}</p>`:`<details class="learning-about"><summary>About this lesson</summary><p>${h(item.outcome)}</p><p><strong>Before you start:</strong> ${h(item.prerequisites)}</p><p>This page cannot inspect or grade your repository.</p></details>`}
+            <p class="learning-example-note">${position===0?'This is a browser illustration; its controls change only the example. This page cannot inspect or grade your repository.':'Browser example only; your local files change when you run commands yourself.'} Practise in <code>${h(item.directory)}</code>.</p>
+            <details class="learning-setup" id="learningSetup" ${position === 0 ? 'open' : ''}><summary>Prepare this practice folder</summary>
+              <section class="learning-setup-stage" aria-labelledby="setupFolderTitle"><h4 id="setupFolderTitle">1. Choose a fresh practice folder</h4>
               <p>First check that Git is available:</p>${learningCommands(setup.availability, 'Check Git availability')}
-              <p>Expect a Git version number. If the command is missing, install Git using <a href="https://git-scm.com/install/" target="_blank" rel="noopener noreferrer">the official installation instructions</a>, then reopen your terminal. These exercises use Git 2.23 or later syntax; runtime compatibility with 2.23 has not yet been verified.</p>
+              <p>Expect a Git version number. If the command is missing, install Git using <a href="https://git-scm.com/install/" target="_blank" rel="noopener noreferrer">the official installation instructions</a>, then reopen your terminal. Commands use Git 2.23+ syntax; see <a href="#learningSupport" data-learning-support>version and practice-setting details</a>.</p>
               <p>In your chosen parent directory, check whether you are already inside a repository:</p>${learningCommands(setup.parentCheck, 'Check the parent directory')}
               <p>If this prints a repository path, stop and choose a parent outside that project. Outside a repository, the expected result is a “not a git repository” error; this specific read-only check is the exception to stopping on errors. Do not run git init in your existing project.</p>
               <p>Choose a parent directory for practice. Use a new directory named <code>${h(item.directory)}</code>. If it already exists, stop and choose a different fresh name; do not reset or delete earlier work. Run one command at a time and stop on an error.</p>
-              <p>Run the block for your shell; do not run both blocks.</p>
-              ${shell('Bash', setup.bash)}${shell('Windows PowerShell 5.1', setup.powershell)}
+              <label for="learningShell">Your terminal shell</label><select id="learningShell"><option value="">Choose your shell</option><option value="bash" ${learningShell==='bash'?'selected':''}>Bash / Git Bash</option><option value="powershell" ${learningShell==='powershell'?'selected':''}>Windows PowerShell 5.1</option></select>
+              <p class="learning-output-note">Git Bash uses Bash. Windows Terminal can run either shell; check the tab or profile name. Choose the shell you are using to see its folder commands.</p>
+              <div id="learningShellCommands">${learningDirectoryCommands(setup)}</div>
               ${setup.note?`<p>${h(setup.note)}</p>`:''}
-              <p>Confirm the printed location ends in your new practice directory before continuing. The Git commands below work in either shell. ${setup.kind==='remote-workspace'?'Keep the terminal in the workspace; git -C chooses a repository. The later identity check reports the learner copy’s path.':'The main branch name is set explicitly in this new, empty repository.'}</p>
+              <p>Confirm the printed location ends in <code>${h(item.directory)}</code> before continuing. The Git commands below work in either shell. ${setup.kind==='remote-workspace'?'Keep the terminal in the workspace; git -C chooses a repository. The later identity check reports the learner copy’s path.':'You should now be inside the new, empty practice folder.'}</p></section>
+              <section class="learning-setup-stage" aria-labelledby="setupGitTitle"><h4 id="setupGitTitle">2. Prepare Git in this folder</h4>
               ${learningCommands(setup.git, 'Initialize and configure this practice repository')}
               ${learningCommands(setup.confirm, 'Confirm location and local identity before committing')}
-              <p>These settings apply only to ${setup.kind==='remote-workspace'?'the new practice repositories':'this new practice repository'}. Commits record the example author identity and could be published. Practice setup omits template hooks, uses each new repository’s own hooks directory, turns off commit signing here, and uses a plain pager. Global settings and other repositories are unchanged. Do not apply these practice settings to an existing project.</p>
+              <p>These settings apply only to ${setup.kind==='remote-workspace'?'the new practice repositories':'this new practice repository'}. Commits record the example author identity and could be published. Do not apply these practice settings to an existing project.</p>
+              <p>Check that the repository path and example identity match this practice folder before recording a commit.${setup.kind==='remote-workspace'?' The path must end in learner; shared.git has no working files.':' The initial branch is main.'}</p></section>
+              <section class="learning-setup-stage" aria-labelledby="setupSnapshotTitle"><h4 id="setupSnapshotTitle">3. Create the starting snapshot</h4>
               <p>${h(setup.explanation)}</p>${Object.entries(setup.files).map(([file,content])=>`<p class="learning-output-label">${h(file)}</p><pre class="learning-output"><code>${h(content)}</code></pre>`).join('')}
               ${learningCommands(setup.actions, setup.kind==='remote-workspace'?'Publish the initial snapshot and prepare the partner copy':'Record the starting snapshot')}
+              <p><strong>Starting observation:</strong> ${h(item.checkpoints[0].observation)}</p></section>
               <p>Fresh entry at a later checkpoint: complete this setup, then perform the preceding checkpoints in order. Browser navigation does not perform those actions in your local repository.</p>
             </details>
-            <section aria-labelledby="checkpointTitle"><p>Checkpoint ${position + 1} of ${item.checkpoints.length}</p><h4 id="checkpointTitle">${h(point.title)}</h4><p>${h(point.instruction)}</p>
+            <section aria-labelledby="checkpointTitle"><p>Checkpoint ${position + 1} of ${item.checkpoints.length}</p><h4 id="checkpointTitle" tabindex="-1">${h(point.title)}</h4><p>${h(point.instruction)}</p>
               ${learningRecoveryGate(point.gate)}
               ${learningActions(point.actions)}
               ${item.id==='branches'?learningBranchComparison(item,position):point.state.repositories?learningRepositories(point.state.repositories):point.state.refs?`<div class="learning-reference-state"><p><strong>Example checkout:</strong> HEAD names <code>${h(point.state.branch)}</code>; current commit <code>${h(point.state.headCommit)}</code>.</p><p>Branch tips below use commit labels, not actual object IDs.</p><dl class="learning-ref-list">${Object.entries(point.state.refs).map(([name,tip])=>`<div><dt><code>${h(name)}</code></dt><dd>${h(tip)}</dd></div>`).join('')}</dl></div>`:''}
@@ -4828,11 +4860,20 @@ jobs:
             <p><a data-learning-reference href="${h(GitLearning.referenceUrl(item.reference,item.id,point.id))}">${h(item.referenceLabel || 'Staging and commit reference')}</a></p>
             ${position===item.checkpoints.length-1 && GitLearning.lessons[GitLearning.lessons.indexOf(item)+1] ? `<p class="next-lesson"><a href="#learn/${h(GitLearning.lessons[GitLearning.lessons.indexOf(item)+1].id)}/${h(GitLearning.lessons[GitLearning.lessons.indexOf(item)+1].checkpoints[0].id)}">Next lesson: ${h(GitLearning.lessons[GitLearning.lessons.indexOf(item)+1].title)}</a></p>` : ''}
             <p class="learning-sources">Official Git documentation: ${item.sources.map(key => `<a href="${h(GitLearning.sources[key])}" target="_blank" rel="noopener noreferrer">${h(key)}</a>`).join(' · ')}</p>
+            <details id="learningSupport"><summary>Git version and practice settings</summary><p>Commands use Git 2.23+ syntax. Fixtures were tested on Git 2.56.0.windows.4; actual Git 2.23 runtime compatibility remains unverified. Directory setup was executed in Bash and Windows PowerShell 5.1.</p><p>Practice setup omits template hooks, uses each new repository’s own hooks directory, turns off commit signing here, and uses a plain pager. Global settings and other repositories are unchanged. These choices isolate the exercise from personal defaults; do not apply them to an existing project.</p></details>
             ${item.hostingNote?`<p>${h(item.hostingNote)}</p>`:''}
           </article>
         </div>`;
     }
+    document.getElementById('learningCourse')?.addEventListener('change', event => {
+      if(event.target.id!=='learningShell')return;
+      learningShell=['bash','powershell'].includes(event.target.value)?event.target.value:'';
+      const item=GitLearning.lesson(GitLearning.route(location.hash).lesson);
+      if(item)document.getElementById('learningShellCommands').innerHTML=learningDirectoryCommands(item.setup);
+      announceState(learningShell?'Directory commands shown for '+event.target.selectedOptions[0].textContent+'.':'Choose your shell to see the directory commands.');
+    });
     document.getElementById('learningCourse')?.addEventListener('click', event => {
+      if(event.target.closest('[data-learning-support]')){event.preventDefault();const support=document.getElementById('learningSupport');support.open=true;support.querySelector('summary').focus();support.scrollIntoView({block:'start'});return;}
       const reference=event.target.closest('a[data-learning-reference]');
       if(reference){event.preventDefault();const url=new URL(reference.href);navigateHash(url.hash,url.search);handleHashRoute();return;}
       const route = GitLearning.route(location.hash), item = GitLearning.lesson(route.lesson);
@@ -4905,9 +4946,12 @@ jobs:
         if (learningHash.startsWith('#learn/')) {
           setDestination('learn');
           document.querySelectorAll('#learningCourse .learning-graph-scroll').forEach(region=>{region.scrollLeft=region.scrollWidth;});
-          const heading = document.getElementById('lessonTitle') || document.querySelector('#learn > h2');
-          heading.setAttribute('tabindex', '-1'); heading.focus({preventScroll:true}); heading.scrollIntoView({block:'start'});
-          announceState(GitLearning.route(learningHash).valid ? 'Learning checkpoint opened' : 'Choose an available lesson');
+          const route=GitLearning.route(learningHash),item=route.valid&&GitLearning.lesson(route.lesson),point=item&&GitLearning.checkpoint(item.id,route.checkpoint);
+          const initial=item&&point===item.checkpoints[0];
+          const heading = item?document.getElementById(initial&&lastLearningRoute?.lesson!==item.id&&!exactLearningReturn?'lessonTitle':'checkpointTitle'):document.querySelector('#learn > h2');
+          focusLearningHeading(heading);
+          announceState(item?`${item.title}. ${point.title}, checkpoint ${item.checkpoints.indexOf(point)+1} of ${item.checkpoints.length}.`:'Choose an available lesson');
+          lastLearningRoute=route.valid?route:null;exactLearningReturn=false;
           return;
         }
         activeFilter = 'all'; activeRiskFilter = 'all';
@@ -4995,9 +5039,11 @@ jobs:
         return;
       }
       if (['#fix', '#learn', '#reference'].includes(hash)) {
+        if(hash==='#learn')lastLearningRoute=null;
         setDestination(hash.slice(1));
-        const target = document.getElementById(hash.slice(1));
-        if (target) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); target.scrollIntoView({block:'start'}); }
+        const target = document.getElementById(hash==='#learn'?'learnTitle':hash.slice(1));
+        if(target&&hash==='#learn')focusLearningHeading(target);
+        else if (target) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); target.scrollIntoView({block:'start'}); }
         return;
       }
 

@@ -8,6 +8,77 @@ const root = path.resolve(__dirname,'..');
 const target = process.env.GITUNSTUCK_TEST_URL || pathToFileURL(path.join(root,'index.html')).href;
 const output = path.join(root,'artifacts');
 fs.mkdirSync(output,{recursive:true});
+async function checkClarityNavigation(browser) {
+  const base=target.split('#')[0].split('?')[0];
+  for(const width of [390,1440]) {
+    const page=await browser.newPage({viewport:{width,height:1000},reducedMotion:'reduce'});
+    page.on('pageerror',error=>{throw error;});
+    async function focused(id) {
+      try{await page.waitForFunction(expected=>document.activeElement.id===expected,id,{timeout:5000});}catch(error){throw new Error(`${page.url()}: expected focus ${id}; actual ${JSON.stringify(await page.evaluate(expected=>({active:document.activeElement.outerHTML.slice(0,150),heading:document.getElementById(expected)?.outerHTML,destination:document.documentElement.dataset.destination,visible:document.getElementById(expected)?.checkVisibility()}),id))}`,{cause:error});}
+      const heading=await page.locator('#'+id).boundingBox(),header=await page.locator('header').boundingBox();
+      assert.ok(heading.y>=header.y+header.height&&heading.y+heading.height<=1000,`${page.url()}: ${width} focused ${id} bounds ${JSON.stringify(heading)} clear header ${JSON.stringify(header)}`);
+    }
+    await page.goto(base+'#learn');await focused('learnTitle');
+    assert.equal(await page.locator('ol.course-list > li').count(),6,'Six core lessons have a semantic sequence');
+    assert.deepEqual(await page.locator('.course-list > li > a').evaluateAll(links=>links.map(link=>link.getAttribute('href'))),require('../learning.js').lessons.filter(item=>!item.optional).map(item=>`#learn/${item.id}/${item.checkpoints[0].id}`));
+    assert.equal(await page.locator('.course-setup a').evaluate(link=>link.closest('ol')),null,'Optional setup is outside the required sequence');
+    assert.equal(await page.locator('.course-start-label').count(),1,'One clear start link');
+    assert.equal(await page.locator('#learningIllustrations > summary').isVisible(),true,'Advanced visual access is retained');
+    await page.locator('#learningCourse a[href="#learn/staging/initial"]').click();await focused('lessonTitle');
+    await page.locator('.lesson-movement a').first().click();await focused('checkpointTitle');
+    await page.locator('.lesson-outline a[href="#learn/staging/edited-v3"]').click();await focused('checkpointTitle');
+    assert.equal(await page.locator('.lesson-outline [aria-current="step"]').getAttribute('href'),'#learn/staging/edited-v3');
+    assert.equal(await page.locator('.current-step-label').isVisible(),true);
+    await page.waitForFunction(()=>document.getElementById('liveAnnouncer').textContent.includes('checkpoint 4 of 5'));
+    await page.locator('[data-prediction="v2"]').click();const feedback=await page.locator('#learningFeedback').innerText();
+    const before=await page.evaluate(()=>({focus:document.activeElement.outerHTML,announcement:document.getElementById('liveAnnouncer').textContent}));
+    await page.evaluate(()=>{window.dispatchEvent(new PopStateEvent('popstate'));window.dispatchEvent(new HashChangeEvent('hashchange'));});
+    assert.deepEqual(await page.evaluate(()=>({focus:document.activeElement.outerHTML,announcement:document.getElementById('liveAnnouncer').textContent})),before,'Duplicate notifications keep focus and announcement');
+    assert.equal(await page.locator('#learningFeedback').innerText(),feedback);
+    await page.reload();await focused('checkpointTitle');
+    await page.locator('[data-learning-reference]').click();await page.reload();await page.locator('[data-learning-return]').click();await focused('checkpointTitle');
+    await page.goBack();await page.locator('[data-learning-return]').waitFor();await page.goForward();await focused('checkpointTitle');
+    await page.goto(base+'#learn/history/initial');await focused('lessonTitle');
+    await page.locator('[data-learning-reference]').click();await page.reload();await page.locator('[data-learning-return]').click();await focused('checkpointTitle');
+    await page.goto(base+'#learn/not-real/initial');await focused('learnTitle');
+    await page.goto(base+'#reference');await page.locator('[data-learning-return]').click();await focused('learnTitle');
+    await page.locator('.course-list a').first().click();await focused('lessonTitle');
+    await page.close();
+  }
+}
+async function checkClarityPreparation(browser) {
+  const page=await browser.newPage({viewport:{width:390,height:1000},reducedMotion:'reduce'}),base=target.split('#')[0].split('?')[0],learning=require('../learning.js');
+  await page.goto(base+'#learn/staging/initial');
+  assert.equal(await page.locator('#learningShell').inputValue(),'');
+  assert.equal(await page.locator('#learningShellCommands pre').count(),0,'No shell is guessed');
+  for(const id of ['staging','remotes']) {
+    await page.goto(base+`#learn/${id}/initial`);
+    await page.evaluate(()=>{window.copies=[];Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>window.copies.push(text)}});});
+    const setup=learning.lesson(id).setup,stages=page.locator('.learning-setup-stage');
+    assert.equal(await stages.count(),3);
+    assert.equal(await page.locator('.learning-setup').evaluate(e=>e.open),true);
+    for(const [index,actions] of [[0,setup.availability],[0,setup.parentCheck],[1,setup.git],[1,setup.confirm],[2,setup.actions]])assert.ok((await stages.nth(index).locator('pre code').allTextContents()).includes(actions.map(learning.command).join('\n')),'Preparation preserves canonical Git commands');
+    for(const shell of ['bash','powershell']) {
+      await page.locator('#learningShell').selectOption(shell);
+      assert.equal(await page.locator('#learningShellCommands code').textContent(),setup[shell]);
+      await page.locator('#learningShellCommands .copy-btn').click();
+      assert.equal(await page.evaluate(()=>window.copies.at(-1)),setup[shell],'Copy only selected canonical directory commands');
+    }
+  }
+  await page.goto(base+'#learn/staging/edited-v3');
+  assert.equal(await page.locator('#learningShell').inputValue(),'powershell','Choice survives lesson changes in the same tab');
+  assert.equal(await page.locator('.learning-setup').evaluate(e=>e.open),false);
+  assert.equal(await page.locator('.learning-about').evaluate(e=>e.open),false);
+  await page.locator('[data-prediction="v2"]').click();const feedback=await page.locator('#learningFeedback').innerText(),url=page.url();
+  await page.locator('.learning-setup > summary').click();await page.locator('#learningShell').focus();
+  await page.keyboard.press('Home');await page.keyboard.press('ArrowDown');await page.keyboard.press('Enter');
+  assert.equal(await page.locator('#learningShell').inputValue(),'bash');assert.equal(page.url(),url);assert.equal(await page.locator('#learningFeedback').innerText(),feedback);
+  await page.locator('[data-learning-support]').click();assert.equal(page.url(),url);assert.equal(await page.locator('#learningSupport').evaluate(e=>e.open),true);
+  assert.equal(await page.locator('#learningSupport > summary').evaluate(e=>e===document.activeElement),true);
+  await page.reload();assert.equal(await page.locator('#learningShell').inputValue(),'','Reload asks again without storing a preference');
+  await page.goto(base+'#learn/recovery/discarded');assert.equal(await page.locator('[aria-labelledby="checkpointTitle"] .learning-recovery-gate').isVisible(),true,'Command-specific recovery conditions stay visible');
+  await page.close();
+}
 async function checkLearningPresentation(browser) {
   const matrix=[];
   const base=target.split('#')[0].split('?')[0];
@@ -27,7 +98,7 @@ async function checkLearningPresentation(browser) {
     for(const theme of ['light','dark']) {
       await page.goto(base+'#learn/staging/edited-v3');
       await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);
-      const contrast=await page.evaluate(()=>{
+      const contrastForPage=()=>page.evaluate(()=>{
         const rgba=color=>(color.match(/[\d.]+/g)||[]).map(Number);
         const luminance=rgb=>rgb.slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0);
         const ratio=(a,b)=>{const x=luminance(a),y=luminance(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
@@ -43,11 +114,16 @@ async function checkLearningPresentation(browser) {
         }
         return {minimum,failures};
       });
+      await page.goto(base+'#learn');await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);
+      const indexContrast=await contrastForPage();assert.deepEqual(indexContrast.failures,[],`${width} ${theme} index contrast`);
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),'Course index reflows');
+      await page.goto(base+'#learn/staging/edited-v3');await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);
+      const contrast=await contrastForPage();
       assert.deepEqual(contrast.failures,[],`${width} ${theme} lesson contrast`);
       const sizes=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));
       assert.equal(await page.getByRole('region',{name:'Compare notes.txt versions'}).count(),1,'Scrolling comparison has an accessible region name');
       assert.ok(sizes.scroll<=sizes.client,`${width} ${theme} learning reflow`);
-      const heading=await page.locator('#lessonTitle').boundingBox(),header=await page.locator('header').boundingBox();
+      const heading=await page.locator('#checkpointTitle').boundingBox(),header=await page.locator('header').boundingBox();
       assert.ok(heading.y>=header.y+header.height,`${width} heading below sticky header`);
       for(const key of ['working','staged'])assert.equal(await page.locator(`[data-learning-diff="${key}"] code`).textContent(),require('../learning.js').checkpoint('staging','edited-v3').diffs[key]);
       const targets=await page.locator('.learning-prediction button, .lesson-reading .copy-btn').evaluateAll(elements=>elements.filter(e=>e.checkVisibility()).map(e=>({label:e.textContent,height:e.getBoundingClientRect().height,width:e.getBoundingClientRect().width})));
@@ -56,7 +132,7 @@ async function checkLearningPresentation(browser) {
       await prediction.focus();await page.keyboard.press('Shift+Tab');await page.keyboard.press('Tab');await controlContrast(prediction,true);
       await prediction.press('Enter');assert.match(await page.locator('#learningFeedback').innerText(),/only the working file/);
       if(width===390||width===1440)await page.screenshot({path:path.join(output,`learning-${width}-${theme}.png`)});
-      matrix.push({width,theme,contrast:contrast.minimum,...sizes});
+      matrix.push({width,theme,contrast:contrast.minimum,indexContrast:indexContrast.minimum,...sizes});
       await page.goto(base+'#learn/branches/merged');await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);
       const graphicContrast=await page.evaluate(()=>{
         const color=value=>(value.match(/[\d.]+/g)||[]).slice(0,3).map(Number);
@@ -76,6 +152,14 @@ async function checkLearningPresentation(browser) {
         assert.ok(await figure.locator('line[data-child]').evaluateAll(lines=>lines.every(line=>Number(line.getAttribute('x1'))>Number(line.getAttribute('x2')))),'Parent arrows point to older commits');
       }
       if(width===390||width===1440){await page.locator('.learning-graph-pair').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(output,`branch-comparison-${width}-${theme}.png`)});}
+      await page.goto(base+`#learn/${width===320||width===768?'remotes':'staging'}/initial`);await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);
+      await page.locator('#learningShell').selectOption('powershell');
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),'Chosen-shell preparation reflows');
+      assert.deepEqual((await contrastForPage()).failures,[],`${width} ${theme} selected-shell setup contrast`);
+      await controlContrast(page.locator('#learningShell'));
+      await page.goto(base+'#learn/staging/committed-v2');
+      await page.locator('.learning-about > summary').click();await page.locator('.learning-setup > summary').click();await page.locator('#learningSupport > summary').click();await page.locator('.learning-transfer summary').click();
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),'Expanded About/setup/support/answer reflow');
     }
     // Keyboard operation starts at the focused lesson heading, with no mouse or scripted focus.
     await page.goto(base+'#learn/staging/edited-v3');
@@ -223,17 +307,17 @@ async function checkLearningPresentation(browser) {
       await lessonCopy.click();assert.equal(await page.evaluate(()=>window.testClipboard.at(-1)),lessonExpected);
       assert.ok(await page.locator('.lesson-reading').evaluate(e=>e.scrollWidth<=e.clientWidth),'Lesson reading column contains wide content');
       await page.locator('.lesson-reading a[data-learning-reference]').click();
-      await page.locator('#card-stage').waitFor({state:'visible'});await page.reload();
+      await page.locator('#card-stage').waitFor({state:'visible'});await page.reload();await page.locator('#card-stage').waitFor({state:'visible'});
       assert.equal(await page.locator('#card-stage').isVisible(),true);
       await page.goBack();assert.equal(await page.locator('#checkpointTitle').innerText(),'Stage the current content');
       await page.goto(base+'#learn/staging/edited-v3');await page.evaluate(()=>window.navigationSentinel='preserved');
       await page.locator('[data-learning-reference]').click();assert.equal(await page.evaluate(()=>window.navigationSentinel),'preserved','Reference navigation keeps the current tab document');
       assert.equal(new URL(page.url()).searchParams.get('learnStep'),'edited-v3');
-      await page.reload();assert.match(await page.locator('#referenceLearningContext').innerText(),/Return to.*Edit again without staging/);
+      await page.reload();await page.locator('#referenceLearningContext [data-learning-return]').waitFor({state:'visible'});assert.match(await page.locator('#referenceLearningContext').innerText(),/Return to.*Edit again without staging/);
       await page.locator('#searchInput').fill('reflog');
       await page.waitForFunction(()=>new URL(location.href).searchParams.get('q')==='reflog');
       assert.equal(new URL(page.url()).searchParams.get('learnReturn'),'staging');
-      const contextualReference=page.url();await page.reload();assert.equal(await page.locator('#searchInput').inputValue(),'reflog');
+      const contextualReference=page.url();await page.reload();await page.waitForFunction(()=>document.querySelector('#searchInput').value==='reflog');assert.equal(await page.locator('#searchInput').inputValue(),'reflog');
       await page.locator('#referenceLearningContext a').click();assert.equal(new URL(page.url()).hash,'#learn/staging/edited-v3');assert.equal(new URL(page.url()).search,'');
       await page.goBack();assert.equal(page.url(),contextualReference);assert.equal(await page.locator('#searchInput').inputValue(),'reflog');
       await page.goForward();assert.equal(await page.locator('#checkpointTitle').innerText(),'Edit again without staging');
@@ -411,6 +495,8 @@ async function checkLearningPresentation(browser) {
       results.push({label,width,height,errors,widths,contrast,focus});assert.deepEqual(errors,[]);
       await context.close();
     }
+    await checkClarityNavigation(browser);
+    await checkClarityPreparation(browser);
     const learningPresentation=await checkLearningPresentation(browser);
     fs.writeFileSync(path.join(output,'browser-results.json'),JSON.stringify({target,results,learningPresentation},null,2));console.log(JSON.stringify({results,learningPresentation},null,2));
   } finally {await browser.close();}
