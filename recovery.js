@@ -621,6 +621,20 @@
     }
   };
   const normalize = raw => String(raw || '').slice(0,102400).replace(/\x1b\[[0-9;]*[a-zA-Z]/g,'').replace(/\r\n?/g,'\n');
+  function hasSensitiveUntrackedFile(text) {
+    let untrackedSection = false;
+    for (const line of text.split('\n')) {
+      if (/^Untracked files:/i.test(line)) { untrackedSection = true; continue; }
+      let path;
+      if (line.startsWith('??') && /\s/.test(line[2] || '')) path = line.slice(3).trim();
+      else if (untrackedSection && /^[ \t]/.test(line)) path = line.trim();
+      else { if (line.trim()) untrackedSection = false; continue; }
+      // Separate the basename before matching; never backtrack across a whole section.
+      const name = path.slice(Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\')) + 1);
+      if (/^(?:\.env(?:\.[^\s]+)?|id_rsa|id_ed25519|secrets\.json|[^\s]+\.(?:pem|key))$/i.test(name)) return true;
+    }
+    return false;
+  }
   function result(key,text,confidence='Explicit output') {
     const r=recipes[key];
     return {recipeKey:key,title:r.title,icon:'',confidence,triggerLine:text.split('\n').find(l=>l.trim())||'',risk:r.risk,checks:r.checks,workLostStatus:'unknown',workLostText:r.effect,desc:r.means,code:r.steps.map(s=>'# '+s.text+'\n'+s.code).join('\n\n'),effect:r.effect,verify:r.verify,warning:r.failure,linkText:'Review the related guidance',linkId:key==='secret'?'card-forge-troubleshoot':key==='auth'?'card-forge-troubleshoot':key==='rebase'?'card-rebase':key==='merge'?'card-conflict':key==='detached'?'card-detached':key==='reflog'?'card-reflog':'troubleshootConsole'};
@@ -630,7 +644,7 @@
     const rebase=/^(?:interactive )?rebase in progress\b|^You are currently rebasing\b/im.test(text);
     const merge=/^You are (?:still )?merging\b|^All conflicts fixed but you are still merging\b|git merge --abort.*abort the merge/im.test(text);
     const other=/^You are currently (?:cherry-picking|reverting|bisecting)\b/im.test(text);
-    const conflict=/^Unmerged paths:|^\s*(?:both modified|both added|both deleted):|^CONFLICT \(/im.test(text);
+    const conflict=/^Unmerged paths:|^[ \t]*(?:both modified|both added|both deleted):|^CONFLICT \(/im.test(text);
     const detached=/^HEAD detached (?:at|from)\b|^## HEAD \(no branch\)/im.test(text);
     const secret=/Push cannot contain secrets|Push rules: Secret detection|secret scanning detected|secret push protection|SECRET PUSH PROTECTION/i.test(text);
     const protectedBranch=/GH006|protected branch (?:update failed|hook declined)|not allowed to push code to protected branches|branch.*cannot be updated directly|changes must be made through a pull request/i.test(text);
@@ -647,7 +661,7 @@
     if(detached)return result('detached',text);
     if(diverged)return result('diverged',text);
     if(/GH013|repository rule violations|hook declined|pre-receive hook declined/i.test(text))return result('inspect',text,'Rule cause not established');
-    if(/(?:^Untracked files:[\s\S]*?^\s+|^\?\?\s+)(?:[^\r\n]*[\\/])?(?:\.env(?:\.[^\s]+)?|id_rsa|id_ed25519|secrets\.json|[^\s]+\.(?:pem|key))\s*$/im.test(text))return result('sensitive',text,'Filename observation only');
+    if(hasSensitiveUntrackedFile(text))return result('sensitive',text,'Filename observation only');
     if(/^nothing to commit, working tree clean\s*$/im.test(text)) {
       const r=result('inspect',text);r.title='Working tree reported clean';r.desc='This status reports no staged or unstaged tracked changes, and no visible untracked changes. Ignored files, remote state, backups and earlier lost work are not established.';r.confidence='Explicit status observation';return r;
     }
